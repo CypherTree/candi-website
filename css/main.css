@@ -2202,6 +2202,7 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #fff;
   border: 1px solid transparent;
   color: #000;
+  padding:12px 35px;
 }
 
 .header-btn:hover {
@@ -2782,3 +2783,90 @@ h6 {
 .width-100{
   width:70%
 }
+.footer-container {
+    width: 100%;
+    height: 50%;
+    background-color: #212121;
+    color: #fff;
+    padding: 7.5rem 6rem 8.5rem;
+    font-size: 1.2vw;
+}
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.tag-line {
+    font-size: 3em;
+    font-weight: 400;
+    letter-spacing: .01em;
+    line-height: 1.25;
+    max-width: 40vw;
+    padding-bottom: 5rem;
+}
+
+.pl-0, .px-0 {
+    padding-left: 0!important;
+}
+@media (min-width: 768px)
+.mr-md-auto, .mx-md-auto {
+    margin-right: auto!important;
+}
+.footer-title {
+    padding-bottom: 1rem;
+    letter-spacing: .15em;
+    font-size: .9em;
+}
+.footer-details {
+    max-width: 25vw;
+    line-height: 1.8em;
+    font-size: 1.25em;
+    padding-bottom: 3rem;
+}
+.footer-text a {
+    text-decoration: none;
+    color: #fff;
+}
+.line {
+    letter-spacing: .006em;
+    position: relative;
+    text-decoration: none;
+}
+.social-media {
+    font-size: 1em;
+    padding-right: 1.5rem;
+    color: #fff;
+}
+a {
+    color: green;
+    text-decoration: none;
+    background-color: transparent;
+}
+a:hover {
+    color: green;
+
+}
+@media (min-width: 768px)
+.col-md-2 {
+    flex: 0 0 16.666667%;
+    max-width: 16.666667%;
+}
+.copyright, .privacy {
+    color: #777;
+}
+.justify-content-end {
+    justify-content: flex-end!important;
+}
+@media (min-width: 768px)
+.col-md-4 {
+    flex: 0 0 33.333333%;
+    max-width: 33.333333%;
+}
+.sp-image {
+    height: 12.5vh!important;
+    width: 100px;
+
+  }
+
+  .footer-container li{font-size:15px;}
