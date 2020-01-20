@@ -2864,9 +2864,8 @@ a:hover {
     max-width: 33.333333%;
 }
 .sp-image {
-    height: 12.5vh!important;
-    width: 100px;
-
-  }
-
+  height: 68px !important;
+    position: relative;
+    margin-left: 50px;
+    width: 64px;}
   .footer-container li{font-size:15px;}
