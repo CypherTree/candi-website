@@ -1,5 +1,6 @@
 export const CONSTANTS = {
   SET_AUTHENTICATED: "SET_AUTHENTICATED",
+  LOGIN_USER: "LOGIN_USER",
 };
 
 // TODO: Add types for login and register

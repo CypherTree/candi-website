@@ -3,13 +3,14 @@ import { Typography } from "@material-ui/core";
 import { APP_NAME } from "../../core/constants";
 
 import { connect } from "react-redux";
-import "./login.css";
+// import "./login.css";
 
-import LoginForm from "../../components/LoginForm";
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../core/store/app/appActions";
+import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordForm";
+import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
 const mainImage = require("../../assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {
@@ -17,28 +18,16 @@ const mapStateToProps = (state: any) => {
     state: state,
   };
 };
+const qs = require("query-string");
 
-const Login = (props: any) => {
-  const dispatch = useDispatch();
-  // const message = props.state.app.message;
-  console.log("props data ", props);
+function ResetPassword(props: any) {
+  const data = qs.parse(props.location.search);
 
-  const { isAuthenticated } = props.state.auth;
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      props.history.push("/dashboard");
-    }
-    if (localStorage.getItem("accessToken")) {
-      dispatch(SetAuthenticated());
-    }
-  });
+  const { token } = data;
 
   return (
     <div>
       <Grid container spacing={0}>
-        {" "}
-        {/* <Box bgcolor="primary.main" color="primary.contrastText" p={2}> */}
         <Grid item xs={1} sm={6}>
           <div className="fill">
             <img
@@ -48,18 +37,18 @@ const Login = (props: any) => {
             />
           </div>
         </Grid>
-        <Grid item xs={11} sm={6} color="red">
+
+        <Grid item xs={11} sm={6}>
           <Typography variant="h3" color="primary" component="h2">
             {" "}
             {APP_NAME}
           </Typography>
           <br /> <br />
-          <LoginForm props={props} />
+          <ResetPasswordForm token={token} props={props} />
         </Grid>
-        {/* </Box> */}
       </Grid>
     </div>
   );
-};
+}
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(ResetPassword);
