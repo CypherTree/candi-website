@@ -20,9 +20,13 @@ import { GetNewToken } from "../../core/store/auth/authActions";
 function Dashboard(props: any) {
   const dispatch = useDispatch();
 
-  const accessToken = localStorage.getItem("accessToken");
+  const accessToken = localStorage.getItem("accessToken")
+    ? localStorage.getItem("accessToken")
+    : sessionStorage.getItem("accessToken");
 
-  const refreshToken = localStorage.getItem("refreshToken");
+  const refreshToken = localStorage.getItem("refreshToken")
+    ? localStorage.getItem("refreshToken")
+    : sessionStorage.getItem("refreshToken");
 
   const handleClick = () => {
     dispatch(LogoutUser());
@@ -41,7 +45,7 @@ function Dashboard(props: any) {
   return (
     <div>
       <Card>
-        <Grid direction="column">
+        <Grid container direction="column">
           <Grid item>
             <Typography variant={"h2"} color="primary">
               {" "}

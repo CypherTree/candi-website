@@ -30,6 +30,7 @@ export interface SetAuthenticated {
     isAuthenticated: boolean;
     accessToken?: string;
     refreshToken?: string;
+    rememberMe?: boolean;
   };
 }
 

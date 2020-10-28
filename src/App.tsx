@@ -31,30 +31,41 @@ import ResetPassword from "./containers/forgotPassword/ResetPassword";
 require("dotenv").config();
 
 const App = (props: any) => {
-  console.log("_----------------- Process env -----------------", process.env);
   const dispatch = useDispatch();
   useEffect(() => {
-    const data = localStorage.getItem("accessToken")
-      ? localStorage.getItem("accessToken")
-      : null;
-    console.log("----------- data is ", data);
-
-    const accessToken = localStorage.getItem("accessToken")
+    const dataLocal = localStorage.getItem("accessToken")
       ? localStorage.getItem("accessToken")
       : null;
 
-    const refreshToken = localStorage.getItem("accessToken")
+    const dataSession = localStorage.getItem("accessToken")
       ? localStorage.getItem("accessToken")
       : null;
 
-    if (data !== null && accessToken != null && refreshToken !== null) {
-      // check token expiry
+    let accessToken = null;
+    let refreshToken = null;
 
+    if (dataLocal !== null) {
+      accessToken = localStorage.getItem("accessToken")
+        ? localStorage.getItem("accessToken")
+        : null;
+
+      refreshToken = localStorage.getItem("accessToken")
+        ? localStorage.getItem("accessToken")
+        : null;
+    } else if (dataSession !== null) {
+      accessToken = sessionStorage.getItem("accessToken")
+        ? sessionStorage.getItem("accessToken")
+        : null;
+
+      refreshToken = sessionStorage.getItem("accessToken")
+        ? sessionStorage.getItem("accessToken")
+        : null;
+    }
+
+    if (accessToken != null && refreshToken !== null) {
       const jwtToken = `Bearer ${accessToken}`;
       dispatch(SetAuthenticated(true));
       dispatch(GetUserData(jwtToken));
-
-      // TODO: Check this
     }
   }, []);
 

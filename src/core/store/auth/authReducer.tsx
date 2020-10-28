@@ -30,16 +30,24 @@ export const authReducer: any = (
 
     case SET_AUTHENTICATED: {
       if (action.payload.isAuthenticated) {
-        action.payload.accessToken &&
-          localStorage.setItem("accessToken", action.payload.accessToken);
-        action.payload.refreshToken &&
-          localStorage.setItem("refreshToken", action.payload.refreshToken);
+        if (action.payload.rememberMe) {
+          action.payload.accessToken &&
+            localStorage.setItem("accessToken", action.payload.accessToken);
+          action.payload.refreshToken &&
+            localStorage.setItem("refreshToken", action.payload.refreshToken);
+        } else {
+          action.payload.accessToken &&
+            sessionStorage.setItem("accessToken", action.payload.accessToken);
+          action.payload.refreshToken &&
+            sessionStorage.setItem("refreshToken", action.payload.refreshToken);
+        }
       }
       return { ...state, ...payload };
     }
 
     case LOGOUT_USER: {
       localStorage.clear();
+      sessionStorage.clear();
       return { ...state, ...payload };
     }
 

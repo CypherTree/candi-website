@@ -47,6 +47,7 @@ export const LoginUser = (
             isAuthenticated: true,
             accessToken,
             refreshToken,
+            rememberMe,
           },
         });
       })
