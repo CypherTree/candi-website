@@ -10,24 +10,19 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ForgotPassword } from "../../core/store/auth/authActions";
+import { ClearState, ForgotPassword } from "../../core/store/auth/authActions";
 
 import { useDispatch } from "react-redux";
 
 function ForgotPasswordForm(props: any) {
-  // TODO: integrate API
-
   const dispatch = useDispatch();
 
-  console.log("---- props out hre", props.props);
+  console.log("props", props);
 
   const [email, setEmail] = useState("");
-  const [error, setError] = useState("");
-
   const [status, setStatus] = useState("");
 
   useEffect(() => {
-    console.log("status", status);
     props.props.state &&
     props.props.state.auth &&
     props.props.state.auth.success
@@ -35,23 +30,18 @@ function ForgotPasswordForm(props: any) {
       : setStatus("");
   }, [props, status]);
 
-  let successMessage;
+  useEffect(() => {
+    // to clear any previous error
+    dispatch(ClearState());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  // props.props.state && props.props.state.auth && props.props.state.auth.status
-  //   ? setStatus(props.props.state.auth.status)
-  //   : setStatus("");
+  let successMessage;
 
   const handleFormSubmit = () => {
     successMessage = "Check your email for password reset link";
-    // alert(successMessage);
-    console.log("value of error", successMessage);
-    // dispatch(ResetPassword(resetToken, password));
     dispatch(ForgotPassword(email));
   };
-
-  // const status =
-  //   ? props.props?.state?.auth?.status
-  //   : null;
 
   return (
     <div>
@@ -63,7 +53,6 @@ function ForgotPasswordForm(props: any) {
               <Typography color="primary">{successMessage}</Typography>
             )}
             <TextField
-              //   error={state.isError}
               fullWidth
               id="email"
               type="email"
@@ -80,9 +69,7 @@ function ForgotPasswordForm(props: any) {
             variant="contained"
             size="large"
             color="primary"
-            // className={classes.loginBtn}
             onClick={handleFormSubmit}
-            // disabled={state.isButtonDisabled}
           >
             Get password reset link
           </Button>

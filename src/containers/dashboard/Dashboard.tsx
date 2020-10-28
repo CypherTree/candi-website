@@ -26,7 +26,6 @@ function Dashboard(props: any) {
 
   const handleClick = () => {
     dispatch(LogoutUser());
-    // LogoutUser();
   };
 
   const getNewToken = () => {
@@ -36,7 +35,6 @@ function Dashboard(props: any) {
   };
 
   const userData = props.state.auth.userData ? props.state.auth.userData : null;
-  console.log("++++++++++++++++++++++++ button was pressed ", userData);
 
   useEffect(() => {}, [userData]);
 

@@ -20,8 +20,6 @@ const mapStateToProps = (state: any) => {
 
 const Login = (props: any) => {
   const dispatch = useDispatch();
-  // const message = props.state.app.message;
-  console.log("props data ", props);
 
   const { isAuthenticated } = props.state.auth;
 
@@ -38,7 +36,6 @@ const Login = (props: any) => {
     <div>
       <Grid container spacing={0}>
         {" "}
-        {/* <Box bgcolor="primary.main" color="primary.contrastText" p={2}> */}
         <Grid item xs={1} sm={6}>
           <div className="fill">
             <img
@@ -56,7 +53,6 @@ const Login = (props: any) => {
           <br /> <br />
           <LoginForm props={props} />
         </Grid>
-        {/* </Box> */}
       </Grid>
     </div>
   );

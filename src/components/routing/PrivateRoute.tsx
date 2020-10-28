@@ -11,14 +11,11 @@ const mapStateToProps = (state: any) => {
 };
 
 const PrivateRoute = (props: any) => {
-  // const authContext = ;
   console.log("isAuthenticated in private ", props.state.auth);
-  // { component: Component, ...rest }
+
   const { component: Component, ...rest } = props;
 
   const { isAuthenticated } = props.state.auth;
-
-  //   const { isAuthenticated, loading } = authContext;
 
   return (
     <Route

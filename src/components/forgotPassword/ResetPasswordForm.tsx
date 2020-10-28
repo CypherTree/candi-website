@@ -10,14 +10,13 @@ import {
   Button,
 } from "@material-ui/core";
 
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
 import { ResetPassword } from "../../core/store/auth/authActions";
 
 function ResetPasswordForm(props: any) {
-  console.log("-------- All props", props);
   const { token: resetToken } = props;
   const dispatch = useDispatch();
 
@@ -38,13 +37,6 @@ function ResetPasswordForm(props: any) {
       setPwdError("Entered Passwords do not match.");
     }
   }, [password2, password]);
-
-  //   const redirectToLogin = () => {
-  //     // setTimeout(() => {
-  //     //   console.log("redirect called");
-  //     //   props.props.history.push("/login");
-  //     // }, 5);
-  //   };
 
   const propData = props.props;
 
@@ -72,11 +64,7 @@ function ResetPasswordForm(props: any) {
           ) : (
             <div>
               <CardContent>
-                {/* {successMessage !== null && (
-                  <Typography color="primary">{successMessage}</Typography>
-                )} */}
                 <TextField
-                  //   error={state.isError}
                   fullWidth
                   id="password"
                   type="password"
@@ -87,7 +75,6 @@ function ResetPasswordForm(props: any) {
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <TextField
-                  //   error={state.isError}
                   fullWidth
                   id="password2"
                   type="password"
@@ -107,9 +94,7 @@ function ResetPasswordForm(props: any) {
                   variant="contained"
                   size="large"
                   color="primary"
-                  // className={classes.loginBtn}
                   onClick={handleFormSubmit}
-                  // disabled={state.isButtonDisabled}
                 >
                   Reset Password
                 </Button>

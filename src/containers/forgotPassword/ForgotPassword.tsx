@@ -3,7 +3,6 @@ import { Typography } from "@material-ui/core";
 import { APP_NAME } from "../../core/constants";
 
 import { connect } from "react-redux";
-// import "./login.css";
 
 import { Grid } from "@material-ui/core";
 
@@ -20,8 +19,6 @@ const mapStateToProps = (state: any) => {
 
 const ForgotPassword = (props: any) => {
   const dispatch = useDispatch();
-  // const message = props.state.app.message;
-  console.log("props data ", props);
 
   const { isAuthenticated } = props.state.auth;
 

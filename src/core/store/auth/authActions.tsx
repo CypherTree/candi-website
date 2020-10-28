@@ -7,6 +7,7 @@ import {
   RESET_PASSWORD,
   SET_ACCESS_TOKEN,
   FORGOT_PASSWORD,
+  CLEAR_STATE,
 } from "./authTypes";
 
 import {
@@ -17,20 +18,21 @@ import {
 
 import axios from "axios";
 
-export const LoginUser = (username: string, password: string) => async (
-  dispatch: Dispatch<LoginDispatchTypes>
-) => {
-  console.log("action called", username, password);
-  let errorMessage;
+export const LoginUser = (
+  username: string,
+  password: string,
+  rememberMe: boolean
+) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
   try {
     dispatch({
       type: LOGIN_USER,
       payload: {
         username,
         password,
+        rememberMe,
       },
     });
-    // ..
+
     axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/`, {
         email: username,
@@ -38,7 +40,7 @@ export const LoginUser = (username: string, password: string) => async (
       })
       .then((response) => {
         const { access: accessToken, refresh: refreshToken } = response.data;
-        console.log("----- data from request ------", accessToken);
+
         dispatch({
           type: SET_AUTHENTICATED,
           payload: {
@@ -49,7 +51,6 @@ export const LoginUser = (username: string, password: string) => async (
         });
       })
       .catch((err) => {
-        console.log("--- error ---", err.message);
         dispatch({
           type: SET_LOGIN_ERROR,
           payload: {
@@ -63,7 +64,6 @@ export const LoginUser = (username: string, password: string) => async (
 export const LogoutUser = () => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
-  console.log("action logout called");
   try {
     dispatch({
       type: LOGOUT_USER,
@@ -74,7 +74,6 @@ export const LogoutUser = () => async (
         isAuthenticated: false,
       },
     });
-    // ..
   } catch (e) {}
 };
 
@@ -88,7 +87,6 @@ export const SetAuthenticated = (isAuthenticated: boolean) => async (
         isAuthenticated,
       },
     });
-    // ..
   } catch (e) {}
 };
 
@@ -102,9 +100,8 @@ export const GetUserData = (accessToken: string) => async (
       },
     })
     .then((response: any) => {
-      // const { access: accessToken, refresh: refreshToken } = response.data;
       const { data: userData } = response.data;
-      console.log("-*********---- data from request ------", userData);
+
       dispatch({
         type: SET_USERDATA,
         payload: {
@@ -134,21 +131,17 @@ export const GetNewToken = (
     })
     .catch((err) => {
       localStorage.clear();
-      console.log("--- erro", err.message);
     });
 };
 
 export const ForgotPassword = (email: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
-  console.log("forgot password was called.", email);
-
   axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/forgot-password/`, {
       email,
     })
     .then((response: any) => {
-      console.log("------ response from api ", response.data);
       dispatch({
         type: FORGOT_PASSWORD,
         payload: {
@@ -158,32 +151,35 @@ export const ForgotPassword = (email: string) => async (
       });
     })
     .catch((err) => {
-      // localStorage.clear();
       dispatch({
         type: FORGOT_PASSWORD,
         payload: {
           success: false,
-          message: "Password reset could not be sent",
+          message: "Password reset failed. Please retry.",
         },
       });
-      console.log("--- erro", err.message);
     });
+};
+
+export const ClearState = () => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  dispatch({
+    type: CLEAR_STATE,
+    payload: {},
+  });
 };
 
 export const ResetPassword = (token: string, password: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
-  console.log("reset password was called.", token, password);
-
   axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/reset-password/`, {
       token,
       password,
     })
     .then((response: any) => {
-      console.log("------ response from api ", response.data);
       if (response.data.status === "success") {
-        // password has been reset
         dispatch({
           type: RESET_PASSWORD,
           payload: {
@@ -192,8 +188,6 @@ export const ResetPassword = (token: string, password: string) => async (
           },
         });
       } else {
-        // password could not be reset
-        console.log("--- error was called");
         dispatch({
           type: RESET_PASSWORD,
           payload: {
@@ -204,8 +198,6 @@ export const ResetPassword = (token: string, password: string) => async (
       }
     })
     .catch((err) => {
-      // localStorage.clear();
-      console.log("--- error", err.message);
       dispatch({
         type: RESET_PASSWORD,
         payload: {

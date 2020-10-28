@@ -3,13 +3,13 @@ import { Typography } from "@material-ui/core";
 import { APP_NAME } from "../../core/constants";
 
 import { connect } from "react-redux";
-// import "./login.css";
 
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../core/store/app/appActions";
-import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordForm";
+
+// import { useDispatch } from "react-redux";
 import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
 const mainImage = require("../../assets/images/main-image.jpg");
 
@@ -22,6 +22,19 @@ const qs = require("query-string");
 
 function ResetPassword(props: any) {
   const data = qs.parse(props.location.search);
+
+  const dispatch = useDispatch();
+
+  const { isAuthenticated } = props.state.auth;
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      props.history.push("/dashboard");
+    }
+    if (localStorage.getItem("accessToken")) {
+      dispatch(SetAuthenticated());
+    }
+  });
 
   const { token } = data;
 

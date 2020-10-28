@@ -37,7 +37,6 @@ function RegisterForm() {
             )}
 
             <TextField
-              //   error={state.isError}
               fullWidth
               id="email"
               type="email"
@@ -48,7 +47,6 @@ function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              //   error={state.isError}
               fullWidth
               id="password"
               type="password"
@@ -59,7 +57,6 @@ function RegisterForm() {
               onChange={(e) => setEmail(e.target.value)}
             />
             <TextField
-              //   error={state.isError}
               fullWidth
               id="password2"
               type="password"

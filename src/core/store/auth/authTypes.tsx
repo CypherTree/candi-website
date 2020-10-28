@@ -7,10 +7,12 @@ export const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
 export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
+export const CLEAR_STATE = "CLEAR_STATE";
 
 export type LoginData = {
   username: string;
   password: string;
+  rememberMe: boolean;
 };
 
 export interface LoginUser {
@@ -75,6 +77,11 @@ export interface ForgotPassword {
   };
 }
 
+export interface ClearState {
+  type: typeof CLEAR_STATE;
+  payload: {};
+}
+
 export type LoginDispatchTypes =
   | LoginUser
   | LogoutUser
@@ -84,4 +91,5 @@ export type LoginDispatchTypes =
   | SetLoginError
   | SetAccessToken
   | ResetPassword
-  | ForgotPassword;
+  | ForgotPassword
+  | ClearState;

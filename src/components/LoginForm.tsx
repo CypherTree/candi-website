@@ -21,21 +21,16 @@ import { LoginUser } from "../core/store/auth/authActions";
 function LoginForm(props: any) {
   const dispatch = useDispatch();
 
-  console.log("props in form", props);
-
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  // const [error, setError] = useState(null);
 
   const error = props.props.state.auth.error
     ? props.props.state.auth.error
     : null;
 
   const handleFormSubmit = () => {
-    // alert("hello ");
-    dispatch(LoginUser(username, password));
-    // dispatch({ type: LOGIN_USER });
+    dispatch(LoginUser(username, password, rememberMe));
   };
 
   return (
@@ -45,7 +40,6 @@ function LoginForm(props: any) {
         <CardContent>
           <div>
             <TextField
-              //   error={state.isError}
               fullWidth
               id="username"
               type="email"
@@ -54,10 +48,8 @@ function LoginForm(props: any) {
               margin="normal"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
-              //   onKeyPress={handleKeyPress}
             />
             <TextField
-              //   error={state.isError}
               fullWidth
               id="password"
               type="password"
@@ -66,9 +58,6 @@ function LoginForm(props: any) {
               margin="normal"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              //   helperText={state.helperText}
-              //   onChange={handlePasswordChange}
-              //   onKeyPress={handleKeyPress}
             />
             <Checkbox
               checked={rememberMe}
@@ -85,9 +74,7 @@ function LoginForm(props: any) {
             variant="contained"
             size="large"
             color="primary"
-            // className={classes.loginBtn}
             onClick={handleFormSubmit}
-            // disabled={state.isButtonDisabled}
           >
             Login
           </Button>
