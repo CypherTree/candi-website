@@ -52,7 +52,7 @@ const Register = (props: any) => {
             {" "}
             {APP_NAME}
           </Typography>
-          <br /> <br />
+          <br />
           <RegisterForm props={props} />
         </Grid>
       </Grid>

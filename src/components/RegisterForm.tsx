@@ -15,47 +15,49 @@ import { sendOTP } from "../core/services/register.service";
 import { useDispatch } from "react-redux";
 import { RegisterUser } from "../core/store/auth/authActions";
 
-import { GetUserData, SetAuthenticated } from "../core/store/auth/authActions";
+import { SetAuthenticated } from "../core/store/auth/authActions";
 
 function RegisterForm(props: any) {
-  console.log("props in ref form--", props);
   const dispatch = useDispatch();
 
   const [isOTPSent, setIsOTPSent] = useState(false);
+  const [isResendAllowed, setIsResendAllowed] = useState(false);
 
   let counter = 60;
 
-  const countdown = () => {
-    if (counter > 0) {
-      // so it doesn't go to -1
-      const newCounter = counter - 1;
-      counter = counter - 1;
-      console.log("counter value : ", newCounter);
-    } else {
-      // clearInterval(timer);
-      alert("You type X WPM");
-    }
-  };
+  let otpCountdown: any;
+
+  const countdown = () => {};
 
   const setOTPTimeout = () => {
-    setInterval(() => {
-      countdown();
+    otpCountdown = setInterval(() => {
+      if (counter > 0) {
+        const newCounter = counter - 1;
+        counter = counter - 1;
+        console.log("counter value : ", newCounter);
+      } else {
+        counter = 11;
+        setIsResendAllowed(true);
+        clearInterval(otpCountdown);
+        return;
+      }
     }, 1000);
   };
 
-  // setTimeout("alert('Hello')", 1000);
-
   const handleGetOTP = (phone: string) => {
     setIsOTPSent(true);
-    alert("get otp called");
-    // setOTPTimeout();
-    sendOTP(phone);
+    setIsResendAllowed(false);
+    setOTPTimeout();
+    sendOTPFunc(phone);
   };
 
-  // const handleResendOTP = () => {
-  //   // setIsOTPSent(tr)
-  //   alert("OTP resend");
-  // };
+  const sendOTPFunc = (phone: string) => {
+    isOTPSent ? handleResendOTP(phone) : sendOTP(phone);
+  };
+
+  const handleResendOTP = (phone: string) => {
+    countdown();
+  };
 
   const redirectToDashboard = () => {
     setTimeout(() => {
@@ -93,6 +95,24 @@ function RegisterForm(props: any) {
               }}
               validate={(values) => {
                 const errors: any = {};
+                if (!values.firstName) {
+                  errors.firstName = "Required";
+                }
+                if (!values.lastName) {
+                  errors.lastName = "Required";
+                }
+                if (!values.password) {
+                  errors.password = "Required";
+                }
+                if (!values.password2) {
+                  errors.password2 = "Required";
+                }
+                if (!values.otp) {
+                  errors.otp = "Required";
+                }
+                if (!values.phone_number_extension) {
+                  errors.phone_number_extension = "Required";
+                }
                 if (!values.email) {
                   errors.email = "Required";
                 } else if (
@@ -102,6 +122,7 @@ function RegisterForm(props: any) {
                 ) {
                   errors.email = "Invalid email address";
                 }
+
                 return errors;
               }}
               onSubmit={(data, { setSubmitting }) => {
@@ -118,28 +139,30 @@ function RegisterForm(props: any) {
                     otp: data.otp,
                   })
                 );
-
                 setSubmitting(false);
               }}
             >
               {({ values, isSubmitting, handleChange, handleBlur }) => (
-                <Form>
+                <Form style={{ lineHeight: "3" }}>
                   <div>
                     <Field
                       placeholder="First Name"
                       name="firstName"
                       type="input"
                       as={TextField}
+                      style={{ width: "400px" }}
                     />
+                    <ErrorMessage name="firstName" component="div" />
                   </div>
-
                   <div>
                     <Field
                       placeholder="Last Name"
                       name="lastName"
                       type="input"
                       as={TextField}
+                      style={{ width: "400px" }}
                     />
+                    <ErrorMessage name="lastName" component="div" />
                   </div>
                   <div>
                     <Field
@@ -147,6 +170,7 @@ function RegisterForm(props: any) {
                       name="email"
                       type="email"
                       as={TextField}
+                      style={{ width: "400px" }}
                     />
                     <ErrorMessage name="email" component="div" />
                   </div>
@@ -156,6 +180,7 @@ function RegisterForm(props: any) {
                       name="password"
                       type="password"
                       as={TextField}
+                      style={{ width: "400px" }}
                     />
                     <ErrorMessage name="password" component="div" />
                   </div>
@@ -165,20 +190,27 @@ function RegisterForm(props: any) {
                       name="password2"
                       type="password"
                       as={TextField}
+                      style={{ width: "400px" }}
                     />
+                    <ErrorMessage name="password2" component="div" />
                   </div>
                   <div>
-                    <label htmlFor="Phone Extenstion">
+                    {/* <label htmlFor="Phone Extenstion">
                       Country Extension :{" "}
-                    </label>
+                    </label> */}
                     <Field
                       component="select"
                       id="category"
                       name="phone_number_extension"
+                      style={{ width: "400px", height: "30px" }}
                     >
                       <option value="+91">+91 - India</option>
                       <option value="+92">+92 - Pakistan</option>
                     </Field>
+                    <ErrorMessage
+                      name="phone_number_extension"
+                      component="div"
+                    />
                   </div>
                   <div>
                     <Field
@@ -186,25 +218,42 @@ function RegisterForm(props: any) {
                       name="phone"
                       type="input"
                       as={TextField}
+                      style={{ width: "250px" }}
                     />
-                    <Button
-                      disabled={isOTPSent}
-                      type="submit"
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleGetOTP(values.phone)}
-                    >
-                      {isOTPSent ? "RESEND OTP" : "GET OTP"}
-                    </Button>
+                    {isOTPSent ? (
+                      <Button
+                        disabled={isOTPSent && !isResendAllowed}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleGetOTP(values.phone)}
+                      >
+                        RESEND OTP
+                      </Button>
+                    ) : (
+                      <Button
+                        disabled={isOTPSent}
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleGetOTP(values.phone)}
+                      >
+                        GET OTP
+                      </Button>
+                    )}
+
+                    <ErrorMessage name="phone" component="div" />
                   </div>
                   {isOTPSent && (
                     <>
-                      <div>
+                      <span>
                         <Typography color="primary">
-                          Check your phone for OTP
+                          Check your phone for OTP.
+                          {!isResendAllowed && (
+                            <div> Try again in {counter} secs. </div>
+                          )}
                         </Typography>
-                        Try again in {counter} secs.
-                      </div>
+                      </span>
                       <div>
                         <Field
                           placeholder="OTP"
@@ -213,10 +262,9 @@ function RegisterForm(props: any) {
                           as={TextField}
                         />
                       </div>
+                      <ErrorMessage name="otp" component="div" />
                     </>
                   )}
-
-                  {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
                   <Button
                     disabled={isSubmitting}
                     type="submit"
@@ -230,9 +278,19 @@ function RegisterForm(props: any) {
             </Formik>
           )}
         </CardContent>
-        {/* <CardActions>
-          <Button type="submit">Register</Button>
-        </CardActions> */}
+        <CardActions
+          style={{
+            margin: "auto",
+          }}
+        >
+          <div
+            style={{
+              margin: "auto",
+            }}
+          >
+            Already a user ? <Link to="/login">Login </Link>
+          </div>
+        </CardActions>
       </Card>
     </div>
   );
