@@ -8,6 +8,8 @@ import {
   Button,
   Typography,
   Checkbox,
+  InputAdornment,
+  IconButton,
 } from "@material-ui/core";
 
 import { Link } from "react-router-dom";
@@ -17,6 +19,7 @@ import { useDispatch } from "react-redux";
 // import { ThunkDispatch as dispatch } from "redux-thunk";
 
 import { LoginUser } from "../core/store/auth/authActions";
+import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function LoginForm(props: any) {
   const dispatch = useDispatch();
@@ -24,6 +27,7 @@ function LoginForm(props: any) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
 
   const error = props.props.state.auth.error
     ? props.props.state.auth.error
@@ -31,6 +35,10 @@ function LoginForm(props: any) {
 
   const handleFormSubmit = () => {
     dispatch(LoginUser(username, password, rememberMe));
+  };
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -52,12 +60,25 @@ function LoginForm(props: any) {
             <TextField
               fullWidth
               id="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               label="Password"
               placeholder="Password"
               margin="normal"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowPassword}
+                      // onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
             />
             <Checkbox
               checked={rememberMe}
