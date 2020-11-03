@@ -53,7 +53,7 @@ const Register = (props: any) => {
             {APP_NAME}
           </Typography>
           <br /> <br />
-          <RegisterForm />
+          <RegisterForm props={props} />
         </Grid>
       </Grid>
     </div>

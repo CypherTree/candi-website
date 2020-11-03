@@ -8,6 +8,8 @@ import {
   RESET_PASSWORD,
   FORGOT_PASSWORD,
   CLEAR_STATE,
+  REGISTER_SUCCESS,
+  ACCEPT_POLICY_SUCCESS,
 } from "./authTypes";
 
 interface DefaultStateI {}
@@ -74,6 +76,18 @@ export const authReducer: any = (
 
     case CLEAR_STATE: {
       return { isAuthenticated: false };
+    }
+
+    case REGISTER_SUCCESS: {
+      action.payload.accessToken &&
+        localStorage.setItem("accessToken", action.payload.accessToken);
+      action.payload.refreshToken &&
+        localStorage.setItem("refreshToken", action.payload.refreshToken);
+      return { ...state, ...payload };
+    }
+
+    case ACCEPT_POLICY_SUCCESS: {
+      return { ...state, ...payload };
     }
 
     default:

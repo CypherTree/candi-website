@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   CardActions,
@@ -17,8 +17,11 @@ import { Card, CardHeader } from "@material-ui/core";
 
 import { GetNewToken } from "../../core/store/auth/authActions";
 
+import { acceptPrivacyPolicy } from "../../core/services/privacypolicy.service";
+
 function Dashboard(props: any) {
   const dispatch = useDispatch();
+  const [disabled, setDisabled] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken")
     ? localStorage.getItem("accessToken")
@@ -42,6 +45,18 @@ function Dashboard(props: any) {
 
   useEffect(() => {}, [userData]);
 
+  const handleAcceptPrivacyPolicy = () => {
+    if (accessToken !== null) {
+      acceptPrivacyPolicy(accessToken);
+      setDisabled(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 6000);
+    }
+  };
+
+  console.log("User Data ", userData);
+
   return (
     <div>
       <Card>
@@ -63,10 +78,35 @@ function Dashboard(props: any) {
       <Card>
         <CardHeader title="Welcome"></CardHeader>
         <CardContent>
-          <Typography variant={"h3"} component="h2">
-            {userData !== null && userData.last_name},{" "}
-            {userData !== null && userData.first_name}
-          </Typography>
+          {userData === null ? (
+            <div>
+              <Typography variant="h4" component="h4" color="error">
+                You need to accept Privacy policy before continuing.
+              </Typography>
+              <div>
+                <br />{" "}
+                {disabled ? (
+                  <img
+                    src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
+                    alt="loading"
+                  ></img>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleAcceptPrivacyPolicy}
+                  >
+                    Accept privacy policy
+                  </Button>
+                )}
+              </div>
+            </div>
+          ) : (
+            <Typography variant={"h3"} component="h2">
+              {userData !== null && userData.last_name},{" "}
+              {userData !== null && userData.first_name}
+            </Typography>
+          )}
           <p>
             {" "}
             <b> Access token:</b> {accessToken}

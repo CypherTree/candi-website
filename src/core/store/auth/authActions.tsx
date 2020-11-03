@@ -8,13 +8,18 @@ import {
   SET_ACCESS_TOKEN,
   FORGOT_PASSWORD,
   CLEAR_STATE,
+  ACCEPT_POLICY_SUCCESS,
 } from "./authTypes";
 
 import {
   SET_AUTHENTICATED,
   SET_USERDATA,
   SET_LOGIN_ERROR,
+  REGISTER_USER,
+  REGISTER_SUCCESS,
 } from "../auth/authTypes";
+
+import { RegisterUserData } from "./authTypes";
 
 import axios from "axios";
 
@@ -207,4 +212,90 @@ export const ResetPassword = (token: string, password: string) => async (
         },
       });
     });
+};
+
+export const AcceptPrivacyPolicy = (policyAccept: boolean) => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  if (policyAccept === true) {
+    dispatch({
+      type: ACCEPT_POLICY_SUCCESS,
+      payload: {
+        policyAccept: true,
+      },
+    });
+  }
+};
+
+export const RegisterUser = (data: RegisterUserData) => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  // const data = {
+  //   message: "User Registered",
+  //   data: {
+  //     access:
+  //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA1NjA5NjMyLCJqdGkiOiJhYmM5ZmExNDkzYjQ0NDk1OGU4NTEzMTFjYjRiOTNlZiIsInVzZXJfaWQiOjZ9.q1TsU5J0rq5ivcZ8d5HBQi_79kiP5zBZOHQin3dz1RY",
+  //     refresh:
+  //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwNjkwNTYzMiwianRpIjoiZWRjZWVlYjY0NGVkNGM1Zjk1YTkwOTYyZThlYTJkNWQiLCJ1c2VyX2lkIjo2fQ.YE62nKCCJVvw5lxzQHRkXmPwF32N2V9J8bm6h59yfXw",
+  //   },
+  // };
+  // console.log("Reached in actions --> ", data);
+  // const { message } = data;
+  // const { access: accessToken, refresh: refreshToken } = data.data;
+
+  try {
+    // dispatch({
+    //   type: REGISTER_SUCCESS,
+    //   payload: {
+    //     accessToken,
+    //     refreshToken,
+    //     success: message,
+    //   },
+    // });
+    // dispatch({
+    //   type: REGISTER_USER,
+    //   payload: {
+    //     // username,
+    //     // password,
+    //     // rememberMe,
+    //   },
+    // });
+    axios
+      .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/register/`, data)
+      .then((response) => {
+        console.log("response of axios", response.data);
+        const { message } = response.data;
+        const {
+          access: accessToken,
+          refresh: refreshToken,
+        } = response.data.data;
+        dispatch({
+          type: REGISTER_SUCCESS,
+          payload: {
+            accessToken,
+            refreshToken,
+            success: message,
+          },
+          // dispatch({
+          //   type: SET_AUTHENTICATED,
+          //   payload: {
+          //     isAuthenticated: true,
+          //     accessToken,
+          //     refreshToken,
+          //     rememberMe,
+          //   },
+        });
+      })
+      .catch((err: any) => {
+        console.log("error in axios API  -> ", err.response.data.message);
+        dispatch({
+          type: SET_LOGIN_ERROR,
+          payload: {
+            error: err.response.data.message,
+          },
+        });
+      });
+  } catch (e) {
+    console.log("error in try", e);
+  }
 };

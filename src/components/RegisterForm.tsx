@@ -10,97 +10,229 @@ import {
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
-function RegisterForm() {
-  // TODO: integrate API
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import { sendOTP } from "../core/services/register.service";
+import { useDispatch } from "react-redux";
+import { RegisterUser } from "../core/store/auth/authActions";
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [pasword2, setPassword2] = useState("");
-  const [otp, setOtp] = useState("");
+import { GetUserData, SetAuthenticated } from "../core/store/auth/authActions";
 
-  let successMessage;
+function RegisterForm(props: any) {
+  console.log("props in ref form--", props);
+  const dispatch = useDispatch();
 
-  const handleFormSubmit = () => {
-    successMessage = "Check your email for password reset link";
-    alert(successMessage);
-    console.log("value of error", successMessage);
+  const [isOTPSent, setIsOTPSent] = useState(false);
+
+  let counter = 60;
+
+  const countdown = () => {
+    if (counter > 0) {
+      // so it doesn't go to -1
+      const newCounter = counter - 1;
+      counter = counter - 1;
+      console.log("counter value : ", newCounter);
+    } else {
+      // clearInterval(timer);
+      alert("You type X WPM");
+    }
+  };
+
+  const setOTPTimeout = () => {
+    setInterval(() => {
+      countdown();
+    }, 1000);
+  };
+
+  // setTimeout("alert('Hello')", 1000);
+
+  const handleGetOTP = (phone: string) => {
+    setIsOTPSent(true);
+    alert("get otp called");
+    // setOTPTimeout();
+    sendOTP(phone);
+  };
+
+  // const handleResendOTP = () => {
+  //   // setIsOTPSent(tr)
+  //   alert("OTP resend");
+  // };
+
+  const redirectToDashboard = () => {
+    setTimeout(() => {
+      dispatch(SetAuthenticated(true));
+    }, 1000);
   };
 
   return (
     <div>
-      <Card style={{ backgroundColor: "whitesmoke" }}>
-        <CardHeader title="Register Form" />
+      <Card>
+        <CardHeader title="Registration Form"></CardHeader>
         <CardContent>
-          <div>
-            {successMessage !== null && (
-              <Typography color="primary">{successMessage}</Typography>
-            )}
+          {props.props.state.auth.hasOwnProperty("error") && (
+            <Typography color="error" component="h5" variant="h5">
+              {props.props.state.auth.error}
+            </Typography>
+          )}
+          {props.props.state.auth.hasOwnProperty("success") ? (
+            <Typography color="primary" component="h5" variant="h5">
+              {props.props.state.auth.success}
+              Redirecting to dashboard.
+              {redirectToDashboard()}
+            </Typography>
+          ) : (
+            <Formik
+              initialValues={{
+                firstName: "",
+                lastName: "",
+                email: "",
+                password: "",
+                password2: "",
+                phone: "",
+                otp: "",
+                phone_number_extension: "+91",
+              }}
+              validate={(values) => {
+                const errors: any = {};
+                if (!values.email) {
+                  errors.email = "Required";
+                } else if (
+                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
+                    values.email
+                  )
+                ) {
+                  errors.email = "Invalid email address";
+                }
+                return errors;
+              }}
+              onSubmit={(data, { setSubmitting }) => {
+                setSubmitting(true);
+                // make async call
+                dispatch(
+                  RegisterUser({
+                    first_name: data.firstName,
+                    last_name: data.lastName,
+                    email: data.email,
+                    password: data.password,
+                    phone_number: data.phone,
+                    phone_number_extension: data.phone_number_extension,
+                    otp: data.otp,
+                  })
+                );
 
-            <TextField
-              fullWidth
-              id="email"
-              type="email"
-              label="Email"
-              placeholder="Email Id "
-              margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              id="password"
-              type="password"
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              value={password}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              fullWidth
-              id="password2"
-              type="password"
-              label="Re-enter Password"
-              placeholder="Re-enter Password "
-              margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <TextField
-              //   error={state.isError}
-              fullWidth
-              id="otp"
-              type="otp"
-              label="OTP"
-              placeholder="OTP"
-              margin="normal"
-              value={otp}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </CardContent>
+                setSubmitting(false);
+              }}
+            >
+              {({ values, isSubmitting, handleChange, handleBlur }) => (
+                <Form>
+                  <div>
+                    <Field
+                      placeholder="First Name"
+                      name="firstName"
+                      type="input"
+                      as={TextField}
+                    />
+                  </div>
 
-        <CardActions style={{ justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            // className={classes.loginBtn}
-            onClick={handleFormSubmit}
-            // disabled={state.isButtonDisabled}
-          >
-            Register
-          </Button>
-        </CardActions>
-        <CardContent>
-          <div>
-            Already a user?<Link to="/login">Go to login </Link>
-          </div>
-          <br />
-          <div>
-            Not a member? <Link to="/register">Sign Up</Link>
-          </div>
+                  <div>
+                    <Field
+                      placeholder="Last Name"
+                      name="lastName"
+                      type="input"
+                      as={TextField}
+                    />
+                  </div>
+                  <div>
+                    <Field
+                      placeholder="Email "
+                      name="email"
+                      type="email"
+                      as={TextField}
+                    />
+                    <ErrorMessage name="email" component="div" />
+                  </div>
+                  <div>
+                    <Field
+                      placeholder="Password "
+                      name="password"
+                      type="password"
+                      as={TextField}
+                    />
+                    <ErrorMessage name="password" component="div" />
+                  </div>
+                  <div>
+                    <Field
+                      placeholder="Re-enter Password"
+                      name="password2"
+                      type="password"
+                      as={TextField}
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="Phone Extenstion">
+                      Country Extension :{" "}
+                    </label>
+                    <Field
+                      component="select"
+                      id="category"
+                      name="phone_number_extension"
+                    >
+                      <option value="+91">+91 - India</option>
+                      <option value="+92">+92 - Pakistan</option>
+                    </Field>
+                  </div>
+                  <div>
+                    <Field
+                      placeholder="Phone Number"
+                      name="phone"
+                      type="input"
+                      as={TextField}
+                    />
+                    <Button
+                      disabled={isOTPSent}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                      onClick={() => handleGetOTP(values.phone)}
+                    >
+                      {isOTPSent ? "RESEND OTP" : "GET OTP"}
+                    </Button>
+                  </div>
+                  {isOTPSent && (
+                    <>
+                      <div>
+                        <Typography color="primary">
+                          Check your phone for OTP
+                        </Typography>
+                        Try again in {counter} secs.
+                      </div>
+                      <div>
+                        <Field
+                          placeholder="OTP"
+                          name="otp"
+                          type="number"
+                          as={TextField}
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {/* <pre>{JSON.stringify(values, null, 2)}</pre> */}
+                  <Button
+                    disabled={isSubmitting}
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
+                    Register
+                  </Button>
+                </Form>
+              )}
+            </Formik>
+          )}
         </CardContent>
+        {/* <CardActions>
+          <Button type="submit">Register</Button>
+        </CardActions> */}
       </Card>
     </div>
   );

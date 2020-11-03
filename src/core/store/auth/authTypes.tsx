@@ -8,6 +8,10 @@ export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
 export const RESET_PASSWORD = "RESET_PASSWORD";
 export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
 export const CLEAR_STATE = "CLEAR_STATE";
+export const REGISTER_USER = "REGISTER_USER";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAIL = "REGISTER_FAIL";
+export const ACCEPT_POLICY_SUCCESS = "ACCEPT_POLICY_SUCCESS";
 
 export type LoginData = {
   username: string;
@@ -18,6 +22,37 @@ export type LoginData = {
 export interface LoginUser {
   type: typeof LOGIN_USER;
   payload: LoginData;
+}
+
+export type RegisterUserData = {
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  phone_number: string;
+  phone_number_extension: string;
+  otp: string;
+};
+
+export interface RegisterUser {
+  type: typeof REGISTER_USER;
+  payload: RegisterUserData;
+}
+
+export interface RegisterSuccess {
+  type: typeof REGISTER_SUCCESS;
+  payload: {
+    accessToken: string;
+    refreshToken: string;
+    success: string;
+  };
+}
+
+export interface RegisterFail {
+  type: typeof REGISTER_FAIL;
+  payload: {
+    message: string;
+  };
 }
 
 export interface LogoutUser {
@@ -70,6 +105,11 @@ export interface ResetPassword {
   };
 }
 
+// export interface RegisterUser {
+//   type: typeof REGISTER_USER;
+//   payload: {};
+// }
+
 export interface ForgotPassword {
   type: typeof FORGOT_PASSWORD;
   payload: {
@@ -83,6 +123,13 @@ export interface ClearState {
   payload: {};
 }
 
+export interface AcceptPolicySuccess {
+  type: typeof ACCEPT_POLICY_SUCCESS;
+  payload: {
+    policyAccept: boolean;
+  };
+}
+
 export type LoginDispatchTypes =
   | LoginUser
   | LogoutUser
@@ -93,4 +140,8 @@ export type LoginDispatchTypes =
   | SetAccessToken
   | ResetPassword
   | ForgotPassword
-  | ClearState;
+  | ClearState
+  | RegisterUser
+  | RegisterSuccess
+  | RegisterFail
+  | AcceptPolicySuccess;
