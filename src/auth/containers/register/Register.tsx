@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { Typography } from "@material-ui/core";
-import { APP_NAME } from "../../core/constants";
+import { APP_NAME } from "../../../app/core/constants";
 
 import { connect } from "react-redux";
-import "./login.css";
 
-import LoginForm from "../../components/login/LoginForm";
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
-import { SetAuthenticated } from "../../core/store/app/actions";
-const mainImage = require("../../assets/images/main-image.jpg");
+import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+import RegisterForm from "../../components/register/RegisterForm";
+const mainImage = require("../../../assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {
   return {
@@ -18,8 +17,10 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const Login = (props: any) => {
+const Register = (props: any) => {
   const dispatch = useDispatch();
+  // const message = props.state.app.message;
+  console.log("props data ", props);
 
   const { isAuthenticated } = props.state.auth;
 
@@ -35,7 +36,6 @@ const Login = (props: any) => {
   return (
     <div>
       <Grid container spacing={0}>
-        {" "}
         <Grid item xs={1} sm={6}>
           <div className="fill">
             <img
@@ -45,17 +45,18 @@ const Login = (props: any) => {
             />
           </div>
         </Grid>
-        <Grid item xs={11} sm={6} color="red">
+
+        <Grid item xs={11} sm={6}>
           <Typography variant="h3" color="primary" component="h2">
             {" "}
             {APP_NAME}
           </Typography>
-          <br /> <br />
-          <LoginForm props={props} />
+          <br />
+          <RegisterForm props={props} />
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Register);

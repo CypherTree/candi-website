@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-import { ResetPassword } from "../../core/store/auth/actions";
+import { ResetPassword } from "../../core/redux/actions";
 
 function ResetPasswordForm(props: any) {
   const { token: resetToken } = props;

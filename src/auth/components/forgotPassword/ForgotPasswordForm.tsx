@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { ClearState, ForgotPassword } from "../../core/store/auth/actions";
+import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
 import { useDispatch } from "react-redux";
 

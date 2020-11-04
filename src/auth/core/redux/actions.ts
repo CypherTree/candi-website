@@ -9,9 +9,6 @@ import {
   FORGOT_PASSWORD,
   CLEAR_STATE,
   ACCEPT_POLICY_SUCCESS,
-} from "./types";
-
-import {
   SET_AUTHENTICATED,
   SET_USERDATA,
   SET_LOGIN_ERROR,

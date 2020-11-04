@@ -7,7 +7,7 @@ import {
   Grid,
 } from "@material-ui/core";
 
-import { LogoutUser } from "../../core/store/auth/actions";
+import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { connect } from "react-redux";
 
@@ -15,9 +15,7 @@ import { useDispatch } from "react-redux";
 
 import { Card, CardHeader } from "@material-ui/core";
 
-import { GetNewToken } from "../../core/store/auth/actions";
-
-import { acceptPrivacyPolicy } from "../../core/services/privacypolicy.service";
+import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
 
 function Dashboard(props: any) {
   const dispatch = useDispatch();

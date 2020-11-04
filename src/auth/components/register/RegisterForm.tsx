@@ -13,9 +13,7 @@ import { Link } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import { sendOTP } from "../../core/services/register.service";
 import { useDispatch } from "react-redux";
-import { RegisterUser } from "../../core/store/auth/actions";
-
-import { SetAuthenticated } from "../../core/store/auth/actions";
+import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
 function RegisterForm(props: any) {
   const dispatch = useDispatch();

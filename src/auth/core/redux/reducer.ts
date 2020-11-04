@@ -1,4 +1,4 @@
-import { CONSTANTS } from "../types";
+import { CONSTANTS } from "../../../app/core/redux/types";
 import {
   LOGOUT_USER,
   SET_AUTHENTICATED,

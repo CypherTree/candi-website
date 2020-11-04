@@ -4,23 +4,23 @@ import "./App.css";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import Login from "./containers/login/Login";
+import Login from "./auth/containers/login/Login";
 
-import Register from "./containers/register/Register";
+import Register from "./auth/containers/register/Register";
 
-import PrivateRoute from "./components/routing/PrivateRoute";
+import PrivateRoute from "./app/components/routing/PrivateRoute";
 
-import Dashboard from "./containers/dashboard/Dashboard";
+import Dashboard from "./app/containers/dashboard/Dashboard";
 
-import { GetUserData, SetAuthenticated } from "./core/store/auth/actions";
+import { GetUserData, SetAuthenticated } from "./auth/core/redux/actions";
 
 import { useDispatch } from "react-redux";
 
-import PageNotFound from "./containers/pagenotfound/PageNotFound";
+import PageNotFound from "./app/containers/pagenotfound/PageNotFound";
 
-import ForgotPassword from "./containers/forgotPassword/ForgotPassword";
+import ForgotPassword from "./auth/containers/forgotPassword/ForgotPassword";
 
-import ResetPassword from "./containers/forgotPassword/ResetPassword";
+import ResetPassword from "./auth/containers/forgotPassword/ResetPassword";
 
 require("dotenv").config();
 

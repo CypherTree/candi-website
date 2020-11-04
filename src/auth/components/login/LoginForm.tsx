@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-import { LoginUser } from "../../core/store/auth/actions";
+import { LoginUser } from "../../core/redux/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function LoginForm(props: any) {
