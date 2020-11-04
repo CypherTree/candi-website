@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
-// import logo from "./logo.svg";
+
 import "./App.css";
-// import Grid from "@material-ui/core/Grid";
-// import Paper from "@material-ui/core/Paper";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-// import { Home } from "./Pages";
+
 import Login from "./containers/login/Login";
 
 import Register from "./containers/register/Register";
@@ -15,8 +14,6 @@ import Dashboard from "./containers/dashboard/Dashboard";
 
 import { GetUserData, SetAuthenticated } from "./core/store/auth/authActions";
 
-// import history from "history";
-// TODO: Add history
 import { useDispatch } from "react-redux";
 
 import PageNotFound from "./containers/pagenotfound/PageNotFound";
@@ -24,14 +21,12 @@ import PageNotFound from "./containers/pagenotfound/PageNotFound";
 import ForgotPassword from "./containers/forgotPassword/ForgotPassword";
 
 import ResetPassword from "./containers/forgotPassword/ResetPassword";
-// import PrivateRoute from "./components/routing/PrivateRoute";
-
-// import { Provider, connect } from "react-redux";
 
 require("dotenv").config();
 
 const App = (props: any) => {
   const dispatch = useDispatch();
+
   useEffect(() => {
     const dataLocal = localStorage.getItem("accessToken")
       ? localStorage.getItem("accessToken")
@@ -67,6 +62,7 @@ const App = (props: any) => {
       dispatch(SetAuthenticated(true));
       dispatch(GetUserData(jwtToken));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
