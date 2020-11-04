@@ -12,7 +12,7 @@ import PrivateRoute from "./components/routing/PrivateRoute";
 
 import Dashboard from "./containers/dashboard/Dashboard";
 
-import { GetUserData, SetAuthenticated } from "./core/store/auth/authActions";
+import { GetUserData, SetAuthenticated } from "./core/store/auth/actions";
 
 import { useDispatch } from "react-redux";
 

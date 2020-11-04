@@ -1,11 +1,6 @@
 export const SET_LOADING = "SET_LOADING";
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 
-// export type LoginData = {
-//   username: string;
-//   password: string;
-// };
-
 export interface SetLoading {
   type: typeof SET_LOADING;
   payload: {

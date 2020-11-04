@@ -9,7 +9,7 @@ import LoginForm from "../../components/login/LoginForm";
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
-import { SetAuthenticated } from "../../core/store/app/appActions";
+import { SetAuthenticated } from "../../core/store/app/actions";
 const mainImage = require("../../assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {

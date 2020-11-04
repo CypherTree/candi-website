@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
-import { SetAuthenticated } from "../../core/store/app/appActions";
+import { SetAuthenticated } from "../../core/store/app/actions";
 import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordForm";
 const mainImage = require("../../assets/images/main-image.jpg");
 

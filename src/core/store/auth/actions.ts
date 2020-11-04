@@ -9,17 +9,16 @@ import {
   FORGOT_PASSWORD,
   CLEAR_STATE,
   ACCEPT_POLICY_SUCCESS,
-} from "./authTypes";
+} from "./types";
 
 import {
   SET_AUTHENTICATED,
   SET_USERDATA,
   SET_LOGIN_ERROR,
-  REGISTER_USER,
   REGISTER_SUCCESS,
-} from "../auth/authTypes";
+} from "./types";
 
-import { RegisterUserData } from "./authTypes";
+import { RegisterUserData } from "./types";
 
 import axios from "axios";
 

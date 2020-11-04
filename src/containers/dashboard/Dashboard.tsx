@@ -7,7 +7,7 @@ import {
   Grid,
 } from "@material-ui/core";
 
-import { LogoutUser } from "../../core/store/auth/authActions";
+import { LogoutUser } from "../../core/store/auth/actions";
 
 import { connect } from "react-redux";
 
@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 
 import { Card, CardHeader } from "@material-ui/core";
 
-import { GetNewToken } from "../../core/store/auth/authActions";
+import { GetNewToken } from "../../core/store/auth/actions";
 
 import { acceptPrivacyPolicy } from "../../core/services/privacypolicy.service";
 

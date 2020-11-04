@@ -16,9 +16,7 @@ import { Link } from "react-router-dom";
 
 import { useDispatch } from "react-redux";
 
-// import { ThunkDispatch as dispatch } from "redux-thunk";
-
-import { LoginUser } from "../../core/store/auth/authActions";
+import { LoginUser } from "../../core/store/auth/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 function LoginForm(props: any) {

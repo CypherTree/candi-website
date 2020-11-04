@@ -1,11 +1,10 @@
 import { Dispatch } from "redux";
 
-import { AppDispatchTypes, SET_AUTHENTICATED } from "./appTypes";
+import { AppDispatchTypes, SET_AUTHENTICATED } from "./types";
 
 export const SetAuthenticated = () => async (
   dispatch: Dispatch<AppDispatchTypes>
 ) => {
-  console.log("*************** set auth action called");
   try {
     dispatch({
       type: SET_AUTHENTICATED,

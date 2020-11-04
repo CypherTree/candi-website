@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const sendOTP = (phone_number: string) => {
-  // const phone = parseInt(phone_number);
   axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/send-otp/`, {
       phone_number: parseInt(phone_number),

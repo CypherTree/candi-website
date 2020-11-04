@@ -10,7 +10,7 @@ import {
   CLEAR_STATE,
   REGISTER_SUCCESS,
   ACCEPT_POLICY_SUCCESS,
-} from "./authTypes";
+} from "./types";
 
 interface DefaultStateI {}
 
