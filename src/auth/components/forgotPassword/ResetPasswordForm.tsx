@@ -22,7 +22,7 @@ function ResetPasswordForm(props: any) {
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
-  const [pwdError, setPwdError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const handleFormSubmit = () => {
     if (password === password2) {
@@ -32,9 +32,9 @@ function ResetPasswordForm(props: any) {
 
   useEffect(() => {
     if (password === password2) {
-      setPwdError("");
+      setPasswordError("");
     } else {
-      setPwdError("Entered Passwords do not match.");
+      setPasswordError("Entered Passwords do not match.");
     }
   }, [password2, password]);
 
@@ -84,8 +84,8 @@ function ResetPasswordForm(props: any) {
                   value={password2}
                   onChange={(e) => setPassword2(e.target.value)}
                 />
-                {pwdError !== "" && (
-                  <Typography color="error"> {pwdError}</Typography>
+                {passwordError !== "" && (
+                  <Typography color="error"> {passwordError}</Typography>
                 )}
               </CardContent>
 
