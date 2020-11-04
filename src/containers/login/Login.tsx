@@ -5,7 +5,7 @@ import { APP_NAME } from "../../core/constants";
 import { connect } from "react-redux";
 import "./login.css";
 
-import LoginForm from "../../components/LoginForm";
+import LoginForm from "../../components/login/LoginForm";
 import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";

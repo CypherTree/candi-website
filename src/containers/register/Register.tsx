@@ -9,7 +9,7 @@ import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../core/store/app/appActions";
-import RegisterForm from "../../components/RegisterForm";
+import RegisterForm from "../../components/register/RegisterForm";
 const mainImage = require("../../assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {

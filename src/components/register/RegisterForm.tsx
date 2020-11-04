@@ -11,11 +11,11 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { sendOTP } from "../core/services/register.service";
+import { sendOTP } from "../../core/services/register.service";
 import { useDispatch } from "react-redux";
-import { RegisterUser } from "../core/store/auth/authActions";
+import { RegisterUser } from "../../core/store/auth/authActions";
 
-import { SetAuthenticated } from "../core/store/auth/authActions";
+import { SetAuthenticated } from "../../core/store/auth/authActions";
 
 function RegisterForm(props: any) {
   const dispatch = useDispatch();
@@ -270,6 +270,7 @@ function RegisterForm(props: any) {
                     type="submit"
                     variant="contained"
                     color="primary"
+                    style={{ width: "400px" }}
                   >
                     Register
                   </Button>
