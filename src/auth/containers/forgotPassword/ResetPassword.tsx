@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
 import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
-const mainImage = require("../../../assets/images/main-image.jpg");
+const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {
   return {

@@ -10,7 +10,7 @@ import { Grid } from "@material-ui/core";
 
 import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
-const mainImage = require("../../../assets/images/main-image.jpg");
+const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const mapStateToProps = (state: any) => {
   return {
