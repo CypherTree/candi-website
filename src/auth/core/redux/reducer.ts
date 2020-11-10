@@ -10,6 +10,7 @@ import {
   CLEAR_STATE,
   REGISTER_SUCCESS,
   ACCEPT_POLICY_SUCCESS,
+  EMAIL_VERIFICATION_SUCCESS,
 } from "./types";
 
 interface DefaultStateI {}
@@ -87,6 +88,10 @@ export const authReducer: any = (
     }
 
     case ACCEPT_POLICY_SUCCESS: {
+      return { ...state, ...payload };
+    }
+
+    case EMAIL_VERIFICATION_SUCCESS: {
       return { ...state, ...payload };
     }
 

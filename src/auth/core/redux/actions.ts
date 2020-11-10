@@ -13,6 +13,7 @@ import {
   SET_USERDATA,
   SET_LOGIN_ERROR,
   REGISTER_SUCCESS,
+  EMAIL_VERIFICATION_SUCCESS,
 } from "./types";
 
 import { RegisterUserData } from "./types";
@@ -307,22 +308,17 @@ export const EmailVerification = (token: string) => async (
       .then((response) => {
         console.log("response of axios", response.data);
         const { message } = response.data;
-        // const {
-        //   access: accessToken,
-        //   refresh: refreshToken,
-        // } = response.data.data;
-        // dispatch({
-        //   type: REGISTER_SUCCESS,
-        //   payload: {
-        //     accessToken,
-        //     refreshToken,
-        //     success: message,
-        //   },
-        // });
+
+        dispatch({
+          type: EMAIL_VERIFICATION_SUCCESS,
+          payload: {
+            emailVerificationMessage: message,
+          },
+        });
       })
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response);
-        console.log("error in axios API  -> ", err.response.data.detail);
+        // console.log("error in axios API  -> ", err.response.data.detail);
         dispatch({
           type: SET_LOGIN_ERROR,
           payload: {
