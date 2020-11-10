@@ -295,3 +295,42 @@ export const RegisterUser = (data: RegisterUserData) => async (
     console.log("error in try", e);
   }
 };
+
+export const EmailVerification = (token: string) => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  try {
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/verify-email?token=${token}`
+      )
+      .then((response) => {
+        console.log("response of axios", response.data);
+        const { message } = response.data;
+        // const {
+        //   access: accessToken,
+        //   refresh: refreshToken,
+        // } = response.data.data;
+        // dispatch({
+        //   type: REGISTER_SUCCESS,
+        //   payload: {
+        //     accessToken,
+        //     refreshToken,
+        //     success: message,
+        //   },
+        // });
+      })
+      .catch((err: any) => {
+        console.log("error in axios API  -> ", err.response);
+        console.log("error in axios API  -> ", err.response.data.detail);
+        dispatch({
+          type: SET_LOGIN_ERROR,
+          payload: {
+            error: err.response.data.detail,
+          },
+        });
+      });
+  } catch (e) {
+    console.log("error in try", e);
+  }
+};

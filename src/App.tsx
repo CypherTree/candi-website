@@ -21,6 +21,7 @@ import PageNotFound from "./app/containers/pagenotfound/PageNotFound";
 import ForgotPassword from "./auth/containers/forgotPassword/ForgotPassword";
 
 import ResetPassword from "./auth/containers/forgotPassword/ResetPassword";
+import EmailVerificationPage from "./auth/containers/emailVerification/EmailVerificationPage";
 
 require("dotenv").config();
 
@@ -74,6 +75,11 @@ const App = (props: any) => {
           <Route exact path="/register" component={Register} />{" "}
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/reset" component={ResetPassword} />
+          <Route
+            exact
+            path="/email-verification"
+            component={EmailVerificationPage}
+          />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/dashboard2" component={Register} />
           <Route component={PageNotFound} />
