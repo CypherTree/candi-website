@@ -5,6 +5,9 @@ import {
   CardContent,
   Typography,
   Grid,
+  Link,
+  Snackbar,
+  SnackbarContent,
 } from "@material-ui/core";
 
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
@@ -40,6 +43,8 @@ function Dashboard(props: any) {
   };
 
   const userData = props.state.auth.userData ? props.state.auth.userData : null;
+
+  console.log("user data", userData);
 
   useEffect(() => {}, [userData]);
 
@@ -100,10 +105,22 @@ function Dashboard(props: any) {
               </div>
             </div>
           ) : (
-            <Typography variant={"h3"} component="h2">
-              {userData !== null && userData.last_name},{" "}
-              {userData !== null && userData.first_name}
-            </Typography>
+            <div style={{ alignContent: "center" }}>
+              <SnackbarContent
+                style={{
+                  backgroundColor: "teal",
+                }}
+                message={
+                  "Your Email verification is pending. Click Here to get verification link."
+                }
+                // action={action}
+              />
+
+              <Typography variant={"h3"} component="h2">
+                {userData !== null && userData.last_name},{" "}
+                {userData !== null && userData.first_name}
+              </Typography>
+            </div>
           )}
           <p>
             {" "}
