@@ -5,6 +5,9 @@ import {
   CardContent,
   Typography,
   Grid,
+  Input,
+  Checkbox,
+  FormControlLabel,
 } from "@material-ui/core";
 
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
@@ -16,6 +19,7 @@ import { useDispatch } from "react-redux";
 import { Card, CardHeader } from "@material-ui/core";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
+import PrivacyPolicy from "../../components/privacyPolicy/PrivacyPolicy";
 
 function Dashboard(props: any) {
   const dispatch = useDispatch();
@@ -53,6 +57,8 @@ function Dashboard(props: any) {
     }
   };
 
+  const [acceptPermissionChecked, setAcceptPermissionChecked] = useState(false);
+
   console.log("User Data ", userData);
 
   return (
@@ -76,7 +82,7 @@ function Dashboard(props: any) {
       <Card>
         <CardHeader title="Welcome"></CardHeader>
         <CardContent>
-          {userData === null ? (
+          {userData !== null ? (
             <div>
               <Typography variant="h4" component="h4" color="error">
                 You need to accept Privacy policy before continuing.
@@ -89,13 +95,31 @@ function Dashboard(props: any) {
                     alt="loading"
                   ></img>
                 ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAcceptPrivacyPolicy}
-                  >
-                    Accept privacy policy
-                  </Button>
+                  <>
+                    <PrivacyPolicy />
+                    <br />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          color="primary"
+                          checked={acceptPermissionChecked}
+                          onChange={(e) =>
+                            setAcceptPermissionChecked(!acceptPermissionChecked)
+                          }
+                          // label="I agree to the terms and conditions"
+                        ></Checkbox>
+                      }
+                      label="I accept all conditions."
+                    />
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={handleAcceptPrivacyPolicy}
+                      disabled={!acceptPermissionChecked}
+                    >
+                      Accept privacy policy
+                    </Button>
+                  </>
                 )}
               </div>
             </div>
