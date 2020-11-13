@@ -1,148 +1,41 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  CardActions,
-  CardContent,
-  Typography,
-  Grid,
-  Input,
-  Checkbox,
-  FormControlLabel,
-} from "@material-ui/core";
-
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
+import React, { useEffect } from "react";
+import { Typography, Grid } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
-import { useDispatch } from "react-redux";
-
-import { Card, CardHeader } from "@material-ui/core";
-
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
-import PrivacyPolicy from "../../components/privacyPolicy/PrivacyPolicy";
+import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
+import Navbar from "../../components/navbar/Navbar";
 
 function Dashboard(props: any) {
-  const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(false);
-
-  const accessToken = localStorage.getItem("accessToken")
-    ? localStorage.getItem("accessToken")
-    : sessionStorage.getItem("accessToken");
-
-  const refreshToken = localStorage.getItem("refreshToken")
-    ? localStorage.getItem("refreshToken")
-    : sessionStorage.getItem("refreshToken");
-
-  const handleClick = () => {
-    dispatch(LogoutUser());
-  };
-
-  const getNewToken = () => {
-    if (accessToken !== null && refreshToken !== null) {
-      dispatch(GetNewToken(accessToken, refreshToken));
-    }
-  };
-
   const userData = props.state.auth.userData ? props.state.auth.userData : null;
 
   useEffect(() => {}, [userData]);
 
-  const handleAcceptPrivacyPolicy = () => {
-    if (accessToken !== null) {
-      acceptPrivacyPolicy(accessToken);
-      setDisabled(true);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 6000);
-    }
-  };
-
-  const [acceptPermissionChecked, setAcceptPermissionChecked] = useState(false);
-
-  console.log("User Data ", userData);
-
   return (
     <div>
-      <Card>
-        <Grid container direction="column">
-          <Grid item>
-            <Typography variant={"h2"} color="primary">
-              {" "}
-              Dashboard
-            </Typography>
+      <Navbar />
+      {userData && !userData.privacy_policy_accepted ? (
+        <>
+          <br />
+          <Typography variant="h3" component="h3">
+            Welcome
+          </Typography>
+          <br />
+          <Typography variant={"h4"} component="h4">
+            {userData !== null && userData.last_name},{" "}
+            {userData !== null && userData.first_name}
+          </Typography>
+        </>
+      ) : (
+        <div style={{ padding: "20px 50px 50px 50px" }}>
+          <Grid container>
+            <Grid item xs={12}>
+              <PrivacyPolicy />
+            </Grid>
           </Grid>
-          <Grid item>
-            <Button color="secondary" onClick={() => handleClick()}>
-              Logout
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-
-      <Card>
-        <CardHeader title="Welcome"></CardHeader>
-        <CardContent>
-          {userData !== null ? (
-            <div>
-              <Typography variant="h4" component="h4" color="error">
-                You need to accept Privacy policy before continuing.
-              </Typography>
-              <div>
-                <br />{" "}
-                {disabled ? (
-                  <img
-                    src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
-                    alt="loading"
-                  ></img>
-                ) : (
-                  <>
-                    <PrivacyPolicy />
-                    <br />
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={acceptPermissionChecked}
-                          onChange={(e) =>
-                            setAcceptPermissionChecked(!acceptPermissionChecked)
-                          }
-                          // label="I agree to the terms and conditions"
-                        ></Checkbox>
-                      }
-                      label="I accept all conditions."
-                    />
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleAcceptPrivacyPolicy}
-                      disabled={!acceptPermissionChecked}
-                    >
-                      Accept privacy policy
-                    </Button>
-                  </>
-                )}
-              </div>
-            </div>
-          ) : (
-            <Typography variant={"h3"} component="h2">
-              {userData !== null && userData.last_name},{" "}
-              {userData !== null && userData.first_name}
-            </Typography>
-          )}
-          <p>
-            {" "}
-            <b> Access token:</b> {accessToken}
-          </p>
-
-          <p>
-            {" "}
-            <b> Refresh token: </b> {refreshToken}
-          </p>
-        </CardContent>
-        <CardActions style={{ alignItems: "center", textAlign: "center" }}>
-          <Button onClick={getNewToken}>Get New Token</Button>
-        </CardActions>
-      </Card>
+          <br />
+        </div>
+      )}
     </div>
   );
 }

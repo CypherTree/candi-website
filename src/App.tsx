@@ -21,7 +21,7 @@ import PageNotFound from "./app/containers/pagenotfound/PageNotFound";
 import ForgotPassword from "./auth/containers/forgotPassword/ForgotPassword";
 
 import ResetPassword from "./auth/containers/forgotPassword/ResetPassword";
-import PrivacyPolicy from "./app/components/privacyPolicy/PrivacyPolicy";
+// import PrivacyPolicy from "./app/containers/privacypolicy/PrivacyPolicy";
 
 require("dotenv").config();
 
@@ -75,7 +75,7 @@ const App = (props: any) => {
           <Route exact path="/register" component={Register} />{" "}
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/reset" component={ResetPassword} />
-          <Route exact path="/privacy" component={PrivacyPolicy} />
+          {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute exact path="/dashboard2" component={Register} />
           <Route component={PageNotFound} />
