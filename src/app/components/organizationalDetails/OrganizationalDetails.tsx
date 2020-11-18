@@ -1,30 +1,71 @@
 import {
   Button,
-  FormControl,
-  FormLabel,
-  Input,
-  InputLabel,
+  // FormControl,
+  // FormLabel,
+  // Input,
+  // InputLabel,
   TextField,
   Typography,
 } from "@material-ui/core";
-import { Label } from "@material-ui/icons";
+// import { Label } from "@material-ui/icons";
 import React, { useState } from "react";
-import { useForm, Controller } from "react-hook-form";
+// import { useForm , Controller} from "react-hook-form";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
+import { useDispatch } from "react-redux";
 
-function OrganizationalDetails() {
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data: any) => console.log(data);
+import { connect } from "react-redux";
+
+import {
+  CheckDomainName,
+  SetOrganisationalDetails,
+} from "../../core/redux/app/actions";
+
+function OrganizationalDetails(props: any) {
+  const dispatch = useDispatch();
+  // const { register, handleSubmit } = useForm();
+  // const onSubmit = (data: any) => console.log(data);
   const [domain, setDomain] = useState("");
+  const [organisationName, setOrganisationName] = useState("");
+  const [organisationWebsite, setOrganisationWebsite] = useState("");
 
-  const { control, errors: fieldsErrors } = useForm();
+  const { handleNext } = props;
+
+  console.log("props", props.state.app.domainCheckMessage);
+
+  // const { control, errors: fieldsErrors } = useForm();
+
+  const handleNewSubmit = () => {
+    dispatch(
+      SetOrganisationalDetails(organisationName, organisationWebsite, domain)
+    );
+
+    console.log(
+      "organisation details",
+      organisationName,
+      organisationWebsite,
+      domain
+    );
+    handleNext();
+  };
+
+  const handleDomainURLChange = (e: any) => {
+    setDomain(e.target.value);
+
+    if (domain.length >= 4) {
+      dispatch(
+        CheckDomainName(
+          e.target.value,
+          localStorage.getItem("accessToken") || ""
+        )
+      );
+    }
+  };
 
   return (
     <div>
       Enter details of your organisation.
       <div
         style={{
-          //   border: "1px solid black",
           margin: "0 auto",
           lineHeight: "40px",
           width: "800px",
@@ -33,17 +74,18 @@ function OrganizationalDetails() {
           paddingBottom: "0px",
         }}
       >
-        {/* <InputLabel htmlFor="my-input">Company Name</InputLabel> */}
         <TextField
           type="text"
           label="Organisation Name"
           fullWidth
           required
-          //   helperText="Name of your organisation"
+          helperText="Name of your organisation"
           autoFocus={true}
           color="primary"
           size="medium"
           variant="outlined"
+          value={organisationName}
+          onChange={(e) => setOrganisationName(e.target.value)}
         ></TextField>
         <br /> <br />
         <TextField
@@ -51,11 +93,13 @@ function OrganizationalDetails() {
           label="Website"
           fullWidth
           required
-          //   helperText="Your organization's website URL"
+          helperText="Your organization's website URL. example -> something.com"
           autoFocus={true}
           color="primary"
           size="medium"
           variant="outlined"
+          value={organisationWebsite}
+          onChange={(e) => setOrganisationWebsite(e.target.value)}
         ></TextField>
         <br /> <br />
         <TextField
@@ -63,44 +107,66 @@ function OrganizationalDetails() {
           label="Domain"
           fullWidth
           required
-          //   helperText="Name of your company"
           autoFocus={true}
           color="primary"
           size="medium"
           variant="outlined"
           value={domain}
-          onChange={(e) => setDomain(e.target.value)}
+          onChange={(e) => handleDomainURLChange(e)}
         ></TextField>
         {/* {domain !== "" && ( */}
         <div>
           <span>
             Your domain will be
             <Typography variant="h5" component="h5" color="primary">
-              {domain === "" ? "your-domain" : domain}.cyphertree.com
+              {domain === "" ? "your-domain" : domain}.theonboarders.com
             </Typography>
           </span>
         </div>
         {/* )} */}
-        {domain !== "" && (
-          <div>
-            <p>
-              This domain is available.{" "}
-              <CheckCircleIcon fontSize="small" style={{ color: "green" }} />
-            </p>
-          </div>
+        {domain !== "" &&
+        props.state.app.domainCheckMessage !== "Domain already taken" ? (
+          <p>
+            This domain is available.{" "}
+            <CheckCircleIcon fontSize="small" style={{ color: "green" }} />
+          </p>
+        ) : (
+          <p>
+            This domain is NOT available.{" "}
+            <CheckCircleIcon fontSize="small" style={{ color: "red" }} />
+          </p>
         )}
+        <br />
+        <Button
+          variant="outlined"
+          color="primary"
+          type="submit"
+          //   autoFocus={true}
+          // onClick={() => handleNewSubmit()}
+          disabled
+        >
+          {" "}
+          Back
+        </Button>{" "}
         <Button
           variant="contained"
           color="primary"
           type="submit"
           //   autoFocus={true}
+          onClick={() => handleNewSubmit()}
         >
           {" "}
-          Save and Continue
+          Save and Next
         </Button>
       </div>
     </div>
   );
 }
 
-export default OrganizationalDetails;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(OrganizationalDetails);
