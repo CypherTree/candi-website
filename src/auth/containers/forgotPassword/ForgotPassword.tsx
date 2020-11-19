@@ -9,7 +9,7 @@ import { Grid } from "@material-ui/core";
 import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordForm";
-const mainImage = require("../../../shared/assets/images/main-image.jpg");
+import SideImage from "../../components/sideImage/SideImage";
 
 const mapStateToProps = (state: any) => {
   return {
@@ -35,15 +35,8 @@ const ForgotPassword = (props: any) => {
     <div>
       <Grid container spacing={0}>
         <Grid item xs={1} sm={6}>
-          <div className="fill">
-            <img
-              alt="logo"
-              style={{ width: 100, height: "100vh" }}
-              src={String(mainImage)}
-            />
-          </div>
+          <SideImage />
         </Grid>
-
         <Grid item xs={11} sm={6}>
           <Typography variant="h3" color="primary" component="h2">
             {" "}

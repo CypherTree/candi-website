@@ -12,6 +12,8 @@ export const REGISTER_USER = "REGISTER_USER";
 export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 export const ACCEPT_POLICY_SUCCESS = "ACCEPT_POLICY_SUCCESS";
+export const EMAIL_VERIFICATION = "EMAIL_VERIFICATION";
+export const EMAIL_VERIFICATION_SUCCESS = "EMAIL_VERIFICATION_SUCCESS";
 
 export type LoginData = {
   username: string;
@@ -130,6 +132,20 @@ export interface AcceptPolicySuccess {
   };
 }
 
+export interface EmailVerification {
+  type: typeof EMAIL_VERIFICATION;
+  payload: {
+    token: string;
+  };
+}
+
+export interface EmailVerificationSuccess {
+  type: typeof EMAIL_VERIFICATION_SUCCESS;
+  payload: {
+    emailVerificationMessage: string;
+  };
+}
+
 export type LoginDispatchTypes =
   | LoginUser
   | LogoutUser
@@ -144,4 +160,6 @@ export type LoginDispatchTypes =
   | RegisterUser
   | RegisterSuccess
   | RegisterFail
-  | AcceptPolicySuccess;
+  | AcceptPolicySuccess
+  | EmailVerification
+  | EmailVerificationSuccess;

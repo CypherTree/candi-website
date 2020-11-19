@@ -13,6 +13,7 @@ import {
   SET_USERDATA,
   SET_LOGIN_ERROR,
   REGISTER_SUCCESS,
+  EMAIL_VERIFICATION_SUCCESS,
 } from "./types";
 
 import { RegisterUserData } from "./types";
@@ -288,6 +289,40 @@ export const RegisterUser = (data: RegisterUserData) => async (
           type: SET_LOGIN_ERROR,
           payload: {
             error: err.response.data.message,
+          },
+        });
+      });
+  } catch (e) {
+    console.log("error in try", e);
+  }
+};
+
+export const EmailVerification = (token: string) => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  try {
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/verify-email?token=${token}`
+      )
+      .then((response) => {
+        console.log("response of axios", response.data);
+        const { message } = response.data;
+
+        dispatch({
+          type: EMAIL_VERIFICATION_SUCCESS,
+          payload: {
+            emailVerificationMessage: message,
+          },
+        });
+      })
+      .catch((err: any) => {
+        console.log("error in axios API  -> ", err.response);
+        // console.log("error in axios API  -> ", err.response.data.detail);
+        dispatch({
+          type: SET_LOGIN_ERROR,
+          payload: {
+            error: err.response.data.detail,
           },
         });
       });

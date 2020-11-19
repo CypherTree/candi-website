@@ -21,6 +21,7 @@ import PageNotFound from "./app/containers/pagenotfound/PageNotFound";
 import ForgotPassword from "./auth/containers/forgotPassword/ForgotPassword";
 
 import ResetPassword from "./auth/containers/forgotPassword/ResetPassword";
+import EmailVerificationPage from "./auth/containers/emailVerification/EmailVerificationPage";
 
 import NewOrganisation from "./app/containers/neworganization/NewOrganisation";
 import Organisations from "./app/containers/organisations/Organisations";
@@ -79,6 +80,11 @@ const App = (props: any) => {
           <Route exact path="/forgot-password" component={ForgotPassword} />
           <Route exact path="/reset" component={ResetPassword} />
           {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
+          <Route
+            exact
+            path="/email-verification"
+            component={EmailVerificationPage}
+          />
           <PrivateRoute exact path="/dashboard" component={Dashboard} />
           <PrivateRoute
             exact
