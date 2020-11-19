@@ -61,9 +61,9 @@ export const SetOrganisationalDetails = (
 
   const organisationData = {
     name: organisationName,
-    website: organisationWebsite,
+    website: `http://www.${organisationWebsite}.theonboarders.com`,
     schema_name: domain,
-    domain_url: `${domain}.theonboarders.com`,
+    domain_url: `http://www.${domain}.theonboarders.com`,
   };
 
   axios

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Typography, Grid } from "@material-ui/core";
+import { Typography, Grid, Link } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
@@ -17,6 +17,11 @@ function Dashboard(props: any) {
       {userData && userData.privacy_policy_accepted ? (
         <>
           <br />
+          {userData && !userData.is_verified && (
+            <div>
+              Your email is not verified. <Link>Click here</Link> to verify now.
+            </div>
+          )}
           <Typography variant="h3" component="h3">
             Welcome
           </Typography>

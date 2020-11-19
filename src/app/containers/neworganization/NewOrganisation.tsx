@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import React from "react";
 import OrganizationalDetails from "../../components/organizationalDetails/OrganizationalDetails";
-import Navbar from "../../components/navbar/Navbar";
 import Plans from "./Plans";
 import CompanyDetails from "../../components/companyDetails/CompanyDetails";
 
@@ -90,9 +89,6 @@ function NewOrganisation() {
 
   return (
     <div>
-      <Navbar />
-      <br />
-      This is to create new NewOrganisation
       <Stepper activeStep={activeStep} alternativeLabel>
         {steps.map((label, index) => {
           const stepProps: any = {};
@@ -137,61 +133,3 @@ function NewOrganisation() {
 }
 
 export default NewOrganisation;
-
-// const isStepOptional = (step: any) => {
-//   return step === 1;
-// };
-
-//   if (isStepOptional(index)) {
-//     labelProps.optional = (
-//       <Typography variant="caption">Optional</Typography>
-//     );
-//   }
-
-// const handleSkip = () => {
-//   if (!isStepOptional(activeStep)) {
-//     // You probably want to guard against something like this,
-//     // it should never occur unless someone's actively trying to break something.
-//     throw new Error("You can't skip a step that isn't optional.");
-//   }
-
-//   setActiveStep((prevActiveStep) => prevActiveStep + 1);
-//   setSkipped((prevSkipped) => {
-//     const newSkipped = new Set(prevSkipped.values());
-//     newSkipped.add(activeStep);
-//     return newSkipped;
-//   });
-// };
-
-{
-  /* <Button
-                disabled={activeStep === 0}
-                onClick={handleBack}
-                className={classes.button}
-              >
-                Back
-              </Button> */
-}
-{
-  /* {isStepOptional(activeStep) && (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleSkip}
-                  className={classes.button}
-                >
-                  Skip
-                </Button>
-              )} */
-}
-
-{
-  /* <Button
-                variant="contained"
-                color="primary"
-                onClick={handleNext}
-                className={classes.button}
-              >
-                {activeStep === steps.length - 1 ? "Finish" : "Next"}
-              </Button> */
-}

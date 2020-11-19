@@ -59,27 +59,36 @@ function PlanCard(props: any) {
           {plan.quotas.map((quota: any) => (
             <div>
               <br />
-              <b> {quota.name}</b>: {quota.description}
+              {quota.unit === "job" && (
+                <div>
+                  {" "}
+                  You get <b> {quota.value} jobs </b>
+                </div>
+              )}
+              {quota.unit === "calls" && (
+                <div>
+                  {" "}
+                  You get <b> {quota.value} video calls </b>{" "}
+                </div>
+              )}
+              {quota.unit === "users" && (
+                <div>
+                  {" "}
+                  You can create <b>{quota.value} users</b>{" "}
+                </div>
+              )}
             </div>
           ))}
-          <br />
-          {pricePeriod === "monthly" ? (
-            <div>
-              <b> Monthly Price: </b>
-              {plan.prices[0].price}
-            </div>
-          ) : (
-            <div>
-              {" "}
-              <b> Yearly Price: </b>
-              {plan.prices[1].price} $
-            </div>
-          )}
         </CardContent>
         <CardActions>
           <div style={{ margin: "auto", display: "inline-flex" }}>
             <Button variant="contained" color="primary">
-              Become a member
+              <div> Become a member - {"   "}</div>
+              {pricePeriod === "monthly" ? (
+                <p>{plan.prices[0].price} $</p>
+              ) : (
+                <p>{plan.prices[1].price} $</p>
+              )}
             </Button>
           </div>
         </CardActions>

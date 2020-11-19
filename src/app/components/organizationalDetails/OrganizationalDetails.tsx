@@ -35,9 +35,9 @@ function OrganizationalDetails(props: any) {
   // const { control, errors: fieldsErrors } = useForm();
 
   const handleNewSubmit = () => {
-    dispatch(
-      SetOrganisationalDetails(organisationName, organisationWebsite, domain)
-    );
+    // dispatch(
+    //   SetOrganisationalDetails(organisationName, organisationWebsite, domain)
+    // );
 
     console.log(
       "organisation details",
@@ -63,7 +63,6 @@ function OrganizationalDetails(props: any) {
 
   return (
     <div>
-      Enter details of your organisation.
       <div
         style={{
           margin: "0 auto",
@@ -136,7 +135,6 @@ function OrganizationalDetails(props: any) {
             <CheckCircleIcon fontSize="small" style={{ color: "red" }} />
           </p>
         )}
-        <br />
         <Button
           variant="outlined"
           color="primary"
