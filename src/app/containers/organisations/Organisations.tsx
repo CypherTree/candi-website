@@ -6,12 +6,18 @@ import Navbar from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
 import NewOrganisation from "../neworganization/NewOrganisation";
 
+import Spinner from "../../components/spinner/Spinner";
+
+import { connect } from "react-redux";
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     overflow: "scroll",
+    // height: "700px",
+    // width: "1000px",
     // minHeight: "80vh",
     // maxHeight: "80vh",
   },
@@ -24,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Organisations() {
+function Organisations(props: any) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
 
@@ -35,6 +41,12 @@ function Organisations() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  console.log("PROPS over here", props);
+
+  const { isLoading } = props.state.app;
+
+  console.log("Loading...", isLoading);
 
   return (
     <div>
@@ -59,7 +71,7 @@ function Organisations() {
         >
           Add new Organisation
         </Button>
-        <div style={{ margin: "auto", display: "inline-flex" }}>
+        <div style={{ margin: "0 auto", display: "inline-flex" }}>
           <Modal
             aria-labelledby="transition-modal-title"
             aria-describedby="transition-modal-description"
@@ -74,7 +86,7 @@ function Organisations() {
           >
             <Fade in={open}>
               <div className={classes.paper}>
-                <NewOrganisation />
+                {isLoading ? <Spinner /> : <NewOrganisation />}
               </div>
             </Fade>
           </Modal>
@@ -84,4 +96,8 @@ function Organisations() {
   );
 }
 
-export default Organisations;
+const mapStateToProps = (state: any) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Organisations);

@@ -19,8 +19,8 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
   },
   instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1),
+    // marginTop: theme.spacing(1),
+    // marginBottom: theme.spacing(1),
   },
 }));
 
@@ -69,14 +69,17 @@ function NewOrganisation() {
   };
 
   const handleNext = () => {
-    let newSkipped = skipped;
-    if (isStepSkipped(activeStep)) {
-      newSkipped = new Set(newSkipped.values());
-      newSkipped.delete(activeStep);
-    }
+    console.log(" ----- handle next was called ---- ");
+    // let newSkipped = skipped;
+    // if (isStepSkipped(activeStep)) {
+    //   newSkipped = new Set(newSkipped.values());
+    //   newSkipped.delete(activeStep);
+    // }
 
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    setSkipped(newSkipped);
+    // TODO: change later
+    setActiveStep((prevActiveStep) => 1);
+    // setSkipped(newSkipped);
+    console.log("active step --- ", activeStep);
   };
 
   const handleBack = () => {

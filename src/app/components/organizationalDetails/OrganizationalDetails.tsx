@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@material-ui/core";
 // import { Label } from "@material-ui/icons";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // import { useForm , Controller} from "react-hook-form";
 import CheckCircleIcon from "@material-ui/icons/CheckCircle";
 import { useDispatch } from "react-redux";
@@ -28,25 +28,46 @@ function OrganizationalDetails(props: any) {
   const [organisationName, setOrganisationName] = useState("");
   const [organisationWebsite, setOrganisationWebsite] = useState("");
 
-  const { handleNext } = props;
+  const {
+    handleNext,
+    //   domain,
+    //   setDomain,
+    //   // organisationWebsite,
+    //   // setOrganisationWebsite,
+    //   // organisationName,
+    //   // setOrganisationName,
+  } = props;
 
-  console.log("props", props.state.app.domainCheckMessage);
+  console.log("props in ogr details ", props);
+
+  let fieldsDisabled = false;
 
   // const { control, errors: fieldsErrors } = useForm();
 
-  const handleNewSubmit = () => {
-    // dispatch(
-    //   SetOrganisationalDetails(organisationName, organisationWebsite, domain)
-    // );
+  // };
 
-    console.log(
-      "organisation details",
-      organisationName,
-      organisationWebsite,
-      domain
+  const handleNewSubmit = () => {
+    dispatch(
+      SetOrganisationalDetails(
+        organisationName,
+        organisationWebsite,
+        domain,
+        handleNext
+      )
     );
     handleNext();
   };
+
+  useEffect(() => {
+    if (
+      props.state.app &&
+      props.state.app.newOrganisation &&
+      props.state.app.newOrganisation.message === "Organization created"
+    ) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      fieldsDisabled = true;
+    }
+  }, [fieldsDisabled]);
 
   const handleDomainURLChange = (e: any) => {
     setDomain(e.target.value);
@@ -99,6 +120,7 @@ function OrganizationalDetails(props: any) {
           variant="outlined"
           value={organisationWebsite}
           onChange={(e) => setOrganisationWebsite(e.target.value)}
+          disabled={fieldsDisabled}
         ></TextField>
         <br /> <br />
         <TextField
@@ -113,7 +135,6 @@ function OrganizationalDetails(props: any) {
           value={domain}
           onChange={(e) => handleDomainURLChange(e)}
         ></TextField>
-        {/* {domain !== "" && ( */}
         <div>
           <span>
             Your domain will be
@@ -122,7 +143,6 @@ function OrganizationalDetails(props: any) {
             </Typography>
           </span>
         </div>
-        {/* )} */}
         {domain !== "" &&
         props.state.app.domainCheckMessage !== "Domain already taken" ? (
           <p>

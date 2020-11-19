@@ -2,6 +2,8 @@ export const SET_LOADING = "SET_LOADING";
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const CHECK_DOMAIN_NAME = "CHECK_DOMAIN_NAME";
 export const DOMAIN_CHECK_MESSAGE = "DOMAIN_CHECK_MESSAGE";
+export const NEW_ORGANISATION_CREATE = "NEW_ORGANISATION_CREATE";
+export const SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION";
 
 export interface SetLoading {
   type: typeof SET_LOADING;
@@ -29,8 +31,30 @@ export interface DomainCheckMessage {
   };
 }
 
+export interface NewOrganisationCreate {
+  type: typeof NEW_ORGANISATION_CREATE;
+  payload: {
+    newOrganisation: {
+      id: string;
+      // domain_url: string;
+      slug: string;
+      name: string;
+      website: string;
+      message: string;
+    };
+  };
+}
+
+export interface SetPlanToOrganisation {
+  type: typeof SET_PLAN_TO_ORGANISATION;
+  payload: {
+    organisationPlanMessage: string;
+  };
+}
+
 export type AppDispatchTypes =
   | SetLoading
   | SetAuthenticated
   | CheckDomainName
-  | DomainCheckMessage;
+  | DomainCheckMessage
+  | NewOrganisationCreate;

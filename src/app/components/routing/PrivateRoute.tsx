@@ -1,8 +1,10 @@
+// import {  } from "@material-ui/icons";
 import React from "react";
 
 import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import PrivacyPolicy from "../../containers/privacypolicy/PrivacyPolicy";
+import Dashboard from "../../containers/dashboard/Dashboard";
 
 const mapStateToProps = (state: any) => {
   return {
@@ -35,7 +37,7 @@ const PrivateRoute = (props: any) => {
         ) : privacyPolicyAccepted ? (
           <Component {...props} />
         ) : (
-          <PrivacyPolicy />
+          <Dashboard />
         )
       }
     />

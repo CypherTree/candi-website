@@ -1,17 +1,6 @@
 import React, { useEffect } from "react";
 
-import {
-  Button,
-  CardActions,
-  CardContent,
-  Typography,
-  Grid,
-  Link,
-  Snackbar,
-  SnackbarContent,
-} from "@material-ui/core";
-
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
+import { Button, Typography, Grid, SnackbarContent } from "@material-ui/core";
 
 import { connect } from "react-redux";
 

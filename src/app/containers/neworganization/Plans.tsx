@@ -7,9 +7,17 @@ import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
 import PlanCard from "../../components/plancards/PlanCard";
 
+import { AssignPlanToOrganisation } from "../../core/redux/app/actions";
+
+import { useDispatch } from "react-redux";
+
+import { connect } from "react-redux";
+
 function Plans(props: any) {
   const { handleNext, handleBack } = props;
   //   const [plansData, setPlansData] = useState();
+
+  console.log("props ---->", props);
 
   const plansData = {
     count: 3,
@@ -228,7 +236,14 @@ function Plans(props: any) {
   //     console.log("All plans", plansData);
   //   }, []);
 
+  const dispatch = useDispatch();
+
   const [pricePeriod, setPricePeriod] = React.useState("yearly");
+
+  const [selectedPlan, setSelectedPlan] = React.useState({
+    period_type: 0,
+    plan_id: 0,
+  });
 
   const handlePricePeriod = (
     event: any,
@@ -237,9 +252,16 @@ function Plans(props: any) {
     setPricePeriod(newPricePeriod);
   };
 
-  const handleNewSubmit = () => {
-    handleNext();
-    alert("submitted");
+  const handleSaveAndNext = () => {
+    dispatch(
+      AssignPlanToOrganisation(
+        // props.state.app.newOrganisation.id ||
+        props.state.app.newOrganisation.id,
+        selectedPlan.plan_id,
+        selectedPlan.period_type
+      )
+    );
+    // handleNext();
   };
 
   return (
@@ -283,11 +305,21 @@ function Plans(props: any) {
           >
             {plansData.data.map((plan) => (
               <Grid item xs={3}>
-                <PlanCard plan={plan} pricePeriod={pricePeriod} />
+                <PlanCard
+                  plan={plan}
+                  pricePeriod={pricePeriod}
+                  selectedPlan={selectedPlan}
+                  setSelectedPlan={setSelectedPlan}
+                />
               </Grid>
             ))}
           </Grid>
           <br />
+          {props.state.app && props.state.app.organisationPlanMessage && (
+            <Typography variant="h5" component="h5" color="primary">
+              {props.state.app.organisationPlanMessage}
+            </Typography>
+          )}
           <Button
             variant="outlined"
             color="primary"
@@ -303,7 +335,8 @@ function Plans(props: any) {
             color="primary"
             type="submit"
             //   autoFocus={true}
-            onClick={() => handleNewSubmit()}
+            onClick={() => handleSaveAndNext()}
+            disabled={selectedPlan.plan_id !== 0 ? false : true}
           >
             {" "}
             Save and Next
@@ -314,4 +347,8 @@ function Plans(props: any) {
   );
 }
 
-export default Plans;
+const mapStateToProps = (state: any) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Plans);

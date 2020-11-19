@@ -8,7 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
-import React from "react";
+import React, { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,13 +31,27 @@ function PlanCard(props: any) {
   console.log("props", props);
   //   consol;
 
+  const { selectedPlan, setSelectedPlan } = props;
   const { pricePeriod, plan } = props;
+
+  const handleClick = () => {
+    setSelectedPlan({
+      period_type: pricePeriod === "monthly" ? 0 : 1,
+      plan_id: plan.id,
+    });
+  };
 
   const classes = useStyles();
 
   return (
     <div>
-      <Card variant="outlined">
+      <Card
+        variant="outlined"
+        style={{
+          backgroundColor: plan.id === selectedPlan.plan_id ? "teal" : "white",
+          color: plan.id === selectedPlan.plan_id ? "white" : "black",
+        }}
+      >
         <CardHeader title={plan.name}></CardHeader>
         <CardContent>
           <div
@@ -54,7 +68,6 @@ function PlanCard(props: any) {
             />
           </div>
           <br />
-
           <div>{plan.description}</div>
           {plan.quotas.map((quota: any) => (
             <div>
@@ -82,7 +95,11 @@ function PlanCard(props: any) {
         </CardContent>
         <CardActions>
           <div style={{ margin: "auto", display: "inline-flex" }}>
-            <Button variant="contained" color="primary">
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => handleClick()}
+            >
               <div> Become a member - {"   "}</div>
               {pricePeriod === "monthly" ? (
                 <p>{plan.prices[0].price} $</p>

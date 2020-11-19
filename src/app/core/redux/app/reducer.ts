@@ -1,8 +1,18 @@
-import { SET_AUTHENTICATED, DOMAIN_CHECK_MESSAGE } from "./types";
+import { SET_LOADING } from "../../../../auth/core/redux/types";
+import {
+  SET_AUTHENTICATED,
+  DOMAIN_CHECK_MESSAGE,
+  NEW_ORGANISATION_CREATE,
+  SET_PLAN_TO_ORGANISATION,
+} from "./types";
 
-interface DefaultStateI {}
+interface DefaultStateI {
+  isLoading: boolean;
+}
 
-const defaultState: DefaultStateI = [];
+const defaultState: DefaultStateI = {
+  isLoading: false,
+};
 
 export const appReducer: any = (
   state: DefaultStateI = defaultState,
@@ -10,12 +20,16 @@ export const appReducer: any = (
 ) => {
   const { payload } = action;
 
-  console.log("payload rec", payload);
-
   switch (action.type) {
     case SET_AUTHENTICATED:
-      return action.payload;
+      return { ...state, ...payload };
     case DOMAIN_CHECK_MESSAGE:
+      return { ...state, ...payload };
+    case SET_LOADING:
+      return { ...state, ...payload };
+    case NEW_ORGANISATION_CREATE:
+      return { ...state, ...payload };
+    case SET_PLAN_TO_ORGANISATION:
       return { ...state, ...payload };
     default:
       return state;
