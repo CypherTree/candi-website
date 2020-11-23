@@ -22,7 +22,7 @@ function Dashboard(props: any) {
       variant="contained"
       onClick={() => alert("Verification link sent")}
     >
-      Send Verification Link
+      Resend Verification Link
     </Button>
   );
 
@@ -41,7 +41,9 @@ function Dashboard(props: any) {
                     backgroundColor: "teal",
                     width: "90vw",
                   }}
-                  message={"Your Email verification is pending."}
+                  message={
+                    "Your Email verification is pending. Check your email for verification link."
+                  }
                   action={action}
                 ></SnackbarContent>
               </div>
