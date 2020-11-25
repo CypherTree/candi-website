@@ -45,7 +45,7 @@ function getStepContent(
     case 1:
       return <Plans handleNext={handleNext} handleBack={handleBack} />;
     case 2:
-      return <CompanyDetails handleBack={handleBack} />;
+      return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
     case 3:
       return "Add roles and assign roles";
     case 4:
@@ -77,7 +77,7 @@ function NewOrganisation() {
     // }
 
     // TODO: change later
-    setActiveStep((prevActiveStep) => 1);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
     // setSkipped(newSkipped);
     console.log("active step --- ", activeStep);
   };

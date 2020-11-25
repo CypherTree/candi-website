@@ -8,6 +8,7 @@ import {
   SET_LOADING,
   NEW_ORGANISATION_CREATE,
   SET_PLAN_TO_ORGANISATION,
+  ADD_COMPANY_DETAILS_TO_ORGANISATION,
 } from "./types";
 
 export const SetAuthenticated = () => async (
@@ -104,14 +105,13 @@ export const SetOrganisationalDetails = (
         },
       });
     })
+    .then(() => handleNext())
     .catch((err) => console.log("Err", err));
 
   dispatch({
     type: SET_LOADING,
     payload: { isLoading: false },
   });
-
-  handleNext();
 };
 
 export const AssignPlanToOrganisation = (
@@ -143,6 +143,37 @@ export const AssignPlanToOrganisation = (
         type: SET_PLAN_TO_ORGANISATION,
         payload: {
           organisationPlanMessage: response.data.message,
+        },
+      });
+    })
+    .catch((err) => console.log("Err", err));
+};
+
+export const AddCompanyDetailsToOrganization = (
+  data: any,
+  organization_id: number
+) => (dispatch: any) => {
+  const accessToken = localStorage.getItem("accessToken");
+  const jwtToken = `Bearer ${accessToken}`;
+
+  const newData = data;
+
+  axios
+    .put(
+      `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organization_id}/`,
+      newData,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+    .then((response: any) => {
+      console.log("hello world ----> ", response.data);
+      dispatch({
+        type: ADD_COMPANY_DETAILS_TO_ORGANISATION,
+        payload: {
+          companyDetailsToOrganizationMessage: response.data.message,
         },
       });
     })

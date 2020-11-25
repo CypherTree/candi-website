@@ -261,7 +261,7 @@ function Plans(props: any) {
         selectedPlan.period_type
       )
     );
-    // handleNext();
+    handleNext();
   };
 
   return (

@@ -55,7 +55,7 @@ function OrganizationalDetails(props: any) {
         handleNext
       )
     );
-    handleNext();
+    // handleNext();
   };
 
   useEffect(() => {

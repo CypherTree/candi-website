@@ -4,6 +4,8 @@ export const CHECK_DOMAIN_NAME = "CHECK_DOMAIN_NAME";
 export const DOMAIN_CHECK_MESSAGE = "DOMAIN_CHECK_MESSAGE";
 export const NEW_ORGANISATION_CREATE = "NEW_ORGANISATION_CREATE";
 export const SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION";
+export const ADD_COMPANY_DETAILS_TO_ORGANISATION =
+  "ADD_COMPANY_DETAILS_TO_ORGANISATION";
 
 export interface SetLoading {
   type: typeof SET_LOADING;
@@ -52,9 +54,17 @@ export interface SetPlanToOrganisation {
   };
 }
 
+export interface AddCompanyDetailsToOrganisation {
+  type: typeof ADD_COMPANY_DETAILS_TO_ORGANISATION;
+  payload: {
+    companyDetailsToOrganizationMessage: string;
+  };
+}
+
 export type AppDispatchTypes =
   | SetLoading
   | SetAuthenticated
   | CheckDomainName
   | DomainCheckMessage
-  | NewOrganisationCreate;
+  | NewOrganisationCreate
+  | AddCompanyDetailsToOrganisation;
