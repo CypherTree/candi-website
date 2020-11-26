@@ -4,12 +4,11 @@ import {
   TextField,
   Grid,
   Checkbox,
-  Input,
 } from "@material-ui/core";
 import React, { useState } from "react";
 
 import axios from "axios";
-import { isGetAccessor } from "typescript";
+
 import UploadLogo from "../uploadLogo/UploadLogo";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
@@ -21,11 +20,11 @@ function CompanyDetails(props: any) {
 
   const { handleBack, handleNext } = props;
 
-  const {
-    id: organisation_id,
-    name,
-    website,
-  } = props.state.app.newOrganisation;
+  // const {
+  //   id: organisation_id,
+  //   name,
+  //   website,
+  // } = props.state.app.newOrganisation;
 
   const dispatch = useDispatch();
 
@@ -36,12 +35,11 @@ function CompanyDetails(props: any) {
   const [pincode, setPincode] = useState("");
   const [address, setAddress] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
+  const [isGSTVerified, setIsGSTVerified] = useState(false);
 
   const [billingAddressSame, setBillingAddressSame] = useState(true);
 
   const [email, setEmail] = useState("");
-
-  const [data, setData] = useState("");
 
   const handleCopyBusinessAddress = () => {
     console.log("checkedValue ", billingAddressSame);
@@ -68,7 +66,7 @@ function CompanyDetails(props: any) {
         }
       )
       .then((response: any) => {
-        setData(response.data);
+        // setData(response.data);
 
         const { addr } = response.data.data.pradr;
 
@@ -79,6 +77,7 @@ function CompanyDetails(props: any) {
         setAddress(
           `${addr.flno} , \n ${addr.bnm} , \n ${addr.bno} , \n ${addr.loc} , \n ${addr.st}`
         );
+        setIsGSTVerified(true);
       })
       .catch((err) => console.log("--- erro", err.message));
   };
@@ -95,9 +94,11 @@ function CompanyDetails(props: any) {
       pincode,
       billing_address: billingAddress,
       billing_email: email,
-      website,
-      name,
+      website: "xxx.com",
+      name: "xxx",
     };
+
+    const organisation_id = 12;
 
     dispatch(AddCompanyDetailsToOrganization(putData, organisation_id));
 
@@ -137,7 +138,7 @@ function CompanyDetails(props: any) {
                 fetchGSTDetails();
               }}
             >
-              Fetch GST Details{" "}
+              Verify GST{" "}
             </Button>
           </div>
         </Grid>
@@ -152,6 +153,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={country}
             onChange={(e) => setCountry(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -165,6 +167,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={state}
             onChange={(e) => setState(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -178,6 +181,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={city}
             onChange={(e) => setCity(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>{" "}
         <Grid item xs={6}>
@@ -191,6 +195,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={pincode}
             onChange={(e) => setPincode(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -205,6 +210,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={address}
             onChange={(e) => setAddress(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>
       </Grid>
@@ -243,6 +249,7 @@ function CompanyDetails(props: any) {
             variant="outlined"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            disabled={!isGSTVerified}
           ></TextField>
         </Grid>
 
@@ -259,10 +266,16 @@ function CompanyDetails(props: any) {
             disabled={billingAddressSame ? true : false}
             value={billingAddressSame ? address : billingAddress}
             onChange={(e) => setBillingAddress(e.target.value)}
+            // disabled={!isGSTVerified}
           ></TextField>
         </Grid>
 
         <Grid item xs={6}>
+          {/* <UploadLogo
+            organisation_id={organisation_id}
+            name={name}
+            website={website}
+          /> */}
           <UploadLogo />
         </Grid>
       </Grid>

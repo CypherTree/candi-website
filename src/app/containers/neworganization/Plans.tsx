@@ -253,14 +253,14 @@ function Plans(props: any) {
   };
 
   const handleSaveAndNext = () => {
-    dispatch(
-      AssignPlanToOrganisation(
-        // props.state.app.newOrganisation.id ||
-        props.state.app.newOrganisation.id,
-        selectedPlan.plan_id,
-        selectedPlan.period_type
-      )
-    );
+    // dispatch(
+    //   AssignPlanToOrganisation(
+    //     // props.state.app.newOrganisation.id ||
+    //     props.state.app.newOrganisation.id,
+    //     selectedPlan.plan_id,
+    //     selectedPlan.period_type
+    //   )
+    // );
     handleNext();
   };
 
