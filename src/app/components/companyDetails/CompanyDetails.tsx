@@ -41,6 +41,17 @@ function CompanyDetails(props: any) {
 
   const [email, setEmail] = useState("");
 
+  const clearEverything = () => {
+    setIsGSTVerified(false);
+    setCountry("");
+    setState("");
+    setCity("");
+    setPincode("");
+    setAddress("");
+    setBillingAddress("");
+    setEmail("");
+  };
+
   const handleCopyBusinessAddress = () => {
     console.log("checkedValue ", billingAddressSame);
 
@@ -129,7 +140,10 @@ function CompanyDetails(props: any) {
               size="medium"
               variant="outlined"
               value={gstNumber}
-              onChange={(e) => setGstNumber(e.target.value)}
+              onChange={(e) => {
+                setGstNumber(e.target.value);
+                clearEverything();
+              }}
             ></TextField>
             <Button
               variant="contained"
@@ -237,7 +251,7 @@ function CompanyDetails(props: any) {
             Same as company Address{" "}
           </span>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             type="text"
             label="Business Email address"
@@ -253,7 +267,7 @@ function CompanyDetails(props: any) {
           ></TextField>
         </Grid>
 
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <TextField
             type="textArea"
             label="Address"
@@ -278,15 +292,25 @@ function CompanyDetails(props: any) {
           /> */}
           <UploadLogo />
         </Grid>
-      </Grid>
 
+        <Grid item xs={6}>
+          {props.state.app.companyDetailsToOrganizationMessage && (
+            <div>
+              <Typography variant="h5" component="h5" color="primary">
+                {props.state.app.companyDetailsToOrganizationMessage}
+              </Typography>{" "}
+            </div>
+          )}
+        </Grid>
+      </Grid>
+      {/* 
       {props.state.app.companyDetailsToOrganizationMessage && (
         <div>
           <Typography variant="h5" component="h5" color="primary">
             {props.state.app.companyDetailsToOrganizationMessage}
           </Typography>{" "}
         </div>
-      )}
+      )} */}
 
       <div>
         <Button

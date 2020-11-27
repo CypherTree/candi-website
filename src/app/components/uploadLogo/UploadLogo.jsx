@@ -62,17 +62,23 @@ function UploadLogo() {
 
   return (
     <div>
-      <label htmlFor="Upload Logo">
-        <Input type="file" onChange={(e) => onFileChange(e)}></Input>
-        <Button onClick={onFileUpload}>Upload! </Button>
-      </label>
-      {logoUploadDone && (
-        <div
-          style={{ height: "100px", width: "100px", border: "1px solid black" }}
-        >
-          <img src={logoUrl} width="100px" height="100px" alt="logo"></img>
-        </div>
-      )}
+      <span>
+        <label htmlFor="Upload Logo">
+          <Input type="file" onChange={(e) => onFileChange(e)}></Input>
+          <Button onClick={onFileUpload}>Upload! </Button>
+        </label>
+        {logoUploadDone && (
+          <div
+            style={{
+              height: "100px",
+              width: "100px",
+              border: "1px solid black",
+            }}
+          >
+            <img src={logoUrl} width="100px" height="100px" alt="logo"></img>
+          </div>
+        )}
+      </span>
     </div>
   );
 }
