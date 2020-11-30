@@ -47,15 +47,15 @@ function OrganizationalDetails(props: any) {
   // };
 
   const handleNewSubmit = () => {
-    // dispatch(
-    //   SetOrganisationalDetails(
-    //     organisationName,
-    //     organisationWebsite,
-    //     domain,
-    //     handleNext
-    //   )
-    // );
-    handleNext();
+    dispatch(
+      SetOrganisationalDetails(
+        organisationName,
+        organisationWebsite,
+        domain,
+        handleNext
+      )
+    );
+    // handleNext();
   };
 
   useEffect(() => {

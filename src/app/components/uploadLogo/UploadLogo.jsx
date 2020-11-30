@@ -10,7 +10,7 @@ import {
 
 // { organisation_id, name, website }
 
-function UploadLogo() {
+function UploadLogo({ organisation_id, name, website }) {
   const jwtToken = localStorage.getItem("accessToken");
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
@@ -42,9 +42,9 @@ function UploadLogo() {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
-    const organisation_id = 39;
-    const name = "name";
-    const website = "http://www.green.com.theonboarders.com";
+    // const organisation_id = 39;
+    // const name = "name";
+    // const website = "http://www.green.com.theonboarders.com";
 
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
@@ -53,6 +53,8 @@ function UploadLogo() {
       name,
       website
     );
+
+    console.log("data 2 --> ", data2);
 
     setLogoUrl(data2.data.logo);
     setLogoUploadDone(true);

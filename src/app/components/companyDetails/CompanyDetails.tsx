@@ -20,11 +20,11 @@ function CompanyDetails(props: any) {
 
   const { handleBack, handleNext } = props;
 
-  // const {
-  //   id: organisation_id,
-  //   name,
-  //   website,
-  // } = props.state.app.newOrganisation;
+  const {
+    id: organisation_id,
+    name,
+    website,
+  } = props.state.app.newOrganisation;
 
   const dispatch = useDispatch();
 
@@ -105,11 +105,11 @@ function CompanyDetails(props: any) {
       pincode,
       billing_address: billingAddress,
       billing_email: email,
-      website: "xxx.com",
-      name: "xxx",
+      website,
+      name,
     };
 
-    const organisation_id = 12;
+    // const organisation_id = 12;
 
     dispatch(AddCompanyDetailsToOrganization(putData, organisation_id));
 
@@ -285,12 +285,12 @@ function CompanyDetails(props: any) {
         </Grid>
 
         <Grid item xs={6}>
-          {/* <UploadLogo
+          <UploadLogo
             organisation_id={organisation_id}
             name={name}
             website={website}
-          /> */}
-          <UploadLogo />
+          />
+          {/* <UploadLogo /> */}
         </Grid>
 
         <Grid item xs={6}>
