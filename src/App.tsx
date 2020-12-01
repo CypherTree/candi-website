@@ -8,7 +8,7 @@ import { setLoggedInUser } from "./auth/core/services/login";
 
 import "./App.css";
 
-import Routes from "./Routes";
+import Routes from "./app/components/routing/Routes";
 
 require("dotenv").config();
 
