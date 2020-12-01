@@ -19,19 +19,16 @@ import { AnyAction } from "redux";
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 const Dashboard = (props: any) => {
   const [disabled, setDisabled] = useState(false);
 
   const { logoutUser, getNewToken } = props;
 
-  const accessToken = localStorage.getItem("accessToken")
-    ? localStorage.getItem("accessToken")
-    : sessionStorage.getItem("accessToken");
+  const { accessToken, refreshToken } = getCurrentSessionTokens();
 
-  const refreshToken = localStorage.getItem("refreshToken")
-    ? localStorage.getItem("refreshToken")
-    : sessionStorage.getItem("refreshToken");
+  console.log("<-- the new function -->", getCurrentSessionTokens());
 
   const handleLogout = () => {
     logoutUser();

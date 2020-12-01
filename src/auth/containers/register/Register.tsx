@@ -14,6 +14,8 @@ import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
 import RegisterForm from "../../components/register/RegisterForm";
 
+import { getCurrentSessionTokens } from "../../core/services/session";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const Register = (props: any) => {
@@ -21,11 +23,13 @@ const Register = (props: any) => {
 
   const { setAuthenticated } = props;
 
+  const { accessToken } = getCurrentSessionTokens();
+
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/dashboard");
     }
-    if (localStorage.getItem("accessToken")) {
+    if (accessToken) {
       setAuthenticated();
     }
   });

@@ -14,6 +14,8 @@ import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
 import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
 
+import { getCurrentSessionTokens } from "../../core/services/session";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const qs = require("query-string");
@@ -25,11 +27,13 @@ const ResetPassword = (props: any) => {
 
   const { isAuthenticated } = props.state.auth;
 
+  const { accessToken } = getCurrentSessionTokens();
+
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/dashboard");
     }
-    if (localStorage.getItem("accessToken")) {
+    if (accessToken) {
       setAuthenticated();
     }
   });
