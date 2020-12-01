@@ -12,6 +12,10 @@ import {
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
@@ -127,7 +131,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     logoutUser: () => dispatch(LogoutUser()),
     getNewToken: (accessToken: string, refreshToken: string) =>

@@ -6,6 +6,10 @@ import { APP_NAME } from "../../../app/core/constants";
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
 import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
@@ -64,7 +68,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     setAuthenticated: () => dispatch(SetAuthenticated()),
   };

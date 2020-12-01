@@ -4,6 +4,10 @@ import { Typography, Grid } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { APP_NAME } from "../../../app/core/constants";
 
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
@@ -58,7 +62,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     setAuthenticated: () => dispatch(SetAuthenticated()),
   };

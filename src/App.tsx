@@ -12,7 +12,7 @@ import Routes from "./Routes";
 
 require("dotenv").config();
 
-const App = (props: any) => {
+const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {

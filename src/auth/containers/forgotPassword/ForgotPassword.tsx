@@ -1,8 +1,12 @@
 import React, { useEffect } from "react";
 
+import { Grid, Typography } from "@material-ui/core";
+
 import { connect } from "react-redux";
 
-import { Grid, Typography } from "@material-ui/core";
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
 
 import { APP_NAME } from "../../../app/core/constants";
 
@@ -58,7 +62,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     setAuthenticated: () => dispatch(SetAuthenticated()),
   };

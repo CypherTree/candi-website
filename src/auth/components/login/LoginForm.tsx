@@ -16,6 +16,10 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { LoginUser } from "../../core/redux/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
@@ -115,7 +119,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     loginUser: (username: string, password: string, rememberMe: boolean) =>
       dispatch(LoginUser(username, password, rememberMe)),

@@ -14,9 +14,13 @@ import { Link } from "react-router-dom";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
-import { sendOTP } from "../../core/services/register";
-
 import { connect } from "react-redux";
+
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
+import { sendOTP } from "../../core/services/register";
 
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
@@ -306,7 +310,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     setAuthenticated: () => dispatch(SetAuthenticated(true)),
     registerUser: (

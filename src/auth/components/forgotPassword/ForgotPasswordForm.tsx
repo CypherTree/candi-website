@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
 const ForgotPasswordForm = (props: any) => {
@@ -110,7 +114,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     clearState: () => dispatch(ClearState()),
     forgotPassword: (email: string) => dispatch(ForgotPassword(email)),

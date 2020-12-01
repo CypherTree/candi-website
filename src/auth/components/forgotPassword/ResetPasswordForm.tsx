@@ -14,6 +14,10 @@ import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { ResetPassword } from "../../core/redux/actions";
 
 const ResetPasswordForm = (props: any) => {
@@ -120,7 +124,7 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
     resetPassword: (resetToken: string, password: string) =>
       dispatch(ResetPassword(resetToken, password)),
