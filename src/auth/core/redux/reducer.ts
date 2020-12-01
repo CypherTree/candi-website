@@ -28,6 +28,7 @@ export const authReducer: any = (
   const { LOGIN_USER } = CONSTANTS;
 
   const { payload } = action;
+
   switch (action.type) {
     case LOGIN_USER: {
       return { ...state, ...payload };
