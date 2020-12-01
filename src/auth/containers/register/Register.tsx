@@ -1,35 +1,28 @@
 import React, { useEffect } from "react";
-import { Typography } from "@material-ui/core";
-import { APP_NAME } from "../../../app/core/constants";
+
+import { Typography, Grid } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
-import { Grid } from "@material-ui/core";
+import { APP_NAME } from "../../../app/core/constants";
 
-import { useDispatch } from "react-redux";
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+
 import RegisterForm from "../../components/register/RegisterForm";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-const mapStateToProps = (state: any) => {
-  return {
-    state: state,
-  };
-};
-
 const Register = (props: any) => {
-  const dispatch = useDispatch();
-  // const message = props.state.app.message;
-  console.log("props data ", props);
-
   const { isAuthenticated } = props.state.auth;
+
+  const { setAuthenticated } = props;
 
   useEffect(() => {
     if (isAuthenticated) {
       props.history.push("/dashboard");
     }
     if (localStorage.getItem("accessToken")) {
-      dispatch(SetAuthenticated());
+      setAuthenticated();
     }
   });
 
@@ -59,4 +52,16 @@ const Register = (props: any) => {
   );
 };
 
-export default connect(mapStateToProps)(Register);
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setAuthenticated: () => dispatch(SetAuthenticated()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

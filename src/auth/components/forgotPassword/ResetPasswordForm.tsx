@@ -12,13 +12,12 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 import { ResetPassword } from "../../core/redux/actions";
 
-function ResetPasswordForm(props: any) {
-  const { token: resetToken } = props;
-  const dispatch = useDispatch();
+const ResetPasswordForm = (props: any) => {
+  const { token: resetToken, resetPassword } = props;
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -26,7 +25,7 @@ function ResetPasswordForm(props: any) {
 
   const handleFormSubmit = () => {
     if (password === password2) {
-      dispatch(ResetPassword(resetToken, password));
+      resetPassword(resetToken, password);
     }
   };
 
@@ -113,6 +112,19 @@ function ResetPasswordForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default ResetPasswordForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    resetPassword: (resetToken: string, password: string) =>
+      dispatch(ResetPassword(resetToken, password)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ResetPasswordForm);

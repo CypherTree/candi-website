@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -7,17 +9,15 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
 
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
-function ForgotPasswordForm(props: any) {
-  const dispatch = useDispatch();
-
-  console.log("props", props);
+const ForgotPasswordForm = (props: any) => {
+  const { clearState, forgotPassword } = props;
 
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState("");
@@ -32,7 +32,7 @@ function ForgotPasswordForm(props: any) {
 
   useEffect(() => {
     // to clear any previous error
-    dispatch(ClearState());
+    clearState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,7 +40,7 @@ function ForgotPasswordForm(props: any) {
 
   const handleFormSubmit = () => {
     successMessage = "Check your email for password reset link";
-    dispatch(ForgotPassword(email));
+    forgotPassword(email);
   };
 
   return (
@@ -102,6 +102,19 @@ function ForgotPasswordForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default ForgotPasswordForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    clearState: () => dispatch(ClearState()),
+    forgotPassword: (email: string) => dispatch(ForgotPassword(email)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);

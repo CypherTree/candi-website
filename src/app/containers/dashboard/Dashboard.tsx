@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Button,
   CardActions,
   CardContent,
   Typography,
   Grid,
+  Card,
+  CardHeader,
 } from "@material-ui/core";
-
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { connect } from "react-redux";
 
-import { useDispatch } from "react-redux";
-
-import { Card, CardHeader } from "@material-ui/core";
+import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
 
-function Dashboard(props: any) {
-  const dispatch = useDispatch();
+const Dashboard = (props: any) => {
   const [disabled, setDisabled] = useState(false);
+
+  const { logoutUser, getNewToken } = props;
 
   const accessToken = localStorage.getItem("accessToken")
     ? localStorage.getItem("accessToken")
@@ -29,13 +29,13 @@ function Dashboard(props: any) {
     ? localStorage.getItem("refreshToken")
     : sessionStorage.getItem("refreshToken");
 
-  const handleClick = () => {
-    dispatch(LogoutUser());
+  const handleLogout = () => {
+    logoutUser();
   };
 
-  const getNewToken = () => {
+  const getNewAccessToken = () => {
     if (accessToken !== null && refreshToken !== null) {
-      dispatch(GetNewToken(accessToken, refreshToken));
+      getNewToken(accessToken, refreshToken);
     }
   };
 
@@ -53,8 +53,6 @@ function Dashboard(props: any) {
     }
   };
 
-  console.log("User Data ", userData);
-
   return (
     <div>
       <Card>
@@ -66,7 +64,7 @@ function Dashboard(props: any) {
             </Typography>
           </Grid>
           <Grid item>
-            <Button color="secondary" onClick={() => handleClick()}>
+            <Button color="secondary" onClick={() => handleLogout()}>
               Logout
             </Button>
           </Grid>
@@ -116,12 +114,12 @@ function Dashboard(props: any) {
           </p>
         </CardContent>
         <CardActions style={{ alignItems: "center", textAlign: "center" }}>
-          <Button onClick={getNewToken}>Get New Token</Button>
+          <Button onClick={getNewAccessToken}>Get New Token</Button>
         </CardActions>
       </Card>
     </div>
   );
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {
@@ -129,4 +127,12 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    logoutUser: () => dispatch(LogoutUser()),
+    getNewToken: (accessToken: string, refreshToken: string) =>
+      dispatch(GetNewToken(accessToken, refreshToken)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

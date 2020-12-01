@@ -1,25 +1,21 @@
 import React, { useEffect } from "react";
-import { Typography } from "@material-ui/core";
-import { APP_NAME } from "../../../app/core/constants";
+
+import { Typography, Grid } from "@material-ui/core";
 
 import { connect } from "react-redux";
+
 import "./login.css";
 
-import LoginForm from "../../components/login/LoginForm";
-import { Grid } from "@material-ui/core";
+import { APP_NAME } from "../../../app/core/constants";
 
-import { useDispatch } from "react-redux";
+import LoginForm from "../../components/login/LoginForm";
+
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-const mapStateToProps = (state: any) => {
-  return {
-    state: state,
-  };
-};
-
 const Login = (props: any) => {
-  const dispatch = useDispatch();
+  const { setAuthenticated } = props;
 
   const { isAuthenticated } = props.state.auth;
 
@@ -28,7 +24,7 @@ const Login = (props: any) => {
       props.history.push("/dashboard");
     }
     if (localStorage.getItem("accessToken")) {
-      dispatch(SetAuthenticated());
+      setAuthenticated();
     }
   });
 
@@ -58,4 +54,16 @@ const Login = (props: any) => {
   );
 };
 
-export default connect(mapStateToProps)(Login);
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setAuthenticated: () => dispatch(SetAuthenticated()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

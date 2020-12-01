@@ -14,13 +14,13 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
 import { LoginUser } from "../../core/redux/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-function LoginForm(props: any) {
-  const dispatch = useDispatch();
+const LoginForm = (props: any) => {
+  const { loginUser } = props;
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -32,7 +32,7 @@ function LoginForm(props: any) {
     : null;
 
   const handleFormSubmit = () => {
-    dispatch(LoginUser(username, password, rememberMe));
+    loginUser(username, password, rememberMe);
   };
 
   const handleClickShowPassword = () => {
@@ -107,6 +107,19 @@ function LoginForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default LoginForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    loginUser: (username: string, password: string, rememberMe: boolean) =>
+      dispatch(LoginUser(username, password, rememberMe)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

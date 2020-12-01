@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -7,16 +9,19 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
+
 import { sendOTP } from "../../core/services/register.service";
-import { useDispatch } from "react-redux";
+
+import { connect } from "react-redux";
+
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
 function RegisterForm(props: any) {
-  const dispatch = useDispatch();
+  const { setAuthenticated, registerUser } = props;
 
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [isResendAllowed, setIsResendAllowed] = useState(false);
@@ -59,7 +64,7 @@ function RegisterForm(props: any) {
 
   const redirectToDashboard = () => {
     setTimeout(() => {
-      dispatch(SetAuthenticated(true));
+      setAuthenticated(true);
     }, 1000);
   };
 
@@ -126,17 +131,17 @@ function RegisterForm(props: any) {
               onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
                 // make async call
-                dispatch(
-                  RegisterUser({
-                    first_name: data.firstName,
-                    last_name: data.lastName,
-                    email: data.email,
-                    password: data.password,
-                    phone_number: data.phone,
-                    phone_number_extension: data.phone_number_extension,
-                    otp: data.otp,
-                  })
-                );
+
+                registerUser({
+                  first_name: data.firstName,
+                  last_name: data.lastName,
+                  email: data.email,
+                  password: data.password,
+                  phone_number: data.phone,
+                  phone_number_extension: data.phone_number_extension,
+                  otp: data.otp,
+                });
+
                 setSubmitting(false);
               }}
             >
@@ -295,4 +300,36 @@ function RegisterForm(props: any) {
   );
 }
 
-export default RegisterForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    setAuthenticated: () => dispatch(SetAuthenticated(true)),
+    registerUser: (
+      first_name: string,
+      last_name: string,
+      email: string,
+      password: string,
+      phone_number: string,
+      phone_number_extension: string,
+      otp: string
+    ) =>
+      dispatch(
+        RegisterUser({
+          first_name,
+          last_name,
+          email,
+          password,
+          phone_number,
+          phone_number_extension,
+          otp,
+        })
+      ),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);
