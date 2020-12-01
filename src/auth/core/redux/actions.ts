@@ -1,7 +1,12 @@
 import { Dispatch } from "redux";
 
-import {
-  LoginDispatchTypes,
+import { LoginDispatchTypes, Types } from "./types";
+
+import { RegisterUserData } from "./types";
+
+import axios from "axios";
+
+const {
   LOGIN_USER,
   LOGOUT_USER,
   RESET_PASSWORD,
@@ -13,11 +18,7 @@ import {
   SET_USERDATA,
   SET_LOGIN_ERROR,
   REGISTER_SUCCESS,
-} from "./types";
-
-import { RegisterUserData } from "./types";
-
-import axios from "axios";
+} = Types;
 
 export const LoginUser = (
   username: string,

@@ -1,17 +1,19 @@
-export const LOGIN_USER = "LOGIN_USER";
-export const LOGOUT_USER = "LOGOUT_USER";
-export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
-export const SET_LOADING = "SET_LOADING";
-export const SET_USERDATA = "GET_USERDATA";
-export const SET_LOGIN_ERROR = "SET_LOGIN_ERROR";
-export const SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN";
-export const RESET_PASSWORD = "RESET_PASSWORD";
-export const FORGOT_PASSWORD = "FORGOT_PASSWORD";
-export const CLEAR_STATE = "CLEAR_STATE";
-export const REGISTER_USER = "REGISTER_USER";
-export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
-export const REGISTER_FAIL = "REGISTER_FAIL";
-export const ACCEPT_POLICY_SUCCESS = "ACCEPT_POLICY_SUCCESS";
+export enum Types {
+  LOGIN_USER,
+  LOGOUT_USER,
+  SET_AUTHENTICATED,
+  SET_LOADING,
+  SET_USERDATA,
+  SET_LOGIN_ERROR,
+  SET_ACCESS_TOKEN,
+  RESET_PASSWORD,
+  FORGOT_PASSWORD,
+  CLEAR_STATE,
+  REGISTER_USER,
+  REGISTER_SUCCESS,
+  REGISTER_FAIL,
+  ACCEPT_POLICY_SUCCESS,
+}
 
 export type LoginData = {
   username: string;
@@ -20,7 +22,7 @@ export type LoginData = {
 };
 
 export interface LoginUser {
-  type: typeof LOGIN_USER;
+  type: typeof Types.LOGIN_USER;
   payload: LoginData;
 }
 
@@ -35,12 +37,12 @@ export type RegisterUserData = {
 };
 
 export interface RegisterUser {
-  type: typeof REGISTER_USER;
+  type: typeof Types.REGISTER_USER;
   payload: RegisterUserData;
 }
 
 export interface RegisterSuccess {
-  type: typeof REGISTER_SUCCESS;
+  type: typeof Types.REGISTER_SUCCESS;
   payload: {
     accessToken: string;
     refreshToken: string;
@@ -49,18 +51,18 @@ export interface RegisterSuccess {
 }
 
 export interface RegisterFail {
-  type: typeof REGISTER_FAIL;
+  type: typeof Types.REGISTER_FAIL;
   payload: {
     message: string;
   };
 }
 
 export interface LogoutUser {
-  type: typeof LOGOUT_USER;
+  type: typeof Types.LOGOUT_USER;
 }
 
 export interface SetAuthenticated {
-  type: typeof SET_AUTHENTICATED;
+  type: typeof Types.SET_AUTHENTICATED;
   payload: {
     isAuthenticated: boolean;
     accessToken?: string;
@@ -70,48 +72,43 @@ export interface SetAuthenticated {
 }
 
 export interface SetLoadingPayload {
-  type: typeof SET_LOADING;
+  type: typeof Types.SET_LOADING;
   payload: {
     isLoading: boolean;
   };
 }
 
 export interface SetUserData {
-  type: typeof SET_USERDATA;
+  type: typeof Types.SET_USERDATA;
   payload: {
     userData: any;
   };
 }
 
 export interface SetLoginError {
-  type: typeof SET_LOGIN_ERROR;
+  type: typeof Types.SET_LOGIN_ERROR;
   payload: {
     error: string;
   };
 }
 
 export interface SetAccessToken {
-  type: typeof SET_ACCESS_TOKEN;
+  type: typeof Types.SET_ACCESS_TOKEN;
   payload: {
     accessToken: string;
   };
 }
 
 export interface ResetPassword {
-  type: typeof RESET_PASSWORD;
+  type: typeof Types.RESET_PASSWORD;
   payload: {
     success: boolean;
     message: string;
   };
 }
 
-// export interface RegisterUser {
-//   type: typeof REGISTER_USER;
-//   payload: {};
-// }
-
 export interface ForgotPassword {
-  type: typeof FORGOT_PASSWORD;
+  type: typeof Types.FORGOT_PASSWORD;
   payload: {
     success: boolean;
     message: string;
@@ -119,12 +116,12 @@ export interface ForgotPassword {
 }
 
 export interface ClearState {
-  type: typeof CLEAR_STATE;
+  type: typeof Types.CLEAR_STATE;
   payload: {};
 }
 
 export interface AcceptPolicySuccess {
-  type: typeof ACCEPT_POLICY_SUCCESS;
+  type: typeof Types.ACCEPT_POLICY_SUCCESS;
   payload: {
     policyAccept: boolean;
   };

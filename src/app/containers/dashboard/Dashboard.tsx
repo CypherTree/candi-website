@@ -14,7 +14,7 @@ import { connect } from "react-redux";
 
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
+import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 
 const Dashboard = (props: any) => {
   const [disabled, setDisabled] = useState(false);

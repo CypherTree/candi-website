@@ -14,7 +14,7 @@ import { Link } from "react-router-dom";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
 
-import { sendOTP } from "../../core/services/register.service";
+import { sendOTP } from "../../core/services/register";
 
 import { connect } from "react-redux";
 
