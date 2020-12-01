@@ -12,9 +12,9 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { ClearState, ForgotPassword } from "../../core/redux/actions";
-
 import { connect } from "react-redux";
+
+import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
 const ForgotPasswordForm = (props: any) => {
   const { clearState, forgotPassword } = props;

@@ -20,7 +20,7 @@ import { connect } from "react-redux";
 
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
-function RegisterForm(props: any) {
+const RegisterForm = (props: any) => {
   const { setAuthenticated, registerUser } = props;
 
   const [isOTPSent, setIsOTPSent] = useState(false);
@@ -298,7 +298,7 @@ function RegisterForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {
