@@ -1,7 +1,7 @@
 export const SET_LOADING = "SET_LOADING";
 export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 
-export interface SetLoading {
+export interface SetLoadingPayload {
   type: typeof SET_LOADING;
   payload: {
     isLoading: boolean;
@@ -15,4 +15,4 @@ export interface SetAuthenticated {
   };
 }
 
-export type AppDispatchTypes = SetLoading | SetAuthenticated;
+export type AppDispatchTypes = SetLoadingPayload | SetAuthenticated;

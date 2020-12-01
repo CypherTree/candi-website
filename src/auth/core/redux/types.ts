@@ -69,7 +69,7 @@ export interface SetAuthenticated {
   };
 }
 
-export interface SetLoading {
+export interface SetLoadingPayload {
   type: typeof SET_LOADING;
   payload: {
     isLoading: boolean;
@@ -134,7 +134,7 @@ export type LoginDispatchTypes =
   | LoginUser
   | LogoutUser
   | SetAuthenticated
-  | SetLoading
+  | SetLoadingPayload
   | SetUserData
   | SetLoginError
   | SetAccessToken
