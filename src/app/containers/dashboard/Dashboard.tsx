@@ -16,19 +16,37 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
+import * as H from "history";
+
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
-const Dashboard = (props: any) => {
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: any;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+  logoutUser: () => void;
+  getNewToken: (accessToken: string, refreshToken: string) => void;
+};
+
+const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
   const [disabled, setDisabled] = useState(false);
 
-  const { logoutUser, getNewToken } = props;
-
   const { accessToken, refreshToken } = getCurrentSessionTokens();
-
-  console.log("<-- the new function -->", getCurrentSessionTokens());
 
   const handleLogout = () => {
     logoutUser();
@@ -40,7 +58,7 @@ const Dashboard = (props: any) => {
     }
   };
 
-  const userData = props.state.auth.userData ? props.state.auth.userData : null;
+  const userData = state.auth.userData ? state.auth.userData : null;
 
   useEffect(() => {}, [userData]);
 
