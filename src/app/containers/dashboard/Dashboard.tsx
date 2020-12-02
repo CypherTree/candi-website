@@ -62,7 +62,7 @@ type Props = {
 };
 
 const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
-  const [disabled, setDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const { accessToken, refreshToken } = getCurrentSessionTokens();
 
@@ -83,7 +83,7 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
   const handleAcceptPrivacyPolicy = () => {
     if (accessToken !== null) {
       acceptPrivacyPolicy(accessToken);
-      setDisabled(true);
+      setLoading(true);
       setTimeout(() => {
         window.location.reload(true);
       }, 6000);
@@ -118,7 +118,7 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
               </Typography>
               <div>
                 <br />{" "}
-                {disabled ? (
+                {loading ? (
                   <img
                     src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
                     alt="loading"
