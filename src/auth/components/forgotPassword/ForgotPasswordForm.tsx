@@ -20,19 +20,30 @@ import { AnyAction } from "redux";
 
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
-const ForgotPasswordForm = (props: any) => {
-  const { clearState, forgotPassword } = props;
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
 
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+type Props = {
+  forgotPassword: (email: string) => void;
+  clearState: () => void;
+  auth: AuthProps;
+};
+
+const ForgotPasswordForm: React.FC<Props> = ({
+  forgotPassword,
+  clearState,
+  auth,
+}) => {
+  const [email, setEmail] = useState<string>("");
+  const [status, setStatus] = useState<boolean | string>("");
 
   useEffect(() => {
-    props.props.state &&
-    props.props.state.auth &&
-    props.props.state.auth.success
-      ? setStatus(props.props.state.auth.success)
-      : setStatus("");
-  }, [props, status]);
+    auth && auth.success ? setStatus(auth.success) : setStatus("");
+  }, [auth, status]);
 
   useEffect(() => {
     // to clear any previous error
@@ -78,19 +89,16 @@ const ForgotPasswordForm = (props: any) => {
             Get password reset link
           </Button>
         </CardActions>{" "}
-        {props.props.state &&
-        props.props.state.auth &&
-        props.props.state.auth.hasOwnProperty("success") &&
-        props.props.state.auth.success === true ? (
+        {auth && auth.hasOwnProperty("success") && auth.success === true ? (
           <div>
             <Typography variant="h5" component="h5" color="primary">
-              {props.props.state.auth.message}
+              {auth.message}
             </Typography>
           </div>
         ) : (
           <div>
             <Typography variant="h5" component="h5" color="error">
-              {props.props.state.auth.message}
+              {auth.message}
             </Typography>
           </div>
         )}

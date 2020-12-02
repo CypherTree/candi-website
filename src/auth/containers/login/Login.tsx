@@ -8,6 +8,8 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
+import * as H from "history";
+
 import "./login.css";
 
 import { APP_NAME } from "../../../app/core/constants";
@@ -20,16 +22,29 @@ import { getCurrentSessionTokens } from "../../core/services/session";
 
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-const Login = (props: any) => {
-  const { setAuthenticated } = props;
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+};
 
-  const { isAuthenticated } = props.state.auth;
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+};
+
+const Login: React.FC<Props> = ({ setAuthenticated, state, history }) => {
+  const { isAuthenticated } = state.auth;
 
   const { accessToken } = getCurrentSessionTokens();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
     if (accessToken) {
       setAuthenticated();
@@ -55,7 +70,7 @@ const Login = (props: any) => {
             {APP_NAME}
           </Typography>
           <br /> <br />
-          <LoginForm props={props} />
+          <LoginForm auth={state.auth} />
         </Grid>
       </Grid>
     </div>

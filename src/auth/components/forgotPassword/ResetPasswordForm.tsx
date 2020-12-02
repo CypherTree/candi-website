@@ -20,8 +20,21 @@ import { AnyAction } from "redux";
 
 import { ResetPassword } from "../../core/redux/actions";
 
-const ResetPasswordForm = (props: any) => {
-  const { token: resetToken, resetPassword } = props;
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
+
+type Props = {
+  resetPassword: (resetToken: string, password: string) => void;
+  auth: AuthProps;
+  token: string;
+};
+
+const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
+  const resetToken = token;
 
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
@@ -41,24 +54,20 @@ const ResetPasswordForm = (props: any) => {
     }
   }, [password2, password]);
 
-  const propData = props.props;
-
   return (
     <div>
       <Card style={{ backgroundColor: "whitesmoke", height: "500px" }}>
         <CardHeader title="Reset Password" />
         <CardContent>
-          {propData.state &&
-          propData.state.auth &&
-          propData.state.auth.hasOwnProperty("success") ? (
+          {auth && auth.hasOwnProperty("success") ? (
             <div>
-              {propData.state.auth.success ? (
+              {auth.success ? (
                 <Typography variant={"h5"} component={"h5"} color="primary">
-                  {propData.state.auth.message}
+                  {auth.message}
                 </Typography>
               ) : (
                 <Typography variant={"h5"} component={"h5"} color="error">
-                  {propData.state.auth.message}
+                  {auth.message}
                 </Typography>
               )}
               <br />

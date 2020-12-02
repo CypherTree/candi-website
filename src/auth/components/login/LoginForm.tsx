@@ -20,20 +20,22 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
-import { LoginUser } from "../../core/redux/actions";
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-const LoginForm = (props: any) => {
-  const { loginUser } = props;
+import { LoginUser } from "../../core/redux/actions";
 
+type Props = {
+  loginUser: (username: string, password: string, rememberMe: boolean) => void;
+  auth: any;
+};
+
+const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  const error = props.props.state.auth.error
-    ? props.props.state.auth.error
-    : null;
+  const error = auth.error ? auth.error : null;
 
   const handleFormSubmit = () => {
     loginUser(username, password, rememberMe);

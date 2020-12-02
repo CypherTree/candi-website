@@ -10,6 +10,8 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
+import * as H from "history";
+
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
 import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm";
@@ -20,18 +22,39 @@ const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const qs = require("query-string");
 
-const ResetPassword = (props: any) => {
-  const data = qs.parse(props.location.search);
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
 
-  const { setAuthenticated } = props;
+type StateProps = {
+  auth: AuthProps;
+};
 
-  const { isAuthenticated } = props.state.auth;
+type Props = {
+  history: H.History;
+  location: H.Location;
+  setAuthenticated: () => void;
+  state: StateProps;
+};
+
+const ResetPassword: React.FC<Props> = ({
+  history,
+  location,
+  setAuthenticated,
+  state,
+}) => {
+  const data = qs.parse(location.search);
+
+  const { isAuthenticated } = state.auth;
 
   const { accessToken } = getCurrentSessionTokens();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
     if (accessToken) {
       setAuthenticated();
@@ -59,7 +82,7 @@ const ResetPassword = (props: any) => {
             {APP_NAME}
           </Typography>
           <br /> <br />
-          <ResetPasswordForm token={token} props={props} />
+          <ResetPasswordForm token={token} auth={state.auth} />
         </Grid>
       </Grid>
     </div>

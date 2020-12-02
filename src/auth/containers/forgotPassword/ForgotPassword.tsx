@@ -8,6 +8,8 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
+import * as H from "history";
+
 import { APP_NAME } from "../../../app/core/constants";
 
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
@@ -18,16 +20,35 @@ import { getCurrentSessionTokens } from "../../core/services/session";
 
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-const ForgotPassword = (props: any) => {
-  const { setAuthenticated } = props;
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
 
-  const { isAuthenticated } = props.state.auth;
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+};
+
+const ForgotPassword: React.FC<Props> = ({
+  setAuthenticated,
+  state,
+  history,
+}) => {
+  const { isAuthenticated } = state.auth;
 
   const { accessToken } = getCurrentSessionTokens();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
     if (accessToken) {
       setAuthenticated();
@@ -53,7 +74,7 @@ const ForgotPassword = (props: any) => {
             {APP_NAME}
           </Typography>
           <br /> <br />
-          <ForgotPasswordForm props={props} />
+          <ForgotPasswordForm auth={state.auth} />
         </Grid>
       </Grid>
     </div>

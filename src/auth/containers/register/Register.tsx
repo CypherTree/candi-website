@@ -8,6 +8,8 @@ import { ThunkDispatch } from "redux-thunk";
 
 import { AnyAction } from "redux";
 
+import * as H from "history";
+
 import { APP_NAME } from "../../../app/core/constants";
 
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
@@ -18,16 +20,32 @@ import { getCurrentSessionTokens } from "../../core/services/session";
 
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-const Register = (props: any) => {
-  const { isAuthenticated } = props.state.auth;
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
 
-  const { setAuthenticated } = props;
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  location: H.Location;
+  setAuthenticated: () => void;
+  state: StateProps;
+};
+
+const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
+  const { isAuthenticated } = state.auth;
 
   const { accessToken } = getCurrentSessionTokens();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
     if (accessToken) {
       setAuthenticated();
@@ -53,7 +71,7 @@ const Register = (props: any) => {
             {APP_NAME}
           </Typography>
           <br />
-          <RegisterForm props={props} />
+          <RegisterForm auth={state.auth} />
         </Grid>
       </Grid>
     </div>
