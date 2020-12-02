@@ -21,14 +21,32 @@ import * as H from "history";
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
+
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+
+import { StateType } from "../../core/redux/types";
+
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
 
 type AuthProps = {
   isAuthenticated: boolean;
   error?: string;
   success?: boolean;
   message?: string;
-  userData?: any;
+  userData?: UserDataProps;
 };
 
 type StateProps = {
@@ -140,7 +158,7 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

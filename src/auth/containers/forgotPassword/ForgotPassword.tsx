@@ -18,6 +18,8 @@ import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordFo
 
 import { getCurrentSessionTokens } from "../../core/services/session";
 
+import { StateType } from "../../../app/core/redux/types";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 type AuthProps = {
@@ -81,7 +83,7 @@ const ForgotPassword: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

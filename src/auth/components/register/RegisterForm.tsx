@@ -24,6 +24,8 @@ import { sendOTP } from "../../core/services/register";
 
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
+import { StateType } from "../../../app/core/redux/types";
+
 type AuthProps = {
   isAuthenticated: boolean;
   error?: string;
@@ -329,7 +331,7 @@ const RegisterForm: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

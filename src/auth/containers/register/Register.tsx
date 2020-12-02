@@ -18,6 +18,8 @@ import RegisterForm from "../../components/register/RegisterForm";
 
 import { getCurrentSessionTokens } from "../../core/services/session";
 
+import { StateType } from "../../../app/core/redux/types";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 type AuthProps = {
@@ -78,7 +80,7 @@ const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

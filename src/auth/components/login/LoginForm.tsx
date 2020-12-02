@@ -24,6 +24,8 @@ import { Visibility, VisibilityOff } from "@material-ui/icons";
 
 import { LoginUser } from "../../core/redux/actions";
 
+import { StateType } from "../../../app/core/redux/types";
+
 type Props = {
   loginUser: (username: string, password: string, rememberMe: boolean) => void;
   auth: any;
@@ -115,7 +117,7 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

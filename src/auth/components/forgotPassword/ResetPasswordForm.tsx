@@ -20,6 +20,8 @@ import { AnyAction } from "redux";
 
 import { ResetPassword } from "../../core/redux/actions";
 
+import { StateType } from "../../../app/core/redux/types";
+
 type AuthProps = {
   isAuthenticated: boolean;
   error?: string;
@@ -127,7 +129,7 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };

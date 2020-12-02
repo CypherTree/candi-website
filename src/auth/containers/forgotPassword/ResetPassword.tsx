@@ -18,6 +18,8 @@ import ResetPasswordForm from "../../components/forgotPassword/ResetPasswordForm
 
 import { getCurrentSessionTokens } from "../../core/services/session";
 
+import { StateType } from "../../../app/core/redux/types";
+
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 const qs = require("query-string");
@@ -89,7 +91,7 @@ const ResetPassword: React.FC<Props> = ({
   );
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };
