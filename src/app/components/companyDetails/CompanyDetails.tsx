@@ -118,6 +118,7 @@ function CompanyDetails(props: any) {
 
   return (
     <div>
+      <div>{name}</div>
       <Typography variant="h5" component="h5">
         Enter company details...
       </Typography>

@@ -28,6 +28,8 @@ function OrganizationalDetails(props: any) {
   const [organisationName, setOrganisationName] = useState("");
   const [organisationWebsite, setOrganisationWebsite] = useState("");
 
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
   const {
     handleNext,
     //   domain,
@@ -36,9 +38,12 @@ function OrganizationalDetails(props: any) {
     //   // setOrganisationWebsite,
     //   // organisationName,
     //   // setOrganisationName,
+    currentOrganization,
   } = props;
 
   console.log("props in ogr details ", props);
+
+  console.log("props in ogr details --> current org", currentOrganization);
 
   let fieldsDisabled = false;
 
@@ -47,14 +52,23 @@ function OrganizationalDetails(props: any) {
   // };
 
   const handleNewSubmit = () => {
-    dispatch(
-      SetOrganisationalDetails(
-        organisationName,
-        organisationWebsite,
-        domain,
-        handleNext
-      )
-    );
+    currentOrganization.name = organisationName;
+    currentOrganization.website = organisationWebsite;
+    currentOrganization.domain = domain;
+
+    if (isSubmitted) {
+      handleNext();
+    } else {
+      dispatch(
+        SetOrganisationalDetails(
+          organisationName,
+          organisationWebsite,
+          domain,
+          handleNext
+        )
+      );
+    }
+
     // handleNext();
   };
 
@@ -68,6 +82,19 @@ function OrganizationalDetails(props: any) {
       fieldsDisabled = true;
     }
   }, [fieldsDisabled]);
+
+  useEffect(() => {
+    if (currentOrganization.name) {
+      setOrganisationName(currentOrganization.name);
+      setIsSubmitted(true);
+    }
+    if (currentOrganization.domain) {
+      setDomain(currentOrganization.domain);
+    }
+    if (currentOrganization.website) {
+      setOrganisationWebsite(currentOrganization.website);
+    }
+  }, []);
 
   const handleDomainURLChange = (e: any) => {
     setDomain(e.target.value);
@@ -106,6 +133,7 @@ function OrganizationalDetails(props: any) {
           variant="outlined"
           value={organisationName}
           onChange={(e) => setOrganisationName(e.target.value)}
+          disabled={isSubmitted}
         ></TextField>
         <br /> <br />
         <TextField
@@ -120,7 +148,8 @@ function OrganizationalDetails(props: any) {
           variant="outlined"
           value={organisationWebsite}
           onChange={(e) => setOrganisationWebsite(e.target.value)}
-          disabled={fieldsDisabled}
+          // disabled={fieldsDisabled}
+          disabled={isSubmitted}
         ></TextField>
         <br /> <br />
         <TextField
@@ -134,6 +163,7 @@ function OrganizationalDetails(props: any) {
           variant="outlined"
           value={domain}
           onChange={(e) => handleDomainURLChange(e)}
+          disabled={isSubmitted}
         ></TextField>
         <div>
           <span>
@@ -174,7 +204,7 @@ function OrganizationalDetails(props: any) {
           onClick={() => handleNewSubmit()}
         >
           {" "}
-          Save and Next
+          {isSubmitted ? "Next" : "Save and Next"}
         </Button>
       </div>
     </div>

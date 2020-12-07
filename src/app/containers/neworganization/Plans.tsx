@@ -1,5 +1,5 @@
 import { Typography, Grid, Button } from "@material-ui/core";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getAllPlans } from "../../core/services/plans";
 
 import ToggleButton from "@material-ui/lab/ToggleButton";
@@ -14,8 +14,10 @@ import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 
 function Plans(props: any) {
-  const { handleNext, handleBack } = props;
+  const { handleNext, handleBack, currentOrganization } = props;
   //   const [plansData, setPlansData] = useState();
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   console.log("props ---->", props);
 
@@ -245,6 +247,13 @@ function Plans(props: any) {
     plan_id: 0,
   });
 
+  useEffect(() => {
+    if (currentOrganization.selectedPlan) {
+      setSelectedPlan(currentOrganization.selectedPlan);
+      setIsSubmitted(true);
+    }
+  });
+
   const handlePricePeriod = (
     event: any,
     newPricePeriod: React.SetStateAction<string>
@@ -253,14 +262,19 @@ function Plans(props: any) {
   };
 
   const handleSaveAndNext = () => {
-    dispatch(
-      AssignPlanToOrganisation(
-        // props.state.app.newOrganisation.id ||
-        props.state.app.newOrganisation.id,
-        selectedPlan.plan_id,
-        selectedPlan.period_type
-      )
-    );
+    currentOrganization.selectedPlan = selectedPlan;
+
+    if (!isSubmitted) {
+      dispatch(
+        AssignPlanToOrganisation(
+          // props.state.app.newOrganisation.id ||
+          props.state.app.newOrganisation.id,
+          selectedPlan.plan_id,
+          selectedPlan.period_type
+        )
+      );
+    }
+
     handleNext();
   };
 
@@ -339,7 +353,7 @@ function Plans(props: any) {
             disabled={selectedPlan.plan_id !== 0 ? false : true}
           >
             {" "}
-            Save and Next
+            {isSubmitted ? "Next" : "Save and Next"}
           </Button>
         </Grid>
       </Grid>
