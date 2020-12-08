@@ -1,18 +1,20 @@
-export const SET_LOADING = "SET_LOADING";
-export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
+export enum Types {
+  SET_LOADING = "SET_LOADING",
+  SET_AUTHENTICATED = "SET_AUTHENTICATED",
+}
 
-export interface SetLoading {
-  type: typeof SET_LOADING;
+export interface SetLoadingPayload {
+  type: typeof Types.SET_LOADING;
   payload: {
     isLoading: boolean;
   };
 }
 
 export interface SetAuthenticated {
-  type: typeof SET_AUTHENTICATED;
+  type: typeof Types.SET_AUTHENTICATED;
   payload: {
     isAuthenticated: boolean;
   };
 }
 
-export type AppDispatchTypes = SetLoading | SetAuthenticated;
+export type AppDispatchTypes = SetLoadingPayload | SetAuthenticated;

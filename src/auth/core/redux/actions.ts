@@ -1,7 +1,12 @@
 import { Dispatch } from "redux";
 
-import {
-  LoginDispatchTypes,
+import { LoginDispatchTypes, Types } from "./types";
+
+import { RegisterUserData } from "./types";
+
+import axios from "axios";
+
+const {
   LOGIN_USER,
   LOGOUT_USER,
   RESET_PASSWORD,
@@ -14,11 +19,7 @@ import {
   SET_LOGIN_ERROR,
   REGISTER_SUCCESS,
   EMAIL_VERIFICATION_SUCCESS,
-} from "./types";
-
-import { RegisterUserData } from "./types";
-
-import axios from "axios";
+} = Types;
 
 export const LoginUser = (
   username: string,
@@ -224,41 +225,25 @@ export const AcceptPrivacyPolicy = (policyAccept: boolean) => async (
   }
 };
 
-export const RegisterUser = (data: RegisterUserData) => async (
+interface RegisterData {
+  email: string;
+  first_name: string;
+  last_name: string;
+  password: string;
+  phone_number: string;
+  phone_number_extension: string;
+  otp: string;
+}
+
+export const RegisterUser = (registerData: RegisterData) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
-  // const data = {
-  //   message: "User Registered",
-  //   data: {
-  //     access:
-  //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjA1NjA5NjMyLCJqdGkiOiJhYmM5ZmExNDkzYjQ0NDk1OGU4NTEzMTFjYjRiOTNlZiIsInVzZXJfaWQiOjZ9.q1TsU5J0rq5ivcZ8d5HBQi_79kiP5zBZOHQin3dz1RY",
-  //     refresh:
-  //       "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTYwNjkwNTYzMiwianRpIjoiZWRjZWVlYjY0NGVkNGM1Zjk1YTkwOTYyZThlYTJkNWQiLCJ1c2VyX2lkIjo2fQ.YE62nKCCJVvw5lxzQHRkXmPwF32N2V9J8bm6h59yfXw",
-  //   },
-  // };
-  // console.log("Reached in actions --> ", data);
-  // const { message } = data;
-  // const { access: accessToken, refresh: refreshToken } = data.data;
-
   try {
-    // dispatch({
-    //   type: REGISTER_SUCCESS,
-    //   payload: {
-    //     accessToken,
-    //     refreshToken,
-    //     success: message,
-    //   },
-    // });
-    // dispatch({
-    //   type: REGISTER_USER,
-    //   payload: {
-    //     // username,
-    //     // password,
-    //     // rememberMe,
-    //   },
-    // });
     axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/register/`, data)
+      .post(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/register/`,
+        registerData
+      )
       .then((response) => {
         console.log("response of axios", response.data);
         const { message } = response.data;
@@ -273,14 +258,6 @@ export const RegisterUser = (data: RegisterUserData) => async (
             refreshToken,
             success: message,
           },
-          // dispatch({
-          //   type: SET_AUTHENTICATED,
-          //   payload: {
-          //     isAuthenticated: true,
-          //     accessToken,
-          //     refreshToken,
-          //     rememberMe,
-          //   },
         });
       })
       .catch((err: any) => {

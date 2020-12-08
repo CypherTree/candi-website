@@ -14,25 +14,33 @@ import {
 
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { connect } from "react-redux";
 
-import { LoginUser } from "../../core/redux/actions";
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { Visibility, VisibilityOff } from "@material-ui/icons";
 
-function LoginForm(props: any) {
-  const dispatch = useDispatch();
+import { LoginUser } from "../../core/redux/actions";
 
+import { StateType } from "../../../app/core/redux/types";
+
+type Props = {
+  loginUser: (username: string, password: string, rememberMe: boolean) => void;
+  auth: any;
+};
+
+const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
 
-  const error = props.props.state.auth.error
-    ? props.props.state.auth.error
-    : null;
+  const error = auth.error ? auth.error : null;
 
   const handleFormSubmit = () => {
-    dispatch(LoginUser(username, password, rememberMe));
+    loginUser(username, password, rememberMe);
   };
 
   const handleClickShowPassword = () => {
@@ -107,6 +115,19 @@ function LoginForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default LoginForm;
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    loginUser: (username: string, password: string, rememberMe: boolean) =>
+      dispatch(LoginUser(username, password, rememberMe)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

@@ -1,3 +1,5 @@
+import React, { useEffect, useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -7,32 +9,47 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+
 import { Link } from "react-router-dom";
+
+import { connect } from "react-redux";
+
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
 
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
 
-import { useDispatch } from "react-redux";
+import { StateType } from "../../../app/core/redux/types";
 
-function ForgotPasswordForm(props: any) {
-  const dispatch = useDispatch();
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
 
-  console.log("props", props);
+type Props = {
+  forgotPassword: (email: string) => void;
+  clearState: () => void;
+  auth: AuthProps;
+};
 
-  const [email, setEmail] = useState("");
-  const [status, setStatus] = useState("");
+const ForgotPasswordForm: React.FC<Props> = ({
+  forgotPassword,
+  clearState,
+  auth,
+}) => {
+  const [email, setEmail] = useState<string>("");
+  const [status, setStatus] = useState<boolean | string>("");
 
   useEffect(() => {
-    props.props.state &&
-    props.props.state.auth &&
-    props.props.state.auth.success
-      ? setStatus(props.props.state.auth.success)
-      : setStatus("");
-  }, [props, status]);
+    auth && auth.success ? setStatus(auth.success) : setStatus("");
+  }, [auth, status]);
 
   useEffect(() => {
     // to clear any previous error
-    dispatch(ClearState());
+    clearState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -40,7 +57,7 @@ function ForgotPasswordForm(props: any) {
 
   const handleFormSubmit = () => {
     successMessage = "Check your email for password reset link";
-    dispatch(ForgotPassword(email));
+    forgotPassword(email);
   };
 
   return (
@@ -74,19 +91,16 @@ function ForgotPasswordForm(props: any) {
             Get password reset link
           </Button>
         </CardActions>{" "}
-        {props.props.state &&
-        props.props.state.auth &&
-        props.props.state.auth.hasOwnProperty("success") &&
-        props.props.state.auth.success === true ? (
+        {auth && auth.hasOwnProperty("success") && auth.success === true ? (
           <div>
             <Typography variant="h5" component="h5" color="primary">
-              {props.props.state.auth.message}
+              {auth.message}
             </Typography>
           </div>
         ) : (
           <div>
             <Typography variant="h5" component="h5" color="error">
-              {props.props.state.auth.message}
+              {auth.message}
             </Typography>
           </div>
         )}
@@ -102,6 +116,19 @@ function ForgotPasswordForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default ForgotPasswordForm;
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    clearState: () => dispatch(ClearState()),
+    forgotPassword: (email: string) => dispatch(ForgotPassword(email)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPasswordForm);

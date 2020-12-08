@@ -1,33 +1,58 @@
 import React, { useEffect } from "react";
-import { Typography } from "@material-ui/core";
-import { APP_NAME } from "../../../app/core/constants";
+
+import { Typography, Grid } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
-import { Grid } from "@material-ui/core";
+import { ThunkDispatch } from "redux-thunk";
 
-import { useDispatch } from "react-redux";
+import { AnyAction } from "redux";
+
+import * as H from "history";
+
+import { APP_NAME } from "../../../app/core/constants";
+
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+
 import RegisterForm from "../../components/register/RegisterForm";
+
 import SideImage from "../../components/sideImage/SideImage";
 
-const mapStateToProps = (state: any) => {
-  return {
-    state: state,
-  };
+import { getCurrentSessionTokens } from "../../core/services/session";
+
+import { StateType } from "../../../app/core/redux/types";
+
+const mainImage = require("../../../shared/assets/images/main-image.jpg");
+
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
 };
 
-const Register = (props: any) => {
-  const dispatch = useDispatch();
+type StateProps = {
+  auth: AuthProps;
+};
 
-  const { isAuthenticated } = props.state.auth;
+type Props = {
+  history: H.History;
+  location: H.Location;
+  setAuthenticated: () => void;
+  state: StateProps;
+};
+
+const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
+  const { isAuthenticated } = state.auth;
+
+  const { accessToken } = getCurrentSessionTokens();
 
   useEffect(() => {
     if (isAuthenticated) {
-      props.history.push("/dashboard");
+      history.push("/dashboard");
     }
-    if (localStorage.getItem("accessToken")) {
-      dispatch(SetAuthenticated());
+    if (accessToken) {
+      setAuthenticated();
     }
   });
 
@@ -44,11 +69,23 @@ const Register = (props: any) => {
             {APP_NAME}
           </Typography>
           <br />
-          <RegisterForm props={props} />
+          <RegisterForm auth={state.auth} />
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default connect(mapStateToProps)(Register);
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    setAuthenticated: () => dispatch(SetAuthenticated()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);

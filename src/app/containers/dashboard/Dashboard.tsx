@@ -1,48 +1,83 @@
 import React, { useEffect, useState } from "react";
+
 import {
   Button,
   CardActions,
   CardContent,
   Typography,
   Grid,
-  Link,
-  Snackbar,
+  CardHeader,
   SnackbarContent,
+  Card,
 } from "@material-ui/core";
 
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
 
 import { connect } from "react-redux";
 
-import { useDispatch } from "react-redux";
+import * as H from "history";
 
-import { Card, CardHeader } from "@material-ui/core";
+import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
+import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 
-function Dashboard(props: any) {
-  const dispatch = useDispatch();
-  const [disabled, setDisabled] = useState(false);
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
-  const accessToken = localStorage.getItem("accessToken")
-    ? localStorage.getItem("accessToken")
-    : sessionStorage.getItem("accessToken");
+import { StateType } from "../../core/redux/types";
 
-  const refreshToken = localStorage.getItem("refreshToken")
-    ? localStorage.getItem("refreshToken")
-    : sessionStorage.getItem("refreshToken");
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
 
-  const handleClick = () => {
-    dispatch(LogoutUser());
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: UserDataProps;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+  logoutUser: () => void;
+  getNewToken: (accessToken: string, refreshToken: string) => void;
+};
+
+const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
+  const [loading, setLoading] = useState(false);
+
+  const { accessToken, refreshToken } = getCurrentSessionTokens();
+
+  const handleLogout = () => {
+    logoutUser();
   };
 
-  const getNewToken = () => {
+  const getNewAccessToken = () => {
     if (accessToken !== null && refreshToken !== null) {
-      dispatch(GetNewToken(accessToken, refreshToken));
+      getNewToken(accessToken, refreshToken);
     }
   };
 
-  const userData = props.state.auth.userData ? props.state.auth.userData : null;
+  const userData = state.auth.userData ? state.auth.userData : null;
 
   console.log("user data", userData);
 
@@ -51,14 +86,12 @@ function Dashboard(props: any) {
   const handleAcceptPrivacyPolicy = () => {
     if (accessToken !== null) {
       acceptPrivacyPolicy(accessToken);
-      setDisabled(true);
+      setLoading(true);
       setTimeout(() => {
         window.location.reload(true);
       }, 6000);
     }
   };
-
-  console.log("User Data ", userData);
 
   return (
     <div>
@@ -71,7 +104,7 @@ function Dashboard(props: any) {
             </Typography>
           </Grid>
           <Grid item>
-            <Button color="secondary" onClick={() => handleClick()}>
+            <Button color="secondary" onClick={() => handleLogout()}>
               Logout
             </Button>
           </Grid>
@@ -88,7 +121,7 @@ function Dashboard(props: any) {
               </Typography>
               <div>
                 <br />{" "}
-                {disabled ? (
+                {loading ? (
                   <img
                     src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
                     alt="loading"
@@ -133,17 +166,25 @@ function Dashboard(props: any) {
           </p>
         </CardContent>
         <CardActions style={{ alignItems: "center", textAlign: "center" }}>
-          <Button onClick={getNewToken}>Get New Token</Button>
+          <Button onClick={getNewAccessToken}>Get New Token</Button>
         </CardActions>
       </Card>
     </div>
   );
-}
+};
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    logoutUser: () => dispatch(LogoutUser()),
+    getNewToken: (accessToken: string, refreshToken: string) =>
+      dispatch(GetNewToken(accessToken, refreshToken)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

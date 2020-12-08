@@ -1,6 +1,8 @@
 import { Dispatch } from "redux";
 
-import { AppDispatchTypes, SET_AUTHENTICATED } from "./types";
+import { AppDispatchTypes, Types } from "./types";
+
+const { SET_AUTHENTICATED } = Types;
 
 export const SetAuthenticated = () => async (
   dispatch: Dispatch<AppDispatchTypes>
