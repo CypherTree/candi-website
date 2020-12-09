@@ -11,6 +11,7 @@ import OrganizationalDetails from "../../components/organizationalDetails/Organi
 import Plans from "./Plans";
 import CompanyDetails from "../../components/companyDetails/CompanyDetails";
 import CloseIcon from "@material-ui/icons/Close";
+import AddRoles from "../../components/addRoles/AddRoles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -60,7 +61,7 @@ function getStepContent(
     case 2:
       return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
     case 3:
-      return "Add roles and assign roles";
+      return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
     case 4:
       return "Add workflow here";
     default:
