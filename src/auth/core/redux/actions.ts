@@ -2,8 +2,6 @@ import { Dispatch } from "redux";
 
 import { LoginDispatchTypes, Types } from "./types";
 
-import { RegisterUserData } from "./types";
-
 import axios from "axios";
 
 const {

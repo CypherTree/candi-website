@@ -13,9 +13,11 @@ import {
 import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
+
 import { useDispatch } from "react-redux";
 
 import { EmailVerification } from "../../core/redux/actions";
+
 import SideImage from "../../components/sideImage/SideImage";
 
 const qs = require("query-string");

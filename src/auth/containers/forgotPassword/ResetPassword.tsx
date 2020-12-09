@@ -22,8 +22,6 @@ import { getCurrentSessionTokens } from "../../core/services/session";
 
 import { StateType } from "../../../app/core/redux/types";
 
-const mainImage = require("../../../shared/assets/images/main-image.jpg");
-
 const qs = require("query-string");
 
 type AuthProps = {
