@@ -2,12 +2,10 @@ import React, { useEffect, useState } from "react";
 
 import {
   Button,
-  CardActions,
   CardContent,
   Typography,
   Grid,
   CardHeader,
-  SnackbarContent,
   Card,
 } from "@material-ui/core";
 
@@ -26,6 +24,8 @@ import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 import { StateType } from "../../core/redux/types";
+
+import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
 
 export type UserDataProps = {
   email: string;
@@ -65,21 +65,13 @@ type Props = {
 const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
   const [loading, setLoading] = useState(false);
 
-  const { accessToken, refreshToken } = getCurrentSessionTokens();
+  const { accessToken } = getCurrentSessionTokens();
 
   const handleLogout = () => {
     logoutUser();
   };
 
-  const getNewAccessToken = () => {
-    if (accessToken !== null && refreshToken !== null) {
-      getNewToken(accessToken, refreshToken);
-    }
-  };
-
   const userData = state.auth.userData ? state.auth.userData : null;
-
-  console.log("user data", userData);
 
   useEffect(() => {}, [userData]);
 
@@ -138,36 +130,16 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
               </div>
             </div>
           ) : (
-            <div style={{ alignContent: "center" }}>
-              <SnackbarContent
-                style={{
-                  backgroundColor: "teal",
-                }}
-                message={
-                  "Your Email verification is pending. Click Here to get verification link."
-                }
-                // action={action}
-              />
-
+            <div>
+              {!userData.is_verified && <EmailVerificationBar />}
+              <br />
               <Typography variant={"h3"} component="h2">
                 {userData !== null && userData.last_name},{" "}
                 {userData !== null && userData.first_name}
               </Typography>
             </div>
           )}
-          <p>
-            {" "}
-            <b> Access token:</b> {accessToken}
-          </p>
-
-          <p>
-            {" "}
-            <b> Refresh token: </b> {refreshToken}
-          </p>
         </CardContent>
-        <CardActions style={{ alignItems: "center", textAlign: "center" }}>
-          <Button onClick={getNewAccessToken}>Get New Token</Button>
-        </CardActions>
       </Card>
     </div>
   );
