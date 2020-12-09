@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 import { resendVerificationEmail } from "../../core/services/emailverification";
 
@@ -36,22 +36,43 @@ function EmailVerificationHeader() {
         justifyContent: "space-around",
         display: "flex",
         flexDirection: "row",
-        border: "1px solid teal",
-        borderRadius: "10px",
-        padding: "10px",
-        backgroundColor: "#dbe9e9",
+        border: "1px solid #4A4A4A",
+        backgroundColor: "#FBC4C4",
       }}
     >
-      {snackbarMessage}
-      <Button
-        size="small"
-        variant="outlined"
-        onClick={handleSendVerificationEmail}
-        disabled={disabledButton}
-        style={{ borderRadius: "10px" }}
+      <Grid
+        container
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <b> Get Verification Link </b>
-      </Button>
+        <Grid item xs={12} sm={10} md={8}>
+          <div
+            style={{
+              alignContent: "center",
+              justifyContent: "space-around",
+              display: "flex",
+              flexDirection: "row",
+              paddingTop: "5px",
+              paddingBottom: "5px",
+            }}
+          >
+            {" "}
+            {snackbarMessage}
+            <Button
+              size="small"
+              variant="outlined"
+              onClick={handleSendVerificationEmail}
+              disabled={disabledButton}
+              style={{ borderRadius: "10px", border: "1px solid #4A4A4A" }}
+            >
+              <b> Get Verification Link </b>
+            </Button>
+          </div>
+        </Grid>
+      </Grid>
     </div>
   );
 }
