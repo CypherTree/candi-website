@@ -49,6 +49,8 @@ const useStyles = makeStyles((theme) => ({
   purple: {
     color: theme.palette.getContrastText(deepPurple[500]),
     backgroundColor: deepPurple[500],
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   },
 }));
 
@@ -195,7 +197,7 @@ function Navbar() {
                   People
                 </Link>
               </p>
-              <div style={{ paddingTop: "17px", paddingLeft: "12px" }}>
+              <div style={{ paddingTop: "19px", paddingLeft: "12px" }}>
                 <Button
                   variant="outlined"
                   style={{
@@ -212,45 +214,57 @@ function Navbar() {
 
             <Grid
               item
-              xs={3}
+              xs={4}
               style={{
                 // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "flex-end",
+                paddingTop: "12px",
               }}
             >
-              <SearchIcon />
-              <IconButton>
-                <Badge badgeContent={4} color="secondary">
-                  <PublicIcon />
-                </Badge>
-              </IconButton>
+              <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
+                <SearchIcon fontSize="large" />
+              </div>
 
-              <SettingsIcon />
+              <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
+                {" "}
+                <PublicIcon fontSize="large" />
+              </div>
 
-              <Button
-                aria-controls="simple-menu"
-                aria-haspopup="true"
-                onClick={handleClick}
-              >
-                <Avatar className={classes.purple}>MK</Avatar>
-              </Button>
-              <Menu
-                id="simple-menu"
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem onClick={handleClose} disabled={true}>
-                  Profile
-                </MenuItem>
-                <MenuItem onClick={handleClose} disabled={true}>
-                  My account
-                </MenuItem>
-                <MenuItem onClick={handleLogout}>Logout</MenuItem>
-              </Menu>
+              <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
+                {" "}
+                <SettingsIcon fontSize="large" />
+              </div>
+
+              <div style={{ paddingLeft: "5px", paddingTop: "4px" }}>
+                <Button
+                  aria-controls="simple-menu"
+                  aria-haspopup="true"
+                  onClick={handleClick}
+                  style={{
+                    padding: "0",
+                    margin: "0",
+                  }}
+                >
+                  <Avatar className={classes.purple}>MK</Avatar>
+                </Button>
+                <Menu
+                  id="simple-menu"
+                  anchorEl={anchorEl}
+                  keepMounted
+                  open={Boolean(anchorEl)}
+                  onClose={handleClose}
+                >
+                  <MenuItem onClick={handleClose} disabled={true}>
+                    Profile
+                  </MenuItem>
+                  <MenuItem onClick={handleClose} disabled={true}>
+                    My account
+                  </MenuItem>
+                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                </Menu>
+              </div>
             </Grid>
           </Grid>
         </Toolbar>
@@ -288,4 +302,20 @@ export default Navbar;
                   </Button>{" "}
                 </Link>
               </div> */
+}
+
+{
+  /* <IconButton>/ */
+}
+{
+  /* <Badge badgeContent={4} color="secondary"> */
+}
+{
+  /* <PublicIcon fontSize="large" /> */
+}
+{
+  /* </Badge> */
+}
+{
+  /* </IconButton> */
 }
