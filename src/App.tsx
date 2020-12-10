@@ -27,6 +27,25 @@ import NewOrganisation from "./app/containers/neworganization/NewOrganisation";
 import Organisations from "./app/containers/organisations/Organisations";
 // import PrivacyPolicy from "./app/containers/privacypolicy/PrivacyPolicy";
 
+import {
+  createMuiTheme,
+  MuiThemeProvider,
+  ThemeProvider,
+} from "@material-ui/core";
+import { deepPurple, amber } from "@material-ui/core/colors";
+
+const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#083086",
+    },
+    secondary: {
+      main: "#dd6c26",
+      contrastText: deepPurple[900],
+    },
+  },
+});
+
 require("dotenv").config();
 
 const App = (props: any) => {
@@ -72,34 +91,36 @@ const App = (props: any) => {
 
   return (
     <Router>
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />{" "}
-          <Route exact path="/forgot-password" component={ForgotPassword} />
-          <Route exact path="/reset" component={ResetPassword} />
-          {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
-          <Route
-            exact
-            path="/email-verification"
-            component={EmailVerificationPage}
-          />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute
-            exact
-            path="/organisation/new"
-            component={NewOrganisation}
-          />
-          <PrivateRoute
-            exact
-            path="/organisations/all"
-            component={Organisations}
-          />
-          <PrivateRoute exact path="/dashboard2" component={Register} />
-          <Route component={PageNotFound} />
-        </Switch>
-      </div>
+      <MuiThemeProvider theme={theme}>
+        <div className="App">
+          <Switch>
+            <Route exact path="/" component={Login} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/register" component={Register} />{" "}
+            <Route exact path="/forgot-password" component={ForgotPassword} />
+            <Route exact path="/reset" component={ResetPassword} />
+            {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
+            <Route
+              exact
+              path="/email-verification"
+              component={EmailVerificationPage}
+            />
+            <PrivateRoute exact path="/dashboard" component={Dashboard} />
+            <PrivateRoute
+              exact
+              path="/organisation/new"
+              component={NewOrganisation}
+            />
+            <PrivateRoute
+              exact
+              path="/organisations/all"
+              component={Organisations}
+            />
+            <PrivateRoute exact path="/dashboard2" component={Register} />
+            <Route component={PageNotFound} />
+          </Switch>
+        </div>
+      </MuiThemeProvider>
     </Router>
   );
 };
