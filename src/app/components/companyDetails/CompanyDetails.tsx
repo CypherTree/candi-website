@@ -52,6 +52,7 @@ function CompanyDetails(props: any) {
         setAddress(props.state.app.currentOrganization.address);
         setBillingAddress(props.state.app.currentOrganization.billing_address);
         setEmail(props.state.app.currentOrganization.email);
+        setLogo(props.state.app.currentOrganization.logo);
       }
     }
   });
@@ -69,6 +70,8 @@ function CompanyDetails(props: any) {
 
   const [isGSTVerified, setIsGSTVerified] = useState(false);
   const [billingAddressSame, setBillingAddressSame] = useState(true);
+
+  const [logo, setLogo] = useState("");
 
   const clearEverything = () => {
     setIsGSTVerified(false);
@@ -288,9 +291,20 @@ function CompanyDetails(props: any) {
       >
         <Grid item xs={12}>
           <span>
-            <Typography variant="h5" component="h5">
+            <p
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                fontFamily: "Helvetica",
+                color: "#696969	",
+                width: "auto",
+                margin: "10px 40px 5px 0 ",
+                padding: "0",
+              }}
+            >
+              {" "}
               Enter billing details
-            </Typography>
+            </p>
             <Checkbox
               name="checkedC"
               checked={billingAddressSame}
@@ -338,6 +352,25 @@ function CompanyDetails(props: any) {
         </Grid>
 
         <Grid item xs={6}>
+          <p
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              fontFamily: "Helvetica",
+              color: "#696969	",
+              width: "auto",
+              margin: "10px 40px 5px 0 ",
+              padding: "0 0 20px 0",
+            }}
+          >
+            Company Logo
+          </p>
+          {logo !== "" && (
+            <img
+              src={logo}
+              style={{ height: "200px", width: "200px", borderRadius: "50%" }}
+            />
+          )}
           <UploadLogo
             organisation_id={organisation_id}
             name={name}

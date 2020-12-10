@@ -93,9 +93,14 @@ function OrganizationalDetails(props: any) {
 
     if (props.state.app.currentOrganization) {
       if (props.state.app.currentOrganization.name) {
+        // const newDomain = props.state.app.currentOrganization.domain.slice(
+        //   "theonboarders.com"
+        // );
+
         setOrganisationName(props.state.app.currentOrganization.name);
         setIsSubmitted(true);
-        setDomain(props.state.app.currentOrganization.domain);
+        setDomain(props.state.app.currentOrganization.slug);
+        // setDomain(newDomain);
         setOrganisationWebsite(props.state.app.currentOrganization.website);
       }
     }

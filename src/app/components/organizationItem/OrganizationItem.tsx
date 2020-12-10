@@ -96,6 +96,7 @@ const OrganizationItem = (props: any) => {
         data.id,
         data.name,
         data.website,
+        data.slug,
         data.domain_url,
         data.gst,
         data.country,
@@ -104,7 +105,8 @@ const OrganizationItem = (props: any) => {
         data.pincode,
         data.address,
         data.email,
-        data.billing_address
+        data.billing_address,
+        data.logo
       )
     );
     handleOpen();

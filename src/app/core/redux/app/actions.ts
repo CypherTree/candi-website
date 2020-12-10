@@ -119,6 +119,7 @@ export const PassDataToModal = (
   id: number,
   name: string,
   website: string,
+  slug: string,
   domain: string,
   gst: string,
   country: string,
@@ -127,7 +128,8 @@ export const PassDataToModal = (
   pincode: string,
   address: string,
   email: string,
-  billing_address: string
+  billing_address: string,
+  logo: string
 ) => (dispatch: any) => {
   dispatch({
     type: SET_CURRENT_ORGANISATION,
@@ -136,6 +138,7 @@ export const PassDataToModal = (
         id,
         name,
         website,
+        slug,
         domain,
         gst,
         country,
@@ -145,6 +148,7 @@ export const PassDataToModal = (
         address,
         email,
         billing_address,
+        logo,
       },
     },
   });

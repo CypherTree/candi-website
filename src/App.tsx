@@ -42,7 +42,7 @@ const theme = createMuiTheme({
       main: "#083086",
     },
     secondary: {
-      main: "#dd6c26",
+      main: "#F9650D",
       contrastText: deepPurple[900],
     },
   },

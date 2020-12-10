@@ -49,7 +49,7 @@ const AddRoles = (props: any) => {
       },
     })
       .then((response) => console.log("data", response.data))
-      // .then(() => handleNext())
+      .then(() => handleNext())
       .catch((e) => console.log("err", e));
   };
 

@@ -58,9 +58,9 @@ function getStepContent(
           currentOrganization={currentOrganization}
         />
       );
-    case 3:
+    case 2:
       return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
-    case 4:
+    case 3:
       return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
     case 4:
       return "Add workflow here";
