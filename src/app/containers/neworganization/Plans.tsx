@@ -285,9 +285,14 @@ function Plans(props: any) {
           },
         }
       )
-        .then((response: any) =>
-          console.log("Response data from api ----->", response.data)
-        )
+        .then((response: any) => {
+          console.log("Response data from api ----->", response.data);
+          setSelectedPlan({
+            period_type: 2,
+            plan_id: response.data.data.plan.id,
+          });
+          setIsSubmitted(true);
+        })
         .catch((err: any) => console.log("err--->", err.response));
     }
   }, [organization_id]);

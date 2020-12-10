@@ -9,6 +9,9 @@ export const SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION";
 export const ADD_COMPANY_DETAILS_TO_ORGANISATION =
   "ADD_COMPANY_DETAILS_TO_ORGANISATION";
 
+export const ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION =
+  "ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION";
+
 export interface SetLoading {
   type: typeof SET_LOADING;
   payload: {
@@ -75,6 +78,13 @@ export interface AddCompanyDetailsToOrganisation {
   };
 }
 
+export interface AddCompanyDetailsToCurrentOrganization {
+  type: typeof ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION;
+  payload: {
+    currentOrganization: any;
+  };
+}
+
 export type AppDispatchTypes =
   | SetLoading
   | SetAuthenticated
@@ -82,4 +92,5 @@ export type AppDispatchTypes =
   | DomainCheckMessage
   | NewOrganisationCreate
   | AddCompanyDetailsToOrganisation
-  | SetCurrentOrganization;
+  | SetCurrentOrganization
+  | AddCompanyDetailsToCurrentOrganization;

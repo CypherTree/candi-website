@@ -10,6 +10,7 @@ import {
   SET_PLAN_TO_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
   SET_CURRENT_ORGANISATION,
+  ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
 } from "./types";
 
 export const SetAuthenticated = () => async (
@@ -218,4 +219,15 @@ export const AddCompanyDetailsToOrganization = (
       });
     })
     .catch((err) => console.log("Err", err));
+};
+
+export const AddCompanyDetailsToCurrentOrganization = (data: any) => (
+  dispatch: any
+) => {
+  dispatch({
+    type: ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
+    payload: {
+      currentOrganization: data,
+    },
+  });
 };

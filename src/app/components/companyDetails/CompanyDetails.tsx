@@ -13,7 +13,10 @@ import UploadLogo from "../uploadLogo/UploadLogo";
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 
-import { AddCompanyDetailsToOrganization } from "../../core/redux/app/actions";
+import {
+  AddCompanyDetailsToOrganization,
+  AddCompanyDetailsToCurrentOrganization,
+} from "../../core/redux/app/actions";
 
 function CompanyDetails(props: any) {
   console.log("--- ALL PROPS -- ", props);
@@ -141,9 +144,21 @@ function CompanyDetails(props: any) {
       name,
     };
 
+    const dataForLocal = {
+      email,
+      address,
+      country,
+      state,
+      city,
+      pincode,
+      billingAddress,
+    };
+
     // const organisation_id = 12;
 
     dispatch(AddCompanyDetailsToOrganization(putData, organisation_id));
+
+    dispatch(AddCompanyDetailsToCurrentOrganization(dataForLocal));
 
     handleNext();
   };
