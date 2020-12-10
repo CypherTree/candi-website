@@ -81,7 +81,7 @@ function Navbar() {
           <Grid container>
             <Grid
               item
-              xs={6}
+              xs={2}
               style={{
                 // border: "1px solid black",
                 display: "flex",
@@ -107,7 +107,17 @@ function Navbar() {
                 }}
               >
                 {" "}
-                <b>The Onboarders</b>
+                <Link
+                  to="/dashboard"
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  <b>The Onboarders</b>
+                </Link>
+                {/* <b>The Onboarders</b> */}
               </p>
             </Grid>
 
@@ -115,47 +125,132 @@ function Navbar() {
               item
               xs={6}
               style={{
+                display: "flex",
+                justifyContent: "flex-start",
+                paddingLeft: "10px",
+                top: "0",
+                bottom: "0",
+              }}
+            >
+              <p
+                style={{
+                  padding: "12px",
+                  margin: "10px",
+                  // width: "auto",
+                  // border: "1px solid black",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                <Link
+                  to="/organisations/all"
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  Organisation
+                </Link>
+              </p>
+              <p
+                style={{
+                  padding: "12px",
+                  margin: "10px",
+                  // width: "auto",
+                  // border: "1px solid black",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                <Link
+                  to="#"
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  Your Clients
+                </Link>
+              </p>
+              <p
+                style={{
+                  padding: "12px",
+                  margin: "10px",
+                  // width: "auto",
+                  // border: "1px solid black",
+                  cursor: "pointer",
+                }}
+              >
+                {" "}
+                <Link
+                  to="#"
+                  style={{
+                    textDecoration: "none",
+                    color: "black",
+                    // fontWeight: "bold",
+                  }}
+                >
+                  People
+                </Link>
+              </p>
+              <div style={{ paddingTop: "17px", paddingLeft: "12px" }}>
+                <Button
+                  variant="outlined"
+                  style={{
+                    backgroundColor: "#f8f8f8",
+                    width: "150px",
+                    height: "30px",
+                    textTransform: "none",
+                  }}
+                >
+                  Add Job
+                </Button>
+              </div>
+            </Grid>
+
+            <Grid
+              item
+              xs={3}
+              style={{
                 // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "flex-end",
               }}
             >
-              <div style={{ padding: "5px" }}>
-                <Link to="/organisations/all">Organisation</Link>
+              <SearchIcon />
+              <IconButton>
+                <Badge badgeContent={4} color="secondary">
+                  <PublicIcon />
+                </Badge>
+              </IconButton>
 
-                <SearchIcon />
-                <IconButton>
-                  <Badge badgeContent={4} color="secondary">
-                    <PublicIcon />
-                  </Badge>
-                </IconButton>
+              <SettingsIcon />
 
-                <SettingsIcon />
-
-                <Button
-                  aria-controls="simple-menu"
-                  aria-haspopup="true"
-                  onClick={handleClick}
-                >
-                  <Avatar className={classes.purple}>MK</Avatar>
-                </Button>
-                <Menu
-                  id="simple-menu"
-                  anchorEl={anchorEl}
-                  keepMounted
-                  open={Boolean(anchorEl)}
-                  onClose={handleClose}
-                >
-                  <MenuItem onClick={handleClose} disabled={true}>
-                    Profile
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} disabled={true}>
-                    My account
-                  </MenuItem>
-                  <MenuItem onClick={handleLogout}>Logout</MenuItem>
-                </Menu>
-              </div>
+              <Button
+                aria-controls="simple-menu"
+                aria-haspopup="true"
+                onClick={handleClick}
+              >
+                <Avatar className={classes.purple}>MK</Avatar>
+              </Button>
+              <Menu
+                id="simple-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={Boolean(anchorEl)}
+                onClose={handleClose}
+              >
+                <MenuItem onClick={handleClose} disabled={true}>
+                  Profile
+                </MenuItem>
+                <MenuItem onClick={handleClose} disabled={true}>
+                  My account
+                </MenuItem>
+                <MenuItem onClick={handleLogout}>Logout</MenuItem>
+              </Menu>
             </Grid>
           </Grid>
         </Toolbar>

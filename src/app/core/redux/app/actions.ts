@@ -72,7 +72,7 @@ export const SetOrganisationalDetails = (
 
   const organisationData = {
     name: organisationName,
-    website: `http://www.${organisationWebsite}.theonboarders.com`,
+    website: `http://www.${organisationWebsite}`,
     schema_name: domain,
     domain_url: `http://www.${domain}.theonboarders.com`,
   };

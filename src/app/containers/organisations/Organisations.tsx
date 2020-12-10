@@ -87,7 +87,7 @@ function Organisations(props: any) {
                 textAlign: "center",
               }}
             >
-              <AddIcon fontSize="small" />
+              <AddIcon fontSize="small" onClick={handleOpen} />
             </Fab>
           </div>
         </div>
@@ -103,13 +103,13 @@ function Organisations(props: any) {
           Add new Organisation
         </Button> */}
 
-        {/* <NewOrganizationModal
+        <NewOrganizationModal
           handleOpen={handleOpen}
           handleClose={handleClose}
           open={open}
           setOpen={setOpen}
           props={props}
-        /> */}
+        />
       </div>
 
       <OrganizationList />
