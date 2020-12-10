@@ -327,11 +327,29 @@ function Plans(props: any) {
         // borderRadius: "10px",
       }}
     >
-      <Grid container>
-        <Grid item xs={12} justify="center">
-          <Typography variant="h4" component="h4">
-            Choose a plan
-          </Typography>
+      <Grid container style={{ justifyContent: "center" }}>
+        <Grid
+          item
+          xs={12}
+          md={12}
+          lg={8}
+          justify="center"
+          style={{ justifyContent: "center" }}
+        >
+          <p
+            style={{
+              fontSize: "24px",
+              fontWeight: "bold",
+              fontFamily: "Helvetica",
+              color: "#696969	",
+              width: "auto",
+              margin: "10px 40px 5px 0 ",
+              padding: "0",
+            }}
+          >
+            {" "}
+            Choose a license plan
+          </p>
           <div>
             <ToggleButtonGroup
               value={pricePeriod}
@@ -356,7 +374,7 @@ function Plans(props: any) {
             spacing={2}
           >
             {plansData.data.map((plan) => (
-              <Grid item xs={3}>
+              <Grid item xs={4} sm={4}>
                 <PlanCard
                   plan={plan}
                   pricePeriod={pricePeriod}

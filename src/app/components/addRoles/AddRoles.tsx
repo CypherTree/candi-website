@@ -49,7 +49,7 @@ const AddRoles = (props: any) => {
       },
     })
       .then((response) => console.log("data", response.data))
-      .then(() => handleNext())
+      // .then(() => handleNext())
       .catch((e) => console.log("err", e));
   };
 
@@ -78,8 +78,21 @@ const AddRoles = (props: any) => {
   }, []);
 
   return (
-    <div>
-      <br />
+    <div style={{ paddingLeft: "30px" }}>
+      <p
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          fontFamily: "Helvetica",
+          color: "#696969	",
+          width: "auto",
+          margin: "10px 40px 5px 0 ",
+          padding: "0",
+        }}
+      >
+        {" "}
+        Add Roles to Organization
+      </p>
       <br />
       <div>
         {oriRoles.map((roleData: any, index: number) => (
@@ -108,13 +121,34 @@ const AddRoles = (props: any) => {
         ))}
       </div>
       <AddRole addRole={addRole} />
-      <div>
-        <Button variant="contained" color="primary" onClick={handleSubmitForm}>
-          Save and Next
-        </Button>
-        <Button variant="outlined" color="secondary">
-          Skip
-        </Button>
+      <div style={{ paddingTop: "20px" }}>
+        <span style={{ paddingRight: "10px" }}>
+          <Button
+            variant="outlined"
+            color="primary"
+            type="submit"
+            //   autoFocus={true}
+            onClick={() => handleBack()}
+          >
+            Back
+          </Button>{" "}
+        </span>
+
+        <span style={{ paddingRight: "10px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleSubmitForm}
+          >
+            Save and Next
+          </Button>
+        </span>
+
+        <span style={{ paddingRight: "10px" }}>
+          <Button variant="outlined" color="secondary">
+            Skip
+          </Button>
+        </span>
       </div>
     </div>
   );

@@ -124,7 +124,7 @@ function CompanyDetails(props: any) {
 
   const handleFormSubmit = () => {
     const putData = {
-      // gst: gstNumber,
+      gst: gstNumber,
       email,
       address,
       country,
@@ -145,11 +145,24 @@ function CompanyDetails(props: any) {
     handleNext();
   };
 
+  const styles = { width: "350px" };
+
   return (
-    <div>
-      <Typography variant="h5" component="h5">
-        Enter company details...
-      </Typography>
+    <div style={{ textAlign: "left" }}>
+      <p
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          fontFamily: "Helvetica",
+          color: "#696969	",
+          width: "auto",
+          margin: "10px 40px 5px 0 ",
+          padding: "0",
+        }}
+      >
+        {" "}
+        Enter company details
+      </p>
       <br />
       <Grid
         container
@@ -172,16 +185,20 @@ function CompanyDetails(props: any) {
                 setGstNumber(e.target.value);
                 clearEverything();
               }}
+              style={styles}
             ></TextField>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                fetchGSTDetails();
-              }}
-            >
-              Verify GST{" "}
-            </Button>
+            <span style={{ paddingLeft: "10px", paddingTop: "20px" }}>
+              {" "}
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  fetchGSTDetails();
+                }}
+              >
+                Verify GST{" "}
+              </Button>
+            </span>
           </div>
         </Grid>
         <Grid item xs={6}>
@@ -196,6 +213,8 @@ function CompanyDetails(props: any) {
             value={country}
             onChange={(e) => setCountry(e.target.value)}
             disabled={!isGSTVerified}
+            // style={{ width: "300px" }}
+            style={styles}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -210,6 +229,7 @@ function CompanyDetails(props: any) {
             value={state}
             onChange={(e) => setState(e.target.value)}
             disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -224,6 +244,7 @@ function CompanyDetails(props: any) {
             value={city}
             onChange={(e) => setCity(e.target.value)}
             disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>{" "}
         <Grid item xs={6}>
@@ -238,6 +259,7 @@ function CompanyDetails(props: any) {
             value={pincode}
             onChange={(e) => setPincode(e.target.value)}
             disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>
         <Grid item xs={6}>
@@ -253,6 +275,7 @@ function CompanyDetails(props: any) {
             value={address}
             onChange={(e) => setAddress(e.target.value)}
             disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>
       </Grid>
@@ -292,6 +315,7 @@ function CompanyDetails(props: any) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>
 
@@ -309,6 +333,7 @@ function CompanyDetails(props: any) {
             value={billingAddressSame ? address : billingAddress}
             onChange={(e) => setBillingAddress(e.target.value)}
             // disabled={!isGSTVerified}
+            style={styles}
           ></TextField>
         </Grid>
 

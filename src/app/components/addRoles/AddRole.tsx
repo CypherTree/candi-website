@@ -33,7 +33,7 @@ function AddRole(props: any) {
   //   removeRole={removeRole}
   //   index={index}
 
-  const [type, setType] = React.useState(1);
+  const [type, setType] = React.useState(2);
   const [name, setName] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -65,6 +65,8 @@ function AddRole(props: any) {
     }
   }, [props]);
 
+  const styles = { width: "300px" };
+
   return (
     <div style={{ width: "1000px", maxWidth: "1000px" }}>
       <span>
@@ -84,109 +86,155 @@ function AddRole(props: any) {
           //   value={role}
           //   onChange={(e) => setRole(e.target.value)}
           disabled={!isDeleteAllowed}
+          style={styles}
         ></TextField>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-helper-label">
-            Role Type
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={type}
-            onChange={handleChange}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            autoWidth
-            variant="filled"
-            disabled={!isDeleteAllowed}
-            // size="medium"
-          >
-            <MenuItem value={1}>
-              {open ? (
-                <div>
-                  Admin
-                  <hr />
-                  <p>
-                    Can modify, create workflow, add, delete, users, can add
-                    third party members.
-                  </p>
-                  <p>
-                    {" "}
-                    Delete and mofidy the job and tasks. Can delete the
-                    workspace.
-                  </p>
-                </div>
-              ) : (
-                <div> Admin</div>
-              )}
-            </MenuItem>
-            <MenuItem value={2}>
-              {" "}
-              {open ? (
-                <div>
-                  Manager
-                  <hr />
-                  <p>
-                    Can modify, create workflow, add, delete, users, can
-                    invite/add third party members.
-                  </p>
-                  <p>
-                    {" "}
-                    Delete and mofidy the job and tasks. Can't delete the
-                    workspace.
-                  </p>
-                </div>
-              ) : (
-                <div> Manager</div>
-              )}
-            </MenuItem>
-            <MenuItem value={3}>
-              {open ? (
-                <div>
-                  Editor
-                  <hr />
-                  <p>
-                    Can create jobs, change workflow status. Can invite third
-                    party members.
-                  </p>
-                </div>
-              ) : (
-                <div> Editor</div>
-              )}
-            </MenuItem>
-            <MenuItem value={4}>
-              {" "}
-              {open ? (
-                <div>
-                  Viewer
-                  <hr />
-                  <p>
-                    Can view workflow and space. Can't modify or delete the
-                    workspace and flow.
-                  </p>
-                </div>
-              ) : (
-                <div> Viewer</div>
-              )}
-            </MenuItem>
-            <MenuItem value={5}>
-              {" "}
-              {open ? (
-                <div>
-                  Third Party
-                  <hr />
-                  <p>
-                    can't view workflow and space. Can't modify or delete the
-                    workspace or delete the workspace and flow.
-                  </p>
-                  <p>Can only do tasks assigned by editor/manager/admin</p>
-                </div>
-              ) : (
-                <div> Third Party</div>
-              )}
-            </MenuItem>
-          </Select>
-        </FormControl>{" "}
+        <span style={{ paddingLeft: "30px" }}>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-helper-label">
+              Role Type
+            </InputLabel>
+            <Select
+              labelId="demo-simple-select-helper-label"
+              id="demo-simple-select-helper"
+              value={type}
+              onChange={handleChange}
+              onOpen={() => setOpen(true)}
+              onClose={() => setOpen(false)}
+              autoWidth
+              variant="standard"
+              disabled={!isDeleteAllowed}
+              style={styles}
+
+              // size="medium"
+            >
+              <MenuItem value={1} style={styles} disabled={true}>
+                {open ? (
+                  <div>
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Admin
+                    </p>
+
+                    {/* <p
+                      style={{
+                        wordWrap: "break-word",
+                        fontSize: "14px",
+                        whiteSpace: "initial",
+                      }}
+                    >
+                      Can modify, create workflow, add, delete, users, can add
+                      third party members. Delete and mofidy the job and tasks.
+                      Can delete the workspace.
+                    </p> */}
+                  </div>
+                ) : (
+                  <div> Admin</div>
+                )}
+              </MenuItem>
+              <MenuItem value={2} style={styles}>
+                {" "}
+                {open ? (
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                    }}
+                  >
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Manager
+                    </p>
+
+                    <p
+                      style={{
+                        wordWrap: "break-word",
+                        fontSize: "14px",
+                        whiteSpace: "initial",
+                      }}
+                    >
+                      Can modify, create workflow, add, delete, users, can
+                      invite/add third party members. Delete and mofidy the job
+                      and tasks. Can't delete the workspace.
+                    </p>
+                  </div>
+                ) : (
+                  <div> Manager</div>
+                )}
+              </MenuItem>
+              <MenuItem value={3} style={styles}>
+                {open ? (
+                  <div>
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Editor
+                    </p>
+
+                    <p
+                      style={{
+                        wordWrap: "break-word",
+                        fontSize: "14px",
+                        whiteSpace: "initial",
+                      }}
+                    >
+                      Can create jobs, change workflow status. Can invite third
+                      party members.
+                    </p>
+                  </div>
+                ) : (
+                  <div> Editor</div>
+                )}
+              </MenuItem>
+              <MenuItem value={4} style={styles}>
+                {" "}
+                {open ? (
+                  <div>
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Viewer
+                    </p>
+
+                    <p
+                      style={{
+                        wordWrap: "break-word",
+                        fontSize: "14px",
+                        whiteSpace: "initial",
+                      }}
+                    >
+                      Can view workflow and space. Can't modify or delete the
+                      workspace and flow.
+                    </p>
+                  </div>
+                ) : (
+                  <div> Viewer</div>
+                )}
+              </MenuItem>
+              <MenuItem value={5} style={styles}>
+                {" "}
+                {open ? (
+                  <div>
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Third Party
+                    </p>
+
+                    <p
+                      style={{
+                        wordWrap: "break-word",
+                        fontSize: "14px",
+                        whiteSpace: "initial",
+                      }}
+                    >
+                      can't view workflow and space. Can't modify or delete the
+                      workspace or delete the workspace and flow. Can only do
+                      tasks assigned by editor/manager/admin
+                    </p>
+                  </div>
+                ) : (
+                  <div> Third Party</div>
+                )}
+              </MenuItem>
+            </Select>
+          </FormControl>{" "}
+        </span>
         {!isAdded && (
           <Button variant="outlined" color="primary" onClick={onSubmit}>
             Add role
@@ -194,9 +242,19 @@ function AddRole(props: any) {
         )}
         {isDeleteAllowed && isAdded && (
           <Button
-            variant="contained"
+            variant="outlined"
             color="secondary"
             onClick={() => removeRole(index)}
+          >
+            <Delete />
+          </Button>
+        )}
+        {!isDeleteAllowed && (
+          <Button
+            variant="outlined"
+            color="secondary"
+            onClick={() => removeRole(index)}
+            disabled={true}
           >
             <Delete />
           </Button>
