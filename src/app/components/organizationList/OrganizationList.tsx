@@ -94,21 +94,7 @@ const OrganizationList = () => {
       .catch((err: any) => console.log("Err", err));
   }, []);
   return (
-    <div
-      style={{
-        padding: "30px",
-        backgroundColor: "whitesmoke ",
-        textAlign: "center",
-        left: "auto",
-        right: "auto",
-        margin: "auto",
-      }}
-    >
-      <Typography variant="h5" component="h5" color="primary">
-        {" "}
-        <b>Organization List</b>
-      </Typography>
-
+    <div>
       <br />
       {loading ? (
         <Typography variant="h5" component="h5">
@@ -117,21 +103,15 @@ const OrganizationList = () => {
       ) : (
         <div
           style={{
-            padding: "30px",
-            textAlign: "center",
-            left: "auto",
-            right: "auto",
-            margin: "auto",
-            alignContent: "center",
+            paddingLeft: "150px",
           }}
         >
           <Grid
             container
-            spacing={5}
+            spacing={2}
             style={{
               display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              flexDirection: "column",
             }}
           >
             {data.map((organization) => (
@@ -147,6 +127,7 @@ const OrganizationList = () => {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              paddingBottom: "30px",
             }}
           >
             <Pagination

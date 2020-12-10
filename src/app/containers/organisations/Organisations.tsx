@@ -1,4 +1,11 @@
-import { Button, Typography, Modal, Fade, Backdrop } from "@material-ui/core";
+import {
+  Button,
+  Typography,
+  Modal,
+  Fade,
+  Backdrop,
+  Fab,
+} from "@material-ui/core";
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -12,6 +19,8 @@ import { connect } from "react-redux";
 import OrganizationList from "../../components/organizationList/OrganizationList";
 import NewOrganizationModal from "./NewOrganizationModal";
 
+import AddIcon from "@material-ui/icons/Add";
+
 function Organisations(props: any) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => {
@@ -24,31 +33,85 @@ function Organisations(props: any) {
   return (
     <div>
       <Navbar />
-      <div>
+      <div
+        style={{
+          // border: "1px solid black",
+          alignItems: "left",
+          textAlign: "left",
+          paddingLeft: "150px",
+          paddingTop: "30px",
+        }}
+      >
         <br />
-        <Typography variant="h4" component="h4" color="primary">
-          My Organisations
-        </Typography>
-        <br />
-        <br />
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            width: "300px",
+
+            textAlign: "center",
+          }}
+        >
+          <div>
+            <p
+              style={{
+                fontSize: "24px",
+                fontWeight: "bold",
+                fontFamily: "Helvetica",
+                color: "#696969	",
+
+                width: "auto",
+                margin: "10px 40px 5px 0 ",
+                padding: "0",
+              }}
+            >
+              {" "}
+              ORGANISATION
+            </p>
+            {"  "}
+          </div>
+          <div
+            style={{
+              lineHeight: "40px",
+            }}
+          >
+            {" "}
+            <Fab
+              color="primary"
+              aria-label="add"
+              style={{
+                // border: "1px solid black",
+                height: "40px",
+                width: "40px",
+                textAlign: "center",
+              }}
+            >
+              <AddIcon fontSize="small" />
+            </Fab>
+          </div>
+        </div>
+
         <Link to="/organisation/new"></Link>
-        <Button
+
+        {/* <Button
           type="button"
           variant="contained"
           color="primary"
           onClick={handleOpen}
         >
           Add new Organisation
-        </Button>
-        <NewOrganizationModal
+        </Button> */}
+
+        {/* <NewOrganizationModal
           handleOpen={handleOpen}
           handleClose={handleClose}
           open={open}
           setOpen={setOpen}
           props={props}
-        />
+        /> */}
       </div>
-      <hr />
+
       <OrganizationList />
     </div>
   );

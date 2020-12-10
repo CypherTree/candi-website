@@ -39,8 +39,6 @@ const styles = (theme: any) => ({
 const OrganizationItem = (props: any) => {
   const { data } = props;
 
-  //   console.log("<--- all data --->", data);
-
   let progress: number = 20;
 
   if (data.pincode !== "") {
@@ -53,9 +51,9 @@ const OrganizationItem = (props: any) => {
     progress = progress + 20;
   }
 
-  if (data.domain_url.includes("http://www.")) {
-    data.domain_url = data.domain_url.replace("http://www.", "");
-    console.log("data.domain_url", data.domain_url);
+  if (data.website.includes("http://www.")) {
+    data.website = data.website.replace("http://www.", "");
+    console.log("data.website", data.website);
   }
 
   //   address: ""
@@ -85,45 +83,93 @@ const OrganizationItem = (props: any) => {
   };
 
   return (
-    <Card
-      style={{ border: "1px solid black", cursor: "pointer", width: "auto" }}
+    <div
+      style={{
+        border: "none",
+        cursor: "pointer",
+        width: "auto",
+        padding: "none",
+        margin: "none",
+      }}
       onClick={(e) => handleClick()}
     >
-      <CardContent style={{ backgroundColor: "lightgray" }}>
+      <div
+        style={{
+          backgroundColor: "#f8f8f8",
+          // border: "1px solid black",
+          padding: "none",
+          margin: "none",
+        }}
+      >
         <div
           style={{
             display: "flex",
             alignItems: "center",
             flexWrap: "wrap",
-            justifyContent: "space-evenly",
+            justifyContent: "flex-start",
+            // border: "1px solid black",
           }}
         >
-          <div style={{}}>
+          <div
+            style={{
+              paddingLeft: "20px",
+              paddingRight: "20px",
+              // border: "1px solid black",
+            }}
+          >
             <Avatar
-              // alt={data.slug}
-              alt=""
-              src="/static/images/avatar/1.jpg"
+              alt={data.slug.toUpperCase()}
+              // alt=""
+              src="dsakld/"
               style={{
-                backgroundColor: "#ff8c00",
-                fontSize: "60px",
-                width: "80px",
-                height: "80px",
+                // backgroundColor: "#dd6c26",
+                backgroundColor: "#F9650D",
+                fontSize: "40px",
+                width: "60px",
+                height: "60px",
               }}
             />
           </div>
-          <div style={{}}>
-            <Typography variant="h4" color="primary" component="h4">
-              {data.slug}
-            </Typography>
-            <div>{data.domain_url}</div>
+          <div
+            style={{
+              // border: "1px solid black",
+              paddingLeft: "10px ",
+              textAlign: "left",
+              lineHeight: "10px",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "24px",
+                // fontWeight: "bold",
+                fontFamily: "Helvetica",
+                color: "#696969	",
+                // border: "1px solid black",
+                margin: "20px 0 5px 0",
+                padding: 0,
+              }}
+            >
+              {" "}
+              {data.name}
+            </p>
+            <p
+              style={{
+                fontSize: "14px",
+                color: "#696969	",
+                // border: "1px solid black",
+              }}
+            >
+              {/* {data.website} */}
+              alibaba.com
+            </p>
             <p>
               {" "}
               <b>{progress}</b>% completed.{" "}
             </p>
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 };
 

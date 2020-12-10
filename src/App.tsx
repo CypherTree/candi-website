@@ -27,6 +27,8 @@ import NewOrganisation from "./app/containers/neworganization/NewOrganisation";
 import Organisations from "./app/containers/organisations/Organisations";
 // import PrivacyPolicy from "./app/containers/privacypolicy/PrivacyPolicy";
 
+import "typeface-cormorant";
+
 import {
   createMuiTheme,
   MuiThemeProvider,

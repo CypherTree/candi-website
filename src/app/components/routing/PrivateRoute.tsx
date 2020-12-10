@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 import PrivacyPolicy from "../../containers/privacypolicy/PrivacyPolicy";
 import Dashboard from "../../containers/dashboard/Dashboard";
+import Organisations from "../../containers/organisations/Organisations";
 
 const mapStateToProps = (state: any) => {
   return {
@@ -28,6 +29,8 @@ const PrivateRoute = (props: any) => {
     privacyPolicyAccepted = false;
   }
 
+  console.log("props in privacy ....", props);
+
   return (
     <Route
       {...rest}
@@ -37,7 +40,9 @@ const PrivateRoute = (props: any) => {
         ) : privacyPolicyAccepted ? (
           <Component {...props} />
         ) : (
-          <Dashboard />
+          // <Dashboard />
+          // <Redirect to={props.location.pathname} />
+          <Organisations />
         )
       }
     />

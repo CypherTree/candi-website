@@ -83,7 +83,7 @@ function Navbar() {
               item
               xs={6}
               style={{
-                border: "1px solid black",
+                // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
               }}
@@ -103,9 +103,10 @@ function Navbar() {
                   margin: "none",
                   width: "auto",
                   fontSize: "20px",
-                  border: "1px solid black",
+                  // border: "1px solid black",
                 }}
               >
+                {" "}
                 <b>The Onboarders</b>
               </p>
             </Grid>
@@ -114,13 +115,15 @@ function Navbar() {
               item
               xs={6}
               style={{
-                border: "1px solid black",
+                // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "flex-end",
               }}
             >
-              <div style={{ border: "1px solid black", padding: "5px" }}>
+              <div style={{ padding: "5px" }}>
+                <Link to="/organisations/all">Organisation</Link>
+
                 <SearchIcon />
                 <IconButton>
                   <Badge badgeContent={4} color="secondary">
