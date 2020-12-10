@@ -22,7 +22,8 @@ import NewOrganizationModal from "./NewOrganizationModal";
 import AddIcon from "@material-ui/icons/Add";
 
 function Organisations(props: any) {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
+
   const [orgData, setOrgData] = React.useState({
     domain: null,
     name: null,
