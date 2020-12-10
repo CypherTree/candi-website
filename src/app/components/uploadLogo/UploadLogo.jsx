@@ -12,8 +12,6 @@ import AddIcon from "@material-ui/icons/Add";
 
 import { Fab } from "@material-ui/core";
 
-// { organisation_id, name, website }
-
 function UploadLogo({ organisation_id, name, website }) {
   const jwtToken = localStorage.getItem("accessToken");
 
@@ -23,8 +21,6 @@ function UploadLogo({ organisation_id, name, website }) {
   const [imageSrc, setImageSrc] = useState("");
 
   const onFileChange = (e) => {
-    // alert("file was uploaded...");
-
     const file = e.target.files[0];
 
     setSelectedFile(e.target.files[0]);
@@ -81,7 +77,7 @@ function UploadLogo({ organisation_id, name, website }) {
   const [selectedFile, setSelectedFile] = useState("");
 
   return (
-    <div style={{ paddingTop: "20px" }}>
+    <div style={{ paddingTop: "10px" }}>
       <span>
         <label htmlFor="upload-photo">
           <Input

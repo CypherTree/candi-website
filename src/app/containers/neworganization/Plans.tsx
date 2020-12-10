@@ -278,7 +278,7 @@ function Plans(props: any) {
   useEffect(() => {
     if (organization_id !== 0) {
       Axios.get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization/?organization_id=${organization_id}/`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization/?organization_id=${organization_id}`,
         {
           headers: {
             Authorization: `${jwtToken}`,
@@ -302,16 +302,16 @@ function Plans(props: any) {
   const handleSaveAndNext = () => {
     currentOrganization.selectedPlan = selectedPlan;
 
-    // if (!isSubmitted) {
-    //   dispatch(
-    //     AssignPlanToOrganisation(
-    //       // props.state.app.newOrganisation.id ||
-    //       organization_id,
-    //       selectedPlan.plan_id,
-    //       selectedPlan.period_type
-    //     )
-    //   );
-    // }
+    if (!isSubmitted) {
+      dispatch(
+        AssignPlanToOrganisation(
+          // props.state.app.newOrganisation.id ||
+          organization_id,
+          selectedPlan.plan_id,
+          selectedPlan.period_type
+        )
+      );
+    }
 
     handleNext();
   };

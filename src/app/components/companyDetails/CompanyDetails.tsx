@@ -127,7 +127,7 @@ function CompanyDetails(props: any) {
 
   const handleFormSubmit = () => {
     const putData = {
-      gst: gstNumber,
+      // gst: gstNumber,
       email,
       address,
       country,
@@ -151,7 +151,7 @@ function CompanyDetails(props: any) {
   const styles = { width: "350px" };
 
   return (
-    <div style={{ textAlign: "left" }}>
+    <div style={{ textAlign: "left", paddingLeft: "30px" }}>
       <p
         style={{
           fontSize: "24px",
@@ -276,7 +276,12 @@ function CompanyDetails(props: any) {
             size="medium"
             variant="outlined"
             value={address}
-            onChange={(e) => setAddress(e.target.value)}
+            onChange={(e) => {
+              setAddress(e.target.value);
+              if (billingAddressSame) {
+                setBillingAddress(e.target.value);
+              }
+            }}
             disabled={!isGSTVerified}
             style={styles}
           ></TextField>
