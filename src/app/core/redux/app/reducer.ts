@@ -5,6 +5,7 @@ import {
   NEW_ORGANISATION_CREATE,
   SET_PLAN_TO_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
+  SET_CURRENT_ORGANISATION,
 } from "./types";
 
 interface DefaultStateI {
@@ -29,6 +30,8 @@ export const appReducer: any = (
     case SET_LOADING:
       return { ...state, ...payload };
     case NEW_ORGANISATION_CREATE:
+      return { ...state, ...payload };
+    case SET_CURRENT_ORGANISATION:
       return { ...state, ...payload };
     case SET_PLAN_TO_ORGANISATION:
       return { ...state, ...payload };

@@ -5,7 +5,7 @@ import {
   Grid,
   Checkbox,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
@@ -20,11 +20,41 @@ function CompanyDetails(props: any) {
 
   const { handleBack, handleNext } = props;
 
-  const {
-    id: organisation_id,
-    name,
-    website,
-  } = props.state.app.newOrganisation;
+  // const {
+  //   id: organisation_id,
+  //   name,
+  //   website,
+  // } = props.state.app.newOrganisation;
+
+  const [organisation_id, setOrganisationId] = useState<number>(0);
+
+  const [website, setWebsite] = useState<string>("");
+  const [name, setName] = useState<string>("");
+
+  useEffect(() => {
+    if (props.state.app.newOrganisation) {
+      setOrganisationId(props.state.app.newOrganisation.id);
+      setWebsite(props.state.app.newOrganisation.website);
+      setName(props.state.app.newOrganisation.name);
+    }
+    if (props.state.app.currentOrganization) {
+      setOrganisationId(props.state.app.currentOrganization.id);
+      setWebsite(props.state.app.currentOrganization.website);
+
+      setName(props.state.app.currentOrganization.name);
+
+      if (props.state.app.currentOrganization.country !== "") {
+        setGstNumber(props.state.app.currentOrganization.gst);
+        setCountry(props.state.app.currentOrganization.country);
+        setState(props.state.app.currentOrganization.state);
+        setCity(props.state.app.currentOrganization.city);
+        setPincode(props.state.app.currentOrganization.pincode);
+        setAddress(props.state.app.currentOrganization.address);
+        setBillingAddress(props.state.app.currentOrganization.billing_address);
+        setEmail(props.state.app.currentOrganization.email);
+      }
+    }
+  });
 
   const dispatch = useDispatch();
 
@@ -35,11 +65,10 @@ function CompanyDetails(props: any) {
   const [pincode, setPincode] = useState("");
   const [address, setAddress] = useState("");
   const [billingAddress, setBillingAddress] = useState("");
-  const [isGSTVerified, setIsGSTVerified] = useState(false);
-
-  const [billingAddressSame, setBillingAddressSame] = useState(true);
-
   const [email, setEmail] = useState("");
+
+  const [isGSTVerified, setIsGSTVerified] = useState(false);
+  const [billingAddressSame, setBillingAddressSame] = useState(true);
 
   const clearEverything = () => {
     setIsGSTVerified(false);
@@ -113,16 +142,14 @@ function CompanyDetails(props: any) {
 
     dispatch(AddCompanyDetailsToOrganization(putData, organisation_id));
 
-    // handleNext();
+    handleNext();
   };
 
   return (
     <div>
-      <div>{name}</div>
       <Typography variant="h5" component="h5">
         Enter company details...
       </Typography>
-      <br />
       <br />
       <Grid
         container

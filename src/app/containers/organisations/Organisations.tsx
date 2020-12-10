@@ -23,6 +23,13 @@ import AddIcon from "@material-ui/icons/Add";
 
 function Organisations(props: any) {
   const [open, setOpen] = React.useState(false);
+  const [orgData, setOrgData] = React.useState({
+    domain: null,
+    name: null,
+    selectedPlan: null,
+    website: null,
+  });
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -30,6 +37,7 @@ function Organisations(props: any) {
   const handleClose = () => {
     setOpen(false);
   };
+
   return (
     <div>
       <Navbar />
@@ -39,7 +47,7 @@ function Organisations(props: any) {
           alignItems: "left",
           textAlign: "left",
           paddingLeft: "150px",
-          paddingTop: "30px",
+          paddingTop: "20px",
         }}
       >
         <br />
@@ -78,13 +86,13 @@ function Organisations(props: any) {
           >
             {" "}
             <Fab
-              color="primary"
               aria-label="add"
               style={{
                 // border: "1px solid black",
                 height: "40px",
                 width: "40px",
                 textAlign: "center",
+                backgroundColor: "#F9650D",
               }}
             >
               <AddIcon fontSize="small" onClick={handleOpen} />
@@ -112,7 +120,7 @@ function Organisations(props: any) {
         />
       </div>
 
-      <OrganizationList />
+      <OrganizationList handleOpen={handleOpen} />
     </div>
   );
 }

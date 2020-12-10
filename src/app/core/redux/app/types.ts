@@ -3,6 +3,8 @@ export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
 export const CHECK_DOMAIN_NAME = "CHECK_DOMAIN_NAME";
 export const DOMAIN_CHECK_MESSAGE = "DOMAIN_CHECK_MESSAGE";
 export const NEW_ORGANISATION_CREATE = "NEW_ORGANISATION_CREATE";
+export const SET_CURRENT_ORGANISATION = "SET_CURRENT_ORGANISATION";
+
 export const SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION";
 export const ADD_COMPANY_DETAILS_TO_ORGANISATION =
   "ADD_COMPANY_DETAILS_TO_ORGANISATION";
@@ -47,6 +49,18 @@ export interface NewOrganisationCreate {
   };
 }
 
+export interface SetCurrentOrganization {
+  type: typeof SET_CURRENT_ORGANISATION;
+  payload: {
+    currentOrganization: {
+      id: string;
+      name: string;
+      website: string;
+      domain: string;
+    };
+  };
+}
+
 export interface SetPlanToOrganisation {
   type: typeof SET_PLAN_TO_ORGANISATION;
   payload: {
@@ -67,4 +81,5 @@ export type AppDispatchTypes =
   | CheckDomainName
   | DomainCheckMessage
   | NewOrganisationCreate
-  | AddCompanyDetailsToOrganisation;
+  | AddCompanyDetailsToOrganisation
+  | SetCurrentOrganization;

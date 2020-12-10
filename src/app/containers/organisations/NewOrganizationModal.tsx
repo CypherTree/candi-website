@@ -9,10 +9,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     overflow: "scroll",
+    outline: "none",
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: "2px solid black",
+    // border: "2px solid black",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
     borderRadius: "10px",
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 const NewOrganizationModal = (props: any) => {
   const classes = useStyles();
 
-  console.log("Props in New Organization Moadal", props);
+  console.log("Props in New Organization Moadal ----->", props);
 
   const { isLoading } = props.props.state.app;
 
@@ -44,7 +45,12 @@ const NewOrganizationModal = (props: any) => {
   });
 
   return (
-    <div style={{ margin: "0 auto", display: "inline-flex" }}>
+    <div
+      style={{
+        margin: "0 auto",
+        display: "inline-flex",
+      }}
+    >
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
@@ -56,6 +62,7 @@ const NewOrganizationModal = (props: any) => {
         BackdropProps={{
           timeout: 500,
         }}
+        // style={{ height: "80vh", width: "80vw" }}
       >
         <Fade in={open}>
           <div className={classes.paper}>

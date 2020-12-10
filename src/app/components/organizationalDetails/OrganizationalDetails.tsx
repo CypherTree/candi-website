@@ -87,12 +87,17 @@ function OrganizationalDetails(props: any) {
     if (currentOrganization.name) {
       setOrganisationName(currentOrganization.name);
       setIsSubmitted(true);
-    }
-    if (currentOrganization.domain) {
       setDomain(currentOrganization.domain);
-    }
-    if (currentOrganization.website) {
       setOrganisationWebsite(currentOrganization.website);
+    }
+
+    if (props.state.app.currentOrganization) {
+      if (props.state.app.currentOrganization.name) {
+        setOrganisationName(props.state.app.currentOrganization.name);
+        setIsSubmitted(true);
+        setDomain(props.state.app.currentOrganization.domain);
+        setOrganisationWebsite(props.state.app.currentOrganization.website);
+      }
     }
   }, []);
 
@@ -142,7 +147,6 @@ function OrganizationalDetails(props: any) {
           fullWidth
           required
           helperText="Your organization's website URL. example -> something.com"
-          autoFocus={true}
           color="primary"
           size="medium"
           variant="outlined"
@@ -157,7 +161,6 @@ function OrganizationalDetails(props: any) {
           label="Domain"
           fullWidth
           required
-          autoFocus={true}
           color="primary"
           size="medium"
           variant="outlined"

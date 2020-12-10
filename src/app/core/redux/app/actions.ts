@@ -9,6 +9,7 @@ import {
   NEW_ORGANISATION_CREATE,
   SET_PLAN_TO_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
+  SET_CURRENT_ORGANISATION,
 } from "./types";
 
 export const SetAuthenticated = () => async (
@@ -111,6 +112,41 @@ export const SetOrganisationalDetails = (
   dispatch({
     type: SET_LOADING,
     payload: { isLoading: false },
+  });
+};
+
+export const PassDataToModal = (
+  id: number,
+  name: string,
+  website: string,
+  domain: string,
+  gst: string,
+  country: string,
+  state: string,
+  city: string,
+  pincode: string,
+  address: string,
+  email: string,
+  billing_address: string
+) => (dispatch: any) => {
+  dispatch({
+    type: SET_CURRENT_ORGANISATION,
+    payload: {
+      currentOrganization: {
+        id,
+        name,
+        website,
+        domain,
+        gst,
+        country,
+        state,
+        city,
+        pincode,
+        address,
+        email,
+        billing_address,
+      },
+    },
   });
 };
 

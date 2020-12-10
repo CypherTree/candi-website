@@ -8,6 +8,9 @@ import {
 
 import React from "react";
 
+import { useDispatch } from "react-redux";
+import { PassDataToModal } from "../../core/redux/app/actions";
+
 // address: ""
 // billing_address: ""
 // billing_email: ""
@@ -37,7 +40,9 @@ const styles = (theme: any) => ({
 });
 
 const OrganizationItem = (props: any) => {
-  const { data } = props;
+  const dispatch = useDispatch();
+
+  const { data, handleOpen } = props;
 
   let progress: number = 20;
 
@@ -54,6 +59,11 @@ const OrganizationItem = (props: any) => {
   if (data.website.includes("http://www.")) {
     data.website = data.website.replace("http://www.", "");
     console.log("data.website", data.website);
+  }
+
+  if (data.domain_url.includes("http://www.")) {
+    data.domain_url = data.domain_url.replace("http://www.", "");
+    console.log("data.domain_url", data.domain_url);
   }
 
   //   address: ""
@@ -78,8 +88,26 @@ const OrganizationItem = (props: any) => {
   // website: "http://www.alibaba.com"
   // workflow_added: 0
 
+  const handleNext = () => {};
+
   const handleClick = () => {
-    alert("<---- Organization  ---->");
+    dispatch(
+      PassDataToModal(
+        data.id,
+        data.name,
+        data.website,
+        data.domain_url,
+        data.gst,
+        data.country,
+        data.state,
+        data.city,
+        data.pincode,
+        data.address,
+        data.email,
+        data.billing_address
+      )
+    );
+    handleOpen();
   };
 
   return (

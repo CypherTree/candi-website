@@ -32,7 +32,9 @@ interface IOrganization {
   workflow_added: number;
 }
 
-const OrganizationList = () => {
+const OrganizationList = (props: any) => {
+  const { handleOpen } = props;
+
   const [data, setData] = useState<IOrganization[]>([]);
 
   const [count, setCount] = useState(6);
@@ -95,7 +97,6 @@ const OrganizationList = () => {
   }, []);
   return (
     <div>
-      <br />
       {loading ? (
         <Typography variant="h5" component="h5">
           Loading.....{" "}
@@ -116,7 +117,7 @@ const OrganizationList = () => {
           >
             {data.map((organization) => (
               <Grid item xs={5}>
-                <OrganizationItem data={organization} />
+                <OrganizationItem data={organization} handleOpen={handleOpen} />
               </Grid>
             ))}
           </Grid>

@@ -12,6 +12,7 @@ import { AssignPlanToOrganisation } from "../../core/redux/app/actions";
 import { useDispatch } from "react-redux";
 
 import { connect } from "react-redux";
+import Axios from "axios";
 
 function Plans(props: any) {
   const { handleNext, handleBack, currentOrganization } = props;
@@ -247,12 +248,49 @@ function Plans(props: any) {
     plan_id: 0,
   });
 
+  const [organization_id, setOrganizationId] = useState<number>(0);
+
   useEffect(() => {
     if (currentOrganization.selectedPlan) {
       setSelectedPlan(currentOrganization.selectedPlan);
       setIsSubmitted(true);
+      setOrganizationId(currentOrganization.id);
     }
-  });
+
+    if (props.state.app.newOrganization) {
+      if (props.state.app.newOrganisation.id) {
+        setOrganizationId(props.state.app.newOrganisation.id);
+      }
+    }
+
+    if (props.state.app.currentOrganization) {
+      console.log("current org", props.state.app.currentOrganization.id);
+      if (props.state.app.currentOrganization.id) {
+        setOrganizationId(props.state.app.currentOrganization.id);
+      }
+    }
+  }, []);
+
+  const accessToken = localStorage.getItem("accessToken");
+
+  const jwtToken = `Bearer ${accessToken}`;
+
+  useEffect(() => {
+    if (organization_id !== 0) {
+      Axios.get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization/?organization_id=${organization_id}/`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+        .then((response: any) =>
+          console.log("Response data from api ----->", response.data)
+        )
+        .catch((err: any) => console.log("err--->", err.response));
+    }
+  }, [organization_id]);
 
   const handlePricePeriod = (
     event: any,
@@ -264,16 +302,16 @@ function Plans(props: any) {
   const handleSaveAndNext = () => {
     currentOrganization.selectedPlan = selectedPlan;
 
-    if (!isSubmitted) {
-      dispatch(
-        AssignPlanToOrganisation(
-          // props.state.app.newOrganisation.id ||
-          props.state.app.newOrganisation.id,
-          selectedPlan.plan_id,
-          selectedPlan.period_type
-        )
-      );
-    }
+    // if (!isSubmitted) {
+    //   dispatch(
+    //     AssignPlanToOrganisation(
+    //       // props.state.app.newOrganisation.id ||
+    //       organization_id,
+    //       selectedPlan.plan_id,
+    //       selectedPlan.period_type
+    //     )
+    //   );
+    // }
 
     handleNext();
   };
