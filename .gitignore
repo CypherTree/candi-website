@@ -5,3 +5,4 @@ scripts/flow/*/.flowconfig
 *~
 *.pyc
 .grunt
+.env
