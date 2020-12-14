@@ -4,16 +4,21 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
 const PrivateRoute = (props: any) => {
-  const { component: Component, ...rest } = props;
-
-  const { isAuthenticated } = props.state.auth;
+  const { ...rest } = props;
 
   return (
     <Route
       {...rest}
-      render={(props) =>
-        !isAuthenticated ? <Redirect to="/login" /> : <Component {...props} />
-      }
+      render={(props: any) => {
+        const { component: Component } = props;
+        const { isAuthenticated } = props.state.auth;
+
+        return !isAuthenticated ? (
+          <Redirect to="/login" />
+        ) : (
+          <Component {...props} />
+        );
+      }}
     />
   );
 };

@@ -99,6 +99,48 @@ const RegisterForm: React.FC<Props> = ({
     }, 1000);
   };
 
+  type valuesType = {
+    firstName?: string;
+    lastName?: string;
+    password?: string;
+    password2?: string;
+    otp?: string;
+    phone_number_extension?: string;
+    email?: string;
+  };
+
+  const validationCheck = (values: valuesType) => {
+    const errors: any = {};
+
+    if (!values.firstName) {
+      errors.firstName = "Required";
+    }
+    if (!values.lastName) {
+      errors.lastName = "Required";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    if (!values.password2) {
+      errors.password2 = "Required";
+    }
+    if (!values.otp) {
+      errors.otp = "Required";
+    }
+    if (!values.phone_number_extension) {
+      errors.phone_number_extension = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+
+    return errors;
+  };
+
   return (
     <div>
       <Card>
@@ -127,38 +169,7 @@ const RegisterForm: React.FC<Props> = ({
                 otp: "",
                 phone_number_extension: "+91",
               }}
-              validate={(values) => {
-                const errors: any = {};
-                if (!values.firstName) {
-                  errors.firstName = "Required";
-                }
-                if (!values.lastName) {
-                  errors.lastName = "Required";
-                }
-                if (!values.password) {
-                  errors.password = "Required";
-                }
-                if (!values.password2) {
-                  errors.password2 = "Required";
-                }
-                if (!values.otp) {
-                  errors.otp = "Required";
-                }
-                if (!values.phone_number_extension) {
-                  errors.phone_number_extension = "Required";
-                }
-                if (!values.email) {
-                  errors.email = "Required";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                    values.email
-                  )
-                ) {
-                  errors.email = "Invalid email address";
-                }
-
-                return errors;
-              }}
+              validate={validationCheck}
               onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
                 // make async call
