@@ -1,7 +1,8 @@
 import axios from "axios";
+import { getCurrentSessionTokens } from "./session";
 
 export const resendVerificationEmail = async () => {
-  const accessToken = localStorage.getItem("accessToken");
+  const { accessToken } = getCurrentSessionTokens();
 
   const jwtToken = `Bearer ${accessToken}`;
 

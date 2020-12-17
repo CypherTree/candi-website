@@ -4,7 +4,7 @@ import { Button, Grid } from "@material-ui/core";
 
 import { resendVerificationEmail } from "../../core/services/emailverification";
 
-function EmailVerificationHeader() {
+const EmailVerificationBar = () => {
   const [disabledButton, setDisabledButton] = useState(false);
 
   const [message, setMessage] = useState<string | null>(null);
@@ -59,7 +59,6 @@ function EmailVerificationHeader() {
               paddingBottom: "5px",
             }}
           >
-            {" "}
             {snackbarMessage}
             <Button
               size="small"
@@ -75,6 +74,6 @@ function EmailVerificationHeader() {
       </Grid>
     </div>
   );
-}
+};
 
-export default EmailVerificationHeader;
+export default EmailVerificationBar;

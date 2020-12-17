@@ -63,7 +63,6 @@ const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
 
         <Grid item xs={11} sm={6}>
           <Typography variant="h3" color="primary" component="h2">
-            {" "}
             {APP_NAME}
           </Typography>
           <br />

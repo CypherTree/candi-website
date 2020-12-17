@@ -293,7 +293,6 @@ export const EmailVerification = (token: string) => async (
       })
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response);
-        // console.log("error in axios API  -> ", err.response.data.detail);
         dispatch({
           type: SET_LOGIN_ERROR,
           payload: {

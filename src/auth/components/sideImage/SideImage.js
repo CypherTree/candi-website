@@ -1,9 +1,9 @@
 import React from "react";
 const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
-function SideImage() {
+const SideImage = () => {
   return (
-    <div className="fill">
+    <div>
       <img
         alt="logo"
         style={{ width: 100, height: "100vh" }}
@@ -11,6 +11,6 @@ function SideImage() {
       />
     </div>
   );
-}
+};
 
 export default SideImage;
