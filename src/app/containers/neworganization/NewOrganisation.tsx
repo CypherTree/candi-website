@@ -12,6 +12,8 @@ import Plans from "./Plans";
 import CompanyDetails from "../../components/companyDetails/CompanyDetails";
 import CloseIcon from "@material-ui/icons/Close";
 import AddRoles from "../../components/addRoles/AddRoles";
+import AddWorkflow from "../../components/workflow/AddWorkflow";
+import AddCustomWorkflow from "../../components/workflow/AddCustomWorkflow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,7 +45,7 @@ function getStepContent(
   currentOrganization: any
 ) {
   switch (step) {
-    case 0:
+    case 4:
       return (
         <OrganizationalDetails
           handleNext={handleNext}
@@ -62,8 +64,8 @@ function getStepContent(
       return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
     case 3:
       return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
-    case 4:
-      return "Add workflow here";
+    case 0:
+      return <AddWorkflow handleNext={handleNext} handleBack={handleBack} />;
     default:
       return "Unknown step";
   }
