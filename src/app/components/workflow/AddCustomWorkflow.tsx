@@ -38,14 +38,13 @@ const AddCustomWorkflow = (props: any) => {
 
   const [didOrderChange, setDidOrderChange] = useState(false);
 
-  const closeAddStepForm = () => {
-    console.log("this was called ---? ");
+  const { handleCancelModal } = props;
 
+  const closeAddStepForm = () => {
     setIsAddStepFormOpen(false);
   };
 
   const handleAddNewStep = () => {
-    console.log("<--------- THIS WAS CALLED ------------>");
     setIsAddStepFormOpen(false);
     setSelectedStep(null);
     setIsAddStepFormOpen(true);
@@ -54,11 +53,11 @@ const AddCustomWorkflow = (props: any) => {
   const tenant = "cyphertree";
   // const tenant = "thor";
 
-  const workflow_id = 2;
+  const workflow_id = props.workflowId;
 
   const getStepsAPI = () => {
     Axios.get(
-      `http://${tenant}.thetobbers-develop.ml/api/v1/workflow/${workflow_id}/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/${workflow_id}/`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -92,7 +91,7 @@ const AddCustomWorkflow = (props: any) => {
       console.log("Data for update Steps ---> ", data);
 
       Axios.put(
-        `http://${tenant}.thetobbers-develop.ml/api/v1/workflow/step/`,
+        `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
         data,
         {
           headers: {
@@ -134,9 +133,22 @@ const AddCustomWorkflow = (props: any) => {
         width: "1000px",
         display: "flex",
         flexDirection: "column",
+        height: "75vh",
       }}
     >
-      <p style={{ fontSize: "20px" }}> Add Custom workflow page</p>
+      <p
+        style={{
+          fontSize: "24px",
+          fontWeight: "bold",
+          fontFamily: "Helvetica",
+          color: "#696969	",
+          width: "auto",
+          margin: "10px 40px 5px 0 ",
+          padding: "0",
+        }}
+      >
+        Add Custom workflow page
+      </p>
 
       <div
         style={{
@@ -177,8 +189,21 @@ const AddCustomWorkflow = (props: any) => {
           steps={state}
           setDataReload={setDataReload}
           selectedStep={selectedStep}
+          workflowId={workflow_id}
         />
       )}
+      <hr />
+      <div style={{ display: "flex", alignContent: "center" }}>
+        <span style={{ paddingRight: "10px" }}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleCancelModal()}
+          >
+            Finish
+          </Button>
+        </span>
+      </div>
     </div>
   );
 };

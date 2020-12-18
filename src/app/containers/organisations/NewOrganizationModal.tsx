@@ -49,6 +49,7 @@ const NewOrganizationModal = (props: any) => {
       style={{
         margin: "0 auto",
         display: "inline-flex",
+        width: "1000x",
       }}
     >
       <Modal
@@ -62,7 +63,7 @@ const NewOrganizationModal = (props: any) => {
         BackdropProps={{
           timeout: 500,
         }}
-        // style={{ height: "80vh", width: "80vw" }}
+        // style={{ height: "75vh", width: "80vw" }}
       >
         <Fade in={open}>
           <div className={classes.paper}>

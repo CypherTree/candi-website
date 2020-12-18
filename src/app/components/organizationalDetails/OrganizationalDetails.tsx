@@ -115,7 +115,7 @@ function OrganizationalDetails(props: any) {
   };
 
   return (
-    <div>
+    <div style={{ width: "1000px", paddingLeft: "30px", height: "80vh" }}>
       <div
         style={{
           margin: "0 auto",
@@ -188,27 +188,37 @@ function OrganizationalDetails(props: any) {
             <CheckCircleIcon fontSize="small" style={{ color: "red" }} />
           </p>
         )}
-        <Button
-          variant="outlined"
-          color="primary"
-          type="submit"
-          //   autoFocus={true}
-          // onClick={() => handleNewSubmit()}
-          disabled
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
         >
-          {" "}
-          Back
-        </Button>{" "}
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          //   autoFocus={true}
-          onClick={() => handleNewSubmit()}
-        >
-          {" "}
-          {isSubmitted ? "Next" : "Save and Next"}
-        </Button>
+          <Button
+            variant="outlined"
+            color="primary"
+            type="submit"
+            //   autoFocus={true}
+            // onClick={() => handleNewSubmit()}
+            disabled
+            style={{ marginRight: "10px" }}
+          >
+            {" "}
+            Back
+          </Button>{" "}
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            //   autoFocus={true}
+            onClick={() => handleNewSubmit()}
+            // style={{ marginLeft: "10px" }}
+          >
+            {" "}
+            {isSubmitted ? "Next" : "Save and Next"}
+          </Button>
+        </div>
       </div>
     </div>
   );

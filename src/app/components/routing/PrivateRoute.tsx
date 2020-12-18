@@ -40,9 +40,9 @@ const PrivateRoute = (props: any) => {
         ) : privacyPolicyAccepted ? (
           <Component {...props} />
         ) : (
-          // <Dashboard />
+          <Dashboard />
           // <Redirect to={props.location.pathname} />
-          <Organisations />
+          // <Organisations />
         )
       }
     />

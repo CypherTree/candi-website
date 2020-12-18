@@ -2,6 +2,9 @@ import { Button } from "@material-ui/core";
 import Axios from "axios";
 import React, { useState } from "react";
 import AddRole from "./AddRole";
+
+import { connect } from "react-redux";
+
 // import ViewRole from "./ViewRole";
 
 // 1 = ADMIN
@@ -12,7 +15,10 @@ import AddRole from "./AddRole";
 // 6 = THIRD PARTY
 
 const AddRoles = (props: any) => {
-  const { handleNext, handleBack } = props;
+  console.log("<------------ PROPS IN ADD ROLES -------------->", props);
+  const { handleNext, handleBack, state } = props;
+
+  const org_id = props.state.app.currentOrganization.id;
 
   interface role {
     role: [Iroles];
@@ -29,6 +35,8 @@ const AddRoles = (props: any) => {
 
   const [oriRoles, setOriRoles] = useState<Iroles[]>([]);
 
+  const [reloadRequired, setReloadRequired] = useState<boolean>(false);
+
   const addRole = (name: string, type: number) =>
     setRoles([...roles, { name, type }]);
 
@@ -38,17 +46,51 @@ const AddRoles = (props: any) => {
     setRoles(newRoles);
   };
 
+  const handleSkip = () => {
+    updateOrganisation(2);
+    handleNext();
+  };
+
+  const deleteRoleFromAPI = (role_id: number) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const jwtToken = `Bearer ${accessToken}`;
+
+    Axios.delete(
+      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/${role_id}/`,
+
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+      .then((response) => console.log("Delete success", response.data))
+      .then(() => {
+        console.log("reload value before change ---->", reloadRequired);
+        setReloadRequired(true);
+        getRolesFromAPI();
+        console.log("reload value after change ---->", reloadRequired);
+      })
+      .catch((e) => console.log("err", e));
+  };
+
   const handleSubmitForm = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     const jwtToken = `Bearer ${accessToken}`;
 
-    Axios.post(`http://thor.thetobbers-develop.ml/api/v1/team/roles/`, roles, {
-      headers: {
-        Authorization: `${jwtToken}`,
-      },
-    })
+    Axios.post(
+      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      roles,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
       .then((response) => console.log("data", response.data))
+      .then(() => updateOrganisation(1))
       .then(() => handleNext())
       .catch((e) => console.log("err", e));
   };
@@ -60,11 +102,14 @@ const AddRoles = (props: any) => {
 
     let fData = [];
 
-    await Axios.get(`http://thor.thetobbers-develop.ml/api/v1/team/roles/`, {
-      headers: {
-        Authorization: `${jwtToken}`,
-      },
-    })
+    await Axios.get(
+      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
       .then((response) => {
         fData = response.data.data;
 
@@ -73,12 +118,43 @@ const AddRoles = (props: any) => {
       .catch((err) => console.log(err));
   };
 
+  const updateOrganisation = (value: number) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    const data = props.state.app.currentOrganization;
+
+    data.roles_added = value;
+
+    const jwtToken = `Bearer ${accessToken}`;
+
+    Axios.put(
+      `http://id.thetobbers-staging.ml:8000/api/v1/organization/${org_id}/`,
+      data,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+      .then((response) => console.log("data", response.data))
+
+      .catch((e) => console.log("err", e));
+  };
+
   React.useEffect(() => {
+    console.log("<--- reload value changed --->", reloadRequired);
+    getRolesFromAPI();
+    setReloadRequired(false);
+  }, [setReloadRequired]);
+
+  React.useEffect(() => {
+    console.log("<--- Initial reload --->", reloadRequired);
+
     getRolesFromAPI();
   }, []);
 
   return (
-    <div style={{ paddingLeft: "30px" }}>
+    <div style={{ paddingLeft: "30px", width: "1000px", height: "80vh" }}>
       <p
         style={{
           fontSize: "24px",
@@ -102,8 +178,8 @@ const AddRoles = (props: any) => {
               roleData={roleData}
               removeRole={removeRole}
               index={index}
+              deleteRoleFromAPI={deleteRoleFromAPI}
             />
-
             <br />
           </div>
         ))}
@@ -115,19 +191,27 @@ const AddRoles = (props: any) => {
               roleData={roleData}
               removeRole={removeRole}
               index={index}
+              deleteRoleFromAPI={deleteRoleFromAPI}
             />
             <br />
           </div>
         ))}
       </div>
       <AddRole addRole={addRole} />
-      <div style={{ paddingTop: "20px" }}>
+
+      <div
+        style={{
+          paddingTop: "30px",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <span style={{ paddingRight: "10px" }}>
           <Button
             variant="outlined"
             color="primary"
             type="submit"
-            //   autoFocus={true}
             onClick={() => handleBack()}
           >
             Back
@@ -145,7 +229,7 @@ const AddRoles = (props: any) => {
         </span>
 
         <span style={{ paddingRight: "10px" }}>
-          <Button variant="outlined" color="secondary">
+          <Button variant="outlined" color="secondary" onClick={handleSkip}>
             Skip
           </Button>
         </span>
@@ -154,4 +238,10 @@ const AddRoles = (props: any) => {
   );
 };
 
-export default AddRoles;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(AddRoles);

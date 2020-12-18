@@ -11,28 +11,6 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { PassDataToModal } from "../../core/redux/app/actions";
 
-// address: ""
-// billing_address: ""
-// billing_email: ""
-// city: ""
-// country: ""
-// domain_url: "alibaba.theonboarders.com"
-// email: ""
-// gst: ""
-// id: 8
-// locality: ""
-// logo: null
-// logo_process_status: 0
-// name: "Ali Baba"
-// owner: 12
-// pincode: ""
-// roles_added: 0
-// schema_name: "alibaba_1605603236"
-// slug: "alibaba"
-// state: ""
-// website: "http://www.alibaba.com"
-// workflow_added: 0
-
 const styles = (theme: any) => ({
   title: {
     color: "red",
@@ -204,3 +182,25 @@ const OrganizationItem = (props: any) => {
 };
 
 export default OrganizationItem;
+
+// address: ""
+// billing_address: ""
+// billing_email: ""
+// city: ""
+// country: ""
+// domain_url: "alibaba.theonboarders.com"
+// email: ""
+// gst: ""
+// id: 8
+// locality: ""
+// logo: null
+// logo_process_status: 0
+// name: "Ali Baba"
+// owner: 12
+// pincode: ""
+// roles_added: 0
+// schema_name: "alibaba_1605603236"
+// slug: "alibaba"
+// state: ""
+// website: "http://www.alibaba.com"
+// workflow_added: 0

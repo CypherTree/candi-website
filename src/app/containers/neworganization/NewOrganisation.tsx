@@ -14,6 +14,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
 import AddCustomWorkflow from "../../components/workflow/AddCustomWorkflow";
+import FinalPage from "../../components/finalModal/FinalPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,10 +43,11 @@ function getStepContent(
   handleNext: any,
   setActiveStep: any,
   handleBack: any,
-  currentOrganization: any
+  currentOrganization: any,
+  handleCancelModal: any
 ) {
   switch (step) {
-    case 4:
+    case 0:
       return (
         <OrganizationalDetails
           handleNext={handleNext}
@@ -64,14 +66,28 @@ function getStepContent(
       return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
     case 3:
       return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
-    case 0:
-      return <AddWorkflow handleNext={handleNext} handleBack={handleBack} />;
+    case 4:
+      return (
+        <AddWorkflow
+          handleNext={handleNext}
+          handleBack={handleBack}
+          handleCancelModal={handleCancelModal}
+        />
+      );
+    // case 5:
+    //   return (
+    //     <FinalPage
+    //       handleNext={handleNext}
+    //       handleBack={handleBack}
+    //       handleCancelModal={handleCancelModal}
+    //     />
+    //   );
     default:
       return "Unknown step";
   }
 }
 
-function NewOrganisation(props: any) {
+const NewOrganisation = (props: any) => {
   console.log("Props in New Organization ", props);
   const { handleClose, currentOrganization } = props;
 
@@ -179,7 +195,8 @@ function NewOrganisation(props: any) {
                 handleNext,
                 getStepContent,
                 handleBack,
-                currentOrganization
+                currentOrganization,
+                handleCancelModal
               )}
             </Typography>
             <div></div>
@@ -188,6 +205,6 @@ function NewOrganisation(props: any) {
       </div>
     </div>
   );
-}
+};
 
 export default NewOrganisation;

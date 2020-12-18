@@ -21,7 +21,7 @@ import NewOrganizationModal from "./NewOrganizationModal";
 
 import AddIcon from "@material-ui/icons/Add";
 
-function Organisations(props: any) {
+const Organisations = (props: any) => {
   const [open, setOpen] = React.useState(false);
 
   const [orgData, setOrgData] = React.useState({
@@ -103,15 +103,6 @@ function Organisations(props: any) {
 
         <Link to="/organisation/new"></Link>
 
-        {/* <Button
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={handleOpen}
-        >
-          Add new Organisation
-        </Button> */}
-
         <NewOrganizationModal
           handleOpen={handleOpen}
           handleClose={handleClose}
@@ -124,10 +115,21 @@ function Organisations(props: any) {
       <OrganizationList handleOpen={handleOpen} />
     </div>
   );
-}
+};
 
 const mapStateToProps = (state: any) => {
   return { state };
 };
 
 export default connect(mapStateToProps)(Organisations);
+
+{
+  /* <Button
+          type="button"
+          variant="contained"
+          color="primary"
+          onClick={handleOpen}
+        >
+          Add new Organisation
+        </Button> */
+}

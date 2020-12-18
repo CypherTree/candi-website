@@ -42,6 +42,7 @@ const AddStepForm = (props: any) => {
     steps,
     setDataReload,
     selectedStep,
+    workflowId,
   } = props;
 
   const [formType, setFormType] = useState(1);
@@ -61,7 +62,7 @@ const AddStepForm = (props: any) => {
   const tenant = "cyphertree";
   // const tenant = "thor";
 
-  const workflow_id = 2;
+  // const workflow_id = 2;
 
   const handleFormSubmit = () => {
     if (editMode) {
@@ -80,7 +81,7 @@ const AddStepForm = (props: any) => {
         description: stepDescription,
         category: categoryType,
         video_enabled: checkVideoEnabled,
-        workflow: workflow_id,
+        workflow: workflowId,
         order: steps.length,
       };
 
@@ -94,7 +95,7 @@ const AddStepForm = (props: any) => {
 
   const createStepApi = (data: any) => {
     Axios.post(
-      `http://${tenant}.thetobbers-develop.ml/api/v1/workflow/step/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
       data,
       {
         headers: {
@@ -116,7 +117,7 @@ const AddStepForm = (props: any) => {
 
   const updateStepsApi = (data: any) => {
     Axios.put(
-      `http://${tenant}.thetobbers-develop.ml/api/v1/workflow/step/${selectedStep.id}/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/${selectedStep.id}/`,
       data,
       {
         headers: {

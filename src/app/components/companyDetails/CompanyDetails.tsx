@@ -145,6 +145,7 @@ function CompanyDetails(props: any) {
     };
 
     const dataForLocal = {
+      id: organisation_id,
       email,
       address,
       country,
@@ -166,7 +167,14 @@ function CompanyDetails(props: any) {
   const styles = { width: "350px" };
 
   return (
-    <div style={{ textAlign: "left", paddingLeft: "30px" }}>
+    <div
+      style={{
+        textAlign: "left",
+        paddingLeft: "30px",
+        height: "75vh",
+        width: "1000px",
+      }}
+    >
       <p
         style={{
           fontSize: "24px",
@@ -178,7 +186,6 @@ function CompanyDetails(props: any) {
           padding: "0",
         }}
       >
-        {" "}
         Enter company details
       </p>
       <br />
@@ -396,7 +403,6 @@ function CompanyDetails(props: any) {
             name={name}
             website={website}
           />
-          {/* <UploadLogo /> */}
         </Grid>
 
         <Grid item xs={6}>
@@ -409,22 +415,21 @@ function CompanyDetails(props: any) {
           )}
         </Grid>
       </Grid>
-      {/* 
-      {props.state.app.companyDetailsToOrganizationMessage && (
-        <div>
-          <Typography variant="h5" component="h5" color="primary">
-            {props.state.app.companyDetailsToOrganizationMessage}
-          </Typography>{" "}
-        </div>
-      )} */}
 
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <Button
           variant="outlined"
           color="primary"
           type="submit"
           //   autoFocus={true}
           onClick={() => handleBack()}
+          style={{ marginRight: "10px" }}
         >
           {" "}
           Back
@@ -451,3 +456,14 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(CompanyDetails);
+
+{
+  /* 
+      {props.state.app.companyDetailsToOrganizationMessage && (
+        <div>
+          <Typography variant="h5" component="h5" color="primary">
+            {props.state.app.companyDetailsToOrganizationMessage}
+          </Typography>{" "}
+        </div>
+      )} */
+}

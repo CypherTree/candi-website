@@ -19,21 +19,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AddRole(props: any) {
+const AddRole = (props: any) => {
   console.log("roles ----> ", props);
+
+  //   roleData={roleData}
+  //   removeRole={removeRole}
+  //   index={index}
   const classes = useStyles();
 
-  const { addRole, roleData, removeRole, index } = props;
+  const { addRole, roleData, removeRole, index, deleteRoleFromAPI } = props;
 
   const [isAdded, SetIsAdded] = useState(false);
 
   const [isDeleteAllowed, setIsDeleteAllowed] = useState(true);
 
-  //   roleData={roleData}
-  //   removeRole={removeRole}
-  //   index={index}
-
   const [type, setType] = React.useState(2);
+
   const [name, setName] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -46,14 +47,15 @@ function AddRole(props: any) {
     setName(event.target.value);
   };
 
+  const handleDeleteRoleFromApi = () => {
+    deleteRoleFromAPI(roleData.id);
+  };
+
   const onSubmit = () => {
-    console.log("role selected", name);
-    console.log("role type selected", type);
     addRole(name, type);
   };
 
   React.useEffect(() => {
-    // console.log("props", )
     if (props.roleData) {
       if (props.roleData.uuid) {
         setIsDeleteAllowed(false);
@@ -70,9 +72,6 @@ function AddRole(props: any) {
   return (
     <div style={{ width: "1000px", maxWidth: "1000px" }}>
       <span>
-        {/* <InputLabel id="demo-simple-select-helper-label">
-          Role Type Name
-        </InputLabel> */}
         <TextField
           type="text"
           label="Role Type Name"
@@ -107,30 +106,6 @@ function AddRole(props: any) {
 
               // size="medium"
             >
-              <MenuItem value={1} style={styles} disabled={true}>
-                {open ? (
-                  <div>
-                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                      {" "}
-                      Admin
-                    </p>
-
-                    {/* <p
-                      style={{
-                        wordWrap: "break-word",
-                        fontSize: "14px",
-                        whiteSpace: "initial",
-                      }}
-                    >
-                      Can modify, create workflow, add, delete, users, can add
-                      third party members. Delete and mofidy the job and tasks.
-                      Can delete the workspace.
-                    </p> */}
-                  </div>
-                ) : (
-                  <div> Admin</div>
-                )}
-              </MenuItem>
               <MenuItem value={2} style={styles}>
                 {" "}
                 {open ? (
@@ -191,7 +166,6 @@ function AddRole(props: any) {
                       {" "}
                       Viewer
                     </p>
-
                     <p
                       style={{
                         wordWrap: "break-word",
@@ -253,8 +227,8 @@ function AddRole(props: any) {
           <Button
             variant="outlined"
             color="secondary"
-            onClick={() => removeRole(index)}
-            disabled={true}
+            onClick={handleDeleteRoleFromApi}
+            // disabled={true}
           >
             <Delete />
           </Button>
@@ -262,6 +236,21 @@ function AddRole(props: any) {
       </span>
     </div>
   );
-}
+};
 
 export default AddRole;
+
+{
+  /* <MenuItem value={1} style={styles} disabled={true}>
+                {open ? (
+                  <div>
+                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
+                      {" "}
+                      Admin
+                    </p>
+                  </div>
+                ) : (
+                  <div> Admin</div>
+                )}
+              </MenuItem> */
+}

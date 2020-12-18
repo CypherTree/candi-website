@@ -327,7 +327,8 @@ function Plans(props: any) {
         textAlign: "center",
         margin: "0",
         backgroundColor: "whitesmoke",
-        width: "85vw",
+        width: "1000px",
+        height: "75vh",
         // border: "1px solid black",
         // borderRadius: "10px",
       }}
