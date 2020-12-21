@@ -30,7 +30,6 @@ const Organisations = (props: any) => {
 
   return (
     <div>
-      <Navbar />
       <div
         style={{
           // border: "1px solid black",

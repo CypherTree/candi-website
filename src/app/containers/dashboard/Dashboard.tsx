@@ -95,7 +95,6 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
 
   return (
     <div>
-      <Navbar />
       {userData && userData.privacy_policy_accepted ? (
         <>
           {userData && userData.is_verified && (
