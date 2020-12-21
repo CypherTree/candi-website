@@ -7,6 +7,7 @@ import { Typography, Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import OrganizationItem from "../organizationItem/OrganizationItem";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 interface IOrganization {
   address: string;
@@ -45,13 +46,19 @@ const OrganizationList = (props: any) => {
 
   const [perPage, setPerPage] = useState(6);
 
+  // logic for calculating per page
+
   const mod = count % perPage;
 
-  const numberOfPages: number = count / perPage - mod;
+  const newCount = count - mod;
 
-  const numberofFinalPages = Math.trunc(numberOfPages) + 2;
+  const numberOfPages: number = newCount / perPage;
 
-  const accessToken = localStorage.getItem("accessToken");
+  const offSet = mod === 0 ? 0 : 1;
+
+  const numberofFinalPages = Math.trunc(numberOfPages) + offSet;
+
+  const { accessToken } = getCurrentSessionTokens();
 
   const jwtToken = `Bearer ${accessToken}`;
 
@@ -145,6 +152,9 @@ const OrganizationList = (props: any) => {
                   setCurrentPage(page);
                 }}
               />
+              {console.log("number of final pages ", numberofFinalPages)}
+              {/* {console.log("current page", page)} */}
+              {console.log("no of pages", numberOfPages)}
             </div>
           )}
         </div>
@@ -169,14 +179,3 @@ const OrganizationList = (props: any) => {
 };
 
 export default OrganizationList;
-
-// 1. (<div>
-//        <br />
-//        <br />
-//        <Typography variant="h5" component="h5">
-//          {/* You have not created any organisation. */}
-//          Setup your Organisation.{" "}
-//        </Typography>
-//      </div>)
-
-// 2.
