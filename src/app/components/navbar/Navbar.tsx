@@ -118,7 +118,6 @@ function Navbar() {
                 >
                   <b>The Onboarders</b>
                 </Link>
-                {/* <b>The Onboarders</b> */}
               </p>
             </Grid>
 
@@ -236,7 +235,14 @@ function Navbar() {
                 <SettingsIcon fontSize="large" />
               </div>
 
-              <div style={{ paddingLeft: "5px", paddingTop: "4px" }}>
+              <div
+                style={{
+                  // paddingLeft: "5px",
+                  paddingTop: "4px",
+                  width: "50px",
+                  overflow: "none",
+                }}
+              >
                 <Button
                   aria-controls="simple-menu"
                   aria-haspopup="true"
@@ -246,7 +252,16 @@ function Navbar() {
                     margin: "0",
                   }}
                 >
-                  <Avatar className={classes.purple}>MK</Avatar>
+                  <Avatar
+                    className={classes.purple}
+                    style={{
+                      height: "35px",
+                      width: "35px",
+                      overflow: "none",
+                    }}
+                  >
+                    MK
+                  </Avatar>
                 </Button>
                 <Menu
                   id="simple-menu"
