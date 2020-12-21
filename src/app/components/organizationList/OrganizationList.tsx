@@ -97,11 +97,12 @@ const OrganizationList = (props: any) => {
   }, []);
   return (
     <div>
-      {loading ? (
+      {loading && (
         <Typography variant="h5" component="h5">
           Loading.....{" "}
         </Typography>
-      ) : (
+      )}
+      {data.length > 0 ? (
         <div
           style={{
             paddingLeft: "150px",
@@ -123,27 +124,44 @@ const OrganizationList = (props: any) => {
           </Grid>
           <br />
           <br />
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              paddingBottom: "30px",
-            }}
-          >
-            <Pagination
-              count={numberofFinalPages}
-              variant="outlined"
-              shape="rounded"
-              color={"primary"}
-              page={currentPage}
-              size="large"
-              onChange={(e, page) => {
-                handlePageChange(e, page);
-                setCurrentPage(page);
+          {data.length > 0 && (
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                paddingBottom: "30px",
               }}
-            />
-          </div>
+            >
+              <Pagination
+                count={numberofFinalPages}
+                variant="outlined"
+                shape="rounded"
+                color={"primary"}
+                page={currentPage}
+                size="large"
+                onChange={(e, page) => {
+                  handlePageChange(e, page);
+                  setCurrentPage(page);
+                }}
+              />
+            </div>
+          )}
+        </div>
+      ) : (
+        <div>
+          <br />
+          <br />
+          <Typography variant="h5" component="h5">
+            <b>Setup your Organisation. </b>
+          </Typography>
+          <br />
+          <br />
+          <img
+            height="400px"
+            width="600px"
+            src="https://cdn.dribbble.com/users/1170793/screenshots/5996967/work_pack_white-01.png"
+          />
         </div>
       )}
     </div>
@@ -151,3 +169,14 @@ const OrganizationList = (props: any) => {
 };
 
 export default OrganizationList;
+
+// 1. (<div>
+//        <br />
+//        <br />
+//        <Typography variant="h5" component="h5">
+//          {/* You have not created any organisation. */}
+//          Setup your Organisation.{" "}
+//        </Typography>
+//      </div>)
+
+// 2.

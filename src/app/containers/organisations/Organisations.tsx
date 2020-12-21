@@ -1,14 +1,13 @@
-import { Fab } from "@material-ui/core";
 import React from "react";
 
-import Navbar from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
-import OrganizationList from "../../components/organizationList/OrganizationList";
-import NewOrganizationModal from "./NewOrganizationModal";
 
 import AddIcon from "@material-ui/icons/Add";
+
+import OrganizationList from "../../components/organizationList/OrganizationList";
+import NewOrganizationModal from "./NewOrganizationModal";
 
 const Organisations = (props: any) => {
   const [open, setOpen] = React.useState(false);
@@ -32,7 +31,6 @@ const Organisations = (props: any) => {
     <div>
       <div
         style={{
-          // border: "1px solid black",
           alignItems: "left",
           textAlign: "left",
           paddingLeft: "150px",
@@ -46,7 +44,6 @@ const Organisations = (props: any) => {
             display: "flex",
             flexDirection: "row",
             width: "300px",
-
             textAlign: "center",
           }}
         >
@@ -57,35 +54,42 @@ const Organisations = (props: any) => {
                 fontWeight: "bold",
                 fontFamily: "Helvetica",
                 color: "#696969	",
-
                 width: "auto",
-                margin: "10px 40px 5px 0 ",
+                margin: "10px 20px 5px 0 ",
                 padding: "0",
               }}
             >
-              {" "}
               ORGANISATION
             </p>
-            {"  "}
           </div>
-          <div
-            style={{
-              lineHeight: "40px",
-            }}
-          >
-            {" "}
-            <Fab
-              aria-label="add"
+          <div>
+            <div
               style={{
-                // border: "1px solid black",
-                height: "40px",
-                width: "40px",
-                textAlign: "center",
+                borderRadius: "14px",
                 backgroundColor: "#F9650D",
+                margin: "0px",
+                display: "flex",
+                marginTop: "10px",
+                // bormui der: "1px solid black",
+                height: "28px",
+                width: "28px",
+                // alignItems: "center",
+                // alignContent: "center",
+                textAlign: "center",
+                // padding: "0px",
+                justifyContent: "center",
               }}
             >
-              <AddIcon fontSize="small" onClick={handleOpen} />
-            </Fab>
+              <AddIcon
+                onClick={handleOpen}
+                style={{
+                  alignSelf: "center",
+                  height: "20px",
+                  width: "20px",
+                  color: "white",
+                }}
+              />
+            </div>
           </div>
         </div>
 
@@ -110,3 +114,23 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(Organisations);
+
+{
+  /* <Fab
+              aria-label="add"
+              size="small"
+              style={{
+                // bormui der: "1px solid black",
+                // height: "28px",
+                // width: "28px",
+
+                textAlign: "center",
+                backgroundColor: "#F9650D",
+                padding: "0px",
+                margin: "0px",
+              }}
+            >
+
+<AddIcon onClick={handleOpen} />
+            </Fab> */
+}
