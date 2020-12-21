@@ -1,12 +1,4 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import Axios from "axios";
 import React, { useState, useEffect } from "react";
 import AddStepForm from "./AddStepForm";
@@ -209,18 +201,3 @@ const AddCustomWorkflow = (props: any) => {
 };
 
 export default AddCustomWorkflow;
-
-// {
-//     "id":1,
-//     "name":"Screening",
-//     "step_type":0,
-//     "description":"In this round the applicant is shortlisted.",
-//     "category":0,
-//     "order":0,
-//     "video_enabled":false,
-//     "workflow":2
-//  },
-
-// const addToList = (name: string, description: string) => {
-// setState([...state, { name, description, id: state.length }]);
-// };

@@ -1,21 +1,9 @@
-import {
-  Avatar,
-  Card,
-  CardContent,
-  CardHeader,
-  Typography,
-} from "@material-ui/core";
-
 import React from "react";
 
+import { Avatar } from "@material-ui/core";
 import { useDispatch } from "react-redux";
-import { PassDataToModal } from "../../core/redux/app/actions";
 
-const styles = (theme: any) => ({
-  title: {
-    color: "red",
-  },
-});
+import { PassDataToModal } from "../../core/redux/app/actions";
 
 const OrganizationItem = (props: any) => {
   const dispatch = useDispatch();
@@ -43,30 +31,6 @@ const OrganizationItem = (props: any) => {
     data.domain_url = data.domain_url.replace("http://www.", "");
     console.log("data.domain_url", data.domain_url);
   }
-
-  //   address: ""
-  // billing_address: ""
-  // billing_email: ""
-  // city: ""
-  // country: ""
-  // domain_url: "alibaba.theonboarders.com"
-  // email: ""
-  // gst: ""
-  // id: 8
-  // locality: ""
-  // logo: null
-  // logo_process_status: 0
-  // name: "Ali Baba"
-  // owner: 12
-  // pincode: ""
-  // roles_added: 0
-  // schema_name: "alibaba_1605603236"
-  // slug: "alibaba"
-  // state: ""
-  // website: "http://www.alibaba.com"
-  // workflow_added: 0
-
-  const handleNext = () => {};
 
   const handleClick = () => {
     dispatch(
@@ -104,7 +68,7 @@ const OrganizationItem = (props: any) => {
       <div
         style={{
           backgroundColor: "#f8f8f8",
-          // border: "1px solid black",
+
           padding: "none",
           margin: "none",
         }}
@@ -115,22 +79,18 @@ const OrganizationItem = (props: any) => {
             alignItems: "center",
             flexWrap: "wrap",
             justifyContent: "flex-start",
-            // border: "1px solid black",
           }}
         >
           <div
             style={{
               paddingLeft: "20px",
               paddingRight: "20px",
-              // border: "1px solid black",
             }}
           >
             <Avatar
               alt={data.slug.toUpperCase()}
-              // alt=""
               src="dsakld/"
               style={{
-                // backgroundColor: "#dd6c26",
                 backgroundColor: "#F9650D",
                 fontSize: "40px",
                 width: "60px",
@@ -140,7 +100,6 @@ const OrganizationItem = (props: any) => {
           </div>
           <div
             style={{
-              // border: "1px solid black",
               paddingLeft: "10px ",
               textAlign: "left",
               lineHeight: "10px",
@@ -149,10 +108,10 @@ const OrganizationItem = (props: any) => {
             <p
               style={{
                 fontSize: "24px",
-                // fontWeight: "bold",
+
                 fontFamily: "Helvetica",
                 color: "#696969	",
-                // border: "1px solid black",
+
                 margin: "20px 0 5px 0",
                 padding: 0,
               }}
@@ -164,14 +123,11 @@ const OrganizationItem = (props: any) => {
               style={{
                 fontSize: "14px",
                 color: "#696969	",
-                // border: "1px solid black",
               }}
             >
               {data.website}
-              {/* alibaba.com */}
             </p>
             <p>
-              {" "}
               <b>{progress}</b>% completed.{" "}
             </p>
           </div>
@@ -182,25 +138,3 @@ const OrganizationItem = (props: any) => {
 };
 
 export default OrganizationItem;
-
-// address: ""
-// billing_address: ""
-// billing_email: ""
-// city: ""
-// country: ""
-// domain_url: "alibaba.theonboarders.com"
-// email: ""
-// gst: ""
-// id: 8
-// locality: ""
-// logo: null
-// logo_process_status: 0
-// name: "Ali Baba"
-// owner: 12
-// pincode: ""
-// roles_added: 0
-// schema_name: "alibaba_1605603236"
-// slug: "alibaba"
-// state: ""
-// website: "http://www.alibaba.com"
-// workflow_added: 0

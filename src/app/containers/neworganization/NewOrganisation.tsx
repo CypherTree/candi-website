@@ -14,7 +14,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
 import AddCustomWorkflow from "../../components/workflow/AddCustomWorkflow";
-import FinalPage from "../../components/finalModal/FinalPage";
+// import FinalPage from "../../components/finalModal/FinalPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {

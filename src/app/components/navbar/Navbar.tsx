@@ -1,10 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
+
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 
@@ -12,12 +9,14 @@ import { useDispatch } from "react-redux";
 import { LogoutUser } from "../../../auth/core/redux/actions";
 import {
   Avatar,
-  Badge,
   Grid,
-  InputBase,
   Menu,
   MenuItem,
+  Toolbar,
+  Button,
+  IconButton,
 } from "@material-ui/core";
+
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
@@ -274,48 +273,3 @@ function Navbar() {
 }
 
 export default Navbar;
-{
-  /* <Button
-                color="secondary"
-                onClick={() => handleLogout()}
-                variant="contained"
-              >
-                Logout
-              </Button> */
-}
-
-{
-  /* <div>
-                <Link to="/dashboard">
-                  <Button color="primary" variant="contained">
-                    Home
-                  </Button>{" "}
-                </Link>
-              </div> */
-}
-
-{
-  /* <div>
-                <Link to="/organisations/all">
-                  <Button color="primary" variant="contained">
-                    Organisation
-                  </Button>{" "}
-                </Link>
-              </div> */
-}
-
-{
-  /* <IconButton>/ */
-}
-{
-  /* <Badge badgeContent={4} color="secondary"> */
-}
-{
-  /* <PublicIcon fontSize="large" /> */
-}
-{
-  /* </Badge> */
-}
-{
-  /* </IconButton> */
-}

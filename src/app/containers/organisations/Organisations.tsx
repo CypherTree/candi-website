@@ -1,19 +1,8 @@
-import {
-  Button,
-  Typography,
-  Modal,
-  Fade,
-  Backdrop,
-  Fab,
-} from "@material-ui/core";
+import { Fab } from "@material-ui/core";
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
 import Navbar from "../../components/navbar/Navbar";
 import { Link } from "react-router-dom";
-import NewOrganisation from "../neworganization/NewOrganisation";
-
-import Spinner from "../../components/spinner/Spinner";
 
 import { connect } from "react-redux";
 import OrganizationList from "../../components/organizationList/OrganizationList";
@@ -122,14 +111,3 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(Organisations);
-
-{
-  /* <Button
-          type="button"
-          variant="contained"
-          color="primary"
-          onClick={handleOpen}
-        >
-          Add new Organisation
-        </Button> */
-}
