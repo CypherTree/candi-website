@@ -62,7 +62,13 @@ const ForgotPasswordForm: React.FC<Props> = ({
 
   return (
     <div>
-      <Card style={{ backgroundColor: "whitesmoke", height: "500px" }}>
+      <Card
+        style={{
+          backgroundColor: "whitesmoke",
+          height: "500px",
+          padding: "20px",
+        }}
+      >
         <CardHeader title="Forgot Password" />{" "}
         <CardContent>
           <div>

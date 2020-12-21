@@ -64,11 +64,11 @@ const ForgotPassword: React.FC<Props> = ({
           <SideImage />
         </Grid>
         <Grid item xs={11} sm={6}>
-          <Typography variant="h3" color="primary" component="h2">
-            {" "}
-            {APP_NAME}
-          </Typography>
-          <br /> <br />
+          <br />
+          <p style={{ fontSize: "40px" }}>
+            <b> {APP_NAME}</b>
+          </p>
+
           <ForgotPasswordForm auth={state.auth} />
         </Grid>
       </Grid>

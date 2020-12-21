@@ -143,7 +143,7 @@ const RegisterForm: React.FC<Props> = ({
 
   return (
     <div>
-      <Card>
+      <Card style={{ backgroundColor: "whitesmoke", padding: "20px" }}>
         <CardHeader title="Registration Form"></CardHeader>
         <CardContent>
           {auth.hasOwnProperty("error") && (

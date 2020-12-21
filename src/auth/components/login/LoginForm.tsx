@@ -49,7 +49,13 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
 
   return (
     <div>
-      <Card style={{ backgroundColor: "whitesmoke", height: "500px" }}>
+      <Card
+        style={{
+          backgroundColor: "whitesmoke",
+          height: "500px",
+          padding: "20px",
+        }}
+      >
         <CardHeader title="Login" />
         <CardContent>
           <div>

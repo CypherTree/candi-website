@@ -56,16 +56,14 @@ const Login: React.FC<Props> = ({ setAuthenticated, state, history }) => {
   return (
     <div>
       <Grid container spacing={0}>
-        {" "}
-        <Grid item xs={1} sm={6}>
+        <Grid item xs={1} sm={6} md={6}>
           <SideImage />
         </Grid>
-        <Grid item xs={11} sm={6} color="red">
-          <Typography variant="h3" color="primary" component="h2">
-            {" "}
-            {APP_NAME}
-          </Typography>
-          <br /> <br />
+        <Grid item xs={11} sm={6} md={6} color="red">
+          <br />
+          <p style={{ fontSize: "40px" }}>
+            <b> {APP_NAME}</b>
+          </p>
           <LoginForm auth={state.auth} />
         </Grid>
       </Grid>

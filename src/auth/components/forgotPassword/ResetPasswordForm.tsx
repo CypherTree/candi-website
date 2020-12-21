@@ -58,7 +58,13 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
 
   return (
     <div>
-      <Card style={{ backgroundColor: "whitesmoke", height: "500px" }}>
+      <Card
+        style={{
+          backgroundColor: "whitesmoke",
+          height: "500px",
+          padding: "20px",
+        }}
+      >
         <CardHeader title="Reset Password" />
         <CardContent>
           {auth && auth.hasOwnProperty("success") ? (
