@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import {
   Card,
   CardHeader,
@@ -7,17 +9,51 @@ import {
   TextField,
   Button,
 } from "@material-ui/core";
-import React, { useState } from "react";
+
 import { Link } from "react-router-dom";
 
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { sendOTP } from "../../core/services/register.service";
-import { useDispatch } from "react-redux";
+
+import { connect } from "react-redux";
+
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
+import { sendOTP } from "../../core/services/register";
+
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
-function RegisterForm(props: any) {
-  const dispatch = useDispatch();
+import { StateType } from "../../../app/core/redux/types";
 
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+};
+
+interface RegisterData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  phone_number: string;
+  phone_number_extension: string;
+  otp: string;
+}
+
+type Props = {
+  setAuthenticated: (value?: boolean) => void;
+  registerUser: (registerData: RegisterData) => void;
+  auth: AuthProps;
+};
+
+const RegisterForm: React.FC<Props> = ({
+  setAuthenticated,
+  registerUser,
+  auth,
+}) => {
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [isResendAllowed, setIsResendAllowed] = useState(false);
 
@@ -59,8 +95,50 @@ function RegisterForm(props: any) {
 
   const redirectToDashboard = () => {
     setTimeout(() => {
-      dispatch(SetAuthenticated(true));
+      setAuthenticated(true);
     }, 1000);
+  };
+
+  type valuesType = {
+    firstName?: string;
+    lastName?: string;
+    password?: string;
+    password2?: string;
+    otp?: string;
+    phone_number_extension?: string;
+    email?: string;
+  };
+
+  const validationCheck = (values: valuesType) => {
+    const errors: any = {};
+
+    if (!values.firstName) {
+      errors.firstName = "Required";
+    }
+    if (!values.lastName) {
+      errors.lastName = "Required";
+    }
+    if (!values.password) {
+      errors.password = "Required";
+    }
+    if (!values.password2) {
+      errors.password2 = "Required";
+    }
+    if (!values.otp) {
+      errors.otp = "Required";
+    }
+    if (!values.phone_number_extension) {
+      errors.phone_number_extension = "Required";
+    }
+    if (!values.email) {
+      errors.email = "Required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+    ) {
+      errors.email = "Invalid email address";
+    }
+
+    return errors;
   };
 
   return (
@@ -68,14 +146,14 @@ function RegisterForm(props: any) {
       <Card>
         <CardHeader title="Registration Form"></CardHeader>
         <CardContent>
-          {props.props.state.auth.hasOwnProperty("error") && (
+          {auth.hasOwnProperty("error") && (
             <Typography color="error" component="h5" variant="h5">
-              {props.props.state.auth.error}
+              {auth.error}
             </Typography>
           )}
-          {props.props.state.auth.hasOwnProperty("success") ? (
+          {auth.hasOwnProperty("success") ? (
             <Typography color="primary" component="h5" variant="h5">
-              {props.props.state.auth.success}
+              {auth.success}
               Redirecting to dashboard.
               {redirectToDashboard()}
             </Typography>
@@ -91,52 +169,21 @@ function RegisterForm(props: any) {
                 otp: "",
                 phone_number_extension: "+91",
               }}
-              validate={(values) => {
-                const errors: any = {};
-                if (!values.firstName) {
-                  errors.firstName = "Required";
-                }
-                if (!values.lastName) {
-                  errors.lastName = "Required";
-                }
-                if (!values.password) {
-                  errors.password = "Required";
-                }
-                if (!values.password2) {
-                  errors.password2 = "Required";
-                }
-                if (!values.otp) {
-                  errors.otp = "Required";
-                }
-                if (!values.phone_number_extension) {
-                  errors.phone_number_extension = "Required";
-                }
-                if (!values.email) {
-                  errors.email = "Required";
-                } else if (
-                  !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(
-                    values.email
-                  )
-                ) {
-                  errors.email = "Invalid email address";
-                }
-
-                return errors;
-              }}
+              validate={validationCheck}
               onSubmit={(data, { setSubmitting }) => {
                 setSubmitting(true);
                 // make async call
-                dispatch(
-                  RegisterUser({
-                    first_name: data.firstName,
-                    last_name: data.lastName,
-                    email: data.email,
-                    password: data.password,
-                    phone_number: data.phone,
-                    phone_number_extension: data.phone_number_extension,
-                    otp: data.otp,
-                  })
-                );
+
+                registerUser({
+                  first_name: data.firstName,
+                  last_name: data.lastName,
+                  email: data.email,
+                  password: data.password,
+                  phone_number: data.phone,
+                  phone_number_extension: data.phone_number_extension,
+                  otp: data.otp,
+                });
+
                 setSubmitting(false);
               }}
             >
@@ -293,6 +340,20 @@ function RegisterForm(props: any) {
       </Card>
     </div>
   );
-}
+};
 
-export default RegisterForm;
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    setAuthenticated: () => dispatch(SetAuthenticated(true)),
+    registerUser: (registerData: RegisterData) =>
+      dispatch(RegisterUser(registerData)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegisterForm);

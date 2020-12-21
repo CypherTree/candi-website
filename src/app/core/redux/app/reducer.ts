@@ -1,13 +1,4 @@
-import { SET_LOADING } from "../../../../auth/core/redux/types";
-import {
-  SET_AUTHENTICATED,
-  DOMAIN_CHECK_MESSAGE,
-  NEW_ORGANISATION_CREATE,
-  SET_PLAN_TO_ORGANISATION,
-  ADD_COMPANY_DETAILS_TO_ORGANISATION,
-  SET_CURRENT_ORGANISATION,
-  ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
-} from "./types";
+import { Types } from "./types";
 
 interface DefaultStateI {
   isLoading: boolean;
@@ -16,6 +7,17 @@ interface DefaultStateI {
 const defaultState: DefaultStateI = {
   isLoading: false,
 };
+
+const {
+  SET_LOADING,
+  SET_AUTHENTICATED,
+  DOMAIN_CHECK_MESSAGE,
+  NEW_ORGANISATION_CREATE,
+  SET_PLAN_TO_ORGANISATION,
+  ADD_COMPANY_DETAILS_TO_ORGANISATION,
+  SET_CURRENT_ORGANISATION,
+  ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
+} = Types;
 
 export const appReducer: any = (
   state: DefaultStateI = defaultState,

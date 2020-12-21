@@ -1,8 +1,9 @@
 import axios from "axios";
 import { Dispatch } from "redux";
 
-import {
-  AppDispatchTypes,
+import { AppDispatchTypes, Types } from "./types";
+
+const {
   SET_AUTHENTICATED,
   DOMAIN_CHECK_MESSAGE,
   SET_LOADING,
@@ -11,7 +12,7 @@ import {
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
   SET_CURRENT_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
-} from "./types";
+} = Types;
 
 export const SetAuthenticated = () => async (
   dispatch: Dispatch<AppDispatchTypes>

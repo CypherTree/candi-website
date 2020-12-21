@@ -1,19 +1,72 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Button, Typography, Grid, SnackbarContent } from "@material-ui/core";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
 import { connect } from "react-redux";
 
-import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
+import * as H from "history";
+
+import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
+
+import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
+
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+
+import { StateType } from "../../core/redux/types";
 
 import Navbar from "../../components/navbar/Navbar";
 
-function Dashboard(props: any) {
-  const userData = props.state.auth.userData ? props.state.auth.userData : null;
+import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
 
-  console.log("user data", userData);
+import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 
-  useEffect(() => {}, [userData]);
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
+
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: UserDataProps;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+  logoutUser: () => void;
+  getNewToken: (accessToken: string, refreshToken: string) => void;
+};
+
+const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
+  const [loading, setLoading] = useState(false);
+
+  const { accessToken } = getCurrentSessionTokens();
+
+  const handleLogout = () => {
+    logoutUser();
+  };
 
   const action = (
     <Button
@@ -26,26 +79,29 @@ function Dashboard(props: any) {
     </Button>
   );
 
+  const userData = state.auth.userData ? state.auth.userData : null;
+
+  useEffect(() => {}, [userData]);
+
+  const handleAcceptPrivacyPolicy = () => {
+    if (accessToken !== null) {
+      acceptPrivacyPolicy(accessToken);
+      setLoading(true);
+      setTimeout(() => {
+        window.location.reload(true);
+      }, 6000);
+    }
+  };
+
   return (
     <div>
       <Navbar />
       {userData && userData.privacy_policy_accepted ? (
         <>
-          <br />
-          {userData && !userData.is_verified && (
+          {userData && userData.is_verified && (
             <div>
               <div style={{ alignContent: "center" }}>
-                <SnackbarContent
-                  style={{
-                    margin: "0 auto",
-                    backgroundColor: "teal",
-                    width: "90vw",
-                  }}
-                  message={
-                    "Your Email verification is pending. Check your email for verification link."
-                  }
-                  action={action}
-                ></SnackbarContent>
+                <EmailVerificationBar />
               </div>
             </div>
           )}
@@ -71,16 +127,20 @@ function Dashboard(props: any) {
       )}
     </div>
   );
-}
+};
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: StateType) => {
   return {
     state: state,
   };
 };
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    logoutUser: () => dispatch(LogoutUser()),
+    getNewToken: (accessToken: string, refreshToken: string) =>
+      dispatch(GetNewToken(accessToken, refreshToken)),
+  };
+};
 
-// {/* <Snackbar open={true} autoHideDuration={6000}>
-//                 <Alert severity="error">This is an error message!</Alert>
-//               </Snackbar> */}
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

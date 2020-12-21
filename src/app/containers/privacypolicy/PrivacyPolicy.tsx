@@ -9,7 +9,7 @@ import React, { useState } from "react";
 
 import PrivacyPolicyText from "../../components/privacyPolicy/PrivacyPolicyText";
 
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy.service";
+import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 
 const mainImage = require("../../../shared/assets/images/welcome-illustration.jpg");
 

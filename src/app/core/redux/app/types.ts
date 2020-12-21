@@ -1,45 +1,43 @@
-export const SET_LOADING = "SET_LOADING";
-export const SET_AUTHENTICATED = "SET_AUTHENTICATED";
-export const CHECK_DOMAIN_NAME = "CHECK_DOMAIN_NAME";
-export const DOMAIN_CHECK_MESSAGE = "DOMAIN_CHECK_MESSAGE";
-export const NEW_ORGANISATION_CREATE = "NEW_ORGANISATION_CREATE";
-export const SET_CURRENT_ORGANISATION = "SET_CURRENT_ORGANISATION";
+export enum Types {
+  SET_LOADING = "SET_LOADING",
+  SET_AUTHENTICATED = "SET_AUTHENTICATED",
+  CHECK_DOMAIN_NAME = "CHECK_DOMAIN_NAME",
+  DOMAIN_CHECK_MESSAGE = "DOMAIN_CHECK_MESSAGE",
+  NEW_ORGANISATION_CREATE = "NEW_ORGANISATION_CREATE",
+  SET_CURRENT_ORGANISATION = "SET_CURRENT_ORGANISATION",
+  SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION",
+  ADD_COMPANY_DETAILS_TO_ORGANISATION = "ADD_COMPANY_DETAILS_TO_ORGANISATION",
+  ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION = "ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION",
+}
 
-export const SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION";
-export const ADD_COMPANY_DETAILS_TO_ORGANISATION =
-  "ADD_COMPANY_DETAILS_TO_ORGANISATION";
-
-export const ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION =
-  "ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION";
-
-export interface SetLoading {
-  type: typeof SET_LOADING;
+export interface SetLoadingPayload {
+  type: typeof Types.SET_LOADING;
   payload: {
     isLoading: boolean;
   };
 }
 
 export interface SetAuthenticated {
-  type: typeof SET_AUTHENTICATED;
+  type: typeof Types.SET_AUTHENTICATED;
   payload: {
     isAuthenticated: boolean;
   };
 }
 
 export interface CheckDomainName {
-  type: typeof CHECK_DOMAIN_NAME;
+  type: typeof Types.CHECK_DOMAIN_NAME;
   payload: {};
 }
 
 export interface DomainCheckMessage {
-  type: typeof DOMAIN_CHECK_MESSAGE;
+  type: typeof Types.DOMAIN_CHECK_MESSAGE;
   payload: {
     domainCheckMessage: string;
   };
 }
 
 export interface NewOrganisationCreate {
-  type: typeof NEW_ORGANISATION_CREATE;
+  type: typeof Types.NEW_ORGANISATION_CREATE;
   payload: {
     newOrganisation: {
       id: string;
@@ -53,7 +51,7 @@ export interface NewOrganisationCreate {
 }
 
 export interface SetCurrentOrganization {
-  type: typeof SET_CURRENT_ORGANISATION;
+  type: typeof Types.SET_CURRENT_ORGANISATION;
   payload: {
     currentOrganization: {
       id: string;
@@ -65,28 +63,28 @@ export interface SetCurrentOrganization {
 }
 
 export interface SetPlanToOrganisation {
-  type: typeof SET_PLAN_TO_ORGANISATION;
+  type: typeof Types.SET_PLAN_TO_ORGANISATION;
   payload: {
     organisationPlanMessage: string;
   };
 }
 
 export interface AddCompanyDetailsToOrganisation {
-  type: typeof ADD_COMPANY_DETAILS_TO_ORGANISATION;
+  type: typeof Types.ADD_COMPANY_DETAILS_TO_ORGANISATION;
   payload: {
     companyDetailsToOrganizationMessage: string;
   };
 }
 
 export interface AddCompanyDetailsToCurrentOrganization {
-  type: typeof ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION;
+  type: typeof Types.ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION;
   payload: {
     currentOrganization: any;
   };
 }
 
 export type AppDispatchTypes =
-  | SetLoading
+  | SetLoadingPayload
   | SetAuthenticated
   | CheckDomainName
   | DomainCheckMessage

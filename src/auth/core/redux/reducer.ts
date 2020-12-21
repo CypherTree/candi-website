@@ -1,5 +1,14 @@
 import { CONSTANTS } from "../../../app/core/redux/types";
-import {
+
+import { Types } from "./types";
+
+interface DefaultStateI {}
+
+const defaultState: DefaultStateI = {
+  isAuthenticated: false,
+};
+
+const {
   LOGOUT_USER,
   SET_AUTHENTICATED,
   SET_LOGIN_ERROR,
@@ -11,13 +20,7 @@ import {
   REGISTER_SUCCESS,
   ACCEPT_POLICY_SUCCESS,
   EMAIL_VERIFICATION_SUCCESS,
-} from "./types";
-
-interface DefaultStateI {}
-
-const defaultState: DefaultStateI = {
-  isAuthenticated: false,
-};
+} = Types;
 
 export const authReducer: any = (
   state: DefaultStateI = defaultState,
@@ -26,6 +29,7 @@ export const authReducer: any = (
   const { LOGIN_USER } = CONSTANTS;
 
   const { payload } = action;
+
   switch (action.type) {
     case LOGIN_USER: {
       return { ...state, ...payload };
