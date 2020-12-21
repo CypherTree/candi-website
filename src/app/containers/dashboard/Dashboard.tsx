@@ -113,6 +113,11 @@ const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
             {userData !== null && userData.last_name},{" "}
             {userData !== null && userData.first_name}
           </Typography>
+          <img
+            src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
+            height="500px"
+            width="800px"
+          />
         </>
       ) : (
         <div style={{ padding: "20px 50px 50px 50px" }}>

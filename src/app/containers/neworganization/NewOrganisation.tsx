@@ -1,3 +1,5 @@
+import React from "react";
+
 import {
   makeStyles,
   Stepper,
@@ -6,15 +8,13 @@ import {
   StepLabel,
   Button,
 } from "@material-ui/core";
-import React from "react";
+
 import OrganizationalDetails from "../../components/organizationalDetails/OrganizationalDetails";
 import Plans from "./Plans";
 import CompanyDetails from "../../components/companyDetails/CompanyDetails";
 import CloseIcon from "@material-ui/icons/Close";
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
-import AddCustomWorkflow from "../../components/workflow/AddCustomWorkflow";
-// import FinalPage from "../../components/finalModal/FinalPage";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -74,14 +74,7 @@ function getStepContent(
           handleCancelModal={handleCancelModal}
         />
       );
-    // case 5:
-    //   return (
-    //     <FinalPage
-    //       handleNext={handleNext}
-    //       handleBack={handleBack}
-    //       handleCancelModal={handleCancelModal}
-    //     />
-    //   );
+
     default:
       return "Unknown step";
   }
