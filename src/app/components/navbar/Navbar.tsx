@@ -15,6 +15,7 @@ import {
   Toolbar,
   Button,
   IconButton,
+  Popover,
 } from "@material-ui/core";
 
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
@@ -84,17 +85,11 @@ function Navbar() {
               item
               xs={2}
               style={{
-                // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
               }}
             >
-              <IconButton
-                edge="start"
-                // className={classes.menuButton}
-                color="inherit"
-                aria-label="menu"
-              >
+              <IconButton edge="start" color="inherit" aria-label="menu">
                 <MenuIcon />
               </IconButton>
 
@@ -104,7 +99,6 @@ function Navbar() {
                   margin: "none",
                   width: "auto",
                   fontSize: "20px",
-                  // border: "1px solid black",
                 }}
               >
                 {" "}
@@ -113,7 +107,6 @@ function Navbar() {
                   style={{
                     textDecoration: "none",
                     color: "black",
-                    // fontWeight: "bold",
                   }}
                 >
                   <b>The Onboarders</b>
@@ -136,8 +129,7 @@ function Navbar() {
                 style={{
                   padding: "12px",
                   margin: "10px",
-                  // width: "auto",
-                  // border: "1px solid black",
+
                   cursor: "pointer",
                 }}
               >
@@ -157,8 +149,7 @@ function Navbar() {
                 style={{
                   padding: "12px",
                   margin: "10px",
-                  // width: "auto",
-                  // border: "1px solid black",
+
                   cursor: "pointer",
                 }}
               >
@@ -168,7 +159,6 @@ function Navbar() {
                   style={{
                     textDecoration: "none",
                     color: "black",
-                    // fontWeight: "bold",
                   }}
                 >
                   Your Clients
@@ -178,8 +168,7 @@ function Navbar() {
                 style={{
                   padding: "12px",
                   margin: "10px",
-                  // width: "auto",
-                  // border: "1px solid black",
+
                   cursor: "pointer",
                 }}
               >
@@ -189,7 +178,6 @@ function Navbar() {
                   style={{
                     textDecoration: "none",
                     color: "black",
-                    // fontWeight: "bold",
                   }}
                 >
                   People
@@ -214,7 +202,6 @@ function Navbar() {
               item
               xs={4}
               style={{
-                // border: "1px solid black",
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "flex-end",
@@ -226,18 +213,15 @@ function Navbar() {
               </div>
 
               <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
-                {" "}
                 <PublicIcon fontSize="large" />
               </div>
 
               <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
-                {" "}
                 <SettingsIcon fontSize="large" />
               </div>
 
               <div
                 style={{
-                  // paddingLeft: "5px",
                   paddingTop: "4px",
                   width: "50px",
                   overflow: "none",
@@ -263,19 +247,26 @@ function Navbar() {
                     MK
                   </Avatar>
                 </Button>
+
                 <Menu
                   id="simple-menu"
                   anchorEl={anchorEl}
                   keepMounted
                   open={Boolean(anchorEl)}
                   onClose={handleClose}
+                  elevation={0}
+                  getContentAnchorEl={null}
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
                 >
-                  <MenuItem onClick={handleClose} disabled={true}>
-                    Profile
-                  </MenuItem>
-                  <MenuItem onClick={handleClose} disabled={true}>
-                    My account
-                  </MenuItem>
+                  <MenuItem onClick={handleClose}>Profile</MenuItem>
+                  <MenuItem onClick={handleClose}>My account</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>
               </div>
