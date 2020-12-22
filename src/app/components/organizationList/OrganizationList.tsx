@@ -131,7 +131,7 @@ const OrganizationList = (props: any) => {
           </Grid>
           <br />
           <br />
-          {data.length > 0 && (
+          {data.length >= perPage && (
             <div
               style={{
                 display: "flex",

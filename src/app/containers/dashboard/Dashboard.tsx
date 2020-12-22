@@ -59,39 +59,12 @@ type Props = {
   getNewToken: (accessToken: string, refreshToken: string) => void;
 };
 
-const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
+const Dashboard: React.FC<Props> = ({ state }) => {
   const [loading, setLoading] = useState(false);
-
-  const { accessToken } = getCurrentSessionTokens();
-
-  const handleLogout = () => {
-    logoutUser();
-  };
-
-  const action = (
-    <Button
-      color="primary"
-      size="small"
-      variant="contained"
-      onClick={() => alert("Verification link sent")}
-    >
-      Resend Verification Link
-    </Button>
-  );
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
   useEffect(() => {}, [userData]);
-
-  const handleAcceptPrivacyPolicy = () => {
-    if (accessToken !== null) {
-      acceptPrivacyPolicy(accessToken);
-      setLoading(true);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 6000);
-    }
-  };
 
   return (
     <div>
