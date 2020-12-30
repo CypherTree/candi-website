@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 
 import MenuIcon from "@material-ui/icons/Menu";
 import { Link } from "react-router-dom";
 
-import { useDispatch } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { LogoutUser } from "../../../auth/core/redux/actions";
 import {
   Avatar,
@@ -18,11 +18,21 @@ import {
   Popover,
 } from "@material-ui/core";
 
+import { ThunkDispatch } from "redux-thunk";
+
+import { AnyAction } from "redux";
+
+import * as H from "history";
+
+import { StateType } from "../../core/redux/types";
+
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import SettingsIcon from "@material-ui/icons/Settings";
 import SearchIcon from "@material-ui/icons/Search";
 import PublicIcon from "@material-ui/icons/Public";
 import { deepOrange, deepPurple } from "@material-ui/core/colors";
+
+import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -54,9 +64,52 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function Navbar() {
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
+
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: UserDataProps;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  history: H.History;
+  setAuthenticated: () => void;
+  state: StateProps;
+  logoutUser: () => void;
+  getNewToken: (accessToken: string, refreshToken: string) => void;
+};
+
+function Navbar(props: any) {
   const dispatch = useDispatch();
   const classes = useStyles();
+
+  const state = props.state;
+
+  const userData = state.auth.userData ? state.auth.userData : null;
+
+  console.log("user data in navbar ", userData);
+
+  useEffect(() => {}, [userData]);
 
   const handleLogout = () => {
     handleClose();
@@ -274,8 +327,27 @@ function Navbar() {
           </Grid>
         </Toolbar>
       </AppBar>
+      {userData && !userData.is_verified && (
+        <div>
+          <div style={{ alignContent: "center" }}>
+            <EmailVerificationBar />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default Navbar;
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    //
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

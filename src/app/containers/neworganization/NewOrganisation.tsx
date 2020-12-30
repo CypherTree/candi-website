@@ -98,15 +98,9 @@ const NewOrganisation = (props: any) => {
 
   const handleNext = () => {
     console.log(" ----- handle next was called ---- ");
-    // let newSkipped = skipped;
-    // if (isStepSkipped(activeStep)) {
-    //   newSkipped = new Set(newSkipped.values());
-    //   newSkipped.delete(activeStep);
-    // }
 
-    // TODO: change later
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    // setSkipped(newSkipped);
+
     console.log("active step --- ", activeStep);
   };
 
@@ -123,7 +117,12 @@ const NewOrganisation = (props: any) => {
   };
 
   return (
-    <div style={{ maxHeight: "90vh", overflowY: "auto" }}>
+    <div
+      style={{
+        maxHeight: "85vh",
+        width: "1000px",
+      }}
+    >
       <div
         style={{
           justifyContent: "space-between",
@@ -155,46 +154,48 @@ const NewOrganisation = (props: any) => {
         </div>
       </div>
       <hr />
-      <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map((label, index) => {
-          const stepProps: any = {};
-          const labelProps: any = {};
+      <div style={{ height: "600px", overflowY: "scroll" }}>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label, index) => {
+            const stepProps: any = {};
+            const labelProps: any = {};
 
-          if (isStepSkipped(index)) {
-            stepProps.completed = false;
-          }
-          return (
-            <Step key={label} {...stepProps}>
-              <StepLabel {...labelProps}>{label}</StepLabel>
-            </Step>
-          );
-        })}
-      </Stepper>
-      <div>
-        {activeStep === steps.length ? (
-          <div>
-            <Typography className={classes.instructions}>
-              All steps completed - you&apos;re finished
-            </Typography>
-            <Button onClick={handleReset} className={classes.button}>
-              Reset
-            </Button>
-          </div>
-        ) : (
-          <div>
-            <Typography className={classes.instructions}>
-              {getStepContent(
-                activeStep,
-                handleNext,
-                getStepContent,
-                handleBack,
-                currentOrganization,
-                handleCancelModal
-              )}
-            </Typography>
-            <div></div>
-          </div>
-        )}
+            if (isStepSkipped(index)) {
+              stepProps.completed = false;
+            }
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>
+        <div>
+          {activeStep === steps.length ? (
+            <div>
+              <Typography className={classes.instructions}>
+                All steps completed - you&apos;re finished
+              </Typography>
+              <Button onClick={handleReset} className={classes.button}>
+                Reset
+              </Button>
+            </div>
+          ) : (
+            <div>
+              <Typography className={classes.instructions}>
+                {getStepContent(
+                  activeStep,
+                  handleNext,
+                  getStepContent,
+                  handleBack,
+                  currentOrganization,
+                  handleCancelModal
+                )}
+              </Typography>
+              <div></div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

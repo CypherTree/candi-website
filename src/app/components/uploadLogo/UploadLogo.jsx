@@ -77,7 +77,7 @@ function UploadLogo({ organisation_id, name, website }) {
   const [selectedFile, setSelectedFile] = useState("");
 
   return (
-    <div style={{ paddingTop: "10px" }}>
+    <div style={{ paddingTop: "10px", textAlign: "left", paddingLeft: "60px" }}>
       <span>
         <label htmlFor="upload-photo">
           <Input
@@ -102,11 +102,16 @@ function UploadLogo({ organisation_id, name, website }) {
         </label>
 
         {imageSrc !== "" && (
-          <>
-            {" "}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "flex-start",
+              backgroundColor: "red",
+            }}
+          >
             <img
               src={imageSrc}
-              style={{ height: "200px", width: "200px", borderRadius: "50%" }}
+              style={{ height: "100px", width: "100px", borderRadius: "50%" }}
             />
             <span style={{ paddingLeft: "20px" }}>
               <Button
@@ -119,7 +124,7 @@ function UploadLogo({ organisation_id, name, website }) {
                 Upload Logo
               </Button>
             </span>
-          </>
+          </div>
         )}
 
         {logoUploadDone && (

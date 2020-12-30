@@ -215,23 +215,27 @@ const AddRole = (props: any) => {
           </Button>
         )}
         {isDeleteAllowed && isAdded && (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={() => removeRole(index)}
-          >
-            <Delete />
-          </Button>
+          <div style={{ width: "100px" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={() => removeRole(index)}
+            >
+              <Delete />
+            </Button>
+          </div>
         )}
         {!isDeleteAllowed && (
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={handleDeleteRoleFromApi}
-            // disabled={true}
-          >
-            <Delete />
-          </Button>
+          <div style={{ width: "100px" }}>
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={handleDeleteRoleFromApi}
+              // disabled={true}
+            >
+              <Delete />
+            </Button>
+          </div>
         )}
       </span>
     </div>

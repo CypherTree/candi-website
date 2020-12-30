@@ -7,6 +7,8 @@ import { Route, Redirect } from "react-router-dom";
 const PrivateRoute = (props: any) => {
   const { component: Component, ...rest } = props;
 
+  console.log("hello", props.location);
+
   const { isAuthenticated } = props.state.auth;
   let privacyPolicyAccepted = false;
 
@@ -29,7 +31,9 @@ const PrivateRoute = (props: any) => {
         ) : privacyPolicyAccepted ? (
           <Component {...props} />
         ) : (
-          <Redirect to={props.location.pathname} />
+          // <Redirect to="/dashboard" />
+          // <Redirect to="/dashboard" />
+          <Component {...props} />
         )
       }
     />

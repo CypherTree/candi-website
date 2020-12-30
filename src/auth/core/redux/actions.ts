@@ -95,6 +95,7 @@ export const SetAuthenticated = (isAuthenticated: boolean) => async (
 export const GetUserData = (accessToken: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
+  console.log("GET USER DATA was called. ");
   axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
       headers: {
@@ -111,7 +112,7 @@ export const GetUserData = (accessToken: string) => async (
         },
       });
     })
-    .catch((err) => console.log("--- erro", err.message));
+    .catch((err) => console.log("--- erro", err));
 };
 
 export const GetNewToken = (

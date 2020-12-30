@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function PlanCard(props: any) {
+const PlanCard = (props: any) => {
   console.log("props", props);
   //   consol;
 
@@ -44,74 +44,76 @@ function PlanCard(props: any) {
   const classes = useStyles();
 
   return (
-    <div>
-      <Card
-        variant="outlined"
-        style={{
-          backgroundColor: plan.id === selectedPlan.plan_id ? "teal" : "white",
-          color: plan.id === selectedPlan.plan_id ? "white" : "black",
-        }}
-      >
-        <CardHeader title={plan.name}></CardHeader>
-        <CardContent>
-          <div
-            style={{
-              margin: "auto",
-              display: "inline-flex",
-            }}
+    <Card
+      variant="outlined"
+      style={{
+        // backgroundColor: plan.id === selectedPlan.plan_id ? "teal" : "white",
+        // color: plan.id === selectedPlan.plan_id ? "white" : "black",
+        boxShadow:
+          plan.id === selectedPlan.plan_id
+            ? "5px 5px 5px 5px lightgrey"
+            : "0px",
+        marginLeft: "10px",
+        marginBottom: "10px",
+      }}
+    >
+      <CardHeader title={plan.name}></CardHeader>
+      <CardContent>
+        <div
+          style={{
+            margin: "auto",
+            display: "inline-flex",
+          }}
+        >
+          <Avatar
+            alt={plan.name}
+            src="/static/images/avatar/1.jpg"
+            className={classes.large}
+            style={{ width: "100px", height: "100px" }}
+          />
+        </div>
+
+        <div>{plan.description}</div>
+        {plan.quotas.map((quota: any) => (
+          <div>
+            {quota.unit === "job" && (
+              <div>
+                You get <b> {quota.value} jobs </b>
+              </div>
+            )}
+            {quota.unit === "calls" && (
+              <div>
+                You get <b> {quota.value} video calls </b>
+              </div>
+            )}
+            {quota.unit === "users" && (
+              <div>
+                You can create <b>{quota.value} users</b>
+              </div>
+            )}
+          </div>
+        ))}
+      </CardContent>
+      <CardActions>
+        <div
+          style={{ margin: "auto", display: "inline-flex", paddingTop: "0px" }}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => handleClick()}
           >
-            <Avatar
-              alt={plan.name}
-              src="/static/images/avatar/1.jpg"
-              className={classes.large}
-              style={{ width: "100px", height: "100px" }}
-            />
-          </div>
-          <br />
-          <div>{plan.description}</div>
-          {plan.quotas.map((quota: any) => (
-            <div>
-              <br />
-              {quota.unit === "job" && (
-                <div>
-                  {" "}
-                  You get <b> {quota.value} jobs </b>
-                </div>
-              )}
-              {quota.unit === "calls" && (
-                <div>
-                  {" "}
-                  You get <b> {quota.value} video calls </b>{" "}
-                </div>
-              )}
-              {quota.unit === "users" && (
-                <div>
-                  {" "}
-                  You can create <b>{quota.value} users</b>{" "}
-                </div>
-              )}
-            </div>
-          ))}
-        </CardContent>
-        <CardActions>
-          <div style={{ margin: "auto", display: "inline-flex" }}>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleClick()}
-            >
-              <div> Become a member - {"   "}</div>
-              {pricePeriod === "monthly" ? (
-                <p>{plan.prices[0].price} $</p>
-              ) : (
-                <p>{plan.prices[1].price} $</p>
-              )}
-            </Button>
-          </div>
-        </CardActions>
-      </Card>
-    </div>
+            <div> Become a member - {"   "}</div>
+            {pricePeriod === "monthly" ? (
+              <p>{plan.prices[0].price} $</p>
+            ) : (
+              <p>{plan.prices[1].price} $</p>
+            )}
+          </Button>
+        </div>
+      </CardActions>
+    </Card>
   );
-}
+};
 
 export default PlanCard;

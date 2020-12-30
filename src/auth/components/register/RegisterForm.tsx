@@ -334,7 +334,7 @@ const RegisterForm: React.FC<Props> = ({
               margin: "auto",
             }}
           >
-            Already a user ? <Link to="/login">Login </Link>
+            Already a user? <Link to="/login">Login </Link>
           </div>
         </CardActions>
       </Card>

@@ -72,7 +72,7 @@ const EmailVerificationBar = () => {
               style={{
                 borderRadius: "10px",
                 border: "1px solid #4A4A4A",
-                padding: "5px",
+                padding: "5px 10px 5px 10px",
               }}
             >
               <b> Get Verification Link </b>

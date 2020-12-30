@@ -169,10 +169,10 @@ function CompanyDetails(props: any) {
   return (
     <div
       style={{
-        textAlign: "left",
+        textAlign: "center",
         paddingLeft: "30px",
         height: "75vh",
-        width: "1000px",
+        width: "900px",
       }}
     >
       <p
@@ -183,17 +183,18 @@ function CompanyDetails(props: any) {
           color: "#696969	",
           width: "auto",
           margin: "10px 40px 5px 0 ",
-          padding: "0",
+          paddingLeft: "45px",
+          textAlign: "left",
         }}
       >
-        Enter company details
+        Enter Company details
       </p>
       <br />
       <Grid
         container
         alignItems="flex-start"
         spacing={1}
-        style={{ width: "1000px" }}
+        style={{ width: "900px" }}
       >
         <Grid item xs={6}>
           <div>
@@ -212,18 +213,17 @@ function CompanyDetails(props: any) {
               }}
               style={styles}
             ></TextField>
-            <span style={{ paddingLeft: "10px", paddingTop: "20px" }}>
-              {" "}
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={() => {
-                  fetchGSTDetails();
-                }}
-              >
-                Verify GST{" "}
-              </Button>
-            </span>
+            {/* <span style={{ paddingLeft: "10px", paddingTop: "20px" }}> */}{" "}
+            {/* <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                fetchGSTDetails();
+              }}
+            >
+              Verify GST{" "}
+            </Button> */}
+            {/* </span> */}
           </div>
         </Grid>
         <Grid item xs={6}>
@@ -241,6 +241,20 @@ function CompanyDetails(props: any) {
             // style={{ width: "300px" }}
             style={styles}
           ></TextField>
+        </Grid>
+        <Grid item xs={12} style={{ display: "flex" }}>
+          <span style={{ paddingLeft: "285px" }}>
+            {" "}
+            <Button
+              variant="outlined"
+              color="primary"
+              onClick={() => {
+                fetchGSTDetails();
+              }}
+            >
+              Verify GST{" "}
+            </Button>
+          </span>
         </Grid>
         <Grid item xs={6}>
           <TextField
@@ -314,7 +328,7 @@ function CompanyDetails(props: any) {
         container
         alignItems="flex-start"
         spacing={1}
-        style={{ width: "1000px" }}
+        style={{ width: "900px" }}
       >
         <Grid item xs={12}>
           <span>
@@ -326,21 +340,24 @@ function CompanyDetails(props: any) {
                 color: "#696969	",
                 width: "auto",
                 margin: "10px 40px 5px 0 ",
-                padding: "0",
+                paddingLeft: "45px",
+                textAlign: "left",
               }}
             >
               {" "}
-              Enter billing details
+              Enter Billing details
             </p>
-            <Checkbox
-              name="checkedC"
-              checked={billingAddressSame}
-              onChange={() => {
-                setBillingAddressSame(!billingAddressSame);
-                handleCopyBusinessAddress();
-              }}
-            />
-            Same as company Address{" "}
+            <div style={{ paddingLeft: "35px", textAlign: "left" }}>
+              <Checkbox
+                name="checkedC"
+                checked={billingAddressSame}
+                onChange={() => {
+                  setBillingAddressSame(!billingAddressSame);
+                  handleCopyBusinessAddress();
+                }}
+              />
+              Same as company Address{" "}
+            </div>
           </span>
         </Grid>
         <Grid item xs={6}>
@@ -387,16 +404,20 @@ function CompanyDetails(props: any) {
               color: "#696969	",
               width: "auto",
               margin: "10px 40px 5px 0 ",
-              padding: "0 0 20px 0",
+              // padding: "0 0 20px 0",
+              paddingLeft: "45px",
+              textAlign: "left",
             }}
           >
             Company Logo
           </p>
           {logo !== "" && (
-            <img
-              src={logo}
-              style={{ height: "200px", width: "200px", borderRadius: "50%" }}
-            />
+            <div style={{ textAlign: "left", paddingLeft: "80px" }}>
+              <img
+                src={logo}
+                style={{ height: "100px", width: "100px", borderRadius: "50%" }}
+              />
+            </div>
           )}
           <UploadLogo
             organisation_id={organisation_id}

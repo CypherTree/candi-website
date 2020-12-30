@@ -49,7 +49,8 @@ const NewOrganizationModal = (props: any) => {
       style={{
         margin: "0 auto",
         display: "inline-flex",
-        width: "1000x",
+        width: "1000px",
+        maxWidth: "100px",
       }}
     >
       <Modal

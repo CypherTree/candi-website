@@ -31,6 +31,8 @@ import "../../../App.css";
 const Routes = () => {
   const { accessToken } = getCurrentSessionTokens();
 
+  console.log("routes are working..");
+
   return (
     <>
       {accessToken && <Navbar />}
@@ -57,7 +59,7 @@ const Routes = () => {
             path="/organisations/all"
             component={Organisations}
           />
-          <PrivateRoute exact path="/dashboard2" component={Register} />
+          {/* <PrivateRoute exact path="/dashboard2" component={Register} /> */}
           <Route component={PageNotFound} />
           {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
         </Switch>

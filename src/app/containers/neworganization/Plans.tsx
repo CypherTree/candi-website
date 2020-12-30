@@ -324,16 +324,115 @@ function Plans(props: any) {
   return (
     <div
       style={{
-        textAlign: "center",
-        margin: "0",
-        backgroundColor: "whitesmoke",
-        width: "1000px",
-        height: "75vh",
-        // border: "1px solid black",
-        // borderRadius: "10px",
+        overflowY: "auto",
+        margin: "0 auto",
+        lineHeight: "40px",
+        width: "800px",
+        padding: "100px",
+        paddingTop: "0px",
+        paddingBottom: "0px",
+        justifyContent: "center",
+        alignContent: "center",
+        display: "flex",
+
+        // height: "85vh",
       }}
     >
-      <Grid container style={{ justifyContent: "center" }}>
+      <div>
+        <p
+          style={{
+            fontSize: "24px",
+            fontWeight: "bold",
+            fontFamily: "Helvetica",
+            color: "#696969	",
+            width: "auto",
+            margin: "10px 40px 5px 0 ",
+            padding: "0px 0px 0px 350px",
+          }}
+        >
+          Choose a license plan
+        </p>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <ToggleButtonGroup
+            value={pricePeriod}
+            exclusive
+            onChange={handlePricePeriod}
+            aria-label="Plan price period"
+          >
+            <ToggleButton value="monthly" aria-label="monthly plans">
+              Monthly
+            </ToggleButton>
+            <ToggleButton value="yearly" aria-label="yearly plans">
+              Yearly
+            </ToggleButton>
+          </ToggleButtonGroup>
+        </div>
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {plansData.data.map((plan) => (
+            <div
+              style={{
+                width: "300px",
+                // margin: "20px",
+                marginLeft: "5px",
+                padding: "10px 5px 5px 0px",
+                textAlign: "center",
+              }}
+            >
+              <PlanCard
+                plan={plan}
+                pricePeriod={pricePeriod}
+                selectedPlan={selectedPlan}
+                setSelectedPlan={setSelectedPlan}
+              />
+            </div>
+          ))}
+        </div>
+        {props.state.app && props.state.app.organisationPlanMessage && (
+          <Typography variant="h5" component="h5" color="primary">
+            {props.state.app.organisationPlanMessage}
+          </Typography>
+        )}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "10px",
+          }}
+        >
+          <Button
+            variant="outlined"
+            color="primary"
+            type="submit"
+            //   autoFocus={true}
+            onClick={() => handleBack()}
+          >
+            Back
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            //   autoFocus={true}
+            onClick={() => handleSaveAndNext()}
+            style={{ marginLeft: "10px" }}
+            disabled={selectedPlan.plan_id !== 0 ? false : true}
+          >
+            {isSubmitted ? "Next" : "Save and Next"}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const mapStateToProps = (state: any) => {
+  return { state };
+};
+
+export default connect(mapStateToProps)(Plans);
+
+{
+  /* <Grid container style={{ justifyContent: "center", overflowY: "auto" }}>
         <Grid
           item
           xs={12}
@@ -350,12 +449,12 @@ function Plans(props: any) {
               color: "#696969	",
               width: "auto",
               margin: "10px 40px 5px 0 ",
-              padding: "0",
+              padding: "0px 0px 0px 30px",
             }}
           >
-            {" "}
             Choose a license plan
           </p>
+          <br />
           <div>
             <ToggleButtonGroup
               value={pricePeriod}
@@ -371,60 +470,8 @@ function Plans(props: any) {
               </ToggleButton>
             </ToggleButtonGroup>
           </div>
+
           <br />
-          <Grid
-            container
-            direction="row"
-            justify="center"
-            alignItems="center"
-            spacing={2}
-          >
-            {plansData.data.map((plan) => (
-              <Grid item xs={4} sm={4}>
-                <PlanCard
-                  plan={plan}
-                  pricePeriod={pricePeriod}
-                  selectedPlan={selectedPlan}
-                  setSelectedPlan={setSelectedPlan}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          <br />
-          {props.state.app && props.state.app.organisationPlanMessage && (
-            <Typography variant="h5" component="h5" color="primary">
-              {props.state.app.organisationPlanMessage}
-            </Typography>
-          )}
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            onClick={() => handleBack()}
-          >
-            {" "}
-            Back
-          </Button>{" "}
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            onClick={() => handleSaveAndNext()}
-            disabled={selectedPlan.plan_id !== 0 ? false : true}
-          >
-            {" "}
-            {isSubmitted ? "Next" : "Save and Next"}
-          </Button>
         </Grid>
-      </Grid>
-    </div>
-  );
+      </Grid> */
 }
-
-const mapStateToProps = (state: any) => {
-  return { state };
-};
-
-export default connect(mapStateToProps)(Plans);

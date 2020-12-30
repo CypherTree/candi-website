@@ -62,21 +62,27 @@ type Props = {
 const Dashboard: React.FC<Props> = ({ state }) => {
   const [loading, setLoading] = useState(false);
 
+  console.log(" data ", state);
+  console.log(" data ", state);
+
   const userData = state.auth.userData ? state.auth.userData : null;
 
   useEffect(() => {}, [userData]);
 
+  // style={{ width: "1000px", height: "1000px", backgroundColor: "red" }}
+
   return (
     <div>
+      {/* <p style={{ padding: "100px" }}> HEllo </p> */}
       {userData && userData.privacy_policy_accepted ? (
         <>
-          {userData && userData.is_verified && (
+          {/* {userData && !userData.is_verified && (
             <div>
               <div style={{ alignContent: "center" }}>
                 <EmailVerificationBar />
               </div>
             </div>
-          )}
+          )} */}
           <br />
           <Typography variant="h3" component="h3">
             Welcome
@@ -114,9 +120,7 @@ const mapStateToProps = (state: StateType) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
-    logoutUser: () => dispatch(LogoutUser()),
-    getNewToken: (accessToken: string, refreshToken: string) =>
-      dispatch(GetNewToken(accessToken, refreshToken)),
+    //
   };
 };
 

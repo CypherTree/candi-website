@@ -115,7 +115,7 @@ function OrganizationalDetails(props: any) {
   };
 
   return (
-    <div style={{ width: "1000px", paddingLeft: "30px", height: "80vh" }}>
+    <div style={{ width: "1000px", paddingLeft: "30px" }}>
       <div
         style={{
           margin: "0 auto",
@@ -178,7 +178,7 @@ function OrganizationalDetails(props: any) {
         </div>
         {domain !== "" &&
         props.state.app.domainCheckMessage !== "Domain already taken" ? (
-          <p>
+          <p style={{ margin: "0px" }}>
             This domain is available.{" "}
             <CheckCircleIcon fontSize="small" style={{ color: "green" }} />
           </p>
