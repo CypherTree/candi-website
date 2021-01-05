@@ -12,9 +12,15 @@ const EmailVerificationBar = () => {
   const snackbarMessage = (
     <>
       {message ? (
-        <p>{message} If you do not find it in Inbox, check in Spam folder.</p>
+        <p style={{ margin: "0", padding: "0", paddingTop: "5px" }}>
+          {" "}
+          {message} If you do not find it in Inbox, check in Spam folder.
+        </p>
       ) : (
-        <p>Your Email verification is pending. Please verify your e-mail.</p>
+        <p style={{ margin: "0", padding: "0", paddingTop: "5px" }}>
+          {" "}
+          Your Email verification is pending. Please verify your e-mail.
+        </p>
       )}
     </>
   );
@@ -65,9 +71,22 @@ const EmailVerificationBar = () => {
               variant="outlined"
               onClick={handleSendVerificationEmail}
               disabled={disabledButton}
-              style={{ borderRadius: "10px", border: "1px solid #4A4A4A" }}
+              style={{
+                borderRadius: "10px",
+                border: "1px solid #4A4A4A",
+                padding: "5px",
+              }}
             >
-              <b> Get Verification Link </b>
+              <p
+                style={{
+                  fontWeight: "bold",
+                  margin: "0",
+                  padding: "0",
+                }}
+              >
+                {" "}
+                Get Verification Link{" "}
+              </p>
             </Button>
           </div>
         </Grid>

@@ -17,13 +17,13 @@ import { connect } from "react-redux";
 
 import * as H from "history";
 
+import { StateType } from "../../core/redux/types";
+
 import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-
-import { StateType } from "../../core/redux/types";
 
 import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
 
