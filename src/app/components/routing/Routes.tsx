@@ -28,7 +28,10 @@ import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 import "../../../App.css";
 
-const Routes = () => {
+import { connect } from "react-redux";
+
+const Routes = (props: any) => {
+  console.log("props in routes", props);
   const { accessToken } = getCurrentSessionTokens();
 
   console.log("routes are working..");
@@ -68,4 +71,12 @@ const Routes = () => {
   );
 };
 
-export default Routes;
+// export default Routes;
+
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(Routes);
