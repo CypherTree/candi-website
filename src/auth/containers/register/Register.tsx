@@ -21,6 +21,9 @@ import SideImage from "../../components/sideImage/SideImage";
 import { getCurrentSessionTokens } from "../../core/services/session";
 
 import { StateType } from "../../../app/core/redux/types";
+import Layout from "antd/lib/layout/layout";
+
+import { Col, Row } from "antd";
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -55,22 +58,32 @@ const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
   });
 
   return (
-    <div>
-      <Grid container spacing={0}>
-        <Grid item xs={1} sm={6}>
+    <Layout>
+      <Row>
+        <Col span={12}>
           <SideImage />
-        </Grid>
-
-        <Grid item xs={11} sm={6}>
-          <br />
-          <p style={{ fontSize: "40px" }}>
-            <b> {APP_NAME}</b>
-          </p>
-
-          <RegisterForm auth={state.auth} />
-        </Grid>
-      </Grid>
-    </div>
+        </Col>
+        <Col
+          span={11}
+          style={{
+            display: "flex",
+          }}
+        >
+          <Layout
+            style={{
+              margin: "0",
+              marginTop: "10%",
+              top: "10%",
+            }}
+          >
+            <p style={{ fontSize: "40px" }}>
+              <b> {APP_NAME}</b>
+            </p>
+            <RegisterForm auth={state.auth} />
+          </Layout>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 

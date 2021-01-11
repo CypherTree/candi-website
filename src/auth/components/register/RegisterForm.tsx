@@ -1,18 +1,26 @@
 import React, { useState } from "react";
 
 import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Typography,
-  TextField,
   Button,
-} from "@material-ui/core";
+  Card,
+  Checkbox,
+  Input,
+  Typography,
+  Form,
+  Layout,
+  Divider,
+  Row,
+  Col,
+} from "antd";
 
 import { Link } from "react-router-dom";
 
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import {
+  UserOutlined,
+  LockOutlined,
+  PhoneOutlined,
+  MailOutlined,
+} from "@ant-design/icons";
 
 import { connect } from "react-redux";
 
@@ -25,6 +33,10 @@ import { sendOTP } from "../../core/services/register";
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
 
 import { StateType } from "../../../app/core/redux/types";
+import Field from "ant-design-pro/lib/Charts/Field";
+import { ErrorMessage } from "formik/dist/ErrorMessage";
+
+const { Text } = Typography;
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -49,6 +61,14 @@ type Props = {
   auth: AuthProps;
 };
 
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 16 },
+};
+
 const RegisterForm: React.FC<Props> = ({
   setAuthenticated,
   registerUser,
@@ -57,7 +77,19 @@ const RegisterForm: React.FC<Props> = ({
   const [isOTPSent, setIsOTPSent] = useState(false);
   const [isResendAllowed, setIsResendAllowed] = useState(false);
 
-  let counter = 60;
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
+  const [phone, setPhone] = useState("");
+  const [otp, setOTP] = useState("");
+
+  const [otpError, setOTPError] = useState("");
+
+  let counter = 15;
+
+  const registerError = auth.error;
 
   let otpCountdown: any;
 
@@ -78,14 +110,20 @@ const RegisterForm: React.FC<Props> = ({
     }, 1000);
   };
 
-  const handleGetOTP = (phone: string) => {
-    setIsOTPSent(true);
-    setIsResendAllowed(false);
-    setOTPTimeout();
-    sendOTPFunc(phone);
+  const handleGetOTP = () => {
+    if (phone && phone.length === 10 && Number.isInteger(parseInt(phone))) {
+      setIsOTPSent(true);
+      setIsResendAllowed(false);
+      setOTPTimeout();
+      sendOTPFunc();
+      setOTPError("");
+    } else {
+      setOTPError("OTP could not be sent.");
+      console.log("error in sending OTP ", otpError);
+    }
   };
 
-  const sendOTPFunc = (phone: string) => {
+  const sendOTPFunc = () => {
     isOTPSent ? handleResendOTP(phone) : sendOTP(phone);
   };
 
@@ -109,236 +147,236 @@ const RegisterForm: React.FC<Props> = ({
     email?: string;
   };
 
-  const validationCheck = (values: valuesType) => {
+  const validationCheck = () => {
     const errors: any = {};
 
-    if (!values.firstName) {
+    if (!firstName) {
       errors.firstName = "Required";
     }
-    if (!values.lastName) {
+    if (!lastName) {
       errors.lastName = "Required";
     }
-    if (!values.password) {
+    if (!password) {
       errors.password = "Required";
     }
-    if (!values.password2) {
+    if (!password2) {
       errors.password2 = "Required";
     }
-    if (!values.otp) {
+    if (!otp) {
       errors.otp = "Required";
     }
-    if (!values.phone_number_extension) {
-      errors.phone_number_extension = "Required";
-    }
-    if (!values.email) {
+
+    if (!email) {
       errors.email = "Required";
-    } else if (
-      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-    ) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email)) {
       errors.email = "Invalid email address";
     }
 
     return errors;
   };
 
+  const onFinish = (values: any) => {
+    const errors = validationCheck();
+
+    if (Object.keys(errors).length === 0) {
+      values.phone_number_extension = "+91";
+      registerUser(values);
+    } else {
+      console.log("Errors", errors);
+    }
+  };
+
   return (
-    <div>
-      <Card style={{ backgroundColor: "whitesmoke", padding: "20px" }}>
-        <CardHeader title="Registration Form"></CardHeader>
-        <CardContent>
-          {auth.hasOwnProperty("error") && (
-            <Typography color="error" component="h5" variant="h5">
-              {auth.error}
-            </Typography>
-          )}
-          {auth.hasOwnProperty("success") ? (
-            <Typography color="primary" component="h5" variant="h5">
-              {auth.success}
-              Redirecting to dashboard.
-              {redirectToDashboard()}
-            </Typography>
-          ) : (
-            <Formik
-              initialValues={{
-                firstName: "",
-                lastName: "",
-                email: "",
-                password: "",
-                password2: "",
-                phone: "",
-                otp: "",
-                phone_number_extension: "+91",
-              }}
-              validate={validationCheck}
-              onSubmit={(data, { setSubmitting }) => {
-                setSubmitting(true);
-                // make async call
-
-                registerUser({
-                  first_name: data.firstName,
-                  last_name: data.lastName,
-                  email: data.email,
-                  password: data.password,
-                  phone_number: data.phone,
-                  phone_number_extension: data.phone_number_extension,
-                  otp: data.otp,
-                });
-
-                setSubmitting(false);
-              }}
-            >
-              {({ values, isSubmitting, handleChange, handleBlur }) => (
-                <Form style={{ lineHeight: "3" }}>
-                  <div>
-                    <Field
-                      placeholder="First Name"
-                      name="firstName"
-                      type="input"
-                      as={TextField}
-                      style={{ width: "400px" }}
-                    />
-                    <ErrorMessage name="firstName" component="div" />
-                  </div>
-                  <div>
-                    <Field
-                      placeholder="Last Name"
-                      name="lastName"
-                      type="input"
-                      as={TextField}
-                      style={{ width: "400px" }}
-                    />
-                    <ErrorMessage name="lastName" component="div" />
-                  </div>
-                  <div>
-                    <Field
-                      placeholder="Email "
-                      name="email"
-                      type="email"
-                      as={TextField}
-                      style={{ width: "400px" }}
-                    />
-                    <ErrorMessage name="email" component="div" />
-                  </div>
-                  <div>
-                    <Field
-                      placeholder="Password "
-                      name="password"
-                      type="password"
-                      as={TextField}
-                      style={{ width: "400px" }}
-                    />
-                    <ErrorMessage name="password" component="div" />
-                  </div>
-                  <div>
-                    <Field
-                      placeholder="Re-enter Password"
-                      name="password2"
-                      type="password"
-                      as={TextField}
-                      style={{ width: "400px" }}
-                    />
-                    <ErrorMessage name="password2" component="div" />
-                  </div>
-                  <div>
-                    {/* <label htmlFor="Phone Extenstion">
-                      Country Extension :{" "}
-                    </label> */}
-                    <Field
-                      component="select"
-                      id="category"
-                      name="phone_number_extension"
-                      style={{ width: "400px", height: "30px" }}
-                    >
-                      <option value="+91">+91 - India</option>
-                      <option value="+92">+92 - Pakistan</option>
-                    </Field>
-                    <ErrorMessage
-                      name="phone_number_extension"
-                      component="div"
-                    />
-                  </div>
-                  <div>
-                    <Field
-                      placeholder="Phone Number"
-                      name="phone"
-                      type="input"
-                      as={TextField}
-                      style={{ width: "250px" }}
-                    />
-                    {isOTPSent ? (
-                      <Button
-                        disabled={isOTPSent && !isResendAllowed}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleGetOTP(values.phone)}
-                      >
-                        RESEND OTP
-                      </Button>
-                    ) : (
-                      <Button
-                        disabled={isOTPSent}
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        onClick={() => handleGetOTP(values.phone)}
-                      >
-                        GET OTP
-                      </Button>
-                    )}
-
-                    <ErrorMessage name="phone" component="div" />
-                  </div>
-                  {isOTPSent && (
-                    <>
-                      <span>
-                        <Typography color="primary">
-                          Check your phone for OTP.
-                          {!isResendAllowed && (
-                            <div> Try again in {counter} secs. </div>
-                          )}
-                        </Typography>
-                      </span>
-                      <div>
-                        <Field
-                          placeholder="OTP"
-                          name="otp"
-                          type="number"
-                          as={TextField}
-                        />
-                      </div>
-                      <ErrorMessage name="otp" component="div" />
-                    </>
-                  )}
-                  <Button
-                    disabled={isSubmitting}
-                    type="submit"
-                    variant="contained"
-                    color="primary"
-                    style={{ width: "400px" }}
-                  >
-                    Register
-                  </Button>
-                </Form>
-              )}
-            </Formik>
-          )}
-        </CardContent>
-        <CardActions
+    <Card title={<Text>Register </Text>} style={{ padding: "20px" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "20px",
+        }}
+      >
+        <Form
+          name="normal_signup"
+          className="signup-form"
+          initialValues={{}}
+          onFinish={onFinish}
           style={{
-            margin: "auto",
+            width: "500px",
           }}
         >
-          <div
-            style={{
-              margin: "auto",
-            }}
+          <Form.Item
+            name="first_name"
+            rules={[
+              { required: true, message: "Please enter your First Name!" },
+            ]}
           >
-            Already a user? <Link to="/login">Login </Link>
-          </div>
-        </CardActions>
-      </Card>
-    </div>
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="First Name"
+              onChange={(e) => setFirstName(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item
+            name="last_name"
+            rules={[
+              { required: true, message: "Please enter your Last Name!" },
+            ]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Last Name"
+              onChange={(e) => setLastName(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please enter your Email!" }]}
+          >
+            <Input
+              prefix={<MailOutlined className="site-form-item-icon" />}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please enter your Password!" }]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item
+            name="password2"
+            rules={[
+              { required: true, message: "Please re-enter your Password!" },
+            ]}
+          >
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Confirm Password"
+              onChange={(e) => setPassword2(e.target.value)}
+            />
+          </Form.Item>
+          <Form.Item
+            name="phone_number"
+            rules={[
+              { required: true, message: "Please enter your Phone number!" },
+            ]}
+          >
+            <Row gutter={8}>
+              <Col span={5}>
+                <Input defaultValue="+91" disabled={true} />
+              </Col>
+              <Col span={19}>
+                <Input
+                  prefix={<PhoneOutlined className="site-form-item-icon" />}
+                  placeholder="Phone number"
+                  maxLength={10}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+
+          {isOTPSent ? (
+            <>
+              <Row gutter={8}>
+                <Col span={18}>
+                  <Form.Item
+                    name="otp"
+                    rules={[
+                      { required: true, message: "Please enter valid OTP" },
+                    ]}
+                  >
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Enter OTP"
+                      maxLength={6}
+                      onChange={(e) => setOTP(e.target.value)}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Button
+                    disabled={!isResendAllowed}
+                    type="primary"
+                    onClick={() => handleGetOTP()}
+                  >
+                    Resend OTP
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          ) : (
+            <>
+              <Row gutter={8}>
+                <Col span={18}>
+                  <Form.Item
+                    name="otp"
+                    rules={[
+                      { required: true, message: "Please enter valid OTP" },
+                    ]}
+                  >
+                    <Input
+                      prefix={<LockOutlined className="site-form-item-icon" />}
+                      placeholder="Enter OTP"
+                      maxLength={6}
+                      onChange={(e) => setOTP(e.target.value)}
+                      disabled={true}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Button
+                    disabled={isOTPSent}
+                    type="primary"
+                    onClick={() => handleGetOTP()}
+                    style={{ width: "100%" }}
+                  >
+                    GET OTP
+                  </Button>
+                </Col>
+              </Row>
+            </>
+          )}
+          {isOTPSent && (
+            <Text>
+              Check your phone for OTP.
+              {!isResendAllowed && (
+                <div> You can resend OTP in {counter} secs. </div>
+              )}
+            </Text>
+          )}
+          {otpError && (
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Text type="danger">{otpError}</Text>
+            </Form.Item>
+          )}
+          {registerError && (
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Text type="danger">{registerError}</Text>
+            </Form.Item>
+          )}
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="signup-form-button"
+            >
+              Sign Up
+            </Button>{" "}
+          </Form.Item>
+          <Form.Item>
+            Already a Member? <Link to="/login">Login</Link>
+          </Form.Item>
+        </Form>
+      </div>
+    </Card>
   );
 };
 

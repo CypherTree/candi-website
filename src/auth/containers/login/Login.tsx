@@ -63,25 +63,16 @@ const Login: React.FC<Props> = ({ setAuthenticated, state, history }) => {
         <Col
           span={11}
           style={{
-            // backgroundColor: "yellow",
             display: "flex",
-            // alignContent: "center",x`
-            // justifyContent: "center",
-            // alignItems: "center",
           }}
         >
           <Layout
             style={{
-              // alignContent: "center",
-              // justifyContent: "center",
-              // alignItems: "center",
-              // backgroundColor: "red",
               margin: "0",
               marginTop: "20%",
               top: "20%",
             }}
           >
-            {/* <br /> */}
             <p style={{ fontSize: "40px" }}>
               <b> {APP_NAME}</b>
             </p>
