@@ -1,26 +1,21 @@
 import React, { useEffect } from "react";
 
-import { Grid, Typography } from "@material-ui/core";
+import Layout from "antd/lib/layout/layout";
+import { Col, Row } from "antd";
 
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
 
 import * as H from "history";
 
 import { APP_NAME } from "../../../app/core/constants";
-
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+import { StateType } from "../../../app/core/redux/types";
 
 import ForgotPasswordForm from "../../components/forgotPassword/ForgotPasswordForm";
-
 import SideImage from "../../components/sideImage/SideImage";
-
 import { getCurrentSessionTokens } from "../../core/services/session";
-
-import { StateType } from "../../../app/core/redux/types";
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -58,21 +53,32 @@ const ForgotPassword: React.FC<Props> = ({
   });
 
   return (
-    <div>
-      <Grid container spacing={0}>
-        <Grid item xs={1} sm={6}>
+    <Layout>
+      <Row>
+        <Col span={12}>
           <SideImage />
-        </Grid>
-        <Grid item xs={11} sm={6}>
-          <br />
-          <p style={{ fontSize: "40px" }}>
-            <b> {APP_NAME}</b>
-          </p>
-
-          <ForgotPasswordForm auth={state.auth} />
-        </Grid>
-      </Grid>
-    </div>
+        </Col>
+        <Col
+          span={11}
+          style={{
+            display: "flex",
+          }}
+        >
+          <Layout
+            style={{
+              margin: "0",
+              marginTop: "20%",
+              top: "20%",
+            }}
+          >
+            <p style={{ fontSize: "40px" }}>
+              <b> {APP_NAME}</b>
+            </p>
+            <ForgotPasswordForm auth={state.auth} />
+          </Layout>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 

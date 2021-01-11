@@ -34,14 +34,13 @@ import Sider from "antd/lib/layout/Sider";
 import Sidebar from "../sidebar/Sidebar";
 
 const Routes = (props: any) => {
-  console.log("props in routes", props);
   const { accessToken } = getCurrentSessionTokens();
 
-  console.log("routes are working..");
+  // console.log("routes are working..");
+  // console.log("props in routes", props);
 
   return (
     <>
-      {/* <Router> */}
       <Layout>
         {accessToken && <Sidebar />}
         <Layout>
@@ -74,21 +73,15 @@ const Routes = (props: any) => {
                   path="/organisations/all"
                   component={Organisations}
                 />
-                {/* <PrivateRoute exact path="/dashboard2" component={Register} /> */}
                 <Route component={PageNotFound} />
-                {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
               </Switch>
             </div>
           </Content>
         </Layout>
       </Layout>
-      {/* </Router> */}
-      {/* {accessToken && <Navbar />} */}
     </>
   );
 };
-
-// export default Routes;
 
 const mapStateToProps = (state: any) => {
   return {

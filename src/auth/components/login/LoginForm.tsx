@@ -1,53 +1,17 @@
 import React, { useState } from "react";
-// import {
-//   Card,
-//   CardHeader,
-//   CardContent,
-//   TextField,
-//   CardActions,
-//   Button,
-//   Typography,
-//   Checkbox,
-//   InputAdornment,
-//   IconButton,
-// } from "@material-ui/core";
 
-import { Link } from "react-router-dom";
-
-import { connect } from "react-redux";
-
-import { ThunkDispatch } from "redux-thunk";
-
-import { AnyAction } from "redux";
-
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-
-import { LoginUser } from "../../core/redux/actions";
-
-import { StateType } from "../../../app/core/redux/types";
-
-import {
-  Button,
-  Card,
-  Checkbox,
-  Input,
-  Typography,
-  Form,
-  Layout,
-  Divider,
-} from "antd";
-
-// import Login from "ant-design-pro/lib/Login";
-
-import { Alert } from "antd";
-
+import { Button, Card, Checkbox, Input, Typography, Form, Divider } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
-import { IconButton, InputAdornment, TextField } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
+
+import { LoginUser } from "../../core/redux/actions";
+import { StateType } from "../../../app/core/redux/types";
 
 const { Text } = Typography;
-
-// const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
 
 type Props = {
   loginUser: (username: string, password: string, rememberMe: boolean) => void;
@@ -58,6 +22,7 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
+
 const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
@@ -66,7 +31,6 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
 
   const error = auth.error ? auth.error : null;
 
@@ -74,42 +38,17 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
     loginUser(username, password, rememberMe);
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-    handleFormSubmit();
-  };
-
   const onFinish = (values: any) => {
     console.log("Success:", values);
     handleFormSubmit();
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  // const onFinish = (values: any) => {
-  //   console.log('Received values of form: ', values);
-  // };
-
   return (
-    <Card
-      // style={{
-      //   backgroundColor: "#fff",
-      //   // height: "500px",
-      //   // padding: "20px",
-      // }}
-      title={<Text>Login</Text>}
-      // style={{ justifyContent: "center", backgroundColor: "yellow" }}
-    >
+    <Card title={<Text>Login</Text>}>
       <div
         style={{
-          // width: "500px",
           display: "flex",
-          // backgroundColor: "green",
           justifyContent: "center",
-          // alignContent: "center",
-          // alignItems: "center",
           padding: "20px",
         }}
       >
@@ -120,8 +59,6 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
           onFinish={onFinish}
           style={{
             width: "500px",
-
-            // backgroundColor: "red",
           }}
         >
           <Form.Item
@@ -153,7 +90,9 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
 
           <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>
-              <Checkbox>Keep me logged in</Checkbox>
+              <Checkbox onChange={(e) => setRememberMe(e.target.value)}>
+                Keep me logged in
+              </Checkbox>
             </Form.Item>
           </Form.Item>
 
@@ -165,17 +104,10 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
             >
               Log in
             </Button>{" "}
-            {/* <a className="login-form-forgot" href="">
-              Forgot password
-            </a> */}
             <Link to="/forgot-password">Forgot Password? </Link>
           </Form.Item>
           <Form.Item>
-            Not a Member?{" "}
-            {/* <a className="login-form-forgot" href="">
-              Register Now
-            </a> */}
-            <Link to="/register">Sign Up</Link>
+            Not a Member? <Link to="/register">Sign Up</Link>
           </Form.Item>
         </Form>
       </div>

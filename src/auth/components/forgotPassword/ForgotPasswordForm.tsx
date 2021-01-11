@@ -1,26 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  CardActions,
-  Typography,
-  TextField,
-  Button,
-} from "@material-ui/core";
+import { Button, Card, Input, Typography, Form, Divider } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
-
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
 
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
-
 import { StateType } from "../../../app/core/redux/types";
+
+const { Text } = Typography;
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -56,71 +47,77 @@ const ForgotPasswordForm: React.FC<Props> = ({
   let successMessage;
 
   const handleFormSubmit = () => {
-    successMessage = "Check your email for password reset link";
     forgotPassword(email);
   };
 
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
+    handleFormSubmit();
+  };
+
   return (
-    <div>
-      <Card
-        style={{
-          backgroundColor: "whitesmoke",
-          height: "500px",
-          padding: "20px",
-        }}
-      >
-        <CardHeader title="Forgot Password" />{" "}
-        <CardContent>
-          <div>
-            {successMessage !== null && (
-              <Typography color="primary">{successMessage}</Typography>
-            )}
-            <TextField
-              fullWidth
-              id="email"
-              type="email"
-              label="Email"
-              placeholder="Email Id "
-              margin="normal"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-        </CardContent>
-        <CardActions style={{ justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={handleFormSubmit}
-          >
-            Get password reset link
-          </Button>
-        </CardActions>{" "}
-        {auth && auth.hasOwnProperty("success") && auth.success === true ? (
-          <div>
-            <Typography variant="h5" component="h5" color="primary">
-              {auth.message}
-            </Typography>
-          </div>
-        ) : (
-          <div>
-            <Typography variant="h5" component="h5" color="error">
-              {auth.message}
-            </Typography>
-          </div>
-        )}
-        <CardContent>
-          <div>
-            Already a user?<Link to="/login">Go to login </Link>
-          </div>
+    <Card title={<Text>Forgot Password</Text>}>
+      {auth.hasOwnProperty("success") ? (
+        <>
+          <Text>{auth.message}</Text>
           <br />
-          <div>
-            Not a member? <Link to="/register">Sign Up</Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+          <Link to="/login">Continue to login </Link>
+        </>
+      ) : (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            padding: "20px",
+          }}
+        >
+          <Form
+            name="normal_login"
+            className="login-form"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            style={{
+              width: "500px",
+            }}
+          >
+            <Form.Item
+              name="email"
+              rules={[{ required: true, message: "Please enter your Email!" }]}
+            >
+              <Input
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Email"
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item>
+              <Button
+                type="primary"
+                htmlType="submit"
+                className="login-form-button"
+              >
+                Get password reset link
+              </Button>{" "}
+            </Form.Item>
+            <Divider />
+            <div>
+              Already a user? <Link to="/login">Go to login </Link>
+            </div>
+
+            <div>
+              Not a member? <Link to="/register">Sign Up</Link>
+            </div>
+            <br />
+            {auth && auth.hasOwnProperty("success") && auth.success === true ? (
+              <Text type="secondary">{auth.message}</Text>
+            ) : (
+              <Text type="warning">{auth.message}</Text>
+            )}
+          </Form>
+        </div>
+      )}
+    </Card>
   );
 };
 

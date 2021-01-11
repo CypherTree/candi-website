@@ -1,29 +1,21 @@
 import React, { useEffect } from "react";
 
-import { Typography, Grid } from "@material-ui/core";
+import { Col, Layout, Row } from "antd";
 
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
-
 import * as H from "history";
 
-import "./login.css";
-
 import { APP_NAME } from "../../../app/core/constants";
+import { SetAuthenticated } from "../../../app/core/redux/app/actions";
+import { StateType } from "../../../app/core/redux/types";
 
 import LoginForm from "../../components/login/LoginForm";
-
-import { SetAuthenticated } from "../../../app/core/redux/app/actions";
-
 import SideImage from "../../components/sideImage/SideImage";
-
 import { getCurrentSessionTokens } from "../../core/services/session";
 
-import { StateType } from "../../../app/core/redux/types";
-import { Col, Layout, Row } from "antd";
+import "./login.css";
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -97,20 +89,3 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
-
-{
-  /* <div>
-      <Grid container spacing={0}>
-        <Grid item xs={1} sm={6} md={6}>
-          <SideImage />
-        </Grid>
-        <Grid item xs={11} sm={6} md={6} color="red">
-          <br />
-          <p style={{ fontSize: "40px" }}>
-            <b> {APP_NAME}</b>
-          </p>
-          <LoginForm auth={state.auth} />
-        </Grid>
-      </Grid>
-    </div> */
-}
