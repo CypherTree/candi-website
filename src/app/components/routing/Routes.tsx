@@ -29,6 +29,9 @@ import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import "../../../App.css";
 
 import { connect } from "react-redux";
+import Layout, { Content, Footer } from "antd/lib/layout/layout";
+import Sider from "antd/lib/layout/Sider";
+import Sidebar from "../sidebar/Sidebar";
 
 const Routes = (props: any) => {
   console.log("props in routes", props);
@@ -38,35 +41,49 @@ const Routes = (props: any) => {
 
   return (
     <>
-      {accessToken && <Navbar />}
-      <div className="App">
-        <Switch>
-          <Route exact path="/" component={Login} />
-          <Route exact path="/login" component={Login} />
-          <Route exact path="/register" component={Register} />{" "}
-          <Route exact path="/forgot-password" component={ForgotPassword} />
-          <Route exact path="/reset" component={ResetPassword} />
-          <Route
-            exact
-            path="/email-verification"
-            component={EmailVerificationPage}
-          />
-          <PrivateRoute exact path="/dashboard" component={Dashboard} />
-          <PrivateRoute
-            exact
-            path="/organisation/new"
-            component={NewOrganisation}
-          />
-          <PrivateRoute
-            exact
-            path="/organisations/all"
-            component={Organisations}
-          />
-          {/* <PrivateRoute exact path="/dashboard2" component={Register} /> */}
-          <Route component={PageNotFound} />
-          {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
-        </Switch>
-      </div>
+      {/* <Router> */}
+      <Layout>
+        {accessToken && <Sidebar />}
+        <Layout>
+          {accessToken && <Navbar />}
+          <Content>
+            <div className="App">
+              <Switch>
+                <Route exact path="/" component={Login} />
+                <Route exact path="/login" component={Login} />
+                <Route exact path="/register" component={Register} />{" "}
+                <Route
+                  exact
+                  path="/forgot-password"
+                  component={ForgotPassword}
+                />
+                <Route exact path="/reset" component={ResetPassword} />
+                <Route
+                  exact
+                  path="/email-verification"
+                  component={EmailVerificationPage}
+                />
+                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute
+                  exact
+                  path="/organisation/new"
+                  component={NewOrganisation}
+                />
+                <PrivateRoute
+                  exact
+                  path="/organisations/all"
+                  component={Organisations}
+                />
+                {/* <PrivateRoute exact path="/dashboard2" component={Register} /> */}
+                <Route component={PageNotFound} />
+                {/* <Route exact path="/privacy" component={PrivacyPolicy} /> */}
+              </Switch>
+            </div>
+          </Content>
+        </Layout>
+      </Layout>
+      {/* </Router> */}
+      {/* {accessToken && <Navbar />} */}
     </>
   );
 };

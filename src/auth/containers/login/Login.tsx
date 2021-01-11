@@ -23,6 +23,7 @@ import SideImage from "../../components/sideImage/SideImage";
 import { getCurrentSessionTokens } from "../../core/services/session";
 
 import { StateType } from "../../../app/core/redux/types";
+import { Col, Layout, Row } from "antd";
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -54,20 +55,41 @@ const Login: React.FC<Props> = ({ setAuthenticated, state, history }) => {
   });
 
   return (
-    <div>
-      <Grid container spacing={0}>
-        <Grid item xs={1} sm={6} md={6}>
+    <Layout>
+      <Row>
+        <Col span={12}>
           <SideImage />
-        </Grid>
-        <Grid item xs={11} sm={6} md={6} color="red">
-          <br />
-          <p style={{ fontSize: "40px" }}>
-            <b> {APP_NAME}</b>
-          </p>
-          <LoginForm auth={state.auth} />
-        </Grid>
-      </Grid>
-    </div>
+        </Col>
+        <Col
+          span={11}
+          style={{
+            // backgroundColor: "yellow",
+            display: "flex",
+            // alignContent: "center",x`
+            // justifyContent: "center",
+            // alignItems: "center",
+          }}
+        >
+          <Layout
+            style={{
+              // alignContent: "center",
+              // justifyContent: "center",
+              // alignItems: "center",
+              // backgroundColor: "red",
+              margin: "0",
+              marginTop: "20%",
+              top: "20%",
+            }}
+          >
+            {/* <br /> */}
+            <p style={{ fontSize: "40px" }}>
+              <b> {APP_NAME}</b>
+            </p>
+            <LoginForm auth={state.auth} />
+          </Layout>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 
@@ -84,3 +106,20 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);
+
+{
+  /* <div>
+      <Grid container spacing={0}>
+        <Grid item xs={1} sm={6} md={6}>
+          <SideImage />
+        </Grid>
+        <Grid item xs={11} sm={6} md={6} color="red">
+          <br />
+          <p style={{ fontSize: "40px" }}>
+            <b> {APP_NAME}</b>
+          </p>
+          <LoginForm auth={state.auth} />
+        </Grid>
+      </Grid>
+    </div> */
+}

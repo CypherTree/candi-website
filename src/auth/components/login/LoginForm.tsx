@@ -1,16 +1,16 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  TextField,
-  CardActions,
-  Button,
-  Typography,
-  Checkbox,
-  InputAdornment,
-  IconButton,
-} from "@material-ui/core";
+// import {
+//   Card,
+//   CardHeader,
+//   CardContent,
+//   TextField,
+//   CardActions,
+//   Button,
+//   Typography,
+//   Checkbox,
+//   InputAdornment,
+//   IconButton,
+// } from "@material-ui/core";
 
 import { Link } from "react-router-dom";
 
@@ -26,9 +26,40 @@ import { LoginUser } from "../../core/redux/actions";
 
 import { StateType } from "../../../app/core/redux/types";
 
+import {
+  Button,
+  Card,
+  Checkbox,
+  Input,
+  Typography,
+  Form,
+  Layout,
+  Divider,
+} from "antd";
+
+// import Login from "ant-design-pro/lib/Login";
+
+import { Alert } from "antd";
+
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
+
+import { IconButton, InputAdornment, TextField } from "@material-ui/core";
+
+const { Text } = Typography;
+
+// const { Tab, UserName, Password, Mobile, Captcha, Submit } = Login;
+
 type Props = {
   loginUser: (username: string, password: string, rememberMe: boolean) => void;
   auth: any;
+};
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 16 },
 };
 
 const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
@@ -45,81 +76,110 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+    handleFormSubmit();
   };
 
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
+    handleFormSubmit();
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  // const onFinish = (values: any) => {
+  //   console.log('Received values of form: ', values);
+  // };
+
   return (
-    <div>
-      <Card
+    <Card
+      // style={{
+      //   backgroundColor: "#fff",
+      //   // height: "500px",
+      //   // padding: "20px",
+      // }}
+      title={<Text>Login</Text>}
+      // style={{ justifyContent: "center", backgroundColor: "yellow" }}
+    >
+      <div
         style={{
-          backgroundColor: "whitesmoke",
-          height: "500px",
+          // width: "500px",
+          display: "flex",
+          // backgroundColor: "green",
+          justifyContent: "center",
+          // alignContent: "center",
+          // alignItems: "center",
           padding: "20px",
         }}
       >
-        <CardHeader title="Login" />
-        <CardContent>
-          <div>
-            <TextField
-              fullWidth
-              id="username"
-              type="email"
-              label="Email"
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          style={{
+            width: "500px",
+
+            // backgroundColor: "red",
+          }}
+        >
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Email"
-              margin="normal"
-              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <TextField
-              fullWidth
-              id="password"
-              type={showPassword ? "text" : "password"}
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      // onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Checkbox
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              name="remember"
-              color="primary"
-            />{" "}
-            Remember Me - Stay logged in
-          </div>
-          {error !== null && <Typography color="error">{error}</Typography>}
-        </CardContent>
-        <CardActions style={{ justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={handleFormSubmit}
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
           >
-            Login
-          </Button>
-          <Link to="/forgot-password">Forgot Password? </Link>
-        </CardActions>
-        <CardContent>
-          <div>
-            Not a member? <Link to="/register">Sign Up</Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Item>
+          {error !== null && (
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Text type="danger">{error}</Text>
+            </Form.Item>
+          )}
+
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox>Keep me logged in</Checkbox>
+            </Form.Item>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>{" "}
+            {/* <a className="login-form-forgot" href="">
+              Forgot password
+            </a> */}
+            <Link to="/forgot-password">Forgot Password? </Link>
+          </Form.Item>
+          <Form.Item>
+            Not a Member?{" "}
+            {/* <a className="login-form-forgot" href="">
+              Register Now
+            </a> */}
+            <Link to="/register">Sign Up</Link>
+          </Form.Item>
+        </Form>
+      </div>
+    </Card>
   );
 };
 

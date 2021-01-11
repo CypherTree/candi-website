@@ -6,9 +6,17 @@ import { useDispatch } from "react-redux";
 
 import { setLoggedInUser } from "./auth/core/services/login";
 
-import "./App.css";
+// import "./App.css";
 
 import Routes from "./app/components/routing/Routes";
+
+import "antd/dist/antd.css";
+import "./index.css";
+
+import { Layout } from "antd";
+import Navbar from "./app/components/navbar/Navbar";
+import Sidebar from "./app/components/sidebar/Sidebar";
+const { Header, Footer, Sider, Content } = Layout;
 
 require("dotenv").config();
 

@@ -22,6 +22,8 @@
     "@types/react-redux": "^7.1.9",
     "@types/react-router": "^5.1.8",
     "@types/react-router-dom": "^5.1.6",
+    "ant-design-pro": "^2.3.2",
+    "antd": "^4.10.0",
     "axios": "^0.20.0",
     "dotenv": "^8.2.0",
     "formik": "^2.2.1",
