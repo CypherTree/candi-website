@@ -1,46 +1,48 @@
 import React, { useState } from "react";
 
-import { Menu, Button } from "antd";
+import { Layout, Menu } from "antd";
 import {
   AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
   PieChartOutlined,
   DesktopOutlined,
   ContainerOutlined,
   MailOutlined,
 } from "@ant-design/icons";
 
-import {
-  HomeOutlined,
-  SettingFilled,
-  SmileOutlined,
-  SyncOutlined,
-  LoadingOutlined,
-  MenuOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 
-import { Layout } from "antd";
 import Title from "antd/lib/typography/Title";
 import Sider from "antd/lib/layout/Sider";
+
 import { Link } from "react-router-dom";
 
 const { SubMenu } = Menu;
 
-const Sidebar = () => {
-  const [collapsed, setCollapsed] = useState(false);
+const Sidebar = (props: any) => {
+  // const [collapsed, setCollapsed] = useState(false);
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+  // const toggleCollapsed = () => {
+  //   setCollapsed(!collapsed);
+  // };
+
+  const { toggleCollapsed, collapsed } = props;
 
   return (
     <Sider
       collapsible
       collapsed={collapsed}
       onCollapse={toggleCollapsed}
-      style={{ width: "500px", height: "100vh" }}
+      style={{
+        // width: "500px",
+        // height: "100vh",
+        // maxWidth: "1000px",
+        // backgroundColor: "red",
+        position: "fixed",
+        overflow: "auto",
+        height: "100vh",
+        // position: "fixed",
+        left: 0,
+      }}
     >
       <Layout
         style={{
@@ -50,7 +52,6 @@ const Sidebar = () => {
           flexDirection: "row",
           backgroundColor: "inherit",
           alignItems: "center",
-          // height: "100vh",
         }}
       >
         {!collapsed ? (
@@ -68,7 +69,6 @@ const Sidebar = () => {
               style={{
                 textDecoration: "none",
                 color: "white",
-                // fontWeight: "bold",
               }}
             >
               <Title style={{ color: "white" }} level={4}>

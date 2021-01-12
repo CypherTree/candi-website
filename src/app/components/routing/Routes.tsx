@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Route, Switch } from "react-router-dom";
 
@@ -34,6 +34,12 @@ import Sider from "antd/lib/layout/Sider";
 import Sidebar from "../sidebar/Sidebar";
 
 const Routes = (props: any) => {
+  const [collapsed, setCollapsed] = useState(false);
+
+  const toggleCollapsed = () => {
+    setCollapsed(!collapsed);
+  };
+
   const { accessToken } = getCurrentSessionTokens();
 
   // console.log("routes are working..");
@@ -41,10 +47,16 @@ const Routes = (props: any) => {
 
   return (
     <>
-      <Layout>
-        {accessToken && <Sidebar />}
-        <Layout>
+      <div>
+        {accessToken && (
+          <Sidebar collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
+        )}
+      </div>
+
+      <div style={{ flex: 1 }}>
+        <Layout style={{ marginLeft: collapsed ? "80px" : "200px" }}>
           {accessToken && <Navbar />}
+
           <Content>
             <div className="App">
               <Switch>
@@ -78,7 +90,7 @@ const Routes = (props: any) => {
             </div>
           </Content>
         </Layout>
-      </Layout>
+      </div>
     </>
   );
 };

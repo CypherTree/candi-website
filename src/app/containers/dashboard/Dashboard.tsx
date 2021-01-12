@@ -1,28 +1,15 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Typography, Grid, SnackbarContent } from "@material-ui/core";
+import { Col, Row } from "antd";
+import Title from "antd/lib/typography/Title";
 
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
-
 import { connect } from "react-redux";
-
 import * as H from "history";
 
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
-
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
-
-import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-
-import { StateType } from "../../core/redux/types";
-
-import Navbar from "../../components/navbar/Navbar";
-
-import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
-
 import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
+import { StateType } from "../../core/redux/types";
 
 export type UserDataProps = {
   email: string;
@@ -69,29 +56,17 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   useEffect(() => {}, [userData]);
 
-  // style={{ width: "1000px", height: "1000px", backgroundColor: "red" }}
-
   return (
     <div>
-      {/* <p style={{ padding: "100px" }}> HEllo </p> */}
-      {userData && !userData.privacy_policy_accepted ? (
+      {userData && userData.privacy_policy_accepted ? (
         <>
-          {/* {userData && !userData.is_verified && (
-            <div>
-              <div style={{ alignContent: "center" }}>
-                <EmailVerificationBar />
-              </div>
-            </div>
-          )} */}
           <br />
-          <Typography variant="h3" component="h3">
-            Welcome
-          </Typography>
+          <Title level={4}>Welcome</Title>
           <br />
-          <Typography variant={"h4"} component="h4">
+          <Title level={4}>
             {userData !== null && userData.last_name},{" "}
             {userData !== null && userData.first_name}
-          </Typography>
+          </Title>
           <img
             src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
             height="500px"
@@ -100,11 +75,11 @@ const Dashboard: React.FC<Props> = ({ state }) => {
         </>
       ) : (
         <div style={{ padding: "20px 50px 50px 50px" }}>
-          <Grid container>
-            <Grid item xs={12}>
+          <Row>
+            <Col span={24}>
               <PrivacyPolicy />
-            </Grid>
-          </Grid>
+            </Col>
+          </Row>
           <br />
         </div>
       )}
