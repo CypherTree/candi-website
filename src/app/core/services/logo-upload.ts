@@ -47,7 +47,6 @@ export const updateServerWithLogoUploadData = async (
   website: string
 ) => {
   let result;
-  let returnData;
 
   try {
     result = await axios.put(
@@ -64,15 +63,6 @@ export const updateServerWithLogoUploadData = async (
         },
       }
     );
-
-    // returnData = await axios.get(
-    //   `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organization_id}/`,
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${jwtToken}`,
-    //     },
-    //   }
-    // );
   } catch (err) {
     console.log("errr", err);
   }

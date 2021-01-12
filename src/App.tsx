@@ -16,7 +16,7 @@ const App = () => {
 
   useEffect(() => {
     setLoggedInUser(dispatch);
-  }, []);
+  }, [dispatch]);
 
   return (
     <Router>

@@ -10,6 +10,7 @@ import { AnyAction } from "redux";
 
 import { ClearState, ForgotPassword } from "../../core/redux/actions";
 import { StateType } from "../../../app/core/redux/types";
+import Title from "antd/lib/typography/Title";
 
 const { Text } = Typography;
 
@@ -44,8 +45,6 @@ const ForgotPasswordForm: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  let successMessage;
-
   const handleFormSubmit = () => {
     forgotPassword(email);
   };
@@ -56,7 +55,7 @@ const ForgotPasswordForm: React.FC<Props> = ({
   };
 
   return (
-    <Card title={<Text>Forgot Password</Text>}>
+    <Card title={<Title level={4}>Forgot Password</Title>}>
       {auth.hasOwnProperty("success") ? (
         <>
           <Text>{auth.message}</Text>
@@ -69,6 +68,7 @@ const ForgotPasswordForm: React.FC<Props> = ({
             display: "flex",
             justifyContent: "center",
             padding: "20px",
+            paddingBottom: "0px",
           }}
         >
           <Form
@@ -101,14 +101,16 @@ const ForgotPasswordForm: React.FC<Props> = ({
               </Button>{" "}
             </Form.Item>
             <Divider />
-            <div>
-              Already a user? <Link to="/login">Go to login </Link>
-            </div>
+            <Form.Item style={{ marginBottom: "0px" }}>
+              <div>
+                Already a user? <Link to="/login">Go to login </Link>
+              </div>
 
-            <div>
-              Not a member? <Link to="/register">Sign Up</Link>
-            </div>
-            <br />
+              <div>
+                Not a member? <Link to="/register">Sign Up</Link>
+              </div>
+            </Form.Item>
+
             {auth && auth.hasOwnProperty("success") && auth.success === true ? (
               <Text type="secondary">{auth.message}</Text>
             ) : (

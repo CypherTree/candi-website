@@ -74,7 +74,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
   return (
     <div>
       {/* <p style={{ padding: "100px" }}> HEllo </p> */}
-      {userData && userData.privacy_policy_accepted ? (
+      {userData && !userData.privacy_policy_accepted ? (
         <>
           {/* {userData && !userData.is_verified && (
             <div>

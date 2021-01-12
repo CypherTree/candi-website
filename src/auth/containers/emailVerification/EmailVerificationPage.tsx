@@ -22,7 +22,7 @@ import * as H from "history";
 
 import { EmailVerification } from "../../core/redux/actions";
 
-import SideImage from "../../components/sideImage/SideImage";
+// import SideImage from "../../components/sideImage/SideImage";
 
 const qs = require("query-string");
 

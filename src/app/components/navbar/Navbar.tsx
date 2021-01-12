@@ -1,87 +1,28 @@
-import React, { useEffect, useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import AppBar from "@material-ui/core/AppBar";
+import React, { useEffect } from "react";
 
-import MenuIcon from "@material-ui/icons/Menu";
-import { Link } from "react-router-dom";
+import { Avatar, Button, Dropdown, Menu, Layout } from "antd";
+import Title from "antd/lib/typography/Title";
+import {
+  SettingFilled,
+  SearchOutlined,
+  BellOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
 
 import { connect, useDispatch } from "react-redux";
-import { LogoutUser } from "../../../auth/core/redux/actions";
-import // Avatar,
 
-// Button,
-"@material-ui/core";
-
-import { Button, Typography } from "antd";
-// import "antd/dist/antd.css";
-
+import { Link } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
 
 import * as H from "history";
 
+import { LogoutUser } from "../../../auth/core/redux/actions";
 import { StateType } from "../../core/redux/types";
 
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-import SettingsIcon from "@material-ui/icons/Settings";
-import SearchIcon from "@material-ui/icons/Search";
-import PublicIcon from "@material-ui/icons/Public";
-import { deepOrange, deepPurple } from "@material-ui/core/colors";
-
-import {
-  HomeOutlined,
-  SettingFilled,
-  SmileOutlined,
-  SyncOutlined,
-  LoadingOutlined,
-  MenuOutlined,
-  SearchOutlined,
-  BellOutlined,
-} from "@ant-design/icons";
-
 import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
-import Title from "antd/lib/typography/Title";
 
-import { Avatar } from "antd";
-import { UserOutlined } from "@ant-design/icons";
-
-import { Layout } from "antd";
-
-import { Dropdown, Menu } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-
-const { Header, Footer, Sider, Content } = Layout;
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    // flexGrow: 1,
-  },
-  menuButton: {
-    // marginRight: theme.spacing(2),
-  },
-  title: {
-    // flexGrow: 1,
-  },
-  small: {
-    width: theme.spacing(3),
-    height: theme.spacing(3),
-  },
-  large: {
-    width: theme.spacing(7),
-    height: theme.spacing(7),
-  },
-  orange: {
-    color: theme.palette.getContrastText(deepOrange[500]),
-    backgroundColor: deepOrange[500],
-  },
-  purple: {
-    color: theme.palette.getContrastText(deepPurple[500]),
-    backgroundColor: deepPurple[500],
-    width: theme.spacing(5),
-    height: theme.spacing(5),
-  },
-}));
+const { Header } = Layout;
 
 export type UserDataProps = {
   email: string;
@@ -120,7 +61,6 @@ type Props = {
 
 function Navbar(props: any) {
   const dispatch = useDispatch();
-  const classes = useStyles();
 
   const state = props.state;
 
@@ -148,12 +88,8 @@ function Navbar(props: any) {
 
   const menu = (
     <Menu>
-      {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
-                    <MenuItem onClick={handleLogout}>Logout</MenuItem> */}
       <Menu.Item>Profile</Menu.Item>
       <Menu.Item>My account</Menu.Item>
-
       <Menu.Item danger onClick={handleLogout}>
         Logout
       </Menu.Item>
@@ -161,241 +97,101 @@ function Navbar(props: any) {
   );
 
   return (
-    <Header
-      style={{
-        paddingTop: "15px",
-        backgroundColor: "white",
-        boxShadow: "0 2px 8px #f0f1f2",
-      }}
-    >
-      <Layout
+    <>
+      <Header
         style={{
-          float: "right",
-          display: "flex",
-          flexDirection: "row",
+          paddingTop: "15px",
           backgroundColor: "white",
-          // justifyContent: "center",
-          // alignContent: "center",
-          alignItems: "center",
-          // margin: "0",
+          boxShadow: "0 2px 8px #f0f1f2",
         }}
       >
-        <SearchOutlined
-          style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-        />
-        <SettingFilled
-          style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-        />
-        <BellOutlined
-          style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-        />
-        <Dropdown overlay={menu}>
-          <Avatar
-            style={{ marginLeft: "20px" }}
-            icon={<UserOutlined style={{ fontSize: "20px" }} />}
+        <Layout
+          style={{
+            float: "right",
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "white",
+            alignItems: "center",
+          }}
+        >
+          <SearchOutlined
+            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
           />
-        </Dropdown>
-      </Layout>
+          <SettingFilled
+            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
+          />
+          <BellOutlined
+            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
+          />
+          <Dropdown overlay={menu}>
+            <Avatar
+              style={{ marginLeft: "20px" }}
+              icon={<UserOutlined style={{ fontSize: "20px" }} />}
+            />
+          </Dropdown>
+        </Layout>
 
-      <Layout
-        style={{
-          float: "left",
-          display: "flex",
-          flexDirection: "row",
-          backgroundColor: "white",
-          // justifyContent: "center",
-          // alignContent: "center",
-          alignItems: "center",
-          paddingLeft: "10px",
-          paddingTop: "5px",
-          // margin: "0",
-        }}
-      >
-        <Link
-          to="/organisations/all"
+        <Layout
           style={{
-            textDecoration: "none",
-            color: "white",
-            // fontWeight: "bold",
+            float: "left",
+            display: "flex",
+            flexDirection: "row",
+            backgroundColor: "white",
+            alignItems: "center",
+            paddingLeft: "10px",
+            paddingTop: "5px",
           }}
         >
-          <Title style={{ color: "black" }} level={5}>
-            Organisation
-          </Title>
-        </Link>
-        <Link
-          to="#"
-          style={{
-            textDecoration: "none",
-            color: "black",
-            paddingLeft: "30px",
-          }}
-        >
-          <Title style={{ color: "black" }} level={5}>
-            Your Clients
-          </Title>
-        </Link>
-        <Link
-          to="#"
-          style={{
-            textDecoration: "none",
-            color: "black",
-            paddingLeft: "30px",
-          }}
-        >
-          <Title style={{ color: "black" }} level={5}>
-            People
-          </Title>
-        </Link>
-        <Button
-          style={{
-            backgroundColor: "#f8f8f8",
-            width: "150px",
-            height: "30px",
-            textTransform: "none",
-            marginLeft: "50px",
-          }}
-        >
-          Add Job
-        </Button>
-      </Layout>
-
-      {/* <AppBar
-        position="static"
-        style={{ backgroundColor: "white", color: "black" }}
-      >
-        <Toolbar>
-          <Grid container>
-            <Grid
-              item
-              xs={2}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-              }}
-            >
-              <IconButton edge="start" color="inherit" aria-label="menu">
-                <MenuIcon />
-              </IconButton>
-
-              <p
-                style={{
-                  padding: "none",
-                  margin: "none",
-                  width: "auto",
-                  fontSize: "20px",
-                }}
-              >
-                {" "}
-                <Link
-                  to="/dashboard"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                >
-                  <b>The Onboarders</b>
-                </Link>
-              </p>
-            </Grid>
-
-            <Grid
-              item
-              xs={6}
-              style={{
-                display: "flex",
-                justifyContent: "flex-start",
-                paddingLeft: "10px",
-                top: "0",
-                bottom: "0",
-              }}
-            >
-              <p
-                style={{
-                  padding: "12px",
-                  margin: "10px",
-
-                  cursor: "pointer",
-                }}
-              >
-                {" "}
-                <Link
-                  to="/organisations/all"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                    // fontWeight: "bold",
-                  }}
-                >
-                  Organisation
-                </Link>
-              </p>
-              <p
-                style={{
-                  padding: "12px",
-                  margin: "10px",
-
-                  cursor: "pointer",
-                }}
-              >
-                {" "}
-                <Link
-                  to="#"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                >
-                  Your Clients
-                </Link>
-              </p>
-              <p
-                style={{
-                  padding: "12px",
-                  margin: "10px",
-
-                  cursor: "pointer",
-                }}
-              >
-                {" "}
-                <Link
-                  to="#"
-                  style={{
-                    textDecoration: "none",
-                    color: "black",
-                  }}
-                >
-                  People
-                </Link>
-              </p>
-             
-            </Grid>
-
-            <Grid
-              item
-              xs={4}
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-end",
-                paddingTop: "12px",
-              }}
-            >
-             
-
-             
-            </Grid>
-          </Grid>
-        </Toolbar>
-      </AppBar> */}
-      {/* {userData && !userData.is_verified && (
-        <div>
-          <div style={{ alignContent: "center" }}>
-            <EmailVerificationBar />
-          </div>
-        </div>
-      )} */}
-    </Header>
+          <Link
+            to="/organisations/all"
+            style={{
+              textDecoration: "none",
+              color: "white",
+            }}
+          >
+            <Title style={{ color: "black" }} level={5}>
+              Organisation
+            </Title>
+          </Link>
+          <Link
+            to="#"
+            style={{
+              textDecoration: "none",
+              color: "black",
+              paddingLeft: "30px",
+            }}
+          >
+            <Title style={{ color: "black" }} level={5}>
+              Your Clients
+            </Title>
+          </Link>
+          <Link
+            to="#"
+            style={{
+              textDecoration: "none",
+              color: "black",
+              paddingLeft: "30px",
+            }}
+          >
+            <Title style={{ color: "black" }} level={5}>
+              People
+            </Title>
+          </Link>
+          <Button
+            type="primary"
+            style={{
+              width: "150px",
+              height: "30px",
+              textTransform: "none",
+              marginLeft: "50px",
+            }}
+          >
+            Add Job
+          </Button>
+        </Layout>
+      </Header>
+      <EmailVerificationBar />
+    </>
   );
 }
 
@@ -412,84 +208,3 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
-
-{
-  /* <div style={{ paddingTop: "19px", paddingLeft: "12px" }}>
-<Button
-  variant="outlined"
-  style={{
-    backgroundColor: "#f8f8f8",
-    width: "150px",
-    height: "30px",
-    textTransform: "none",
-  }}
->
-  Add Job
-</Button>
-</div> */
-}
-
-// <div
-// style={{
-//   paddingTop: "4px",
-//   width: "50px",
-//   overflow: "none",
-// }}
-// >
-// <Button
-//   aria-controls="simple-menu"
-//   aria-haspopup="true"
-//   onClick={handleClick}
-//   style={{
-//     padding: "0",
-//     margin: "0",
-//   }}
-// >
-//   <Avatar
-//     className={classes.purple}
-//     style={{
-//       height: "35px",
-//       width: "35px",
-//       overflow: "none",
-//     }}
-//   >
-//     MK
-//   </Avatar>
-// </Button>
-
-// <Menu
-//   id="simple-menu"
-//   anchorEl={anchorEl}
-//   keepMounted
-//   open={Boolean(anchorEl)}
-//   onClose={handleClose}
-//   elevation={0}
-//   getContentAnchorEl={null}
-//   anchorOrigin={{
-//     vertical: "bottom",
-//     horizontal: "right",
-//   }}
-//   transformOrigin={{
-//     vertical: "top",
-//     horizontal: "right",
-//   }}
-// >
-//   <MenuItem onClick={handleClose}>Profile</MenuItem>
-//   <MenuItem onClick={handleClose}>My account</MenuItem>
-//   <MenuItem onClick={handleLogout}>Logout</MenuItem>
-// </Menu>
-// </div>
-
-{
-  /* <div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
-<SearchIcon fontSize="large" />
-</div>
-
-<div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
-<PublicIcon fontSize="large" />
-</div>
-
-<div style={{ paddingLeft: "15px", paddingTop: "4px" }}>
-<SettingsIcon fontSize="large" />
-</div> */
-}

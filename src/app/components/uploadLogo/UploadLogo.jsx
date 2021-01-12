@@ -16,6 +16,7 @@ function UploadLogo({ organisation_id, name, website }) {
   const jwtToken = localStorage.getItem("accessToken");
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
+
   const [logoUrl, setLogoUrl] = useState("");
 
   const [imageSrc, setImageSrc] = useState("");

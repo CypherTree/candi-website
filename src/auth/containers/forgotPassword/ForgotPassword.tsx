@@ -54,21 +54,35 @@ const ForgotPassword: React.FC<Props> = ({
 
   return (
     <Layout>
-      <Row>
-        <Col span={12}>
+      <Row
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Col
+          span={12}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <SideImage />
         </Col>
         <Col
-          span={11}
+          span={12}
           style={{
             display: "flex",
+            justifyContent: "center",
           }}
         >
           <Layout
             style={{
               margin: "0",
-              marginTop: "20%",
+              marginTop: "10%",
               top: "20%",
+              width: "200px",
+              maxWidth: "80%",
             }}
           >
             <p style={{ fontSize: "40px" }}>

@@ -1,10 +1,9 @@
 import React from "react";
 
-import { Link } from "react-router-dom";
-
-import { connect } from "react-redux";
-
 import AddIcon from "@material-ui/icons/Add";
+
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 import OrganizationList from "../../components/organizationList/OrganizationList";
 import NewOrganizationModal from "./NewOrganizationModal";
@@ -12,12 +11,12 @@ import NewOrganizationModal from "./NewOrganizationModal";
 const Organisations = (props: any) => {
   const [open, setOpen] = React.useState(false);
 
-  const [orgData, setOrgData] = React.useState({
-    domain: null,
-    name: null,
-    selectedPlan: null,
-    website: null,
-  });
+  // const [orgData, setOrgData] = React.useState({
+  //   domain: null,
+  //   name: null,
+  //   selectedPlan: null,
+  //   website: null,
+  // });
 
   const handleOpen = () => {
     setOpen(true);
@@ -114,23 +113,3 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(Organisations);
-
-{
-  /* <Fab
-              aria-label="add"
-              size="small"
-              style={{
-                // bormui der: "1px solid black",
-                // height: "28px",
-                // width: "28px",
-
-                textAlign: "center",
-                backgroundColor: "#F9650D",
-                padding: "0px",
-                margin: "0px",
-              }}
-            >
-
-<AddIcon onClick={handleOpen} />
-            </Fab> */
-}

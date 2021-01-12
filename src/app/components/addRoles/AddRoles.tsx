@@ -1,11 +1,11 @@
-import { Button } from "@material-ui/core";
-import Axios from "axios";
 import React, { useState } from "react";
-import AddRole from "./AddRole";
 
+import { Button } from "@material-ui/core";
+
+import Axios from "axios";
 import { connect } from "react-redux";
 
-// import ViewRole from "./ViewRole";
+import AddRole from "./AddRole";
 
 // 1 = ADMIN
 // 2 = MANAGER
@@ -16,7 +16,7 @@ import { connect } from "react-redux";
 
 const AddRoles = (props: any) => {
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
-  const { handleNext, handleBack, state } = props;
+  const { handleNext, handleBack } = props;
 
   const org_id = props.state.app.currentOrganization.id;
 

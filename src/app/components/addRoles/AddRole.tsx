@@ -1,12 +1,15 @@
-import { Button, TextField, Typography } from "@material-ui/core";
 import React, { useState } from "react";
 
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
+
 import { Delete } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -243,18 +246,3 @@ const AddRole = (props: any) => {
 };
 
 export default AddRole;
-
-{
-  /* <MenuItem value={1} style={styles} disabled={true}>
-                {open ? (
-                  <div>
-                    <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                      {" "}
-                      Admin
-                    </p>
-                  </div>
-                ) : (
-                  <div> Admin</div>
-                )}
-              </MenuItem> */
-}

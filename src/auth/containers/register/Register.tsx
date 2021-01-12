@@ -1,29 +1,19 @@
 import React, { useEffect } from "react";
 
-import { Typography, Grid } from "@material-ui/core";
+import { Col, Layout, Row } from "antd";
 
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
-
 import * as H from "history";
 
-import { APP_NAME } from "../../../app/core/constants";
-
-import { SetAuthenticated } from "../../../app/core/redux/app/actions";
-
 import RegisterForm from "../../components/register/RegisterForm";
-
 import SideImage from "../../components/sideImage/SideImage";
-
 import { getCurrentSessionTokens } from "../../core/services/session";
 
+import { APP_NAME } from "../../../app/core/constants";
+import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 import { StateType } from "../../../app/core/redux/types";
-import Layout from "antd/lib/layout/layout";
-
-import { Col, Row } from "antd";
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -59,21 +49,32 @@ const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
 
   return (
     <Layout>
-      <Row>
+      <Row
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          // overflowY: "scroll",
+        }}
+      >
         <Col span={12}>
           <SideImage />
         </Col>
         <Col
-          span={11}
+          span={12}
           style={{
             display: "flex",
+            justifyContent: "center",
+            height: "100vh",
+            overflowY: "scroll",
           }}
         >
           <Layout
             style={{
               margin: "0",
               marginTop: "10%",
-              top: "10%",
+              top: "20%",
+              width: "200px",
+              maxWidth: "80%",
             }}
           >
             <p style={{ fontSize: "40px" }}>

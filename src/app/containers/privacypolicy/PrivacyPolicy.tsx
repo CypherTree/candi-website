@@ -1,19 +1,18 @@
-import {
-  Typography,
-  Grid,
-  Checkbox,
-  FormControlLabel,
-  Button,
-} from "@material-ui/core";
 import React, { useState } from "react";
+
+import { Button, Card, Checkbox, Col, Layout, Row } from "antd";
+
+import Title from "antd/lib/typography/Title";
 
 import PrivacyPolicyText from "../../components/privacyPolicy/PrivacyPolicyText";
 
 import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
 
+// const { Text } = Typography;
+
 const mainImage = require("../../../shared/assets/images/welcome-illustration.jpg");
 
-function PrivacyPolicy() {
+const PrivacyPolicy = () => {
   const [disabled, setDisabled] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken")
@@ -32,21 +31,21 @@ function PrivacyPolicy() {
 
   const [acceptPermissionChecked, setAcceptPermissionChecked] = useState(false);
   return (
-    <div
+    <Card
       style={{
-        border: "1px solid black",
+        // border: "1px solid black",
         padding: "10px 50px 50px 50px",
         borderRadius: "10px",
       }}
     >
-      <Typography variant="h5" component="h5" color="error">
+      <Title level={4} type="danger">
         You need to accept Privacy policy before continuing.
-      </Typography>
-      <br />
+      </Title>
+
       <br />
 
-      <Grid container spacing={5}>
-        <Grid item xs={6}>
+      <Row gutter={10}>
+        <Col span={12}>
           <img
             alt="logo"
             style={{ width: "100%", height: "500px" }}
@@ -55,21 +54,21 @@ function PrivacyPolicy() {
           <a href="https://www.freepik.com/vectors/banner">
             Banner vector created by stories - www.freepik.com
           </a>
-        </Grid>
-        <Grid item xs={6}>
+        </Col>
+        <Col span={12}>
           <div
             style={{
-              backgroundColor: "whitesmoke",
+              backgroundColor: "white",
               width: "100%",
-              height: "100%",
+              height: "500px",
             }}
           >
-            <Grid container direction="column" spacing={3}>
+            <Layout style={{ alignItems: "center", paddingBottom: "15px" }}>
               {disabled ? (
                 <div
                   style={{
-                    backgroundColor: "white",
-                    height: "400px",
+                    backgroundColor: "red",
+                    height: "500px",
                     padding: "10px",
                     margin: "10px",
                     overflowY: "hidden",
@@ -83,49 +82,45 @@ function PrivacyPolicy() {
                 </div>
               ) : (
                 <>
-                  <Grid item>
+                  <Layout>
                     <div
                       style={{
-                        backgroundColor: "#D3D3D3",
-                        height: "400px",
-                        padding: "10px",
+                        backgroundColor: "#fff",
+                        height: "450px",
+                        padding: "20px",
                         margin: "10px",
                         overflowY: "scroll",
                       }}
                     >
                       <PrivacyPolicyText />
                     </div>
-                  </Grid>
-                  <Grid item>
-                    <FormControlLabel
-                      control={
-                        <Checkbox
-                          color="primary"
-                          checked={acceptPermissionChecked}
-                          onChange={(e) =>
-                            setAcceptPermissionChecked(!acceptPermissionChecked)
-                          }
-                        ></Checkbox>
+                  </Layout>
+
+                  <span>
+                    <Checkbox
+                      checked={acceptPermissionChecked}
+                      onChange={(e) =>
+                        setAcceptPermissionChecked(!acceptPermissionChecked)
                       }
-                      label="I accept all conditions."
-                    />
+                    >
+                      I accept all conditions.
+                    </Checkbox>
                     <Button
-                      variant="contained"
-                      color="primary"
+                      type="primary"
                       onClick={handleAcceptPrivacyPolicy}
                       disabled={!acceptPermissionChecked}
                     >
                       Accept privacy policy
                     </Button>
-                  </Grid>
+                  </span>
                 </>
               )}
-            </Grid>
+            </Layout>
           </div>
-        </Grid>
-      </Grid>
-    </div>
+        </Col>
+      </Row>
+    </Card>
   );
-}
+};
 
 export default PrivacyPolicy;

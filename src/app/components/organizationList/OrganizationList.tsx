@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 
 import { Typography, Grid } from "@material-ui/core";
-
 import Pagination from "@material-ui/lab/Pagination";
 
 import OrganizationItem from "../organizationItem/OrganizationItem";

@@ -1,20 +1,6 @@
 import React, { useState } from "react";
 
-import {
-  Button,
-  Card,
-  Checkbox,
-  Input,
-  Typography,
-  Form,
-  Layout,
-  Divider,
-  Row,
-  Col,
-} from "antd";
-
-import { Link } from "react-router-dom";
-
+import { Button, Card, Input, Typography, Form, Divider, Row, Col } from "antd";
 import {
   UserOutlined,
   LockOutlined,
@@ -22,19 +8,15 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
 
 import { sendOTP } from "../../core/services/register";
-
 import { RegisterUser, SetAuthenticated } from "../../core/redux/actions";
-
 import { StateType } from "../../../app/core/redux/types";
-import Field from "ant-design-pro/lib/Charts/Field";
-import { ErrorMessage } from "formik/dist/ErrorMessage";
+import Title from "antd/lib/typography/Title";
 
 const { Text } = Typography;
 
@@ -61,10 +43,6 @@ type Props = {
   auth: AuthProps;
 };
 
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
 const tailLayout = {
   wrapperCol: { offset: 4, span: 16 },
 };
@@ -131,11 +109,11 @@ const RegisterForm: React.FC<Props> = ({
     countdown();
   };
 
-  const redirectToDashboard = () => {
-    setTimeout(() => {
-      setAuthenticated(true);
-    }, 1000);
-  };
+  // const redirectToDashboard = () => {
+  //   setTimeout(() => {
+  //     setAuthenticated(true);
+  //   }, 1000);
+  // };
 
   type valuesType = {
     firstName?: string;
@@ -187,12 +165,16 @@ const RegisterForm: React.FC<Props> = ({
   };
 
   return (
-    <Card title={<Text>Register </Text>} style={{ padding: "20px" }}>
+    <Card
+      title={<Title level={4}>Register </Title>}
+      style={{ paddingBottom: "0px" }}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
+          paddingBottom: "0px",
         }}
       >
         <Form
@@ -202,6 +184,7 @@ const RegisterForm: React.FC<Props> = ({
           onFinish={onFinish}
           style={{
             width: "500px",
+            paddingBottom: "0px",
           }}
         >
           <Form.Item
@@ -371,7 +354,8 @@ const RegisterForm: React.FC<Props> = ({
               Sign Up
             </Button>{" "}
           </Form.Item>
-          <Form.Item>
+          <Divider />
+          <Form.Item style={{ marginBottom: "0px" }}>
             Already a Member? <Link to="/login">Login</Link>
           </Form.Item>
         </Form>

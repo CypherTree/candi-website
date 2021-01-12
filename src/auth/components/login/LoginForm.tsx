@@ -10,6 +10,7 @@ import { AnyAction } from "redux";
 
 import { LoginUser } from "../../core/redux/actions";
 import { StateType } from "../../../app/core/redux/types";
+import Title from "antd/lib/typography/Title";
 
 const { Text } = Typography;
 
@@ -44,12 +45,16 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   };
 
   return (
-    <Card title={<Text>Login</Text>}>
+    <Card
+      title={<Title level={4}>Login</Title>}
+      style={{ paddingBottom: "0px" }}
+    >
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           padding: "20px",
+          paddingBottom: "0px",
         }}
       >
         <Form
@@ -59,6 +64,7 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
           onFinish={onFinish}
           style={{
             width: "500px",
+            paddingBottom: "0px",
           }}
         >
           <Form.Item
@@ -106,7 +112,8 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
             </Button>{" "}
             <Link to="/forgot-password">Forgot Password? </Link>
           </Form.Item>
-          <Form.Item>
+          <Divider />
+          <Form.Item style={{ marginBottom: "0px" }}>
             Not a Member? <Link to="/register">Sign Up</Link>
           </Form.Item>
         </Form>

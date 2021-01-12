@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Grid } from "@material-ui/core";
+import { Button, Col, Layout, Row } from "antd";
 
 import { resendVerificationEmail } from "../../core/services/emailverification";
 
@@ -36,25 +36,9 @@ const EmailVerificationBar = () => {
   };
 
   return (
-    <div
-      style={{
-        alignContent: "center",
-        justifyContent: "space-around",
-        display: "flex",
-        flexDirection: "row",
-        border: "1px solid #4A4A4A",
-        backgroundColor: "#FBC4C4",
-      }}
-    >
-      <Grid
-        container
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <Grid item xs={12} sm={10} md={8}>
+    <Layout style={{ backgroundColor: "#FBC4C4" }}>
+      <Row>
+        <Col span={16} offset={5}>
           <div
             style={{
               alignContent: "center",
@@ -66,15 +50,15 @@ const EmailVerificationBar = () => {
             }}
           >
             {snackbarMessage}
+
             <Button
-              size="small"
-              variant="outlined"
+              type="text"
               onClick={handleSendVerificationEmail}
               disabled={disabledButton}
               style={{
                 borderRadius: "10px",
-                border: "1px solid #4A4A4A",
-                padding: "5px",
+                // border: "1px solid #4A4A4A",
+                // margin: "5px",
               }}
             >
               <p
@@ -82,16 +66,16 @@ const EmailVerificationBar = () => {
                   fontWeight: "bold",
                   margin: "0",
                   padding: "0",
+                  color: "#1890ff",
                 }}
               >
-                {" "}
                 Get Verification Link{" "}
               </p>
             </Button>
           </div>
-        </Grid>
-      </Grid>
-    </div>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 

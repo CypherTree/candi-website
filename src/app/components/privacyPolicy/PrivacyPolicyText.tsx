@@ -14,7 +14,7 @@ function PrivacyPolicyText() {
     });
   }, []);
   return (
-    <div style={{ padding: "5px" }}>
+    <div style={{ padding: "5px", textAlign: "left" }}>
       <ReactMarkdown source={text}></ReactMarkdown>
     </div>
   );

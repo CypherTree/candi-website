@@ -10,6 +10,7 @@ import { AnyAction } from "redux";
 
 import { ResetPassword } from "../../core/redux/actions";
 import { StateType } from "../../../app/core/redux/types";
+import Title from "antd/lib/typography/Title";
 
 const { Text } = Typography;
 
@@ -53,7 +54,7 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
   };
 
   return (
-    <Card title={<Text>Reset Password</Text>}>
+    <Card title={<Title level={4}>Reset Password</Title>}>
       {auth.hasOwnProperty("success") ? (
         <>
           <Text>{auth.message}</Text>
@@ -65,6 +66,7 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
             display: "flex",
             justifyContent: "center",
             padding: "20px",
+            paddingBottom: "0px",
           }}
         >
           <Form
@@ -74,6 +76,7 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
             onFinish={onFinish}
             style={{
               width: "500px",
+              paddingBottom: "0px",
             }}
           >
             <Form.Item
@@ -111,14 +114,16 @@ const ResetPasswordForm: React.FC<Props> = ({ resetPassword, token, auth }) => {
               </Button>{" "}
             </Form.Item>
             <Divider />
-            <div>
-              Already a user? <Link to="/login">Go to login </Link>
-            </div>
-            <br />
-            <div>
-              Not a member? <Link to="/register">Sign Up</Link>
-            </div>
-            <br />
+
+            <Form.Item style={{ marginBottom: "0px" }}>
+              <div>
+                Already a user? <Link to="/login">Go to login </Link>
+              </div>
+
+              <div>
+                Not a member? <Link to="/register">Sign Up</Link>
+              </div>
+            </Form.Item>
 
             {passwordError && <Text type="danger"> {passwordError}</Text>}
 
