@@ -54,7 +54,12 @@ const Routes = (props: any) => {
       </div>
 
       <div style={{ flex: 1 }}>
-        <Layout style={{ marginLeft: collapsed ? "80px" : "200px" }}>
+        <Layout
+          style={{
+            marginLeft: collapsed ? "80px" : "200px",
+            // marginLeft: accessToken && "0px",
+          }}
+        >
           {accessToken && <Navbar />}
 
           <Content>

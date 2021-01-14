@@ -1,24 +1,19 @@
-import {
-  Button,
-  // FormControl,
-  // FormLabel,
-  // Input,
-  // InputLabel,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-// import { Label } from "@material-ui/icons";
 import React, { useState, useEffect } from "react";
-// import { useForm , Controller} from "react-hook-form";
-import CheckCircleIcon from "@material-ui/icons/CheckCircle";
-import { useDispatch } from "react-redux";
 
+import Layout from "antd/lib/layout/layout";
+import { Button, Form, Input, Typography } from "antd";
+import Title from "antd/lib/typography/Title";
+import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+
+import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
 
 import {
   CheckDomainName,
   SetOrganisationalDetails,
 } from "../../core/redux/app/actions";
+
+const { Text } = Typography;
 
 function OrganizationalDetails(props: any) {
   const dispatch = useDispatch();
@@ -46,10 +41,6 @@ function OrganizationalDetails(props: any) {
   console.log("props in ogr details --> current org", currentOrganization);
 
   let fieldsDisabled = false;
-
-  // const { control, errors: fieldsErrors } = useForm();
-
-  // };
 
   const handleNewSubmit = () => {
     currentOrganization.name = organisationName;
@@ -114,8 +105,17 @@ function OrganizationalDetails(props: any) {
     }
   };
 
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
+    handleNewSubmit();
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
-    <div style={{ width: "1000px", paddingLeft: "30px" }}>
+    <Layout style={{ padding: "30px", backgroundColor: "#fff" }}>
       <div
         style={{
           margin: "0 auto",
@@ -126,101 +126,102 @@ function OrganizationalDetails(props: any) {
           paddingBottom: "0px",
         }}
       >
-        <TextField
-          type="text"
-          label="Organisation Name"
-          fullWidth
-          required
-          helperText="Name of your organisation"
-          autoFocus={true}
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={organisationName}
-          onChange={(e) => setOrganisationName(e.target.value)}
-          disabled={isSubmitted}
-        ></TextField>
-        <br /> <br />
-        <TextField
-          type="text"
-          label="Website"
-          fullWidth
-          required
-          helperText="Your organization's website URL. example -> something.com"
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={organisationWebsite}
-          onChange={(e) => setOrganisationWebsite(e.target.value)}
-          // disabled={fieldsDisabled}
-          disabled={isSubmitted}
-        ></TextField>
-        <br /> <br />
-        <TextField
-          type="text"
-          label="Domain"
-          fullWidth
-          required
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={domain}
-          onChange={(e) => handleDomainURLChange(e)}
-          disabled={isSubmitted}
-        ></TextField>
-        <div>
-          <span>
-            Your domain will be
-            <Typography variant="h5" component="h5" color="primary">
-              {domain === "" ? "your-domain" : domain}.theonboarders.com
-            </Typography>
-          </span>
-        </div>
-        {domain !== "" &&
-        props.state.app.domainCheckMessage !== "Domain already taken" ? (
-          <p style={{ margin: "0px" }}>
-            This domain is available.{" "}
-            <CheckCircleIcon fontSize="small" style={{ color: "green" }} />
-          </p>
-        ) : (
-          <p>
-            This domain is NOT available.{" "}
-            <CheckCircleIcon fontSize="small" style={{ color: "red" }} />
-          </p>
-        )}
-        <div
+        <Title
+          level={4}
           style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
+            fontWeight: "bold",
+            alignSelf: "center",
+            textAlign: "center",
           }}
         >
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            // onClick={() => handleNewSubmit()}
-            disabled
-            style={{ marginRight: "10px" }}
+          Enter Organisation Details
+        </Title>
+        <Form
+          name="basic"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          onFinishFailed={onFinishFailed}
+        >
+          <Form.Item
+            // name="Organisation Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input your Organisation Name!",
+              },
+            ]}
           >
-            {" "}
-            Back
-          </Button>{" "}
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            onClick={() => handleNewSubmit()}
-            // style={{ marginLeft: "10px" }}
+            <Input
+              onChange={(e) => setOrganisationName(e.target.value)}
+              disabled={isSubmitted}
+              placeholder="Organisation Name"
+              value={organisationName}
+            />
+          </Form.Item>
+
+          <Form.Item
+            // name="Website"
+            rules={[{ required: true, message: "Please input your Website!" }]}
           >
-            {" "}
-            {isSubmitted ? "Next" : "Save and Next"}
-          </Button>
-        </div>
+            <Input
+              onChange={(e) => setOrganisationWebsite(e.target.value)}
+              disabled={isSubmitted}
+              placeholder="Website"
+              value={organisationWebsite}
+            />
+          </Form.Item>
+
+          <Form.Item
+            // name="domain"
+            rules={[{ required: true, message: "Please input your domain!" }]}
+          >
+            <Input
+              onChange={(e) => setDomain(e.target.value)}
+              disabled={isSubmitted}
+              placeholder="Domain"
+              value={domain}
+            />
+          </Form.Item>
+          <Form.Item style={{ marginBottom: "0px" }}>
+            <Title level={5}>
+              {domain === "" ? "your-domain" : domain}.theonboarders.com
+            </Title>
+          </Form.Item>
+
+          <Form.Item>
+            {domain !== "" &&
+            props.state.app.domainCheckMessage !== "Domain already taken" ? (
+              <Text>
+                This domain is available.{" "}
+                <CheckCircleFilled
+                  style={{ color: "green", fontSize: "20px" }}
+                />
+              </Text>
+            ) : (
+              <Text>
+                This domain is NOT available.{" "}
+                <CloseCircleFilled style={{ color: "red", fontSize: "20px" }} />
+              </Text>
+            )}
+          </Form.Item>
+
+          <Form.Item
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Button color="primary" disabled style={{ marginRight: "10px" }}>
+              Back
+            </Button>
+            <Button type="primary" htmlType="submit" onClick={onFinish}>
+              {isSubmitted ? "Next" : "Save and Next"}
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
-    </div>
+    </Layout>
   );
 }
 

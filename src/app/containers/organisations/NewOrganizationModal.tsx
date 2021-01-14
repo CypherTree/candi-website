@@ -1,28 +1,11 @@
-import { Fade, makeStyles, Modal } from "@material-ui/core";
 import React, { useState } from "react";
+
+import { Modal, Layout } from "antd";
+
 import Spinner from "../../components/spinner/Spinner";
 import NewOrganisation from "../neworganization/NewOrganisation";
 
-const useStyles = makeStyles((theme) => ({
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "scroll",
-    outline: "none",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    // border: "2px solid black",
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-    borderRadius: "10px",
-  },
-}));
-
 const NewOrganizationModal = (props: any) => {
-  const classes = useStyles();
-
   console.log("Props in New Organization Moadal ----->", props);
 
   const { isLoading } = props.props.state.app;
@@ -45,41 +28,30 @@ const NewOrganizationModal = (props: any) => {
   });
 
   return (
-    <div
-      style={{
-        margin: "0 auto",
-        display: "inline-flex",
-        width: "1000px",
-        maxWidth: "100px",
-      }}
+    <Modal
+      visible={open}
+      centered
+      onCancel={handleClose}
+      width={1000}
+      footer={[]}
     >
-      <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={open}
-        onClose={handleClose}
-        closeAfterTransition
-        // BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
+      <Layout
+        style={{
+          display: "flex",
+          alignItems: "center",
+          backgroundColor: "#fff",
         }}
-        // style={{ height: "75vh", width: "80vw" }}
       >
-        <Fade in={open}>
-          <div className={classes.paper}>
-            {isLoading ? (
-              <Spinner />
-            ) : (
-              <NewOrganisation
-                handleClose={handleClose}
-                currentOrganization={currentOrganization}
-              />
-            )}
-          </div>
-        </Fade>
-      </Modal>
-    </div>
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <NewOrganisation
+            handleClose={handleClose}
+            currentOrganization={currentOrganization}
+          />
+        )}
+      </Layout>
+    </Modal>
   );
 };
 

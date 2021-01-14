@@ -1,33 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 
-import {
-  makeStyles,
-  Stepper,
-  Typography,
-  Step,
-  StepLabel,
-  Button,
-} from "@material-ui/core";
+import Title from "antd/lib/typography/Title";
+import { Button, Card, Divider } from "antd";
 
-import OrganizationalDetails from "../../components/organizationalDetails/OrganizationalDetails";
-import Plans from "./Plans";
-import CompanyDetails from "../../components/companyDetails/CompanyDetails";
-import CloseIcon from "@material-ui/icons/Close";
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
+import CompanyDetails from "../../components/companyDetails/CompanyDetails";
+import OrganizationalDetails from "../../components/organizationalDetails/OrganizationalDetails";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: "100%",
-  },
-  button: {
-    marginRight: theme.spacing(1),
-  },
-  instructions: {
-    // marginTop: theme.spacing(1),
-    // marginBottom: theme.spacing(1),
-  },
-}));
+import Plans from "./Plans";
+
+import { Steps } from "antd";
+
+const { Step } = Steps;
 
 function getSteps() {
   return [
@@ -84,28 +69,37 @@ const NewOrganisation = (props: any) => {
   console.log("Props in New Organization ", props);
   const { handleClose, currentOrganization } = props;
 
-  const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const [skipped, setSkipped] = React.useState(new Set());
   const steps = getSteps();
 
+  const [current, setCurrent] = useState(0);
+
+  const onChange = (current: React.SetStateAction<number>) => {
+    console.log("onChange:", current);
+    setCurrent(current);
+  };
+
   const accessToken = localStorage.getItem("accessToken");
   console.log("acc", accessToken);
 
-  const isStepSkipped = (step: any) => {
-    return skipped.has(step);
-  };
+  // const isStepSkipped = (step: any) => {
+  //   return skipped.has(step);
+  // };
 
   const handleNext = () => {
     console.log(" ----- handle next was called ---- ");
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
 
+    setCurrent(current + 1);
+
     console.log("active step --- ", activeStep);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setCurrent(current - 1);
   };
 
   const handleReset = () => {
@@ -117,87 +111,73 @@ const NewOrganisation = (props: any) => {
   };
 
   return (
-    <div
+    <Card
       style={{
         maxHeight: "85vh",
         width: "1000px",
+        justifyContent: "center",
+        alignItems: "center",
+        alignContent: "center",
       }}
     >
       <div
         style={{
           justifyContent: "space-between",
           display: "flex",
-          // backgroundColor: "red",
           width: "100%",
         }}
       >
         {" "}
         <div style={{ display: "inline-block" }}>
           {currentOrganization.name ? (
-            <Typography variant="h5" component="h5" color="primary">
-              {currentOrganization.name}
-            </Typography>
+            <Title level={4}>{currentOrganization.name}</Title>
           ) : (
-            <Typography variant="h5" component="h5" color="primary">
-              Organization Create
-            </Typography>
+            <Title level={4}>Organization Create</Title>
           )}{" "}
         </div>
         <div style={{ display: "inline-block" }}>
-          <Button
-            color="secondary"
-            variant="outlined"
-            onClick={(e) => handleCancelModal()}
-          >
-            Cancel <CloseIcon />
+          <Button danger onClick={(e) => handleCancelModal()}>
+            Cancel
           </Button>{" "}
         </div>
       </div>
       <hr />
-      <div style={{ height: "600px", overflowY: "scroll" }}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label, index) => {
-            const stepProps: any = {};
-            const labelProps: any = {};
+      <div style={{ height: "450px", overflowY: "scroll" }}>
+        <Steps
+          type="navigation"
+          current={current}
+          onChange={onChange}
+          className="site-navigation-steps"
+        >
+          <Step status="process" title="Organisation" />
+          <Step status="process" title="Plan" />
+          <Step status="process" title="Company " />
+          <Step status="process" title="Roles" />
+          <Step status="process" title="Workflow" />
+        </Steps>
 
-            if (isStepSkipped(index)) {
-              stepProps.completed = false;
-            }
-            return (
-              <Step key={label} {...stepProps}>
-                <StepLabel {...labelProps}>{label}</StepLabel>
-              </Step>
-            );
-          })}
-        </Stepper>
         <div>
           {activeStep === steps.length ? (
             <div>
-              <Typography className={classes.instructions}>
-                All steps completed - you&apos;re finished
-              </Typography>
-              <Button onClick={handleReset} className={classes.button}>
-                Reset
-              </Button>
+              All steps completed - you're finished
+              <Button onClick={handleReset}>Reset</Button>
             </div>
           ) : (
             <div>
-              <Typography className={classes.instructions}>
-                {getStepContent(
-                  activeStep,
-                  handleNext,
-                  getStepContent,
-                  handleBack,
-                  currentOrganization,
-                  handleCancelModal
-                )}
-              </Typography>
+              {getStepContent(
+                activeStep,
+                handleNext,
+                getStepContent,
+                handleBack,
+                currentOrganization,
+                handleCancelModal
+              )}
               <div></div>
             </div>
           )}
         </div>
       </div>
-    </div>
+    </Card>
   );
 };
 

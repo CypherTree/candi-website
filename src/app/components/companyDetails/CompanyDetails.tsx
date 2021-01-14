@@ -1,13 +1,11 @@
-import {
-  Typography,
-  Button,
-  TextField,
-  Grid,
-  Checkbox,
-} from "@material-ui/core";
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
+
+import Layout from "antd/lib/layout/layout";
+import { Button, Form, Input, Row, Col, Typography, Checkbox } from "antd";
+import Title from "antd/lib/typography/Title";
+import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
 import { useDispatch } from "react-redux";
@@ -17,6 +15,7 @@ import {
   AddCompanyDetailsToOrganization,
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
+import { formatMs } from "@material-ui/core";
 
 function CompanyDetails(props: any) {
   console.log("--- ALL PROPS -- ", props);
@@ -114,6 +113,8 @@ function CompanyDetails(props: any) {
       .then((response: any) => {
         // setData(response.data);
 
+        console.log("data recieved", response.data);
+
         const { addr } = response.data.data.pradr;
 
         setState(addr.stcd);
@@ -166,188 +167,171 @@ function CompanyDetails(props: any) {
 
   const styles = { width: "350px" };
 
+  const onFinish = (values: any) => {
+    console.log("Success:", values);
+    // handleNewSubmit();
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <div
       style={{
-        textAlign: "center",
+        // textAlign: "center",
         paddingLeft: "30px",
         height: "75vh",
         width: "900px",
       }}
     >
-      <p
+      <Title
+        level={4}
         style={{
-          fontSize: "24px",
           fontWeight: "bold",
-          fontFamily: "Helvetica",
-          color: "#696969	",
           width: "auto",
-          margin: "10px 40px 5px 0 ",
-          paddingLeft: "45px",
-          textAlign: "left",
+          marginTop: "20px",
         }}
       >
         Enter Company details
-      </p>
-      <br />
-      <Grid
-        container
-        alignItems="flex-start"
-        spacing={1}
-        style={{ width: "900px" }}
-      >
-        <Grid item xs={6}>
-          <div>
-            <TextField
-              type="text"
-              label="GST Number"
-              required
-              autoFocus={true}
-              color="primary"
-              size="medium"
-              variant="outlined"
-              value={gstNumber}
-              onChange={(e) => {
-                setGstNumber(e.target.value);
-                clearEverything();
-              }}
-              style={styles}
-            ></TextField>
-            {/* <span style={{ paddingLeft: "10px", paddingTop: "20px" }}> */}{" "}
-            {/* <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                fetchGSTDetails();
-              }}
-            >
-              Verify GST{" "}
-            </Button> */}
-            {/* </span> */}
-          </div>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            type="text"
-            label="Country"
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={country}
-            onChange={(e) => setCountry(e.target.value)}
-            disabled={!isGSTVerified}
-            // style={{ width: "300px" }}
-            style={styles}
-          ></TextField>
-        </Grid>
-        <Grid item xs={12} style={{ display: "flex" }}>
-          <span style={{ paddingLeft: "285px" }}>
-            {" "}
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => {
-                fetchGSTDetails();
-              }}
-            >
-              Verify GST{" "}
-            </Button>
-          </span>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            type="text"
-            label="State"
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={state}
-            onChange={(e) => setState(e.target.value)}
-            disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            type="text"
-            label="City"
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={city}
-            onChange={(e) => setCity(e.target.value)}
-            disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>{" "}
-        <Grid item xs={6}>
-          <TextField
-            type="text"
-            label="Pincode"
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={pincode}
-            onChange={(e) => setPincode(e.target.value)}
-            disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            type="textArea"
-            label="Address"
-            multiline
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={address}
-            onChange={(e) => {
-              setAddress(e.target.value);
-              if (billingAddressSame) {
-                setBillingAddress(e.target.value);
-              }
-            }}
-            disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>
-      </Grid>
+      </Title>
 
-      <Grid
-        container
-        alignItems="flex-start"
-        spacing={1}
-        style={{ width: "900px" }}
+      <br />
+
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
-        <Grid item xs={12}>
-          <span>
-            <p
-              style={{
-                fontSize: "24px",
-                fontWeight: "bold",
-                fontFamily: "Helvetica",
-                color: "#696969	",
-                width: "auto",
-                margin: "10px 40px 5px 0 ",
-                paddingLeft: "45px",
-                textAlign: "left",
-              }}
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              name="gstNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your gstNumber!",
+                },
+              ]}
             >
-              {" "}
-              Enter Billing details
-            </p>
-            <div style={{ paddingLeft: "35px", textAlign: "left" }}>
+              <Input
+                placeholder="GST Number"
+                onChange={(e) => {
+                  setGstNumber(e.target.value);
+                  clearEverything();
+                }}
+                style={{ width: "250px" }}
+              />
+              <Button
+                type="primary"
+                onClick={() => {
+                  fetchGSTDetails();
+                }}
+              >
+                Verify GST
+              </Button>
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              // name="country"
+              rules={[
+                { required: true, message: "Please input your country!" },
+              ]}
+            >
+              <Input
+                placeholder="Country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              // name="state"
+              rules={[{ required: true, message: "Please input your state!" }]}
+            >
+              <Input
+                placeholder="State"
+                value={state}
+                onChange={(e) => setState(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
+              />
+            </Form.Item>
+          </Col>
+
+          <Col span={12}>
+            <Form.Item
+              // name="city"
+              rules={[{ required: true, message: "Please input your City!" }]}
+            >
+              <Input
+                placeholder="City"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              // name="pincode"
+              rules={[
+                { required: true, message: "Please input your Pincode!" },
+              ]}
+            >
+              <Input
+                placeholder="Pincode"
+                value={pincode}
+                onChange={(e) => setPincode(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              // name="address"
+              rules={[
+                { required: true, message: "Please input your Address!" },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Address"
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Title
+          level={4}
+          style={{
+            fontWeight: "bold",
+            width: "auto",
+          }}
+        >
+          Enter Billing details
+        </Title>
+
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item>
+              {/* <div style={{ paddingLeft: "35px", textAlign: "left" }}> */}
               <Checkbox
                 name="checkedC"
                 checked={billingAddressSame}
@@ -355,117 +339,111 @@ function CompanyDetails(props: any) {
                   setBillingAddressSame(!billingAddressSame);
                   handleCopyBusinessAddress();
                 }}
+              />{" "}
+              Same as company Address
+              {/* </div> */}
+            </Form.Item>
+          </Col>
+        </Row>
+
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              name="address"
+              rules={[
+                { required: true, message: "Please input your Address!" },
+              ]}
+            >
+              <Input
+                placeholder="Business Email address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={!isGSTVerified}
+                style={styles}
               />
-              Same as company Address{" "}
-            </div>
-          </span>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField
-            type="text"
-            label="Business Email address"
-            multiline
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>
+            </Form.Item>
+          </Col>
 
-        <Grid item xs={6}>
-          <TextField
-            type="textArea"
-            label="Address"
-            multiline
-            required
-            autoFocus={true}
-            color="primary"
-            size="medium"
-            variant="outlined"
-            disabled={billingAddressSame ? true : false}
-            value={billingAddressSame ? address : billingAddress}
-            onChange={(e) => setBillingAddress(e.target.value)}
-            // disabled={!isGSTVerified}
-            style={styles}
-          ></TextField>
-        </Grid>
-
-        <Grid item xs={6}>
-          <p
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              fontFamily: "Helvetica",
-              color: "#696969	",
-              width: "auto",
-              margin: "10px 40px 5px 0 ",
-              // padding: "0 0 20px 0",
-              paddingLeft: "45px",
-              textAlign: "left",
-            }}
-          >
-            Company Logo
-          </p>
-          {logo !== "" && (
-            <div style={{ textAlign: "left", paddingLeft: "80px" }}>
-              <img
-                src={logo}
-                style={{ height: "100px", width: "100px", borderRadius: "50%" }}
+          <Col span={12}>
+            <Form.Item
+              name="billingAddress"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your Billing Address!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Business Address"
+                disabled={billingAddressSame ? true : false}
+                value={billingAddressSame ? address : billingAddress}
+                onChange={(e) => setBillingAddress(e.target.value)}
+                style={styles}
               />
-            </div>
-          )}
-          <UploadLogo
-            organisation_id={organisation_id}
-            name={name}
-            website={website}
-          />
-        </Grid>
+            </Form.Item>
+          </Col>
+        </Row>
 
-        <Grid item xs={6}>
-          {props.state.app.companyDetailsToOrganizationMessage && (
-            <div>
-              <Typography variant="h5" component="h5" color="primary">
-                {props.state.app.companyDetailsToOrganizationMessage}
-              </Typography>{" "}
-            </div>
-          )}
-        </Grid>
-      </Grid>
+        <Title
+          level={4}
+          style={{
+            fontWeight: "bold",
+            width: "auto",
+          }}
+        >
+          Company Logo
+        </Title>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <Button
-          variant="outlined"
-          color="primary"
-          type="submit"
-          //   autoFocus={true}
-          onClick={() => handleBack()}
-          style={{ marginRight: "10px" }}
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item>
+              {logo !== "" && (
+                <div style={{ textAlign: "left", paddingLeft: "80px" }}>
+                  <img
+                    src={logo}
+                    style={{
+                      height: "100px",
+                      width: "100px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </div>
+              )}
+              <UploadLogo
+                organisation_id={organisation_id}
+                name={name}
+                website={website}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {props.state.app.companyDetailsToOrganizationMessage && (
+          <div>
+            <Title level={5}>
+              {props.state.app.companyDetailsToOrganizationMessage}
+            </Title>{" "}
+          </div>
+        )}
+
+        <Form.Item
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
         >
-          {" "}
-          Back
-        </Button>{" "}
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          //   autoFocus={true}
-          onClick={() => handleFormSubmit()}
-        >
-          {" "}
-          Save and Next
-        </Button>{" "}
-      </div>
+          <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
+            Back
+          </Button>
+          <Button type="primary" onClick={() => handleFormSubmit()}>
+            Save and Next
+          </Button>
+        </Form.Item>
+      </Form>
+      {/* </Col>
+      </Row> */}
     </div>
   );
 }
@@ -477,14 +455,3 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(CompanyDetails);
-
-{
-  /* 
-      {props.state.app.companyDetailsToOrganizationMessage && (
-        <div>
-          <Typography variant="h5" component="h5" color="primary">
-            {props.state.app.companyDetailsToOrganizationMessage}
-          </Typography>{" "}
-        </div>
-      )} */
-}

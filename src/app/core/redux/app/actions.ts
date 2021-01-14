@@ -77,7 +77,7 @@ export const SetOrganisationalDetails = (
     name: organisationName,
     website: `http://www.${organisationWebsite}`,
     schema_name: domain,
-    domain_url: `http://www.${domain}.theonboarders.com`,
+    domain_url: `http://www.${domain}.thetobbers-staging.ml`,
   };
 
   axios

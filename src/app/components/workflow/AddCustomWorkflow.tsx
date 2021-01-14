@@ -1,6 +1,10 @@
-import { Button } from "@material-ui/core";
-import Axios from "axios";
 import React, { useState, useEffect } from "react";
+
+import { Button, Layout } from "antd";
+import Title from "antd/lib/typography/Title";
+
+import Axios from "axios";
+
 import AddStepForm from "./AddStepForm";
 import SortableList from "./SortableList";
 
@@ -49,7 +53,7 @@ const AddCustomWorkflow = (props: any) => {
 
   const getStepsAPI = () => {
     Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/${workflow_id}/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/1/`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -118,37 +122,28 @@ const AddCustomWorkflow = (props: any) => {
   }, [dataReload]);
 
   return (
-    <div
+    <Layout
       style={{
         alignContent: "center",
         alignItems: "center",
-        width: "1000px",
         display: "flex",
         flexDirection: "column",
-        height: "75vh",
+        backgroundColor: "#fff",
       }}
     >
-      <p
+      <Title
+        level={4}
         style={{
-          fontSize: "24px",
           fontWeight: "bold",
-          fontFamily: "Helvetica",
-          color: "#696969	",
           width: "auto",
-          margin: "10px 40px 5px 0 ",
-          padding: "0",
+          margin: "10px 0px 10px 0px ",
+          // padding: "0px 0px 0px 350px",
         }}
       >
         Add Custom workflow page
-      </p>
+      </Title>
 
-      <div
-        style={{
-          left: "auto",
-          right: "auto",
-          alignSelf: "center",
-        }}
-      >
+      <div>
         <SortableList
           state={state}
           setState={setState}
@@ -168,11 +163,9 @@ const AddCustomWorkflow = (props: any) => {
           alignItems: "right",
         }}
       >
-        <Button variant="outlined" onClick={handleAddNewStep}>
-          Add new Step
-        </Button>
+        <Button onClick={handleAddNewStep}>Add new Step</Button>
       </div>
-      <hr />
+      <br />
       {isAddStepFormOpen && (
         <AddStepForm
           open={open}
@@ -184,19 +177,15 @@ const AddCustomWorkflow = (props: any) => {
           workflowId={workflow_id}
         />
       )}
-      <hr />
+      <br />
       <div style={{ display: "flex", alignContent: "center" }}>
         <span style={{ paddingRight: "10px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleCancelModal()}
-          >
+          <Button type="primary" onClick={() => handleCancelModal()}>
             Finish
           </Button>
         </span>
       </div>
-    </div>
+    </Layout>
   );
 };
 

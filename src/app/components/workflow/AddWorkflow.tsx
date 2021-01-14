@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
+import { Button, Form, Row, Col, Input, Select } from "antd";
+import Title from "antd/lib/typography/Title";
+import { DeleteFilled } from "@ant-design/icons";
 
 import Axios from "axios";
 
@@ -16,19 +10,9 @@ import { connect } from "react-redux";
 
 import AddCustomWorkflow from "./AddCustomWorkflow";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const { Option } = Select;
 
 const AddWorkflow = (props: any) => {
-  const classes = useStyles();
-
   const org_id = props.state.app.currentOrganization.id;
 
   const accessToken = localStorage.getItem("accessToken");
@@ -38,11 +22,11 @@ const AddWorkflow = (props: any) => {
   const [workflowAlreadyAdded, setWorkflowAlreadyAdded] = useState(false);
 
   // const []
-
   //   `${process.env.REACT_APP_SERVER_URL}/api/v1/workflow/`
-
   const tenant = "cyphertree";
+
   // const tenant = "thor";
+  // const tenant = "tikona";
 
   const getExistingWorkflows = () => {
     Axios.get(`http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/`, {
@@ -107,12 +91,12 @@ const AddWorkflow = (props: any) => {
 
   const [workflowName, setWorkflowName] = useState("");
 
-  const handleWorkflowTypeChange = (event: any) => {
-    setWorkflowType(event.target.value);
+  const handleWorkflowTypeChange = (value: any) => {
+    setWorkflowType(value);
   };
 
-  const handleOrganisationTypeChange = (event: any) => {
-    setOrganisationType(event.target.value);
+  const handleOrganisationTypeChange = (value: any) => {
+    setOrganisationType(value);
   };
 
   const handleSkip = () => {
@@ -122,11 +106,11 @@ const AddWorkflow = (props: any) => {
 
   const isDeleteAllowed = true;
 
-  const styles = { width: "300px" };
-
   const handleSubmitForm = () => {
     createWorkflow();
     updateOrganisation(1);
+
+    console.log("workflow type ", workflowType);
 
     if (workflowType !== 2) {
       handleNext();
@@ -158,21 +142,19 @@ const AddWorkflow = (props: any) => {
 
   return (
     <>
-      {workflowAlreadyAdded ? (
+      {!workflowAlreadyAdded ? (
         <div style={{ width: "1000px", paddingLeft: "30px", height: "75vh" }}>
-          <p
+          <Title
+            level={4}
             style={{
-              fontSize: "24px",
               fontWeight: "bold",
-              fontFamily: "Helvetica",
-              color: "#696969	",
               width: "auto",
               margin: "10px 40px 5px 0 ",
-              padding: "0",
+              padding: "0px 0px 0px 350px",
             }}
           >
-            Workflow Already Added{" "}
-          </p>
+            Workflow is already added.
+          </Title>
           <p> You can edit workflow steps in tenent settings.</p>
 
           <span
@@ -184,18 +166,14 @@ const AddWorkflow = (props: any) => {
               paddingTop: "20px",
             }}
           >
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => handleCancelModal()}
-            >
+            <Button type="primary" onClick={() => handleCancelModal()}>
               Finish
             </Button>
           </span>
         </div>
       ) : (
-        <div style={{ width: "1000px", paddingLeft: "30px", height: "75vh" }}>
-          {selectionDone ? (
+        <div>
+          {!selectionDone ? (
             <>
               <AddCustomWorkflow
                 workflowId={workflowId}
@@ -205,214 +183,156 @@ const AddWorkflow = (props: any) => {
           ) : (
             <>
               <div>
-                <p
+                <Title
+                  level={4}
                   style={{
-                    fontSize: "24px",
                     fontWeight: "bold",
-                    fontFamily: "Helvetica",
-                    color: "#696969	",
                     width: "auto",
                     margin: "10px 40px 5px 0 ",
-                    padding: "0",
-                    paddingLeft: "30px",
+                    padding: "0px 0px 0px 350px",
                   }}
                 >
-                  Add AddWorkflow Screen
-                </p>
+                  Add Workflow
+                </Title>
               </div>
-              <span style={{ paddingLeft: "30px" }}>
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Select Organisation
-                  </InputLabel>
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={organisationType}
-                    onChange={handleOrganisationTypeChange}
-                    onOpen={() => setOpen(true)}
-                    onClose={() => setOpen(false)}
-                    autoWidth
-                    variant="standard"
-                    disabled={!isDeleteAllowed}
-                    style={styles}
 
-                    // size="medium"
-                  >
-                    <MenuItem value={1} style={styles}>
-                      {open ? (
-                        <div
-                          style={{
-                            wordWrap: "break-word",
-                          }}
-                        >
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "helvetica",
-                            }}
-                          >
-                            {" "}
-                            Default Cyphertree
-                          </p>
-
-                          <p
+              <Form
+                name="basic"
+                initialValues={{ remember: true }}
+                // onFinish={onFinish}
+                // onFinishFailed={onFinishFailed}
+              >
+                <Row gutter={8}>
+                  <Col span={8}>
+                    <Form.Item>
+                      <Select
+                        // defaultValue={type ? type : ""}
+                        style={{ width: "250px" }}
+                        onChange={handleOrganisationTypeChange}
+                        placeholder="Select Organisation"
+                        disabled={!isDeleteAllowed}
+                      >
+                        <Option value="1">
+                          <div
                             style={{
                               wordWrap: "break-word",
-                              fontSize: "14px",
-                              whiteSpace: "initial",
                             }}
                           >
-                            random lorem - Can modify, create workflow, add,
-                            delete, users, can invite/add third party members.
-                            Delete and mofidy the job and tasks. Can't delete
-                            the workspace.
-                          </p>
-                        </div>
-                      ) : (
-                        <div>
-                          {" "}
-                          <b> Type - Default Cyphertree</b>
-                        </div>
-                      )}
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "helvetica",
+                              }}
+                            >
+                              {" "}
+                              Default Cyphertree
+                            </p>
 
-                <FormControl className={classes.formControl}>
-                  <InputLabel id="demo-simple-select-helper-label">
-                    Add workflow
-                  </InputLabel>
-
-                  <Select
-                    labelId="demo-simple-select-helper-label"
-                    id="demo-simple-select-helper"
-                    value={workflowType}
-                    onChange={handleWorkflowTypeChange}
-                    onOpen={() => setOpen(true)}
-                    onClose={() => setOpen(false)}
-                    autoWidth
-                    variant="standard"
-                    disabled={!isDeleteAllowed}
-                    style={styles}
-
-                    // size="medium"
-                  >
-                    <MenuItem value={1} style={styles}>
-                      {open ? (
-                        <div
-                          style={{
-                            wordWrap: "break-word",
-                          }}
-                        >
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "helvetica",
-                            }}
-                          >
-                            {" "}
-                            Choose Default Recruitment Template
-                          </p>
-
-                          <p
+                            <p
+                              style={{
+                                wordWrap: "break-word",
+                                fontSize: "14px",
+                                whiteSpace: "initial",
+                              }}
+                            >
+                              random lorem
+                            </p>
+                          </div>
+                        </Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item>
+                      <Select
+                        // defaultValue={type ? type : ""}
+                        style={{ width: "250px" }}
+                        onChange={handleWorkflowTypeChange}
+                        placeholder="Add Workflow"
+                        disabled={!isDeleteAllowed}
+                      >
+                        <Option value="1">
+                          <div
                             style={{
                               wordWrap: "break-word",
-                              fontSize: "14px",
-                              whiteSpace: "initial",
                             }}
                           >
-                            This template consists of screening, interview,
-                            basic recruitment flow.
-                          </p>
-                        </div>
-                      ) : (
-                        <div>
-                          {" "}
-                          <b> Default Recruitment Template</b>
-                        </div>
-                      )}
-                    </MenuItem>
-                    <MenuItem value={2} style={styles}>
-                      {" "}
-                      {open ? (
-                        <div
-                          style={{
-                            wordWrap: "break-word",
-                          }}
-                        >
-                          <p
-                            style={{
-                              fontWeight: "bold",
-                              fontFamily: "helvetica",
-                            }}
-                          >
+                            <p
+                              style={{
+                                fontWeight: "bold",
+                                fontFamily: "helvetica",
+                              }}
+                            >
+                              {" "}
+                              Choose Default Recruitment Template
+                            </p>
+
+                            <p
+                              style={{
+                                wordWrap: "break-word",
+                                fontSize: "14px",
+                                whiteSpace: "initial",
+                              }}
+                            >
+                              This template consists of screening, interview,
+                              basic recruitment flow.
+                            </p>
+                          </div>
+                        </Option>
+                        <Option value="2">
+                          <div>
                             {" "}
-                            Add Custom workflow
-                          </p>
-                        </div>
-                      ) : (
-                        <div> Custom workflow</div>
-                      )}
-                    </MenuItem>
-                  </Select>
-                </FormControl>
-              </span>
-              <div style={{ paddingLeft: "30px", paddingTop: "15px" }}>
-                <TextField
-                  type="text"
-                  label="Add workflow name"
-                  required
-                  autoFocus={true}
-                  color="primary"
-                  size="medium"
-                  variant="outlined"
-                  value={workflowName}
-                  onChange={(e) => setWorkflowName(e.target.value)}
-                  //   value={role}
-                  //   onChange={(e) => setRole(e.target.value)}
-                  disabled={!isDeleteAllowed}
-                  style={styles}
-                ></TextField>
-
-                <div
-                  style={{
-                    padding: "30px",
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "center",
-                  }}
-                >
-                  <span style={{ paddingRight: "10px" }}>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={handleBack}
+                            <b> Add custom workflow</b>
+                          </div>
+                        </Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col span={8}>
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: "Please input Workflow Name!",
+                        },
+                      ]}
                     >
-                      Back
-                    </Button>
-                  </span>
+                      <Input
+                        placeholder="Workflow Name"
+                        value={workflowName}
+                        onChange={(e) => setWorkflowName(e.target.value)}
+                        disabled={!isDeleteAllowed}
+                        required
+                        style={{ width: "250px" }}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Form>
 
-                  <span style={{ paddingRight: "10px" }}>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleSubmitForm}
-                    >
-                      Save and Finish
-                    </Button>
-                  </span>
+              <div
+                style={{
+                  paddingTop: "30px",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                }}
+              >
+                <span style={{ paddingRight: "10px" }}>
+                  <Button onClick={() => handleBack()}>Back</Button>{" "}
+                </span>
 
-                  <span style={{ paddingRight: "10px" }}>
-                    <Button
-                      variant="outlined"
-                      color="secondary"
-                      onClick={handleSkip}
-                    >
-                      Skip
-                    </Button>
-                  </span>
-                </div>
+                <span style={{ paddingRight: "10px" }}>
+                  <Button type="primary" onClick={handleSubmitForm}>
+                    Save and Next
+                  </Button>
+                </span>
+
+                <span style={{ paddingRight: "10px" }}>
+                  <Button onClick={handleSkip}>Skip</Button>
+                </span>
               </div>
             </>
           )}

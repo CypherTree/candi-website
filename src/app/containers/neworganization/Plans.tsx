@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Button } from "@material-ui/core";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 
@@ -12,8 +11,12 @@ import Axios from "axios";
 // import { getAllPlans } from "../../core/services/plans";
 import PlanCard from "../../components/plancards/PlanCard";
 import { AssignPlanToOrganisation } from "../../core/redux/app/actions";
+import { Button, Layout, Radio, Typography } from "antd";
+import Title from "antd/lib/typography/Title";
 
-function Plans(props: any) {
+const { Text } = Typography;
+
+const Plans = (props: any) => {
   const { handleNext, handleBack, currentOrganization } = props;
   //   const [plansData, setPlansData] = useState();
 
@@ -296,10 +299,7 @@ function Plans(props: any) {
     }
   }, [organization_id]);
 
-  const handlePricePeriod = (
-    event: any,
-    newPricePeriod: React.SetStateAction<string>
-  ) => {
+  const handlePricePeriod = (newPricePeriod: React.SetStateAction<string>) => {
     setPricePeriod(newPricePeriod);
   };
 
@@ -321,156 +321,92 @@ function Plans(props: any) {
   };
 
   return (
-    <div
-      style={{
-        overflowY: "auto",
-        margin: "0 auto",
-        lineHeight: "40px",
-        width: "800px",
-        padding: "100px",
-        paddingTop: "0px",
-        paddingBottom: "0px",
-        justifyContent: "center",
-        alignContent: "center",
-        display: "flex",
-
-        // height: "85vh",
-      }}
-    >
-      <div>
-        <p
-          style={{
-            fontSize: "24px",
-            fontWeight: "bold",
-            fontFamily: "Helvetica",
-            color: "#696969	",
-            width: "auto",
-            margin: "10px 40px 5px 0 ",
-            padding: "0px 0px 0px 350px",
-          }}
-        >
-          Choose a license plan
-        </p>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <ToggleButtonGroup
-            value={pricePeriod}
-            exclusive
-            onChange={handlePricePeriod}
-            aria-label="Plan price period"
+    <Layout style={{ padding: "30px" }}>
+      <div
+        style={{
+          margin: "0 auto",
+          lineHeight: "40px",
+          width: "100%",
+          paddingTop: "0px",
+          paddingBottom: "0px",
+          justifyContent: "center",
+          alignContent: "center",
+          display: "flex",
+        }}
+      >
+        <div>
+          <Title
+            level={4}
+            style={{
+              fontWeight: "bold",
+              width: "auto",
+              margin: "10px 40px 5px 0 ",
+              padding: "0px 0px 0px 350px",
+            }}
           >
-            <ToggleButton value="monthly" aria-label="monthly plans">
-              Monthly
-            </ToggleButton>
-            <ToggleButton value="yearly" aria-label="yearly plans">
-              Yearly
-            </ToggleButton>
-          </ToggleButtonGroup>
-        </div>
-        <div style={{ display: "flex", flexDirection: "row" }}>
-          {plansData.data.map((plan) => (
-            <div
-              style={{
-                width: "300px",
-                // margin: "20px",
-                marginLeft: "5px",
-                padding: "10px 5px 5px 0px",
-                textAlign: "center",
-              }}
+            Choose a license plan
+          </Title>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Radio.Group
+              options={[
+                { label: "Monthly", value: "monthly" },
+                { label: "Yearly", value: "yearly" },
+              ]}
+              onChange={(e) => handlePricePeriod(e.target.value)}
+              value={pricePeriod}
+              optionType="button"
+              buttonStyle="solid"
+            />
+          </div>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            {plansData.data.map((plan) => (
+              <div
+                style={{
+                  width: "300px",
+                  marginLeft: "5px",
+                  padding: "10px 5px 5px 0px",
+                  textAlign: "center",
+                }}
+              >
+                <PlanCard
+                  plan={plan}
+                  pricePeriod={pricePeriod}
+                  selectedPlan={selectedPlan}
+                  setSelectedPlan={setSelectedPlan}
+                />
+              </div>
+            ))}
+          </div>
+          {props.state.app && props.state.app.organisationPlanMessage && (
+            <Text>{props.state.app.organisationPlanMessage}</Text>
+          )}
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              paddingTop: "10px",
+            }}
+          >
+            <Button htmlType="submit" onClick={() => handleBack()}>
+              Back
+            </Button>
+            <Button
+              type="primary"
+              onClick={() => handleSaveAndNext()}
+              style={{ marginLeft: "10px" }}
+              disabled={selectedPlan.plan_id !== 0 ? false : true}
             >
-              <PlanCard
-                plan={plan}
-                pricePeriod={pricePeriod}
-                selectedPlan={selectedPlan}
-                setSelectedPlan={setSelectedPlan}
-              />
-            </div>
-          ))}
-        </div>
-        {props.state.app && props.state.app.organisationPlanMessage && (
-          <Typography variant="h5" component="h5" color="primary">
-            {props.state.app.organisationPlanMessage}
-          </Typography>
-        )}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "10px",
-          }}
-        >
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            onClick={() => handleBack()}
-          >
-            Back
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            //   autoFocus={true}
-            onClick={() => handleSaveAndNext()}
-            style={{ marginLeft: "10px" }}
-            disabled={selectedPlan.plan_id !== 0 ? false : true}
-          >
-            {isSubmitted ? "Next" : "Save and Next"}
-          </Button>
+              {isSubmitted ? "Next" : "Save and Next"}
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
-}
+};
 
 const mapStateToProps = (state: any) => {
   return { state };
 };
 
 export default connect(mapStateToProps)(Plans);
-
-{
-  /* <Grid container style={{ justifyContent: "center", overflowY: "auto" }}>
-        <Grid
-          item
-          xs={12}
-          md={12}
-          lg={8}
-          justify="center"
-          style={{ justifyContent: "center" }}
-        >
-          <p
-            style={{
-              fontSize: "24px",
-              fontWeight: "bold",
-              fontFamily: "Helvetica",
-              color: "#696969	",
-              width: "auto",
-              margin: "10px 40px 5px 0 ",
-              padding: "0px 0px 0px 30px",
-            }}
-          >
-            Choose a license plan
-          </p>
-          <br />
-          <div>
-            <ToggleButtonGroup
-              value={pricePeriod}
-              exclusive
-              onChange={handlePricePeriod}
-              aria-label="Plan price period"
-            >
-              <ToggleButton value="monthly" aria-label="monthly plans">
-                Monthly
-              </ToggleButton>
-              <ToggleButton value="yearly" aria-label="yearly plans">
-                Yearly
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </div>
-
-          <br />
-        </Grid>
-      </Grid> */
-}

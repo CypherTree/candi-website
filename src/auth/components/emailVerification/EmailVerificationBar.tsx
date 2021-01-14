@@ -37,42 +37,33 @@ const EmailVerificationBar = () => {
 
   return (
     <Layout style={{ backgroundColor: "#FBC4C4" }}>
-      <Row>
-        <Col span={16} offset={5}>
-          <div
+      <Row
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <Col span={8}>{snackbarMessage}</Col>
+        <Col span={4}>
+          <Button
+            type="text"
+            onClick={handleSendVerificationEmail}
+            disabled={disabledButton}
             style={{
-              alignContent: "center",
-              justifyContent: "space-around",
-              display: "flex",
-              flexDirection: "row",
-              paddingTop: "5px",
-              paddingBottom: "5px",
+              borderRadius: "10px",
             }}
           >
-            {snackbarMessage}
-
-            <Button
-              type="text"
-              onClick={handleSendVerificationEmail}
-              disabled={disabledButton}
+            <p
               style={{
-                borderRadius: "10px",
-                // border: "1px solid #4A4A4A",
-                // margin: "5px",
+                fontWeight: "bold",
+                margin: "0",
+                padding: "0",
               }}
             >
-              <p
-                style={{
-                  fontWeight: "bold",
-                  margin: "0",
-                  padding: "0",
-                  color: "#1890ff",
-                }}
-              >
-                Get Verification Link{" "}
-              </p>
-            </Button>
-          </div>
+              Get Verification Link{" "}
+            </p>
+          </Button>
         </Col>
       </Row>
     </Layout>

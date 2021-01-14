@@ -1,33 +1,14 @@
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  makeStyles,
-  MenuItem,
-  Select,
-  TextField,
-  Checkbox,
-  FormControlLabel,
-} from "@material-ui/core";
-
 import React, { useState, useEffect } from "react";
 
-import Axios from "axios";
+import { Button, Checkbox, Col, Form, Input, Layout, Row, Select } from "antd";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+import Axios from "axios";
+import Title from "antd/lib/typography/Title";
+
+const { Option } = Select;
 
 const AddStepForm = (props: any) => {
-  const styles = { width: "300px" };
   const isDeleteAllowed = true;
-  const classes = useStyles();
 
   const [checkVideoEnabled, setCheckVideoEnabled] = useState(true);
 
@@ -51,17 +32,16 @@ const AddStepForm = (props: any) => {
 
   const [editMode, setEditMode] = useState(false);
 
-  const handleFormTypeChange = (e: any) => {
-    setFormType(e.target.value);
+  const handleFormTypeChange = (value: any) => {
+    setFormType(value);
   };
 
-  const handleCategoryTypeChange = (e: any) => {
-    setCategoryType(e.target.value);
+  const handleCategoryTypeChange = (value: any) => {
+    setCategoryType(value);
   };
 
   const tenant = "cyphertree";
   // const tenant = "thor";
-
   // const workflow_id = 2;
 
   const handleFormSubmit = () => {
@@ -160,88 +140,93 @@ const AddStepForm = (props: any) => {
   }, [selectedStep]);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column" }}>
-      <div> Add/Edit Step</div>
-      <hr />
-      <span>
-        <TextField
-          type="text"
-          label="Step name"
-          required
-          autoFocus={true}
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={stepName}
-          onChange={(e) => setStepName(e.target.value)}
-          //   value={role}
-          //   onChange={(e) => setRole(e.target.value)}
-          //   disabled={!isDeleteAllowed}
-          style={styles}
-        ></TextField>
-        <TextField
-          type="text"
-          label="Step Description"
-          required
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={stepDescription}
-          onChange={(e) => setStepDescription(e.target.value)}
-          //   value={role}
-          //   onChange={(e) => setRole(e.target.value)}
-          //   disabled={!isDeleteAllowed}
-          style={styles}
-        ></TextField>
-      </span>
-      <span>
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-helper-label">
-            Select Organisation
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={formType}
-            onChange={handleFormTypeChange}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            autoWidth
-            variant="standard"
-            disabled={!isDeleteAllowed}
-            style={styles}
+    <Layout
+      style={{
+        border: "1px solid #c1c1c1",
+        borderRadius: 10,
+        justifyContent: "center",
+        padding: "20px",
+        // textAlign: "center",
+        // alignItems: "center",
+      }}
+    >
+      <Title level={5}> Add/Edit Step</Title>
 
-            // size="medium"
-          >
-            <MenuItem value={0} style={styles}>
-              <div> Default Form</div>
-            </MenuItem>
-            <MenuItem value={1} style={styles}>
-              <div> No Form</div>
-            </MenuItem>
-          </Select>
-        </FormControl>
-
-        <FormControl className={classes.formControl}>
-          <InputLabel id="demo-simple-select-helper-label">
-            Select Organisation
-          </InputLabel>
-          <Select
-            labelId="demo-simple-select-helper-label"
-            id="demo-simple-select-helper"
-            value={categoryType}
-            onChange={handleCategoryTypeChange}
-            onOpen={() => setOpen(true)}
-            onClose={() => setOpen(false)}
-            autoWidth
-            variant="standard"
-            disabled={editMode}
-            style={styles}
-
-            // size="medium"
-          >
-            <MenuItem value={0} style={styles}>
-              {open ? (
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        // onFinish={onFinish}
+        // onFinishFailed={onFinishFailed}
+      >
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              // name="gstNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Role name!",
+                },
+              ]}
+            >
+              <Input
+                placeholder="Step Name"
+                value={stepName}
+                onChange={(e) => setStepName(e.target.value)}
+                style={{ width: "250px" }}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={12}>
+            <Form.Item
+              // name="gstNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Role name!",
+                },
+              ]}
+            >
+              <Input.TextArea
+                placeholder="Step Description"
+                value={stepDescription}
+                onChange={(e) => setStepDescription(e.target.value)}
+                style={{ width: "250px" }}
+              />
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={12}>
+            <Select
+              style={{ width: "250px" }}
+              placeholder="Select Organisation"
+              disabled={!isDeleteAllowed}
+              value={formType}
+              onChange={handleFormTypeChange}
+              // defaultValue={type ? type : ""}
+              // onClose={() => setOpen(false)}
+            >
+              <Option value="1">
+                <div> Default Form</div>
+              </Option>
+              <Option value="2">
+                <div> No Form</div>
+              </Option>
+            </Select>
+          </Col>
+          <Col span={12}>
+            <Select
+              style={{ width: "250px" }}
+              placeholder="Select Organisation"
+              disabled={!isDeleteAllowed}
+              value={categoryType}
+              onChange={handleCategoryTypeChange}
+              // defaultValue={type ? type : ""}
+              // onOpen={() => setOpen(true)}
+              // onClose={() => setOpen(false)}
+            >
+              <Option value="1">
                 <div
                   style={{
                     wordWrap: "break-word",
@@ -262,23 +247,14 @@ const AddStepForm = (props: any) => {
                     This means that candidate selection is still in progress
                   </p>
                 </div>
-              ) : (
-                <div>
-                  {" "}
-                  <b> Type - In Progress</b>
-                </div>
-              )}
-            </MenuItem>
-            <MenuItem value={1} style={styles}>
-              {" "}
-              {open ? (
+              </Option>
+              <Option value="2">
                 <div
                   style={{
                     wordWrap: "break-word",
                   }}
                 >
                   <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
                     Interview
                   </p>
 
@@ -292,55 +268,45 @@ const AddStepForm = (props: any) => {
                     This option is selected when interview is in progress.
                   </p>
                 </div>
-              ) : (
-                <div> Interview</div>
-              )}
-            </MenuItem>
-          </Select>
-        </FormControl>
-      </span>
-      <span>
-        <FormControlLabel
-          control={
+              </Option>
+            </Select>
+          </Col>
+        </Row>
+        <Row gutter={8} style={{ marginTop: "10px" }}>
+          <Col span={12}>
             <Checkbox
               name="checkedC"
               checked={checkVideoEnabled}
               onChange={() => {
                 setCheckVideoEnabled(!checkVideoEnabled);
               }}
-            />
-          }
-          label="Video "
-        />
-      </span>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          padding: "10px",
-          alignContent: "center",
-        }}
-      >
-        <Button color="primary" variant="outlined" onClick={handleFormSubmit}>
-          {editMode ? "Update Step" : "Add Step"}
-        </Button>
-        <Button
-          color="primary"
-          variant="outlined"
-          onClick={() => setIsAddStepFormOpen(false)}
+            >
+              Video Enabled
+            </Checkbox>
+          </Col>
+        </Row>
+
+        <div
+          style={{
+            paddingTop: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "left",
+          }}
         >
-          Cancel
-        </Button>
-      </div>
-    </div>
+          <span style={{ paddingRight: "10px" }}>
+            <Button type="primary" onClick={handleFormSubmit}>
+              {editMode ? "Update Step" : "Add Step"}
+            </Button>
+          </span>
+
+          <span style={{ paddingRight: "10px" }}>
+            <Button onClick={() => setIsAddStepFormOpen(false)}>Cancel</Button>
+          </span>
+        </div>
+      </Form>
+    </Layout>
   );
 };
 
 export default AddStepForm;
-
-// const handleAddToList = () => {
-//   addToList(stepName, stepDescription);
-//   setStepName("");
-//   setStepDescription("");
-//   setIsAddStepFormOpen(false);
-// };

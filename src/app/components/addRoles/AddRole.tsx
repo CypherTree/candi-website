@@ -1,26 +1,10 @@
 import React, { useState } from "react";
 
-import {
-  Button,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  TextField,
-} from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Button, Row, Col, Input, Form, Select } from "antd";
 
-import { Delete } from "@material-ui/icons";
+import { DeleteFilled } from "@ant-design/icons";
 
-const useStyles = makeStyles((theme) => ({
-  formControl: {
-    margin: theme.spacing(1),
-    minWidth: 120,
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
-  },
-}));
+const { Option } = Select;
 
 const AddRole = (props: any) => {
   console.log("roles ----> ", props);
@@ -28,7 +12,6 @@ const AddRole = (props: any) => {
   //   roleData={roleData}
   //   removeRole={removeRole}
   //   index={index}
-  const classes = useStyles();
 
   const { addRole, roleData, removeRole, index, deleteRoleFromAPI } = props;
 
@@ -42,8 +25,8 @@ const AddRole = (props: any) => {
 
   const [open, setOpen] = useState(false);
 
-  const handleChange = (event: any) => {
-    setType(event.target.value);
+  const handleChange = (value: any) => {
+    setType(value);
   };
 
   const handleChangeName = (event: any) => {
@@ -74,44 +57,54 @@ const AddRole = (props: any) => {
 
   return (
     <div style={{ width: "1000px", maxWidth: "1000px" }}>
-      <span>
-        <TextField
-          type="text"
-          label="Role Type Name"
-          required
-          autoFocus={true}
-          color="primary"
-          size="medium"
-          variant="outlined"
-          value={name}
-          onChange={handleChangeName}
-          //   value={role}
-          //   onChange={(e) => setRole(e.target.value)}
-          disabled={!isDeleteAllowed}
-          style={styles}
-        ></TextField>
-        <span style={{ paddingLeft: "30px" }}>
-          <FormControl className={classes.formControl}>
-            <InputLabel id="demo-simple-select-helper-label">
-              Role Type
-            </InputLabel>
-            <Select
-              labelId="demo-simple-select-helper-label"
-              id="demo-simple-select-helper"
-              value={type}
-              onChange={handleChange}
-              onOpen={() => setOpen(true)}
-              onClose={() => setOpen(false)}
-              autoWidth
-              variant="standard"
-              disabled={!isDeleteAllowed}
-              style={styles}
-
-              // size="medium"
+      <Form
+        name="basic"
+        initialValues={{ remember: true }}
+        // onFinish={onFinish}
+        // onFinishFailed={onFinishFailed}
+      >
+        <Row gutter={8}>
+          <Col span={8}>
+            <Form.Item
+              // name="gstNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Role name!",
+                },
+              ]}
             >
-              <MenuItem value={2} style={styles}>
-                {" "}
-                {open ? (
+              <Input
+                placeholder="Role Name"
+                value={name}
+                onChange={handleChangeName}
+                disabled={!isDeleteAllowed}
+                style={{ width: "250px" }}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item
+              // name="gstNumber"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input Role name!",
+                },
+              ]}
+            >
+              <Select
+                defaultValue={type ? type : ""}
+                style={{ width: "250px" }}
+                // onChange={handleChange}
+                placeholder="Role Type"
+                disabled={!isDeleteAllowed}
+                onChange={handleChange}
+
+                // onOpen={() => setOpen(true)}
+                // onClose={() => setOpen(false)}
+              >
+                <Option value="2">
                   <div
                     style={{
                       wordWrap: "break-word",
@@ -134,12 +127,9 @@ const AddRole = (props: any) => {
                       and tasks. Can't delete the workspace.
                     </p>
                   </div>
-                ) : (
-                  <div> Manager</div>
-                )}
-              </MenuItem>
-              <MenuItem value={3} style={styles}>
-                {open ? (
+                </Option>
+                <Option value="3">
+                  {" "}
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
                       {" "}
@@ -157,13 +147,8 @@ const AddRole = (props: any) => {
                       party members.
                     </p>
                   </div>
-                ) : (
-                  <div> Editor</div>
-                )}
-              </MenuItem>
-              <MenuItem value={4} style={styles}>
-                {" "}
-                {open ? (
+                </Option>
+                <Option value="4">
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
                       {" "}
@@ -180,13 +165,8 @@ const AddRole = (props: any) => {
                       workspace and flow.
                     </p>
                   </div>
-                ) : (
-                  <div> Viewer</div>
-                )}
-              </MenuItem>
-              <MenuItem value={5} style={styles}>
-                {" "}
-                {open ? (
+                </Option>
+                <Option value="5">
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
                       {" "}
@@ -205,42 +185,33 @@ const AddRole = (props: any) => {
                       tasks assigned by editor/manager/admin
                     </p>
                   </div>
-                ) : (
-                  <div> Third Party</div>
-                )}
-              </MenuItem>
-            </Select>
-          </FormControl>{" "}
-        </span>
-        {!isAdded && (
-          <Button variant="outlined" color="primary" onClick={onSubmit}>
-            Add role
-          </Button>
-        )}
-        {isDeleteAllowed && isAdded && (
-          <div style={{ width: "100px" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={() => removeRole(index)}
-            >
-              <Delete />
-            </Button>
-          </div>
-        )}
-        {!isDeleteAllowed && (
-          <div style={{ width: "100px" }}>
-            <Button
-              variant="outlined"
-              color="secondary"
-              onClick={handleDeleteRoleFromApi}
-              // disabled={true}
-            >
-              <Delete />
-            </Button>
-          </div>
-        )}
-      </span>
+                </Option>
+              </Select>
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            {!isAdded && (
+              <Button type="primary" onClick={onSubmit}>
+                Add role
+              </Button>
+            )}
+            {isDeleteAllowed && isAdded && (
+              <div style={{ width: "100px" }}>
+                <Button onClick={() => removeRole(index)}>
+                  <DeleteFilled style={{ color: "red" }} />
+                </Button>
+              </div>
+            )}
+            {!isDeleteAllowed && (
+              <div style={{ width: "100px" }}>
+                <Button onClick={handleDeleteRoleFromApi}>
+                  <DeleteFilled style={{ color: "red" }} />
+                </Button>
+              </div>
+            )}
+          </Col>
+        </Row>
+      </Form>
     </div>
   );
 };

@@ -58,7 +58,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   return (
     <div>
-      {userData && userData.privacy_policy_accepted ? (
+      {userData && !userData.privacy_policy_accepted ? (
         <>
           <br />
           <Title level={4}>Welcome</Title>

@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
-import { Button } from "@material-ui/core";
-
 import Axios from "axios";
 import { connect } from "react-redux";
 
 import AddRole from "./AddRole";
+import { Button } from "antd";
+import Title from "antd/lib/typography/Title";
 
 // 1 = ADMIN
 // 2 = MANAGER
@@ -155,20 +155,17 @@ const AddRoles = (props: any) => {
 
   return (
     <div style={{ paddingLeft: "30px", width: "1000px", height: "80vh" }}>
-      <p
+      <Title
+        level={4}
         style={{
-          fontSize: "24px",
           fontWeight: "bold",
-          fontFamily: "Helvetica",
-          color: "#696969	",
           width: "auto",
-          margin: "10px 40px 5px 0 ",
-          padding: "0",
+          // margin: "10px 40px 5px 0 ",
+          // padding: "0px 0px 0px 350px",
         }}
       >
-        {" "}
         Add Roles to Organization
-      </p>
+      </Title>
       <br />
       <div>
         {oriRoles.map((roleData: any, index: number) => (
@@ -208,30 +205,17 @@ const AddRoles = (props: any) => {
         }}
       >
         <span style={{ paddingRight: "10px" }}>
-          <Button
-            variant="outlined"
-            color="primary"
-            type="submit"
-            onClick={() => handleBack()}
-          >
-            Back
-          </Button>{" "}
+          <Button onClick={() => handleBack()}>Back</Button>{" "}
         </span>
 
         <span style={{ paddingRight: "10px" }}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSubmitForm}
-          >
+          <Button type="primary" onClick={handleSubmitForm}>
             Save and Next
           </Button>
         </span>
 
         <span style={{ paddingRight: "10px" }}>
-          <Button variant="outlined" color="secondary" onClick={handleSkip}>
-            Skip
-          </Button>
+          <Button onClick={handleSkip}>Skip</Button>
         </span>
       </div>
     </div>
