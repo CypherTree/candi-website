@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 
 import { Button, Form, Row, Col, Input, Select, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
-import { DeleteFilled } from "@ant-design/icons";
 
 import Axios from "axios";
 
@@ -136,7 +135,6 @@ const AddWorkflow = (props: any) => {
       }
     )
       .then((response) => console.log("data", response.data))
-
       .catch((e) => console.log("err", e));
   };
 

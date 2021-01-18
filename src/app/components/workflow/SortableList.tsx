@@ -1,7 +1,7 @@
-// import { Button, Grid } from "@material-ui/core";
-import React, { FC, useState } from "react";
+import React from "react";
 
-import { Button, Row, Col, Layout, Divider } from "antd";
+import { Button } from "antd";
+
 import { ReactSortable } from "react-sortablejs";
 
 const SortableList = (props: any) => {

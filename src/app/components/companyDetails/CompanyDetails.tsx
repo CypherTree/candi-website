@@ -415,18 +415,6 @@ function CompanyDetails(props: any) {
           <Row gutter={8}>
             <Col span={12}>
               <Form.Item>
-                {logo !== "" && (
-                  <div style={{ textAlign: "left" }}>
-                    <img
-                      src={logo}
-                      style={{
-                        height: "100px",
-                        width: "100px",
-                        borderRadius: "50%",
-                      }}
-                    />
-                  </div>
-                )}
                 <UploadLogo
                   organisation_id={organisation_id}
                   name={name}
@@ -437,11 +425,7 @@ function CompanyDetails(props: any) {
           </Row>
 
           {props.state.app.companyDetailsToOrganizationMessage && (
-            <div>
-              <Title level={5}>
-                {props.state.app.companyDetailsToOrganizationMessage}
-              </Title>{" "}
-            </div>
+            <p>{props.state.app.companyDetailsToOrganizationMessage}</p>
           )}
         </Form>
       </div>

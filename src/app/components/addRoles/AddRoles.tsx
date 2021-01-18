@@ -15,6 +15,8 @@ import Title from "antd/lib/typography/Title";
 // 6 = THIRD PARTY
 
 const AddRoles = (props: any) => {
+  const tenant = "cyphertree";
+
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
   const { handleNext, handleBack } = props;
 
@@ -58,7 +60,7 @@ const AddRoles = (props: any) => {
     const jwtToken = `Bearer ${accessToken}`;
 
     Axios.delete(
-      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/${role_id}/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/${role_id}/`,
 
       {
         headers: {
@@ -82,7 +84,7 @@ const AddRoles = (props: any) => {
     const jwtToken = `Bearer ${accessToken}`;
 
     Axios.post(
-      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
       roles,
       {
         headers: {
@@ -104,7 +106,7 @@ const AddRoles = (props: any) => {
     let fData = [];
 
     await Axios.get(
-      `http://cyphertree.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
       {
         headers: {
           Authorization: `${jwtToken}`,
@@ -113,7 +115,6 @@ const AddRoles = (props: any) => {
     )
       .then((response) => {
         fData = response.data.data;
-
         setOriRoles(fData);
       })
       .catch((err) => console.log(err));
@@ -138,7 +139,6 @@ const AddRoles = (props: any) => {
       }
     )
       .then((response) => console.log("data", response.data))
-
       .catch((e) => console.log("err", e));
   };
 
@@ -157,22 +157,26 @@ const AddRoles = (props: any) => {
   return (
     <Layout
       style={{
-        paddingLeft: "100px",
         backgroundColor: "#fff",
-        width: "900px",
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center",
+        display: "flex",
       }}
     >
-      <div style={{ height: "400px", overflowY: "scroll" }}>
+      <div
+        style={{
+          height: "400px",
+          overflowY: "scroll",
+          width: "1000px",
+          paddingLeft: "150px",
+        }}
+      >
         <Title
           level={4}
           style={{
             fontWeight: "bold",
-            // width: "auto",
             marginTop: "20px",
-            textAlign: "center",
+            paddingLeft: "200px",
+            // width: "auto",
+            // textAlign: "center",
           }}
         >
           Add Roles to Organization

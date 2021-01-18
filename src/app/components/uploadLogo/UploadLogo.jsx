@@ -142,7 +142,8 @@ const UploadLogo = ({ organisation_id, name, website }) => {
         progress="line"
         accept="image/png, image/jpeg"
         onChange={handleChange}
-        style={{ height: "75px", width: "75px" }}
+        disabled={true}
+        style={{ height: "60px", width: "60px" }}
       >
         {imageUrl ? (
           <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
