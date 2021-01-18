@@ -124,26 +124,35 @@ const AddCustomWorkflow = (props: any) => {
   return (
     <Layout
       style={{
-        alignContent: "center",
+        justifyContent: "center",
         alignItems: "center",
         display: "flex",
-        flexDirection: "column",
+        // flexDirection: "column",
         backgroundColor: "#fff",
+        width: "100%",
       }}
     >
-      <Title
-        level={4}
+      <div
         style={{
-          fontWeight: "bold",
-          width: "auto",
-          margin: "10px 0px 10px 0px ",
-          // padding: "0px 0px 0px 350px",
+          height: "400px",
+          overflowY: "scroll",
+          width: "100%",
+          paddingLeft: "150px",
         }}
       >
-        Add Custom workflow page
-      </Title>
+        <Title
+          level={4}
+          style={{
+            fontWeight: "bold",
+            width: "auto",
+            margin: "10px 0px 10px 0px ",
+            padding: "0px 0px 0px 150px",
+            // textAlign: "center",
+          }}
+        >
+          Add Custom workflow page
+        </Title>
 
-      <div>
         <SortableList
           state={state}
           setState={setState}
@@ -155,30 +164,34 @@ const AddCustomWorkflow = (props: any) => {
           didOrderChange={didOrderChange}
           setDidOrderChange={setDidOrderChange}
         />
+
+        <br />
+        <div
+          style={{
+            // textAlign: "center",
+            paddingLeft: "250px",
+            // alignItems: "right",
+          }}
+        >
+          <Button onClick={handleAddNewStep}>Add new Step</Button>
+        </div>
+        <br />
+        {isAddStepFormOpen && (
+          <AddStepForm
+            open={open}
+            setOpen={setOpen}
+            setIsAddStepFormOpen={setIsAddStepFormOpen}
+            steps={state}
+            setDataReload={setDataReload}
+            selectedStep={selectedStep}
+            workflowId={workflow_id}
+          />
+        )}
+        <br />
       </div>
-      <br />
       <div
-        style={{
-          textAlign: "right",
-          alignItems: "right",
-        }}
+        style={{ display: "flex", alignContent: "center", paddingTop: "10px" }}
       >
-        <Button onClick={handleAddNewStep}>Add new Step</Button>
-      </div>
-      <br />
-      {isAddStepFormOpen && (
-        <AddStepForm
-          open={open}
-          setOpen={setOpen}
-          setIsAddStepFormOpen={setIsAddStepFormOpen}
-          steps={state}
-          setDataReload={setDataReload}
-          selectedStep={selectedStep}
-          workflowId={workflow_id}
-        />
-      )}
-      <br />
-      <div style={{ display: "flex", alignContent: "center" }}>
         <span style={{ paddingRight: "10px" }}>
           <Button type="primary" onClick={() => handleCancelModal()}>
             Finish

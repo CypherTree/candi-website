@@ -1,37 +1,29 @@
 import React, { useState } from "react";
 
+import Layout, { Content } from "antd/lib/layout/layout";
+
 import { Route, Switch } from "react-router-dom";
-
-import Login from "../../../auth/containers/login/Login";
-
-import Register from "../../../auth/containers/register/Register";
-
-import PrivateRoute from "./PrivateRoute";
-
-import Dashboard from "../../containers/dashboard/Dashboard";
-
-import PageNotFound from "../../containers/pagenotfound/PageNotFound";
-
-import ForgotPassword from "../../../auth/containers/forgotPassword/ForgotPassword";
-
-import ResetPassword from "../../../auth/containers/forgotPassword/ResetPassword";
-
-import NewOrganisation from "../../containers/neworganization/NewOrganisation";
-
-import Organisations from "../../containers/organisations/Organisations";
+import { connect } from "react-redux";
 
 import EmailVerificationPage from "../../../auth/containers/emailVerification/EmailVerificationPage";
-
-import Navbar from "../navbar/Navbar";
+import ForgotPassword from "../../../auth/containers/forgotPassword/ForgotPassword";
+import Login from "../../../auth/containers/login/Login";
+import Register from "../../../auth/containers/register/Register";
+import ResetPassword from "../../../auth/containers/forgotPassword/ResetPassword";
 
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 import "../../../App.css";
 
-import { connect } from "react-redux";
-import Layout, { Content, Footer } from "antd/lib/layout/layout";
-import Sider from "antd/lib/layout/Sider";
+import Dashboard from "../../containers/dashboard/Dashboard";
+import NewOrganisation from "../../containers/neworganization/NewOrganisation";
+import Organisations from "../../containers/organisations/Organisations";
+import PageNotFound from "../../containers/pagenotfound/PageNotFound";
+
 import Sidebar from "../sidebar/Sidebar";
+import Navbar from "../navbar/Navbar";
+
+import PrivateRoute from "./PrivateRoute";
 
 const Routes = (props: any) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -42,8 +34,19 @@ const Routes = (props: any) => {
 
   const { accessToken } = getCurrentSessionTokens();
 
-  // console.log("routes are working..");
-  // console.log("props in routes", props);
+  const { isAuthenticated } = props.state.auth;
+
+  const returnMargin = () => {
+    if (isAuthenticated) {
+      if (collapsed) {
+        return "80px";
+      } else {
+        return "200px";
+      }
+    } else {
+      return "0px";
+    }
+  };
 
   return (
     <>
@@ -56,8 +59,7 @@ const Routes = (props: any) => {
       <div style={{ flex: 1 }}>
         <Layout
           style={{
-            marginLeft: collapsed ? "80px" : "200px",
-            // marginLeft: accessToken && "0px",
+            marginLeft: returnMargin(),
           }}
         >
           {accessToken && <Navbar />}

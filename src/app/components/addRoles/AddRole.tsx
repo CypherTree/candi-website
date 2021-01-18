@@ -13,6 +13,18 @@ const AddRole = (props: any) => {
   //   removeRole={removeRole}
   //   index={index}
 
+  const returnValue = (type: any) => {
+    if (type === "2") {
+      return "Manager";
+    }
+    if (type === "3") {
+      return "Editor";
+    }
+    if (type === "4") {
+      return "Third Party";
+    }
+  };
+
   const { addRole, roleData, removeRole, index, deleteRoleFromAPI } = props;
 
   const [isAdded, SetIsAdded] = useState(false);
@@ -39,6 +51,8 @@ const AddRole = (props: any) => {
 
   const onSubmit = () => {
     addRole(name, type);
+    // setName("");
+    // setType(2);
   };
 
   React.useEffect(() => {
@@ -94,7 +108,7 @@ const AddRole = (props: any) => {
               ]}
             >
               <Select
-                defaultValue={type ? type : ""}
+                defaultValue={returnValue(type)}
                 style={{ width: "250px" }}
                 // onChange={handleChange}
                 placeholder="Role Type"
@@ -104,7 +118,7 @@ const AddRole = (props: any) => {
                 // onOpen={() => setOpen(true)}
                 // onClose={() => setOpen(false)}
               >
-                <Option value="2">
+                <Option value="Manager">
                   <div
                     style={{
                       wordWrap: "break-word",
@@ -128,7 +142,7 @@ const AddRole = (props: any) => {
                     </p>
                   </div>
                 </Option>
-                <Option value="3">
+                <Option value="Editor">
                   {" "}
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
@@ -148,7 +162,7 @@ const AddRole = (props: any) => {
                     </p>
                   </div>
                 </Option>
-                <Option value="4">
+                <Option value="Viewer">
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
                       {" "}
@@ -166,7 +180,7 @@ const AddRole = (props: any) => {
                     </p>
                   </div>
                 </Option>
-                <Option value="5">
+                <Option value="Third Party">
                   <div>
                     <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
                       {" "}

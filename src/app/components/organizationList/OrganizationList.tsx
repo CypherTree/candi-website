@@ -7,6 +7,9 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import OrganizationItem from "../organizationItem/OrganizationItem";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import Title from "antd/lib/typography/Title";
+
+import { Layout, Row, Col } from "antd";
 
 interface IOrganization {
   address: string;
@@ -103,31 +106,28 @@ const OrganizationList = (props: any) => {
   }, []);
   return (
     <div>
-      {loading && (
-        <Typography variant="h5" component="h5">
-          Loading.....{" "}
-        </Typography>
-      )}
+      {loading && <Title level={5}>Loading..... </Title>}
       {data.length > 0 ? (
-        <div
+        <Layout
           style={{
             paddingLeft: "150px",
+            display: "flex",
+            flexDirection: "column",
           }}
         >
-          <Grid
-            container
-            spacing={2}
+          <Row
             style={{
               display: "flex",
               flexDirection: "column",
             }}
           >
             {data.map((organization) => (
-              <Grid item xs={5}>
+              <Col span={10} style={{ paddingTop: "10px" }}>
                 <OrganizationItem data={organization} handleOpen={handleOpen} />
-              </Grid>
+              </Col>
             ))}
-          </Grid>
+          </Row>
+
           <br />
           <br />
           {data.length >= perPage && (
@@ -152,18 +152,18 @@ const OrganizationList = (props: any) => {
                 }}
               />
               {console.log("number of final pages ", numberofFinalPages)}
-              {/* {console.log("current page", page)} */}
+
               {console.log("no of pages", numberOfPages)}
             </div>
           )}
-        </div>
+        </Layout>
       ) : (
         <div>
           <br />
           <br />
-          <Typography variant="h5" component="h5">
+          <Title level={5}>
             <b>Setup your Organisation. </b>
-          </Typography>
+          </Title>
           <br />
           <br />
           <img

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Form, Row, Col, Input, Select } from "antd";
+import { Button, Form, Row, Col, Input, Select, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
 import { DeleteFilled } from "@ant-design/icons";
 
@@ -143,14 +143,17 @@ const AddWorkflow = (props: any) => {
   return (
     <>
       {!workflowAlreadyAdded ? (
-        <div style={{ width: "1000px", paddingLeft: "30px", height: "75vh" }}>
+        <div style={{ textAlign: "center" }}>
           <Title
             level={4}
             style={{
               fontWeight: "bold",
               width: "auto",
-              margin: "10px 40px 5px 0 ",
-              padding: "0px 0px 0px 350px",
+              // margin: "10px 40px 10px 0 ",
+              // padding: "0px 0px 0px 350px",
+              marginTop: "20px",
+              marginBottom: "20px",
+              textAlign: "center",
             }}
           >
             Workflow is already added.
@@ -173,7 +176,7 @@ const AddWorkflow = (props: any) => {
         </div>
       ) : (
         <div>
-          {!selectionDone ? (
+          {selectionDone ? (
             <>
               <AddCustomWorkflow
                 workflowId={workflowId}
@@ -181,136 +184,142 @@ const AddWorkflow = (props: any) => {
               />
             </>
           ) : (
-            <>
-              <div>
+            <Layout
+              style={{
+                backgroundColor: "#fff",
+                // paddingLeft: "100px",
+                alignItems: "center",
+              }}
+            >
+              <div style={{ height: "400px" }}>
                 <Title
                   level={4}
                   style={{
                     fontWeight: "bold",
                     width: "auto",
-                    margin: "10px 40px 5px 0 ",
-                    padding: "0px 0px 0px 350px",
+                    margin: "10px 40px 15px 0 ",
+                    // padding: "0px 0px 0px 200px",
+                    textAlign: "center",
                   }}
                 >
                   Add Workflow
                 </Title>
+                <Form
+                  name="basic"
+                  initialValues={{ remember: true }}
+                  // onFinish={onFinish}
+                  // onFinishFailed={onFinishFailed}
+                >
+                  <Row gutter={8}>
+                    <Col span={12}>
+                      <Form.Item>
+                        <Select
+                          // defaultValue={type ? type : ""}
+                          style={{ width: "300px" }}
+                          onChange={handleOrganisationTypeChange}
+                          placeholder="Select Organisation"
+                          disabled={!isDeleteAllowed}
+                        >
+                          <Option value="1">
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  fontWeight: "bold",
+                                  fontFamily: "helvetica",
+                                }}
+                              >
+                                {" "}
+                                Default Cyphertree
+                              </p>
+
+                              <p
+                                style={{
+                                  wordWrap: "break-word",
+                                  fontSize: "14px",
+                                  whiteSpace: "initial",
+                                }}
+                              >
+                                random lorem
+                              </p>
+                            </div>
+                          </Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
+                      <Form.Item>
+                        <Select
+                          // defaultValue={type ? type : ""}
+                          style={{ width: "300px" }}
+                          onChange={handleWorkflowTypeChange}
+                          placeholder="Add Workflow"
+                          disabled={!isDeleteAllowed}
+                        >
+                          <Option value="1">
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  fontWeight: "bold",
+                                  fontFamily: "helvetica",
+                                }}
+                              >
+                                {" "}
+                                Choose Default Recruitment Template
+                              </p>
+
+                              <p
+                                style={{
+                                  wordWrap: "break-word",
+                                  fontSize: "14px",
+                                  whiteSpace: "initial",
+                                }}
+                              >
+                                This template consists of screening, interview,
+                                basic recruitment flow.
+                              </p>
+                            </div>
+                          </Option>
+                          <Option value="2">
+                            <div>
+                              {" "}
+                              <b> Add custom workflow</b>
+                            </div>
+                          </Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: "Please input Workflow Name!",
+                          },
+                        ]}
+                      >
+                        <Input
+                          placeholder="Workflow Name"
+                          value={workflowName}
+                          onChange={(e) => setWorkflowName(e.target.value)}
+                          disabled={!isDeleteAllowed}
+                          required
+                          style={{ width: "300px" }}
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
               </div>
-
-              <Form
-                name="basic"
-                initialValues={{ remember: true }}
-                // onFinish={onFinish}
-                // onFinishFailed={onFinishFailed}
-              >
-                <Row gutter={8}>
-                  <Col span={8}>
-                    <Form.Item>
-                      <Select
-                        // defaultValue={type ? type : ""}
-                        style={{ width: "250px" }}
-                        onChange={handleOrganisationTypeChange}
-                        placeholder="Select Organisation"
-                        disabled={!isDeleteAllowed}
-                      >
-                        <Option value="1">
-                          <div
-                            style={{
-                              wordWrap: "break-word",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontWeight: "bold",
-                                fontFamily: "helvetica",
-                              }}
-                            >
-                              {" "}
-                              Default Cyphertree
-                            </p>
-
-                            <p
-                              style={{
-                                wordWrap: "break-word",
-                                fontSize: "14px",
-                                whiteSpace: "initial",
-                              }}
-                            >
-                              random lorem
-                            </p>
-                          </div>
-                        </Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item>
-                      <Select
-                        // defaultValue={type ? type : ""}
-                        style={{ width: "250px" }}
-                        onChange={handleWorkflowTypeChange}
-                        placeholder="Add Workflow"
-                        disabled={!isDeleteAllowed}
-                      >
-                        <Option value="1">
-                          <div
-                            style={{
-                              wordWrap: "break-word",
-                            }}
-                          >
-                            <p
-                              style={{
-                                fontWeight: "bold",
-                                fontFamily: "helvetica",
-                              }}
-                            >
-                              {" "}
-                              Choose Default Recruitment Template
-                            </p>
-
-                            <p
-                              style={{
-                                wordWrap: "break-word",
-                                fontSize: "14px",
-                                whiteSpace: "initial",
-                              }}
-                            >
-                              This template consists of screening, interview,
-                              basic recruitment flow.
-                            </p>
-                          </div>
-                        </Option>
-                        <Option value="2">
-                          <div>
-                            {" "}
-                            <b> Add custom workflow</b>
-                          </div>
-                        </Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={8}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please input Workflow Name!",
-                        },
-                      ]}
-                    >
-                      <Input
-                        placeholder="Workflow Name"
-                        value={workflowName}
-                        onChange={(e) => setWorkflowName(e.target.value)}
-                        disabled={!isDeleteAllowed}
-                        required
-                        style={{ width: "250px" }}
-                      />
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Form>
 
               <div
                 style={{
@@ -334,7 +343,7 @@ const AddWorkflow = (props: any) => {
                   <Button onClick={handleSkip}>Skip</Button>
                 </span>
               </div>
-            </>
+            </Layout>
           )}
         </div>
       )}

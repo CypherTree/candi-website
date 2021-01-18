@@ -31,9 +31,12 @@ const NewOrganizationModal = (props: any) => {
     <Modal
       visible={open}
       centered
-      onCancel={handleClose}
+      closable={false}
       width={1000}
-      footer={[]}
+      footer={null}
+      bodyStyle={{ padding: "0", margin: "0" }}
+      maskClosable={true}
+      mask={true}
     >
       <Layout
         style={{

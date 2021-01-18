@@ -12,6 +12,7 @@ import {
   CheckDomainName,
   SetOrganisationalDetails,
 } from "../../core/redux/app/actions";
+import { Height } from "@material-ui/icons";
 
 const { Text } = Typography;
 
@@ -115,7 +116,7 @@ function OrganizationalDetails(props: any) {
   };
 
   return (
-    <Layout style={{ padding: "30px", backgroundColor: "#fff" }}>
+    <Layout style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}>
       <div
         style={{
           margin: "0 auto",
@@ -124,6 +125,7 @@ function OrganizationalDetails(props: any) {
           padding: "100px",
           paddingTop: "0px",
           paddingBottom: "0px",
+          height: "400px",
         }}
       >
         <Title
@@ -132,6 +134,7 @@ function OrganizationalDetails(props: any) {
             fontWeight: "bold",
             alignSelf: "center",
             textAlign: "center",
+            paddingBottom: "10px",
           }}
         >
           Enter Organisation Details
@@ -204,26 +207,32 @@ function OrganizationalDetails(props: any) {
               </Text>
             )}
           </Form.Item>
-
-          <Form.Item
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-            }}
-          >
-            <Button color="primary" disabled style={{ marginRight: "10px" }}>
-              Back
-            </Button>
-            <Button type="primary" htmlType="submit" onClick={onFinish}>
-              {isSubmitted ? "Next" : "Save and Next"}
-            </Button>
-          </Form.Item>
         </Form>
+      </div>
+
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <Button color="primary" disabled style={{ marginRight: "10px" }}>
+          Back
+        </Button>
+        <Button type="primary" htmlType="submit" onClick={onFinish}>
+          {isSubmitted ? "Next" : "Save and Next"}
+        </Button>
       </div>
     </Layout>
   );
 }
+
+// style={{
+//   display: "flex",
+//   justifyContent: "center",
+//   paddingTop: "10px",
+// }}
 
 const mapStateToProps = (state: any) => {
   return {

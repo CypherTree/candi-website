@@ -321,7 +321,7 @@ const Plans = (props: any) => {
   };
 
   return (
-    <Layout style={{ padding: "30px" }}>
+    <Layout style={{ padding: "0px 10px 0px 10px", backgroundColor: "#fff" }}>
       <div
         style={{
           margin: "0 auto",
@@ -332,6 +332,8 @@ const Plans = (props: any) => {
           justifyContent: "center",
           alignContent: "center",
           display: "flex",
+          height: "400px",
+          overflowY: "scroll",
         }}
       >
         <div>
@@ -340,8 +342,10 @@ const Plans = (props: any) => {
             style={{
               fontWeight: "bold",
               width: "auto",
-              margin: "10px 40px 5px 0 ",
-              padding: "0px 0px 0px 350px",
+              margin: "10px 40px 10px 0 ",
+              // padding: "0px 0px 0px 350px",
+              textAlign: "center",
+              paddingLeft: "30px",
             }}
           >
             Choose a license plan
@@ -363,7 +367,7 @@ const Plans = (props: any) => {
               <div
                 style={{
                   width: "300px",
-                  marginLeft: "5px",
+                  marginLeft: "0px",
                   padding: "10px 5px 5px 0px",
                   textAlign: "center",
                 }}
@@ -380,26 +384,26 @@ const Plans = (props: any) => {
           {props.state.app && props.state.app.organisationPlanMessage && (
             <Text>{props.state.app.organisationPlanMessage}</Text>
           )}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              paddingTop: "10px",
-            }}
-          >
-            <Button htmlType="submit" onClick={() => handleBack()}>
-              Back
-            </Button>
-            <Button
-              type="primary"
-              onClick={() => handleSaveAndNext()}
-              style={{ marginLeft: "10px" }}
-              disabled={selectedPlan.plan_id !== 0 ? false : true}
-            >
-              {isSubmitted ? "Next" : "Save and Next"}
-            </Button>
-          </div>
         </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          marginTop: "10px",
+        }}
+      >
+        <Button htmlType="submit" onClick={() => handleBack()}>
+          Back
+        </Button>
+        <Button
+          type="primary"
+          onClick={() => handleSaveAndNext()}
+          style={{ marginLeft: "10px" }}
+          disabled={selectedPlan.plan_id !== 0 ? false : true}
+        >
+          {isSubmitted ? "Next" : "Save and Next"}
+        </Button>
       </div>
     </Layout>
   );

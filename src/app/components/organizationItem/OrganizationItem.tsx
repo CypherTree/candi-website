@@ -112,7 +112,7 @@ const OrganizationItem = (props: any) => {
                 fontFamily: "Helvetica",
                 color: "#696969	",
 
-                margin: "20px 0 5px 0",
+                margin: "20px 0 10px 0",
                 padding: 0,
               }}
             >

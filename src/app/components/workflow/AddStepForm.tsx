@@ -148,9 +148,13 @@ const AddStepForm = (props: any) => {
         padding: "20px",
         // textAlign: "center",
         // alignItems: "center",
+        width: "600px",
       }}
     >
-      <Title level={5}> Add/Edit Step</Title>
+      <Title level={5} style={{ textAlign: "center", paddingBottom: "10px" }}>
+        {" "}
+        Add/Edit Step
+      </Title>
 
       <Form
         name="basic"
@@ -226,7 +230,7 @@ const AddStepForm = (props: any) => {
               // onOpen={() => setOpen(true)}
               // onClose={() => setOpen(false)}
             >
-              <Option value="1">
+              <Option value="In-Progress">
                 <div
                   style={{
                     wordWrap: "break-word",
@@ -248,7 +252,7 @@ const AddStepForm = (props: any) => {
                   </p>
                 </div>
               </Option>
-              <Option value="2">
+              <Option value="Interview">
                 <div
                   style={{
                     wordWrap: "break-word",
@@ -291,7 +295,7 @@ const AddStepForm = (props: any) => {
             paddingTop: "10px",
             display: "flex",
             flexDirection: "row",
-            justifyContent: "left",
+            justifyContent: "center",
           }}
         >
           <span style={{ paddingRight: "10px" }}>

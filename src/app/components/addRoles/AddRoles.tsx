@@ -4,7 +4,7 @@ import Axios from "axios";
 import { connect } from "react-redux";
 
 import AddRole from "./AddRole";
-import { Button } from "antd";
+import { Button, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
 
 // 1 = ADMIN
@@ -37,8 +37,9 @@ const AddRoles = (props: any) => {
 
   const [reloadRequired, setReloadRequired] = useState<boolean>(false);
 
-  const addRole = (name: string, type: number) =>
+  const addRole = (name: string, type: number) => {
     setRoles([...roles, { name, type }]);
+  };
 
   const removeRole = (index: number) => {
     const newRoles = [...roles];
@@ -154,71 +155,79 @@ const AddRoles = (props: any) => {
   }, []);
 
   return (
-    <div style={{ paddingLeft: "30px", width: "1000px", height: "80vh" }}>
-      <Title
-        level={4}
-        style={{
-          fontWeight: "bold",
-          width: "auto",
-          // margin: "10px 40px 5px 0 ",
-          // padding: "0px 0px 0px 350px",
-        }}
-      >
-        Add Roles to Organization
-      </Title>
-      <br />
-      <div>
-        {oriRoles.map((roleData: any, index: number) => (
-          <div key={index}>
-            <AddRole
-              addRole={addRole}
-              roleData={roleData}
-              removeRole={removeRole}
-              index={index}
-              deleteRoleFromAPI={deleteRoleFromAPI}
-            />
-            <br />
-          </div>
-        ))}
+    <Layout
+      style={{
+        paddingLeft: "100px",
+        // backgroundColor: "#fff",
+        // justifyContent: "center",
+        // alignItems: "center",
+        // padding: "30px 30px 0px 100px",
+        backgroundColor: "#fff",
+      }}
+    >
+      <div style={{ height: "400px", overflowY: "scroll" }}>
+        <Title
+          level={4}
+          style={{
+            fontWeight: "bold",
+            // width: "auto",
+            marginTop: "20px",
+            textAlign: "center",
+          }}
+        >
+          Add Roles to Organization
+        </Title>
+        <br />
+        <div>
+          {oriRoles.map((roleData: any, index: number) => (
+            <div key={index}>
+              <AddRole
+                addRole={addRole}
+                roleData={roleData}
+                removeRole={removeRole}
+                index={index}
+                deleteRoleFromAPI={deleteRoleFromAPI}
+              />
+              <br />
+            </div>
+          ))}
 
-        {roles.map((roleData: any, index: number) => (
-          <div key={index}>
-            <AddRole
-              addRole={addRole}
-              roleData={roleData}
-              removeRole={removeRole}
-              index={index}
-              deleteRoleFromAPI={deleteRoleFromAPI}
-            />
-            <br />
-          </div>
-        ))}
+          {roles.map((roleData: any, index: number) => (
+            <div key={index}>
+              <AddRole
+                addRole={addRole}
+                roleData={roleData}
+                removeRole={removeRole}
+                index={index}
+                deleteRoleFromAPI={deleteRoleFromAPI}
+              />
+              <br />
+            </div>
+          ))}
+        </div>
+        <AddRole addRole={addRole} />
       </div>
-      <AddRole addRole={addRole} />
 
       <div
         style={{
-          paddingTop: "30px",
           display: "flex",
           flexDirection: "row",
           justifyContent: "center",
         }}
       >
-        <span style={{ paddingRight: "10px" }}>
-          <Button onClick={() => handleBack()}>Back</Button>{" "}
-        </span>
-
-        <span style={{ paddingRight: "10px" }}>
-          <Button type="primary" onClick={handleSubmitForm}>
-            Save and Next
-          </Button>
-        </span>
-
-        <span style={{ paddingRight: "10px" }}>
-          <Button onClick={handleSkip}>Skip</Button>
-        </span>
+        <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
+          Back
+        </Button>{" "}
+        <Button
+          type="primary"
+          onClick={handleSubmitForm}
+          style={{ marginRight: "10px" }}
+        >
+          Save and Next
+        </Button>
+        <Button onClick={handleSkip}>Skip</Button>
       </div>
-    </div>
+    </Layout>
   );
 };
 

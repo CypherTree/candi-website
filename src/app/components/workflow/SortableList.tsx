@@ -1,6 +1,7 @@
-import { Button, Grid } from "@material-ui/core";
+// import { Button, Grid } from "@material-ui/core";
 import React, { FC, useState } from "react";
 
+import { Button, Row, Col, Layout, Divider } from "antd";
 import { ReactSortable } from "react-sortablejs";
 
 const SortableList = (props: any) => {
@@ -33,24 +34,26 @@ const SortableList = (props: any) => {
     <div>
       <div
         style={{
-          width: "600px",
+          width: "610px",
           border: "1px solid black",
           paddingLeft: "20px",
           paddingRight: "20px",
           //   cursor: "move",
         }}
       >
-        <div style={{ textAlign: "center" }}>
+        <div style={{ textAlign: "center", padding: "5px" }}>
           <p style={{ fontSize: "20px" }}>Recrutiment Flow</p>
         </div>
-        <Grid container style={{ justifyContent: "space-between" }}>
-          <Grid item>
-            <p>Name</p>
-          </Grid>
-          <Grid item>
-            <p>Action</p>
-          </Grid>
-        </Grid>
+        <div
+          style={{
+            justifyContent: "space-between",
+            display: "flex",
+            flexDirection: "row",
+          }}
+        >
+          <p>Name</p>
+          <p>Action</p>
+        </div>
       </div>
 
       <ReactSortable list={state} setList={setState}>
@@ -61,24 +64,26 @@ const SortableList = (props: any) => {
               width: "600px",
               border: "1px dotted black",
               margin: "5px",
-              paddingLeft: "20px",
+              padding: "10px",
               backgroundColor: "whitesmoke",
               cursor: "move",
             }}
           >
-            <Grid container style={{ justifyContent: "space-between" }}>
-              <Grid item>
+            <div
+              style={{
+                justifyContent: "space-between",
+                display: "flex",
+                flexDirection: "row",
+              }}
+            >
+              <div style={{ display: "flex", flexDirection: "column" }}>
                 <p>
                   <b>{item.name}</b>
                 </p>
                 <p>{item.description}</p>
-              </Grid>
-              <Grid item style={{ padding: "20px" }}>
-                <Button onClick={() => handleEdit(item)} variant="outlined">
-                  Edit
-                </Button>
-              </Grid>
-            </Grid>
+              </div>
+              <Button onClick={() => handleEdit(item)}>Edit</Button>
+            </div>
           </div>
         ))}
       </ReactSortable>

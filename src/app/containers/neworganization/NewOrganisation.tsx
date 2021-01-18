@@ -113,7 +113,7 @@ const NewOrganisation = (props: any) => {
   return (
     <Card
       style={{
-        maxHeight: "85vh",
+        maxHeight: "100%",
         width: "1000px",
         justifyContent: "center",
         alignItems: "center",
@@ -125,36 +125,45 @@ const NewOrganisation = (props: any) => {
           justifyContent: "space-between",
           display: "flex",
           width: "100%",
+          height: "100%",
         }}
       >
         {" "}
-        <div style={{ display: "inline-block" }}>
+        <div
+          style={{
+            display: "flex",
+            borderBottom: "1px solid #c1c1c1",
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
           {currentOrganization.name ? (
             <Title level={4}>{currentOrganization.name}</Title>
           ) : (
             <Title level={4}>Organization Create</Title>
           )}{" "}
-        </div>
-        <div style={{ display: "inline-block" }}>
           <Button danger onClick={(e) => handleCancelModal()}>
             Cancel
           </Button>{" "}
         </div>
       </div>
-      <hr />
-      <div style={{ height: "450px", overflowY: "scroll" }}>
-        <Steps
-          type="navigation"
-          current={current}
-          onChange={onChange}
-          className="site-navigation-steps"
-        >
-          <Step status="process" title="Organisation" />
-          <Step status="process" title="Plan" />
-          <Step status="process" title="Company " />
-          <Step status="process" title="Roles" />
-          <Step status="process" title="Workflow" />
-        </Steps>
+
+      <div>
+        <div style={{ paddingBottom: "10px" }}>
+          <Steps
+            type="navigation"
+            current={current}
+            onChange={onChange}
+            className="site-navigation-steps"
+          >
+            <Step status="process" title="Organisation" />
+            <Step status="process" title="Plan" />
+            <Step status="process" title="Company " />
+            <Step status="process" title="Roles" />
+            <Step status="process" title="Workflow" />
+          </Steps>
+        </div>
 
         <div>
           {activeStep === steps.length ? (

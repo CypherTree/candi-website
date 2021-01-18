@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
-import { Button, Input } from "@material-ui/core";
+import { Upload, message } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 import {
   getAWSTokenForLogoUpload,
@@ -8,12 +9,30 @@ import {
   updateServerWithLogoUploadData,
 } from "../../core/services/logo-upload";
 
-import AddIcon from "@material-ui/icons/Add";
+function getBase64(img, callback) {
+  const reader = new FileReader();
+  reader.addEventListener("load", () => callback(reader.result));
+  reader.readAsDataURL(img);
+}
 
-import { Fab } from "@material-ui/core";
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
-function UploadLogo({ organisation_id, name, website }) {
+const UploadLogo = ({ organisation_id, name, website }) => {
   const jwtToken = localStorage.getItem("accessToken");
+
+  const [loading, setLoading] = useState(false);
+
+  const [imageUrl, setImageUrl] = useState("");
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
 
@@ -77,64 +96,123 @@ function UploadLogo({ organisation_id, name, website }) {
 
   const [selectedFile, setSelectedFile] = useState("");
 
-  return (
-    <div style={{ paddingTop: "10px", textAlign: "left" }}>
-      <span>
-        <label htmlFor="upload-photo">
-          <Input
-            style={{ display: "none" }}
-            id="upload-photo"
-            name="upload-photo"
-            type="file"
-            onChange={(e) => onFileChange(e)}
-          />
+  const handleChange = (info) => {
+    onFileUpload(info.file);
+    // console.log("info -->", info);
 
-          <Fab
-            color="secondary"
-            size="small"
-            component="span"
-            aria-label="add"
-            variant="extended"
-          >
-            <AddIcon /> Select Logo
-          </Fab>
-          <br />
-          <br />
-        </label>
+    // if (info.file.status === "uploading") {
+    //   setLoading(true);
+    //   return;
+    // }
+    // if (info.file.status === "done") {
+    //   // Get this url from response in real world.
+    //   getBase64(info.file.originFileObj, (imageUrl) => {
+    //     setLoading(false);
+    //     setImageSrc(imageUrl);
+    //   });
+    // }
+  };
 
-        {imageSrc !== "" && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "flex-start",
-            }}
-          >
-            <img
-              src={imageSrc}
-              style={{ height: "100px", width: "100px", borderRadius: "50%" }}
-            />
-            <span style={{ paddingLeft: "20px" }}>
-              <Button
-                onClick={onFileUpload}
-                color="#c1c1c1"
-                style={{
-                  backgroundColor: "lightgray",
-                }}
-              >
-                Upload Logo
-              </Button>
-            </span>
-          </div>
-        )}
-
-        {logoUploadDone && (
-          <div>
-            <p> Logo was uploaded Successfully.</p>
-          </div>
-        )}
-      </span>
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );
-}
+
+  return (
+    <div
+      style={{
+        paddingTop: "10px",
+        textAlign: "left",
+      }}
+    >
+      <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+        // action=""
+        beforeUpload={beforeUpload}
+        // onChange={(e) => {
+        //   // handleChange();
+        //   onFileChange(e);
+        // }}
+        progress="line"
+        accept="image/png, image/jpeg"
+        onChange={handleChange}
+        style={{ height: "75px", width: "75px" }}
+      >
+        {imageUrl ? (
+          <img src={imageUrl} alt="avatar" style={{ width: "100%" }} />
+        ) : (
+          uploadButton
+        )}
+      </Upload>
+
+      {logoUploadDone && (
+        <div>
+          <p> Logo was uploaded Successfully.</p>
+        </div>
+      )}
+    </div>
+  );
+};
 
 export default UploadLogo;
+
+// <span>
+// <label htmlFor="upload-photo">
+//   <Input
+//     style={{ display: "none" }}
+//     id="upload-photo"
+//     name="upload-photo"
+//     type="file"
+//     onChange={(e) => onFileChange(e)}
+//   />
+
+//   <Fab
+//     color="secondary"
+//     size="small"
+//     component="span"
+//     aria-label="add"
+//     variant="extended"
+//   >
+//     <AddIcon /> Select Logo
+//   </Fab>
+//   <br />
+//   <br />
+// </label>
+
+// {imageSrc !== "" && (
+//   <div
+//     style={{
+//       display: "flex",
+//       justifyContent: "flex-start",
+//     }}
+//   >
+//     <img
+//       src={imageSrc}
+//       style={{ height: "100px", width: "100px", borderRadius: "50%" }}
+//     />
+//     <span style={{ paddingLeft: "20px" }}>
+//       <Button
+//         onClick={onFileUpload}
+//         color="#c1c1c1"
+//         style={{
+//           backgroundColor: "lightgray",
+//         }}
+//       >
+//         Upload Logo
+//       </Button>
+//     </span>
+//   </div>
+// )}
+
+// {logoUploadDone && (
+//   <div>
+//     <p> Logo was uploaded Successfully.</p>
+//   </div>
+// )}
+// </span>
