@@ -5,7 +5,6 @@ import axios from "axios";
 import Layout from "antd/lib/layout/layout";
 import { Button, Form, Input, Row, Col, Typography, Checkbox } from "antd";
 import Title from "antd/lib/typography/Title";
-import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
 import { useDispatch } from "react-redux";
@@ -366,13 +365,13 @@ function CompanyDetails(props: any) {
           <Row gutter={8}>
             <Col span={12}>
               <Form.Item
-                name="address"
-                rules={[
-                  { required: true, message: "Please input your Address!" },
-                ]}
+              // name="address"
+              // rules={[
+              //   { required: true, message: "Please input your Address!" },
+              // ]}
               >
                 <Input
-                  placeholder="Business Email address"
+                  placeholder="Business Email Address"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={!isGSTVerified}
@@ -429,9 +428,6 @@ function CompanyDetails(props: any) {
           )}
         </Form>
       </div>
-
-      {/* </Col>
-      </Row> */}
 
       <div
         style={{

@@ -116,35 +116,39 @@ function OrganizationalDetails(props: any) {
   };
 
   return (
-    <Layout style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}>
-      <div
-        style={{
-          margin: "0 auto",
-          lineHeight: "40px",
-          width: "800px",
-          padding: "100px",
-          paddingTop: "0px",
-          paddingBottom: "0px",
-          height: "400px",
-        }}
+    <Form
+      name="basic"
+      initialValues={{ remember: true }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+    >
+      {" "}
+      <Layout
+        style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}
       >
-        <Title
-          level={4}
+        <div
           style={{
-            fontWeight: "bold",
-            alignSelf: "center",
-            textAlign: "center",
-            paddingBottom: "10px",
+            margin: "0 auto",
+            lineHeight: "40px",
+            width: "800px",
+            padding: "100px",
+            paddingTop: "0px",
+            paddingBottom: "0px",
+            height: "400px",
           }}
         >
-          Enter Organisation Details
-        </Title>
-        <Form
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
+          <Title
+            level={4}
+            style={{
+              fontWeight: "bold",
+              alignSelf: "center",
+              textAlign: "center",
+              paddingBottom: "10px",
+            }}
+          >
+            Enter Organisation Details
+          </Title>
+
           <Form.Item
             // name="Organisation Name"
             rules={[
@@ -153,12 +157,17 @@ function OrganizationalDetails(props: any) {
                 message: "Please input your Organisation Name!",
               },
             ]}
+            // extra="Name of your organisation will come here"
+            // hasFeedback={true}
+            // valuePropName={organisationName}
+            // initialValue={organisationName}
+            // name="organisationName"
           >
             <Input
               onChange={(e) => setOrganisationName(e.target.value)}
               disabled={isSubmitted}
               placeholder="Organisation Name"
-              value={organisationName}
+              value={organisationName !== "" ? organisationName : ""}
             />
           </Form.Item>
 
@@ -207,24 +216,26 @@ function OrganizationalDetails(props: any) {
               </Text>
             )}
           </Form.Item>
-        </Form>
-      </div>
+        </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-        }}
-      >
-        <Button color="primary" disabled style={{ marginRight: "10px" }}>
-          Back
-        </Button>
-        <Button type="primary" htmlType="submit" onClick={onFinish}>
-          {isSubmitted ? "Next" : "Save and Next"}
-        </Button>
-      </div>
-    </Layout>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Button color="primary" disabled style={{ marginRight: "10px" }}>
+            Back
+          </Button>
+          <Form.Item>
+            <Button type="primary" htmlType="submit" onClick={onFinish}>
+              {isSubmitted ? "Next" : "Save and Next"}
+            </Button>
+          </Form.Item>
+        </div>
+      </Layout>
+    </Form>
   );
 }
 
