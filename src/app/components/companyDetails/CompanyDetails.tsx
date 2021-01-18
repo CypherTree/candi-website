@@ -408,7 +408,7 @@ function CompanyDetails(props: any) {
               width: "auto",
             }}
           >
-            Company Logo
+            Company logo
           </Title>
 
           <Row gutter={8}>
@@ -418,6 +418,7 @@ function CompanyDetails(props: any) {
                   organisation_id={organisation_id}
                   name={name}
                   website={website}
+                  logo={logo}
                 />
               </Form.Item>
             </Col>
