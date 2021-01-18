@@ -68,14 +68,10 @@ const Organisations = (props: any) => {
                 backgroundColor: "#F9650D",
                 margin: "0px",
                 display: "flex",
-                marginTop: "10px",
-                // bormui der: "1px solid black",
-                height: "28px",
-                width: "28px",
-                // alignItems: "center",
-                // alignContent: "center",
+                marginTop: "14px",
+                height: "25px",
+                width: "25px",
                 textAlign: "center",
-                // padding: "0px",
                 justifyContent: "center",
               }}
             >

@@ -67,10 +67,8 @@ const AddRole = (props: any) => {
     }
   }, [props]);
 
-  const styles = { width: "300px" };
-
   return (
-    <div style={{ width: "1000px", maxWidth: "1000px" }}>
+    <div style={{ width: "900px", maxWidth: "1000px" }}>
       <Form
         name="basic"
         initialValues={{ remember: true }}

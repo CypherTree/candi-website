@@ -158,11 +158,11 @@ const AddRoles = (props: any) => {
     <Layout
       style={{
         paddingLeft: "100px",
-        // backgroundColor: "#fff",
-        // justifyContent: "center",
-        // alignItems: "center",
-        // padding: "30px 30px 0px 100px",
         backgroundColor: "#fff",
+        width: "900px",
+        // display: "flex",
+        // alignItems: "center",
+        // justifyContent: "center",
       }}
     >
       <div style={{ height: "400px", overflowY: "scroll" }}>

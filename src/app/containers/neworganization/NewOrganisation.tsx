@@ -32,14 +32,14 @@ function getStepContent(
   handleCancelModal: any
 ) {
   switch (step) {
-    case 0:
+    case 3:
       return (
         <OrganizationalDetails
           handleNext={handleNext}
           currentOrganization={currentOrganization}
         />
       );
-    case 1:
+    case 4:
       return (
         <Plans
           handleNext={handleNext}
@@ -49,9 +49,9 @@ function getStepContent(
       );
     case 2:
       return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
-    case 3:
+    case 0:
       return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
-    case 4:
+    case 1:
       return (
         <AddWorkflow
           handleNext={handleNext}

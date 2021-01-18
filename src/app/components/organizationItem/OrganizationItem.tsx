@@ -1,6 +1,7 @@
 import React from "react";
 
-import { Avatar } from "@material-ui/core";
+import { Avatar } from "antd";
+
 import { useDispatch } from "react-redux";
 
 import { PassDataToModal } from "../../core/redux/app/actions";
@@ -68,7 +69,6 @@ const OrganizationItem = (props: any) => {
       <div
         style={{
           backgroundColor: "#f8f8f8",
-
           padding: "none",
           margin: "none",
         }}
@@ -88,15 +88,19 @@ const OrganizationItem = (props: any) => {
             }}
           >
             <Avatar
-              alt={data.slug.toUpperCase()}
-              src="dsakld/"
               style={{
                 backgroundColor: "#F9650D",
                 fontSize: "40px",
                 width: "60px",
                 height: "60px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                verticalAlign: "middle",
               }}
-            />
+            >
+              {data.slug.charAt(0).toUpperCase() || "A"}
+            </Avatar>
           </div>
           <div
             style={{
@@ -108,15 +112,11 @@ const OrganizationItem = (props: any) => {
             <p
               style={{
                 fontSize: "24px",
-
-                fontFamily: "Helvetica",
                 color: "#696969	",
-
-                margin: "20px 0 10px 0",
+                margin: "20px 0 15px 0px",
                 padding: 0,
               }}
             >
-              {" "}
               {data.name}
             </p>
             <p

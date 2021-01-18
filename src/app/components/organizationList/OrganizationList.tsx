@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from "react";
 
+import { Layout, Row, Col } from "antd";
+import Title from "antd/lib/typography/Title";
+
 import axios from "axios";
 
-import { Typography, Grid } from "@material-ui/core";
 import Pagination from "@material-ui/lab/Pagination";
 
 import OrganizationItem from "../organizationItem/OrganizationItem";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-import Title from "antd/lib/typography/Title";
-
-import { Layout, Row, Col } from "antd";
 
 interface IOrganization {
   address: string;
@@ -122,7 +121,7 @@ const OrganizationList = (props: any) => {
             }}
           >
             {data.map((organization) => (
-              <Col span={10} style={{ paddingTop: "10px" }}>
+              <Col span={10} style={{ paddingTop: "15px" }}>
                 <OrganizationItem data={organization} handleOpen={handleOpen} />
               </Col>
             ))}

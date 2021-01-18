@@ -149,8 +149,6 @@ const AddWorkflow = (props: any) => {
             style={{
               fontWeight: "bold",
               width: "auto",
-              // margin: "10px 40px 10px 0 ",
-              // padding: "0px 0px 0px 350px",
               marginTop: "20px",
               marginBottom: "20px",
               textAlign: "center",
@@ -187,8 +185,9 @@ const AddWorkflow = (props: any) => {
             <Layout
               style={{
                 backgroundColor: "#fff",
-                // paddingLeft: "100px",
-                alignItems: "center",
+                // alignItems: "center",
+                width: "850px",
+                paddingLeft: "150px",
               }}
             >
               <div style={{ height: "400px" }}>
@@ -197,7 +196,7 @@ const AddWorkflow = (props: any) => {
                   style={{
                     fontWeight: "bold",
                     width: "auto",
-                    margin: "10px 40px 15px 0 ",
+                    margin: "10px 40px 15px 20px ",
                     // padding: "0px 0px 0px 200px",
                     textAlign: "center",
                   }}
