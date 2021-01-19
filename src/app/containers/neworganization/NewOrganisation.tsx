@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
+import { Button, Card, Steps } from "antd";
 import Title from "antd/lib/typography/Title";
-import { Button, Card, Divider } from "antd";
+
+import { connect } from "react-redux";
 
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
@@ -10,7 +12,8 @@ import OrganizationalDetails from "../../components/organizationalDetails/Organi
 
 import Plans from "./Plans";
 
-import { Steps } from "antd";
+import { StateType } from "../../../app/core/redux/types";
+import { ClearCurrentOrganisation } from "../../core/redux/app/actions";
 
 const { Step } = Steps;
 
@@ -23,6 +26,7 @@ function getSteps() {
     "Add Workflow",
   ];
 }
+
 function getStepContent(
   step: any,
   handleNext: any,
@@ -66,14 +70,17 @@ function getStepContent(
 }
 
 const NewOrganisation = (props: any) => {
-  console.log("Props in New Organization ", props);
-  const { handleClose, currentOrganization } = props;
+  console.log(" ---------- Props in New Organization ", props);
+
+  const { handleClose, currentOrganization, clearCurrentOrganisation } = props;
 
   const [activeStep, setActiveStep] = React.useState(0);
-  const [skipped, setSkipped] = React.useState(new Set());
+
   const steps = getSteps();
 
   const [current, setCurrent] = useState(0);
+
+  useEffect(() => {}, [currentOrganization]);
 
   const onChange = (current: React.SetStateAction<number>) => {
     console.log("onChange:", current);
@@ -82,10 +89,6 @@ const NewOrganisation = (props: any) => {
 
   const accessToken = localStorage.getItem("accessToken");
   console.log("acc", accessToken);
-
-  // const isStepSkipped = (step: any) => {
-  //   return skipped.has(step);
-  // };
 
   const handleNext = () => {
     console.log(" ----- handle next was called ---- ");
@@ -107,6 +110,8 @@ const NewOrganisation = (props: any) => {
   };
 
   const handleCancelModal = () => {
+    console.log("modal close was called.");
+    clearCurrentOrganisation(true);
     setActiveStep(0);
     handleClose();
   };
@@ -182,7 +187,6 @@ const NewOrganisation = (props: any) => {
                 currentOrganization,
                 handleCancelModal
               )}
-              <div></div>
             </div>
           )}
         </div>
@@ -191,4 +195,19 @@ const NewOrganisation = (props: any) => {
   );
 };
 
-export default NewOrganisation;
+// export default NewOrganisation;
+
+const mapStateToProps = (state: StateType) => {
+  return {
+    state: state,
+  };
+};
+
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    clearCurrentOrganisation: (clear: boolean) =>
+      dispatch(ClearCurrentOrganisation(clear)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(NewOrganisation);

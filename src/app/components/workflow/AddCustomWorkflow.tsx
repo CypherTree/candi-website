@@ -46,7 +46,7 @@ const AddCustomWorkflow = (props: any) => {
     setIsAddStepFormOpen(true);
   };
 
-  const tenant = "cyphertree";
+  const tenant = "zoom";
   // const tenant = "thor";
 
   const workflow_id = props.workflowId;

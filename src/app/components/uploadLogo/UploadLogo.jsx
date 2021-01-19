@@ -41,7 +41,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const file = selectedFile.name !== "" ? selectedFile : "  ";
 
-    const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
+    // const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
 
     const keys = await getAWSTokenForLogoUpload(jwtToken);
 
@@ -123,7 +123,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
           uploadButton
         )}
       </Upload>
-      <p>You may click on image to a upload new logo.</p>
+      {logoUrl && <p>You may click on image to a upload new logo.</p>}
 
       {logoUploadDone && (
         <div>

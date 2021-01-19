@@ -17,8 +17,8 @@ const AddStepForm = (props: any) => {
   const [stepDescription, setStepDescription] = useState("");
 
   const {
-    open,
-    setOpen,
+    // open,
+    // setOpen,
     setIsAddStepFormOpen,
     steps,
     setDataReload,

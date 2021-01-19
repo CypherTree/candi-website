@@ -1,41 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Button, Row, Col, Input, Form, Select } from "antd";
-
+import { Button, Row, Col, Input, Form, Select, Typography } from "antd";
 import { DeleteFilled } from "@ant-design/icons";
 
 const { Option } = Select;
+const { Text } = Typography;
 
 const AddRole = (props: any) => {
   console.log("roles ----> ", props);
 
-  //   roleData={roleData}
-  //   removeRole={removeRole}
-  //   index={index}
-
-  const returnValue = (type: any) => {
-    if (type === "2") {
-      return "Manager";
-    }
-    if (type === "3") {
-      return "Editor";
-    }
-    if (type === "4") {
-      return "Third Party";
-    }
-  };
-
-  const { addRole, roleData, removeRole, index, deleteRoleFromAPI } = props;
+  const {
+    addRole,
+    roleData,
+    removeRole,
+    index,
+    deleteRoleFromAPI,
+    error,
+  } = props;
 
   const [isAdded, SetIsAdded] = useState(false);
-
   const [isDeleteAllowed, setIsDeleteAllowed] = useState(true);
-
-  const [type, setType] = React.useState(2);
-
+  const [type, setType] = useState<string | undefined>();
   const [name, setName] = useState("");
-
-  const [open, setOpen] = useState(false);
+  const [currentError, setCurrentError] = useState("");
 
   const handleChange = (value: any) => {
     setType(value);
@@ -50,16 +37,36 @@ const AddRole = (props: any) => {
   };
 
   const onSubmit = () => {
-    addRole(name, type);
+    let roleValue;
+
+    if (type === "Manager") {
+      roleValue = 2;
+    } else if (type === "Editor") {
+      roleValue = 3;
+    } else if (type === "Viewer") {
+      roleValue = 4;
+    } else if (type === "Third Party") {
+      roleValue = 5;
+    }
+
+    addRole(name, roleValue);
   };
 
   const onFinish = () => {
-    if (name !== "") {
+    if (name === "") {
+      setCurrentError("Enter the Role Name.");
+    }
+    if (!type) {
+      setCurrentError("Select the Role Type.");
+    }
+
+    if (name !== "" && type) {
+      setCurrentError("");
       onSubmit();
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (props.roleData) {
       if (props.roleData.uuid) {
         setIsDeleteAllowed(false);
@@ -67,68 +74,53 @@ const AddRole = (props: any) => {
       SetIsAdded(true);
 
       setName(props.roleData.name);
-      setType(props.roleData.type);
+
+      let roleType;
+
+      if (props.roleData.type === 2) {
+        roleType = "Manager";
+      } else if (props.roleData.type === 3) {
+        roleType = "Editor";
+      } else if (props.roleData.type === 4) {
+        roleType = "Viewer";
+      } else if (props.roleData.type === 5) {
+        roleType = "Third Party";
+      }
+      setType(roleType);
     }
   }, [props]);
 
   return (
-    <Form
-      name="basic"
-      initialValues={{ remember: true }}
-      onFinish={onFinish}
-      // onFinishFailed={onFinishFailed}
-    >
+    <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>
       <Row gutter={8}>
         <Col span={8}>
-          <Form.Item
-            // name="name"
-            rules={[
-              {
-                required: true,
-                message: "Please input Role name!",
-              },
-            ]}
-          >
+          <Form.Item>
             <Input
               placeholder="Role Name"
-              // defaultValue={name}
               onChange={handleChangeName}
               disabled={!isDeleteAllowed}
               style={{ width: "250px" }}
+              value={name}
             />
           </Form.Item>
         </Col>
         <Col span={8}>
-          <Form.Item
-            // name="gstNumber"
-            rules={[
-              {
-                required: true,
-                message: "Please input Role name!",
-              },
-            ]}
-          >
+          <Form.Item>
             <Select
-              defaultValue={returnValue(type)}
               style={{ width: "250px" }}
-              // onChange={handleChange}
               placeholder="Role Type"
               disabled={!isDeleteAllowed}
               onChange={handleChange}
-
-              // onOpen={() => setOpen(true)}
-              // onClose={() => setOpen(false)}
+              value={type}
             >
+              {console.log("values in form --> ", name, type)}
               <Option value="Manager">
                 <div
                   style={{
                     wordWrap: "break-word",
                   }}
                 >
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
-                    Manager
-                  </p>
+                  <p style={{ fontWeight: "bold" }}>Manager</p>
 
                   <p
                     style={{
@@ -144,12 +136,8 @@ const AddRole = (props: any) => {
                 </div>
               </Option>
               <Option value="Editor">
-                {" "}
                 <div>
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
-                    Editor
-                  </p>
+                  <p style={{ fontWeight: "bold" }}> Editor</p>
 
                   <p
                     style={{
@@ -165,10 +153,7 @@ const AddRole = (props: any) => {
               </Option>
               <Option value="Viewer">
                 <div>
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
-                    Viewer
-                  </p>
+                  <p style={{ fontWeight: "bold" }}> Viewer</p>
                   <p
                     style={{
                       wordWrap: "break-word",
@@ -183,11 +168,7 @@ const AddRole = (props: any) => {
               </Option>
               <Option value="Third Party">
                 <div>
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
-                    Third Party
-                  </p>
-
+                  <p style={{ fontWeight: "bold" }}> Third Party</p>
                   <p
                     style={{
                       wordWrap: "break-word",
@@ -207,7 +188,7 @@ const AddRole = (props: any) => {
         <Col span={8}>
           {!isAdded && (
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={onFinish}>
+              <Button type="primary" htmlType="submit">
                 Add role
               </Button>
             </Form.Item>
@@ -221,13 +202,15 @@ const AddRole = (props: any) => {
           )}
           {!isDeleteAllowed && (
             <Form.Item style={{ width: "100px" }}>
-              <Button onClick={onFinish}>
+              <Button onClick={handleDeleteRoleFromApi}>
                 <DeleteFilled style={{ color: "red" }} />
               </Button>
             </Form.Item>
           )}
         </Col>
       </Row>
+      {currentError && <Text type="danger">{currentError}</Text>}
+      {error && <Text type="danger">{error}</Text>}
     </Form>
   );
 };

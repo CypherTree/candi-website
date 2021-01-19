@@ -9,6 +9,8 @@ import { PassDataToModal } from "../../core/redux/app/actions";
 const OrganizationItem = (props: any) => {
   const dispatch = useDispatch();
 
+  console.log(" data in organisation item -->", props);
+
   const { data, handleOpen } = props;
 
   let progress: number = 20;

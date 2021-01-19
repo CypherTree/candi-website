@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Layout from "antd/lib/layout/layout";
-import { Button, Form, Input, Row, Col, Typography, Checkbox } from "antd";
+import { Button, Form, Input, Row, Col, Checkbox } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
@@ -14,7 +14,6 @@ import {
   AddCompanyDetailsToOrganization,
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
-import { formatMs } from "@material-ui/core";
 
 function CompanyDetails(props: any) {
   console.log("--- ALL PROPS -- ", props);
@@ -41,7 +40,6 @@ function CompanyDetails(props: any) {
     if (props.state.app.currentOrganization) {
       setOrganisationId(props.state.app.currentOrganization.id);
       setWebsite(props.state.app.currentOrganization.website);
-
       setName(props.state.app.currentOrganization.name);
 
       if (props.state.app.currentOrganization.country !== "") {
@@ -51,7 +49,12 @@ function CompanyDetails(props: any) {
         setCity(props.state.app.currentOrganization.city);
         setPincode(props.state.app.currentOrganization.pincode);
         setAddress(props.state.app.currentOrganization.address);
-        setBillingAddress(props.state.app.currentOrganization.billing_address);
+
+        setBillingAddress(
+          props.state.app.currentOrganization.billing_address !== ""
+            ? props.state.app.currentOrganization.billing_address
+            : props.state.app.currentOrganization.address
+        );
         setEmail(props.state.app.currentOrganization.email);
         setLogo(props.state.app.currentOrganization.logo);
       }
@@ -90,11 +93,8 @@ function CompanyDetails(props: any) {
 
     if (billingAddressSame) {
       setBillingAddress(address);
-
-      console.log("setting billing address same ");
     } else {
       setBillingAddress("");
-      console.log("setting billing address empty ");
     }
   };
 
@@ -124,13 +124,19 @@ function CompanyDetails(props: any) {
           `${addr.flno} , \n ${addr.bnm} , \n ${addr.bno} , \n ${addr.loc} , \n ${addr.st}`
         );
         setIsGSTVerified(true);
+
+        if (billingAddressSame) {
+          setBillingAddress(
+            `${addr.flno} , \n ${addr.bnm} , \n ${addr.bno} , \n ${addr.loc} , \n ${addr.st}`
+          );
+        }
       })
       .catch((err) => console.log("--- erro", err.message));
   };
 
   const handleFormSubmit = () => {
     const putData = {
-      // gst: gstNumber,
+      gst: gstNumber,
       email,
       address,
       country,
@@ -221,7 +227,7 @@ function CompanyDetails(props: any) {
               // }}
             >
               <Form.Item
-                name="gstNumber"
+                // name="gstNumber"
                 rules={[
                   {
                     required: true,
@@ -235,6 +241,7 @@ function CompanyDetails(props: any) {
                     setGstNumber(e.target.value);
                     clearEverything();
                   }}
+                  value={gstNumber}
                   style={{ width: "250px" }}
                 />
                 <Button
@@ -382,7 +389,6 @@ function CompanyDetails(props: any) {
 
             <Col span={12}>
               <Form.Item
-                name="billingAddress"
                 rules={[
                   {
                     required: true,

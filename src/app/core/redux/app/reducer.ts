@@ -1,11 +1,13 @@
 import { Types } from "./types";
 
 interface DefaultStateI {
+  currentOrganization: {};
   isLoading: boolean;
 }
 
 const defaultState: DefaultStateI = {
   isLoading: false,
+  currentOrganization: {},
 };
 
 const {
@@ -17,6 +19,7 @@ const {
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
   SET_CURRENT_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
+  CLEAR_CURRENT_ORGANISATION,
 } = Types;
 
 export const appReducer: any = (
@@ -42,6 +45,11 @@ export const appReducer: any = (
       return { ...state, ...payload };
     case ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION: {
       return { ...state, ...payload };
+    }
+    case CLEAR_CURRENT_ORGANISATION: {
+      const newState = state;
+      state.currentOrganization = {};
+      return newState;
     }
     default:
       return state;

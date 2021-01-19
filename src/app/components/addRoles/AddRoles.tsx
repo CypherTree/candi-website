@@ -1,21 +1,15 @@
 import React, { useState } from "react";
 
+import { Button, Layout } from "antd";
+import Title from "antd/lib/typography/Title";
+
 import Axios from "axios";
 import { connect } from "react-redux";
 
 import AddRole from "./AddRole";
-import { Button, Layout } from "antd";
-import Title from "antd/lib/typography/Title";
-
-// 1 = ADMIN
-// 2 = MANAGER
-// 3 = EDITOR
-// 4 = CLIENT
-// 5 = VIEWER
-// 6 = THIRD PARTY
 
 const AddRoles = (props: any) => {
-  const tenant = "cyphertree";
+  const tenant = "zoom";
 
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
   const { handleNext, handleBack } = props;
@@ -39,8 +33,21 @@ const AddRoles = (props: any) => {
 
   const [reloadRequired, setReloadRequired] = useState<boolean>(false);
 
+  const [error, setError] = useState("");
+
   const addRole = (name: string, type: number) => {
-    setRoles([...roles, { name, type }]);
+    console.log(" values in add role --> ", name, type);
+
+    // check if role with name already exists
+
+    const data = roles.filter((role) => role.name === name);
+
+    if (data.length > 0) {
+      setError("Role with this name already exists.");
+    } else {
+      setError("");
+      setRoles([...roles, { name, type }]);
+    }
   };
 
   const removeRole = (index: number) => {
@@ -175,8 +182,6 @@ const AddRoles = (props: any) => {
             fontWeight: "bold",
             marginTop: "20px",
             paddingLeft: "200px",
-            // width: "auto",
-            // textAlign: "center",
           }}
         >
           Add Roles to Organization
@@ -204,6 +209,8 @@ const AddRoles = (props: any) => {
                 removeRole={removeRole}
                 index={index}
                 deleteRoleFromAPI={deleteRoleFromAPI}
+                error={error}
+                setError={setError}
               />
               <br />
             </div>

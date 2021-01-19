@@ -24,9 +24,10 @@
     "@types/react-router-dom": "^5.1.6",
     "ant-design-pro": "^2.3.2",
     "antd": "^4.10.0",
-    "axios": "^0.20.0",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "formik": "^2.2.1",
+    "formik-antd": "^2.0.1",
     "install": "^0.13.0",
     "npm": "^6.14.8",
     "react": "^17.0.1",
@@ -43,7 +44,8 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "sortablejs": "^1.6.1",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "yup": "^0.32.8"
   },
   "scripts": {
     "start": "react-scripts start",

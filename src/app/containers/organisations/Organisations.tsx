@@ -49,9 +49,9 @@ const Organisations = (props: any) => {
           <div>
             <p
               style={{
-                fontSize: "24px",
+                fontSize: "26px",
                 fontWeight: "bold",
-                fontFamily: "Helvetica",
+                // fontFamily: "Helvetica",
                 color: "#696969	",
                 width: "auto",
                 margin: "10px 20px 5px 0 ",

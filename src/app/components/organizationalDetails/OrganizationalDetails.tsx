@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 
-import Layout from "antd/lib/layout/layout";
-import { Button, Form, Input, Typography } from "antd";
-import Title from "antd/lib/typography/Title";
+import { Typography, Input, Form, Button } from "antd";
 import { CheckCircleFilled, CloseCircleFilled } from "@ant-design/icons";
+import Layout from "antd/lib/layout/layout";
+import Title from "antd/lib/typography/Title";
 
 import { useDispatch } from "react-redux";
 import { connect } from "react-redux";
@@ -12,11 +12,10 @@ import {
   CheckDomainName,
   SetOrganisationalDetails,
 } from "../../core/redux/app/actions";
-import { Height } from "@material-ui/icons";
 
 const { Text } = Typography;
 
-function OrganizationalDetails(props: any) {
+const OrganizationalDetails = (props: any) => {
   const dispatch = useDispatch();
   // const { register, handleSubmit } = useForm();
   // const onSubmit = (data: any) => console.log(data);
@@ -26,20 +25,11 @@ function OrganizationalDetails(props: any) {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const {
-    handleNext,
-    //   domain,
-    //   setDomain,
-    //   // organisationWebsite,
-    //   // setOrganisationWebsite,
-    //   // organisationName,
-    //   // setOrganisationName,
-    currentOrganization,
-  } = props;
+  const { handleNext, currentOrganization } = props;
 
   console.log("props in ogr details ", props);
 
-  console.log("props in ogr details --> current org", currentOrganization);
+  console.log("props in org details --> current org", currentOrganization);
 
   let fieldsDisabled = false;
 
@@ -115,14 +105,25 @@ function OrganizationalDetails(props: any) {
     console.log("Failed:", errorInfo);
   };
 
+  useEffect(() => {}, [organisationName]);
+
   return (
     <Form
       name="basic"
-      initialValues={{ remember: true }}
+      initialValues={{
+        organisationName: props.state.app.currentOrganization.name
+          ? props.state.app.currentOrganization.name
+          : currentOrganization.name,
+        organisationWebsite: props.state.app.currentOrganization.website
+          ? props.state.app.currentOrganization.website
+          : currentOrganization.website,
+        domain: props.state.app.currentOrganization.slug
+          ? props.state.app.currentOrganization.slug
+          : currentOrganization.domain,
+      }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
     >
-      {" "}
       <Layout
         style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}
       >
@@ -150,48 +151,42 @@ function OrganizationalDetails(props: any) {
           </Title>
 
           <Form.Item
-            // name="Organisation Name"
             rules={[
               {
                 required: true,
                 message: "Please input your Organisation Name!",
               },
             ]}
-            // extra="Name of your organisation will come here"
-            // hasFeedback={true}
-            // valuePropName={organisationName}
-            // initialValue={organisationName}
-            // name="organisationName"
+            name="organisationName"
           >
             <Input
               onChange={(e) => setOrganisationName(e.target.value)}
               disabled={isSubmitted}
               placeholder="Organisation Name"
-              value={organisationName !== "" ? organisationName : ""}
             />
           </Form.Item>
 
           <Form.Item
-            // name="Website"
+            name="organisationWebsite"
             rules={[{ required: true, message: "Please input your Website!" }]}
+            extra="example: google.com"
           >
             <Input
               onChange={(e) => setOrganisationWebsite(e.target.value)}
               disabled={isSubmitted}
               placeholder="Website"
-              value={organisationWebsite}
+              // value={organisationWebsite}
             />
           </Form.Item>
 
           <Form.Item
-            // name="domain"
+            name="domain"
             rules={[{ required: true, message: "Please input your domain!" }]}
           >
             <Input
               onChange={(e) => setDomain(e.target.value)}
               disabled={isSubmitted}
               placeholder="Domain"
-              value={domain}
             />
           </Form.Item>
           <Form.Item style={{ marginBottom: "0px" }}>
@@ -217,7 +212,6 @@ function OrganizationalDetails(props: any) {
             )}
           </Form.Item>
         </div>
-
         <div
           style={{
             display: "flex",
@@ -237,13 +231,7 @@ function OrganizationalDetails(props: any) {
       </Layout>
     </Form>
   );
-}
-
-// style={{
-//   display: "flex",
-//   justifyContent: "center",
-//   paddingTop: "10px",
-// }}
+};
 
 const mapStateToProps = (state: any) => {
   return {
@@ -252,3 +240,60 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(OrganizationalDetails);
+
+// <Formik
+//   initialValues={{
+//     email: "",
+//     password: "",
+//     organisationName: organisationName,
+//   }}
+//   validate={(values) => {
+//     const errors = { email: "" };
+//     if (!values.email) {
+//       errors.email = "Required";
+//     } else if (
+//       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+//     ) {
+//       errors.email = "Invalid email address";
+//     }
+//     return errors;
+//   }}
+//   onSubmit={(values, { setSubmitting }) => {
+//     setTimeout(() => {
+//       alert(JSON.stringify(values, null, 2));
+//       setSubmitting(false);
+//     }, 400);
+//   }}
+// >
+//   {({
+//     values,
+//     errors,
+//     touched,
+//     handleChange,
+//     handleBlur,
+//     handleSubmit,
+//     isSubmitting,
+//     /* and other goodies */
+//   }) => (
+//     <form onSubmit={handleSubmit}>
+//       <Input
+//         onChange={(e) => setOrganisationName(e.target.value)}
+//         disabled={isSubmitted}
+//         placeholder="Organisation Name"
+//         value={values.organisationName}
+//       />
+//       {errors.email && touched.email && errors.email}
+//       <input
+//         type="password"
+//         name="password"
+//         onChange={handleChange}
+//         onBlur={handleBlur}
+//         value={values.password}
+//       />
+//       {errors.password && touched.password && errors.password}
+//       <button type="submit" disabled={isSubmitting}>
+//         Submit
+//       </button>
+//     </form>
+//   )}
+// </Formik>

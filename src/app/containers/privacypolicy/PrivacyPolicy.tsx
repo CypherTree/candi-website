@@ -67,7 +67,7 @@ const PrivacyPolicy = () => {
               {disabled ? (
                 <div
                   style={{
-                    backgroundColor: "red",
+                    // backgroundColor: "red",
                     height: "500px",
                     padding: "10px",
                     margin: "10px",

@@ -9,12 +9,10 @@ const SortableList = (props: any) => {
   const {
     state,
     setState,
-    selectedStep,
     setSelectedStep,
     setIsAddStepFormOpen,
     isAddStepFormOpen,
-    closeAddStepForm,
-    setDidOrderChange,
+    // setDidOrderChange,
   } = props;
 
   const handleEdit = (data: any) => {
@@ -25,10 +23,10 @@ const SortableList = (props: any) => {
     setSelectedStep(data);
   };
 
-  const handleStateListChange = () => {
-    console.log("handle state list change was called ----->");
-    setDidOrderChange(true);
-  };
+  // const handleStateListChange = () => {
+  //   console.log("handle state list change was called ----->");
+  //   setDidOrderChange(true);
+  // };
 
   return (
     <div>

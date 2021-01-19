@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Modal, Layout } from "antd";
 
@@ -10,7 +10,7 @@ const NewOrganizationModal = (props: any) => {
 
   const { isLoading } = props.props.state.app;
 
-  const { handleOpen, handleClose, open, setOpen } = props;
+  const { handleClose, open } = props;
 
   console.log("Loading...", isLoading);
 
@@ -26,6 +26,8 @@ const NewOrganizationModal = (props: any) => {
     domain: null,
     selectedPlan: null,
   });
+
+  useEffect(() => {}, [currentOrganization]);
 
   return (
     <Modal

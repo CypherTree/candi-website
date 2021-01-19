@@ -8,6 +8,7 @@ export enum Types {
   SET_PLAN_TO_ORGANISATION = "SET_PLAN_TO_ORGANISATION",
   ADD_COMPANY_DETAILS_TO_ORGANISATION = "ADD_COMPANY_DETAILS_TO_ORGANISATION",
   ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION = "ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION",
+  CLEAR_CURRENT_ORGANISATION = "CLEAR_CURRENT_ORGANISATION",
 }
 
 export interface SetLoadingPayload {
@@ -83,6 +84,11 @@ export interface AddCompanyDetailsToCurrentOrganization {
   };
 }
 
+export interface ClearCurrentOrganisation {
+  type: typeof Types.CLEAR_CURRENT_ORGANISATION;
+  payload: {};
+}
+
 export type AppDispatchTypes =
   | SetLoadingPayload
   | SetAuthenticated
@@ -91,4 +97,5 @@ export type AppDispatchTypes =
   | NewOrganisationCreate
   | AddCompanyDetailsToOrganisation
   | SetCurrentOrganization
-  | AddCompanyDetailsToCurrentOrganization;
+  | AddCompanyDetailsToCurrentOrganization
+  | ClearCurrentOrganisation;

@@ -12,6 +12,7 @@ const {
   ADD_COMPANY_DETAILS_TO_ORGANISATION,
   SET_CURRENT_ORGANISATION,
   ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
+  CLEAR_CURRENT_ORGANISATION,
 } = Types;
 
 export const SetAuthenticated = () => async (
@@ -77,7 +78,7 @@ export const SetOrganisationalDetails = (
     name: organisationName,
     website: `http://www.${organisationWebsite}`,
     schema_name: domain,
-    domain_url: `http://www.${domain}.thetobbers-staging.ml`,
+    domain_url: `${domain}.thetobbers-staging.ml`,
   };
 
   axios
@@ -231,4 +232,12 @@ export const AddCompanyDetailsToCurrentOrganization = (data: any) => (
       currentOrganization: data,
     },
   });
+};
+
+export const ClearCurrentOrganisation = (clear: boolean) => async (
+  dispatch: Dispatch<AppDispatchTypes>
+) => {
+  console.log(" ------- clear current org was called ------- ");
+
+  dispatch({ type: CLEAR_CURRENT_ORGANISATION, payload: {} });
 };
