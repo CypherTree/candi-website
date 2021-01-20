@@ -109,6 +109,19 @@ export const SetOrganisationalDetails = (
           },
         },
       });
+
+      dispatch({
+        type: SET_CURRENT_ORGANISATION,
+        payload: {
+          currentOrganization: {
+            id: data.id,
+            slug: data.slug,
+            name: data.name,
+            website: data.website,
+            message: response.data.message,
+          },
+        },
+      });
     })
     .then(() => {
       handleNext();

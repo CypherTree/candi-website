@@ -41,10 +41,18 @@ export const appReducer: any = (
       return { ...state, ...payload };
     case SET_PLAN_TO_ORGANISATION:
       return { ...state, ...payload };
-    case ADD_COMPANY_DETAILS_TO_ORGANISATION:
-      return { ...state, ...payload };
+    case ADD_COMPANY_DETAILS_TO_ORGANISATION: {
+      const { currentOrganization } = state;
+      Object.assign(payload, currentOrganization);
+
+      return { ...state, ...currentOrganization };
+    }
     case ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION: {
-      return { ...state, ...payload };
+      const { currentOrganization } = state;
+
+      Object.assign(payload, currentOrganization);
+
+      return { ...state, ...currentOrganization };
     }
     case CLEAR_CURRENT_ORGANISATION: {
       const newState = state;

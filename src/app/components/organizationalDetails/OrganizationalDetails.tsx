@@ -17,8 +17,7 @@ const { Text } = Typography;
 
 const OrganizationalDetails = (props: any) => {
   const dispatch = useDispatch();
-  // const { register, handleSubmit } = useForm();
-  // const onSubmit = (data: any) => console.log(data);
+
   const [domain, setDomain] = useState("");
   const [organisationName, setOrganisationName] = useState("");
   const [organisationWebsite, setOrganisationWebsite] = useState("");
@@ -27,7 +26,7 @@ const OrganizationalDetails = (props: any) => {
 
   const { handleNext, currentOrganization, loading, setLoading } = props;
 
-  console.log("props in ogr details ", props);
+  console.log("props in org details --> ", props);
 
   console.log("props in org details --> current org", currentOrganization);
 
@@ -52,8 +51,6 @@ const OrganizationalDetails = (props: any) => {
         )
       );
     }
-
-    // handleNext();
   };
 
   useEffect(() => {
@@ -99,12 +96,7 @@ const OrganizationalDetails = (props: any) => {
   };
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     handleNewSubmit();
-  };
-
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
   };
 
   useEffect(() => {}, [organisationName]);
@@ -140,7 +132,6 @@ const OrganizationalDetails = (props: any) => {
             : currentOrganization.domain,
         }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
       >
         <Layout
           style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}
@@ -263,60 +254,3 @@ const mapStateToProps = (state: any) => {
 };
 
 export default connect(mapStateToProps)(OrganizationalDetails);
-
-// <Formik
-//   initialValues={{
-//     email: "",
-//     password: "",
-//     organisationName: organisationName,
-//   }}
-//   validate={(values) => {
-//     const errors = { email: "" };
-//     if (!values.email) {
-//       errors.email = "Required";
-//     } else if (
-//       !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-//     ) {
-//       errors.email = "Invalid email address";
-//     }
-//     return errors;
-//   }}
-//   onSubmit={(values, { setSubmitting }) => {
-//     setTimeout(() => {
-//       alert(JSON.stringify(values, null, 2));
-//       setSubmitting(false);
-//     }, 400);
-//   }}
-// >
-//   {({
-//     values,
-//     errors,
-//     touched,
-//     handleChange,
-//     handleBlur,
-//     handleSubmit,
-//     isSubmitting,
-//     /* and other goodies */
-//   }) => (
-//     <form onSubmit={handleSubmit}>
-//       <Input
-//         onChange={(e) => setOrganisationName(e.target.value)}
-//         disabled={isSubmitted}
-//         placeholder="Organisation Name"
-//         value={values.organisationName}
-//       />
-//       {errors.email && touched.email && errors.email}
-//       <input
-//         type="password"
-//         name="password"
-//         onChange={handleChange}
-//         onBlur={handleBlur}
-//         value={values.password}
-//       />
-//       {errors.password && touched.password && errors.password}
-//       <button type="submit" disabled={isSubmitting}>
-//         Submit
-//       </button>
-//     </form>
-//   )}
-// </Formik>
