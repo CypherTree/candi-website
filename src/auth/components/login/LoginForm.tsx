@@ -1,41 +1,32 @@
 import React, { useState } from "react";
-import {
-  Card,
-  CardHeader,
-  CardContent,
-  TextField,
-  CardActions,
-  Button,
-  Typography,
-  Checkbox,
-  InputAdornment,
-  IconButton,
-} from "@material-ui/core";
+
+import { Button, Card, Checkbox, Input, Typography, Form, Divider } from "antd";
+import { UserOutlined, LockOutlined } from "@ant-design/icons";
 
 import { Link } from "react-router-dom";
-
 import { connect } from "react-redux";
-
 import { ThunkDispatch } from "redux-thunk";
-
 import { AnyAction } from "redux";
 
-import { Visibility, VisibilityOff } from "@material-ui/icons";
-
 import { LoginUser } from "../../core/redux/actions";
-
 import { StateType } from "../../../app/core/redux/types";
+import Title from "antd/lib/typography/Title";
+
+const { Text } = Typography;
 
 type Props = {
   loginUser: (username: string, password: string, rememberMe: boolean) => void;
   auth: any;
 };
 
+const tailLayout = {
+  wrapperCol: { offset: 4, span: 16 },
+};
+
 const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
-  const [showPassword, setShowPassword] = useState(false);
 
   const error = auth.error ? auth.error : null;
 
@@ -43,77 +34,85 @@ const LoginForm: React.FC<Props> = ({ loginUser, auth }) => {
     loginUser(username, password, rememberMe);
   };
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
+  const onFinish = (values: any) => {
+    handleFormSubmit();
   };
 
   return (
-    <div>
-      <Card style={{ backgroundColor: "whitesmoke", height: "500px" }}>
-        <CardHeader title="Login" />
-        <CardContent>
-          <div>
-            <TextField
-              fullWidth
-              id="username"
-              type="email"
-              label="Email"
+    <Card
+      title={<Title level={4}>Login</Title>}
+      style={{ paddingBottom: "0px" }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "20px",
+          paddingBottom: "0px",
+        }}
+      >
+        <Form
+          name="normal_login"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
+          style={{
+            width: "500px",
+            paddingBottom: "0px",
+          }}
+        >
+          <Form.Item
+            name="email"
+            rules={[{ required: true, message: "Please input your Email!" }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
               placeholder="Email"
-              margin="normal"
-              value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
-            <TextField
-              fullWidth
-              id="password"
-              type={showPassword ? "text" : "password"}
-              label="Password"
-              placeholder="Password"
-              margin="normal"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      // onMouseDown={handleMouseDownPassword}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-            />
-            <Checkbox
-              checked={rememberMe}
-              onChange={() => setRememberMe(!rememberMe)}
-              name="remember"
-              color="primary"
-            />{" "}
-            Remember Me - Stay logged in
-          </div>
-          {error !== null && <Typography color="error">{error}</Typography>}
-        </CardContent>
-        <CardActions style={{ justifyContent: "center" }}>
-          <Button
-            variant="contained"
-            size="large"
-            color="primary"
-            onClick={handleFormSubmit}
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: true, message: "Please input your Password!" }]}
           >
-            Login
-          </Button>
-          <Link to="/forgot-password">Forgot Password? </Link>
-        </CardActions>
-        <CardContent>
-          <div>
-            Not a member? <Link to="/register">Sign Up</Link>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+            <Input.Password
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </Form.Item>
+          {error !== null && (
+            <Form.Item {...tailLayout} name="remember" valuePropName="checked">
+              <Text type="danger">{error}</Text>
+            </Form.Item>
+          )}
+
+          <Form.Item>
+            <Form.Item name="remember" valuePropName="checked" noStyle>
+              <Checkbox onChange={(e) => setRememberMe(e.target.value)}>
+                Keep me logged in
+              </Checkbox>
+            </Form.Item>
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+            >
+              Log in
+            </Button>{" "}
+            <Link to="/forgot-password">Forgot Password? </Link>
+          </Form.Item>
+          <Divider />
+          <Form.Item style={{ marginBottom: "0px" }}>
+            Not a Member? <Link to="/register">Sign Up</Link>
+          </Form.Item>
+        </Form>
+      </div>
+    </Card>
   );
 };
 

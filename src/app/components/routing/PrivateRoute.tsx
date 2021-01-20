@@ -4,21 +4,33 @@ import { connect } from "react-redux";
 import { Route, Redirect } from "react-router-dom";
 
 const PrivateRoute = (props: any) => {
-  const { ...rest } = props;
+  const { component: Component, ...rest } = props;
+
+  const { isAuthenticated } = props.state.auth;
+  let privacyPolicyAccepted = false;
+
+  if (
+    props.state.auth &&
+    props.state.auth.userData &&
+    props.state.auth.userData.privacy_policy_accepted
+  ) {
+    privacyPolicyAccepted = true;
+  } else {
+    privacyPolicyAccepted = false;
+  }
 
   return (
     <Route
       {...rest}
-      render={(props: any) => {
-        const { component: Component } = props;
-        const { isAuthenticated } = props.state.auth;
-
-        return !isAuthenticated ? (
+      render={(props) =>
+        !isAuthenticated ? (
           <Redirect to="/login" />
+        ) : privacyPolicyAccepted ? (
+          <Component {...props} />
         ) : (
           <Component {...props} />
-        );
-      }}
+        )
+      }
     />
   );
 };
