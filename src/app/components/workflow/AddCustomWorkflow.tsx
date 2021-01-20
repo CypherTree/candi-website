@@ -34,7 +34,7 @@ const AddCustomWorkflow = (props: any) => {
 
   const [didOrderChange, setDidOrderChange] = useState(false);
 
-  const { handleCancelModal } = props;
+  const { handleCancelModal, handleNext } = props;
 
   const closeAddStepForm = () => {
     setIsAddStepFormOpen(false);
@@ -46,8 +46,7 @@ const AddCustomWorkflow = (props: any) => {
     setIsAddStepFormOpen(true);
   };
 
-  const tenant = "zoom";
-  // const tenant = "thor";
+  const tenant = "cyphertree";
 
   const workflow_id = props.workflowId;
 
@@ -127,7 +126,6 @@ const AddCustomWorkflow = (props: any) => {
         justifyContent: "center",
         alignItems: "center",
         display: "flex",
-        // flexDirection: "column",
         backgroundColor: "#fff",
         width: "100%",
       }}
@@ -147,7 +145,6 @@ const AddCustomWorkflow = (props: any) => {
             width: "auto",
             margin: "10px 0px 10px 0px ",
             padding: "0px 0px 0px 150px",
-            // textAlign: "center",
           }}
         >
           Add Custom workflow page
@@ -168,9 +165,7 @@ const AddCustomWorkflow = (props: any) => {
         <br />
         <div
           style={{
-            // textAlign: "center",
             paddingLeft: "250px",
-            // alignItems: "right",
           }}
         >
           <Button onClick={handleAddNewStep}>Add new Step</Button>
@@ -193,7 +188,7 @@ const AddCustomWorkflow = (props: any) => {
         style={{ display: "flex", alignContent: "center", paddingTop: "10px" }}
       >
         <span style={{ paddingRight: "10px" }}>
-          <Button type="primary" onClick={() => handleCancelModal()}>
+          <Button type="primary" onClick={() => handleNext()}>
             Finish
           </Button>
         </span>

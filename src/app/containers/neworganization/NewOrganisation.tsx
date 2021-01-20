@@ -14,6 +14,7 @@ import Plans from "./Plans";
 
 import { StateType } from "../../../app/core/redux/types";
 import { ClearCurrentOrganisation } from "../../core/redux/app/actions";
+import FinalStepModal from "./FinalStepModal";
 
 const { Step } = Steps;
 
@@ -33,7 +34,9 @@ function getStepContent(
   setActiveStep: any,
   handleBack: any,
   currentOrganization: any,
-  handleCancelModal: any
+  handleCancelModal: any,
+  loading: any,
+  setLoading: any
 ) {
   switch (step) {
     case 0:
@@ -41,6 +44,8 @@ function getStepContent(
         <OrganizationalDetails
           handleNext={handleNext}
           currentOrganization={currentOrganization}
+          loading={loading}
+          setLoading={setLoading}
         />
       );
     case 1:
@@ -49,20 +54,40 @@ function getStepContent(
           handleNext={handleNext}
           handleBack={handleBack}
           currentOrganization={currentOrganization}
+          loading={loading}
+          setLoading={setLoading}
         />
       );
     case 2:
-      return <CompanyDetails handleNext={handleNext} handleBack={handleBack} />;
+      return (
+        <CompanyDetails
+          handleNext={handleNext}
+          handleBack={handleBack}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      );
     case 3:
-      return <AddRoles handleNext={handleNext} handleBack={handleBack} />;
+      return (
+        <AddRoles
+          handleNext={handleNext}
+          handleBack={handleBack}
+          loading={loading}
+          setLoading={setLoading}
+        />
+      );
     case 4:
       return (
         <AddWorkflow
           handleNext={handleNext}
           handleBack={handleBack}
           handleCancelModal={handleCancelModal}
+          loading={loading}
+          setLoading={setLoading}
         />
       );
+    case 5:
+      return <FinalStepModal handleCancelModal={handleCancelModal} />;
 
     default:
       return "Unknown step";
@@ -74,7 +99,9 @@ const NewOrganisation = (props: any) => {
 
   const { handleClose, currentOrganization, clearCurrentOrganisation } = props;
 
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const [activeStep, setActiveStep] = useState(0);
 
   const steps = getSteps();
 
@@ -172,7 +199,7 @@ const NewOrganisation = (props: any) => {
         </div>
 
         <div>
-          {activeStep === steps.length ? (
+          {activeStep === steps.length + 1 ? (
             <div>
               All steps completed - you're finished
               <Button onClick={handleReset}>Reset</Button>
@@ -185,7 +212,9 @@ const NewOrganisation = (props: any) => {
                 getStepContent,
                 handleBack,
                 currentOrganization,
-                handleCancelModal
+                handleCancelModal,
+                loading,
+                setLoading
               )}
             </div>
           )}

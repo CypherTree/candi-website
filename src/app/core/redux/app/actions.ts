@@ -63,7 +63,8 @@ export const SetOrganisationalDetails = (
   organisationName: string,
   organisationWebsite: string,
   domain: string,
-  handleNext: Function
+  handleNext: Function,
+  setLoading: Function
 ) => (dispatch: any) => {
   dispatch({
     type: SET_LOADING,
@@ -109,7 +110,10 @@ export const SetOrganisationalDetails = (
         },
       });
     })
-    .then(() => handleNext())
+    .then(() => {
+      handleNext();
+      setLoading(false);
+    })
     .catch((err) => console.log("Err", err));
 
   dispatch({
@@ -160,7 +164,8 @@ export const PassDataToModal = (
 export const AssignPlanToOrganisation = (
   organization_id: number,
   plan_id: number,
-  period_type: number
+  period_type: number,
+  setLoading: Function
 ) => (dispatch: any) => {
   const accessToken = localStorage.getItem("accessToken");
   const jwtToken = `Bearer ${accessToken}`;
@@ -189,17 +194,23 @@ export const AssignPlanToOrganisation = (
         },
       });
     })
+    .then(() => {
+      setLoading(false);
+    })
     .catch((err) => console.log("Err", err));
 };
 
 export const AddCompanyDetailsToOrganization = (
   data: any,
-  organization_id: number
+  organization_id: number,
+  setLoading: Function
 ) => (dispatch: any) => {
   const accessToken = localStorage.getItem("accessToken");
   const jwtToken = `Bearer ${accessToken}`;
 
   const newData = data;
+
+  setLoading(true);
 
   axios
     .put(
@@ -220,6 +231,7 @@ export const AddCompanyDetailsToOrganization = (
         },
       });
     })
+    .then(() => setLoading(false))
     .catch((err) => console.log("Err", err));
 };
 

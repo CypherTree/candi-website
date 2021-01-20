@@ -1,9 +1,21 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, Checkbox, Col, Form, Input, Layout, Row, Select } from "antd";
+import {
+  Button,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Layout,
+  Row,
+  Select,
+  Typography,
+} from "antd";
+import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
-import Title from "antd/lib/typography/Title";
+
+const { Text } = Typography;
 
 const { Option } = Select;
 
@@ -13,12 +25,14 @@ const AddStepForm = (props: any) => {
   const [checkVideoEnabled, setCheckVideoEnabled] = useState(true);
 
   const [stepName, setStepName] = useState("");
-
   const [stepDescription, setStepDescription] = useState("");
 
+  const [formTypeValue, setFormTypeValue] = useState("Default form");
+  const [stepTypeValue, setStepTypeValue] = useState("In Progress");
+
+  const [currentError, setCurrentError] = useState("");
+
   const {
-    // open,
-    // setOpen,
     setIsAddStepFormOpen,
     steps,
     setDataReload,
@@ -26,48 +40,44 @@ const AddStepForm = (props: any) => {
     workflowId,
   } = props;
 
-  const [formType, setFormType] = useState(1);
-
-  const [categoryType, setCategoryType] = useState(1);
-
   const [editMode, setEditMode] = useState(false);
 
-  const handleFormTypeChange = (value: any) => {
-    setFormType(value);
+  const handleFormTypeValueChange = (value: any) => {
+    setFormTypeValue(value);
   };
 
-  const handleCategoryTypeChange = (value: any) => {
-    setCategoryType(value);
+  const handleStepTypeValueChange = (value: any) => {
+    setStepTypeValue(value);
   };
 
   const tenant = "cyphertree";
-  // const tenant = "thor";
-  // const workflow_id = 2;
 
   const handleFormSubmit = () => {
-    if (editMode) {
-      const data = {
-        name: stepName,
-        description: stepDescription,
-        video_enabled: checkVideoEnabled,
-      };
-
-      console.log("data submitted for step update----->", data);
-
-      updateStepsApi(data);
+    if (stepName === "") {
+      setCurrentError("Step must have a name");
     } else {
-      const data = {
-        name: stepName,
-        description: stepDescription,
-        category: categoryType,
-        video_enabled: checkVideoEnabled,
-        workflow: workflowId,
-        order: steps.length,
-      };
+      if (editMode) {
+        const data = {
+          name: stepName,
+          description: stepDescription,
+          video_enabled: checkVideoEnabled,
+        };
 
-      console.log("data submitted----->", data);
+        console.log("data submitted for step update----->", data);
 
-      createStepApi(data);
+        updateStepsApi(data);
+      } else {
+        const data = {
+          name: stepName,
+          description: stepDescription,
+          category: stepTypeValue === "In Progress" ? 0 : 1,
+          video_enabled: checkVideoEnabled,
+          workflow: workflowId,
+          order: steps.length,
+        };
+
+        createStepApi(data);
+      }
     }
   };
 
@@ -125,8 +135,13 @@ const AddStepForm = (props: any) => {
 
       setStepDescription(selectedStep.description);
       setStepName(selectedStep.name);
-      setFormType(selectedStep.step_type);
       setCheckVideoEnabled(selectedStep.video_enabled);
+
+      if (selectedStep.step_type === 1) {
+        setFormTypeValue("Default form");
+      } else {
+        setFormTypeValue("No form");
+      }
     }
 
     if (selectedStep === null) {
@@ -134,7 +149,6 @@ const AddStepForm = (props: any) => {
 
       setStepDescription("");
       setStepName("");
-      setFormType(1);
       setCheckVideoEnabled(true);
     }
   }, [selectedStep]);
@@ -146,26 +160,17 @@ const AddStepForm = (props: any) => {
         borderRadius: 10,
         justifyContent: "center",
         padding: "20px",
-        // textAlign: "center",
-        // alignItems: "center",
         width: "600px",
       }}
     >
       <Title level={5} style={{ textAlign: "center", paddingBottom: "10px" }}>
-        {" "}
         Add/Edit Step
       </Title>
 
-      <Form
-        name="basic"
-        initialValues={{ remember: true }}
-        // onFinish={onFinish}
-        // onFinishFailed={onFinishFailed}
-      >
+      <Form name="basic" initialValues={{ remember: true }}>
         <Row gutter={8}>
           <Col span={12}>
             <Form.Item
-              // name="gstNumber"
               rules={[
                 {
                   required: true,
@@ -183,7 +188,6 @@ const AddStepForm = (props: any) => {
           </Col>
           <Col span={12}>
             <Form.Item
-              // name="gstNumber"
               rules={[
                 {
                   required: true,
@@ -204,17 +208,15 @@ const AddStepForm = (props: any) => {
           <Col span={12}>
             <Select
               style={{ width: "250px" }}
-              placeholder="Select Organisation"
+              placeholder="Form Type"
               disabled={!isDeleteAllowed}
-              value={formType}
-              onChange={handleFormTypeChange}
-              // defaultValue={type ? type : ""}
-              // onClose={() => setOpen(false)}
+              value={formTypeValue}
+              onChange={handleFormTypeValueChange}
             >
-              <Option value="1">
+              <Option value="Default form">
                 <div> Default Form</div>
               </Option>
-              <Option value="2">
+              <Option value="No form">
                 <div> No Form</div>
               </Option>
             </Select>
@@ -222,13 +224,10 @@ const AddStepForm = (props: any) => {
           <Col span={12}>
             <Select
               style={{ width: "250px" }}
-              placeholder="Select Organisation"
+              placeholder="Step category"
               disabled={!isDeleteAllowed}
-              value={categoryType}
-              onChange={handleCategoryTypeChange}
-              // defaultValue={type ? type : ""}
-              // onOpen={() => setOpen(true)}
-              // onClose={() => setOpen(false)}
+              value={stepTypeValue}
+              onChange={handleStepTypeValueChange}
             >
               <Option value="In-Progress">
                 <div
@@ -237,7 +236,6 @@ const AddStepForm = (props: any) => {
                   }}
                 >
                   <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    {" "}
                     In Progress
                   </p>
 
@@ -289,6 +287,7 @@ const AddStepForm = (props: any) => {
             </Checkbox>
           </Col>
         </Row>
+        {currentError && <Text type="danger">{currentError}</Text>}
 
         <div
           style={{

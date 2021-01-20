@@ -7,17 +7,26 @@ import { connect } from "react-redux";
 import AddCustomWorkflow from "./AddCustomWorkflow";
 import WorkflowAlreadyAdded from "./WorkflowAlreadyAdded";
 import AddWorkflowForm from "./AddWorkflowForm";
+import { Layout, Spin } from "antd";
 
 const AddWorkflow = (props: any) => {
   const org_id = props.state.app.currentOrganization.id;
 
   const accessToken = localStorage.getItem("accessToken");
 
-  const { handleNext, handleBack, handleCancelModal } = props;
+  console.log("props in workflow --->", props);
+
+  const {
+    handleNext,
+    handleBack,
+    handleCancelModal,
+    loading,
+    setLoading,
+  } = props;
 
   const [workflowAlreadyAdded, setWorkflowAlreadyAdded] = useState(false);
 
-  const tenant = "zoom";
+  const tenant = "cyphertree";
   // const tenant = "thor";
   // const tenant = "tikona";
 
@@ -46,33 +55,37 @@ const AddWorkflow = (props: any) => {
   const [workflowId, setWorkflowId] = useState<null | number>(null);
 
   const createWorkflow = () => {
-    // Axios.post(
-    //   `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/`,
-    //   {
-    //     name: workflowName,
-    //     client_company: null,
-    //     for_organization: true,
-    //   },
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${accessToken}`,
-    //     },
-    //   }
-    // )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setWorkflowId(response.data.data.id);
-    //   })
-    //   .then(() => {
-    //     setSelectionDone(true);
-    //     // handleNext();
-    //   })
-    //   .catch((err) => console.log("err", err));
+    console.log("workflow type ", workflowType);
+    setLoading(true);
+
+    Axios.post(
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/`,
+      {
+        name: workflowName,
+        client_company: null,
+        for_organization: true,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+      .then((response) => {
+        console.log(response.data);
+        setWorkflowId(response.data.data.id);
+      })
+      .then(() => {
+        setSelectionDone(true);
+        // handleNext();
+        setLoading(false);
+      })
+      .catch((err) => console.log("err", err));
     setSelectionDone(true);
 
     if (workflowType !== "Custom workflow") {
       handleNext();
-      handleCancelModal();
+      // handleCancelModal();
     }
   };
 
@@ -113,13 +126,13 @@ const AddWorkflow = (props: any) => {
     } else if (!organisationType) {
       setCurrentError("Select organisation type.");
     } else {
-      // let workflowTypeValue;
+      let workflowTypeValue;
 
-      // if (workflowType === "Default workflow") {
-      //   workflowTypeValue = 0;
-      // } else if (workflowType === "Custom workflow") {
-      //   workflowTypeValue = 1;
-      // }
+      if (workflowType === "Default workflow") {
+        workflowTypeValue = 0;
+      } else if (workflowType === "Custom workflow") {
+        workflowTypeValue = 1;
+      }
 
       setCurrentError("");
 
@@ -152,36 +165,54 @@ const AddWorkflow = (props: any) => {
       .catch((e) => console.log("err", e));
   };
 
-  return (
-    <>
-      {workflowAlreadyAdded ? (
-        <WorkflowAlreadyAdded handleCancelModal={handleCancelModal} />
-      ) : (
-        <>
-          {selectionDone ? (
-            <AddCustomWorkflow
-              workflowId={workflowId}
-              handleCancelModal={handleCancelModal}
-            />
-          ) : (
-            <AddWorkflowForm
-              workflowType={workflowType}
-              handleWorkflowTypeChange={handleWorkflowTypeChange}
-              workflowName={workflowName}
-              setWorkflowName={setWorkflowName}
-              organisationType={organisationType}
-              handleOrganisationTypeChange={handleOrganisationTypeChange}
-              isDeleteAllowed={isDeleteAllowed}
-              currentError={currentError}
-              handleSkip={handleSkip}
-              handleSubmitForm={handleSubmitForm}
-              handleBack={handleBack}
-            />
-          )}
-        </>
-      )}
-    </>
-  );
+  if (loading) {
+    return (
+      <Layout
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "500px",
+          backgroundColor: "white",
+        }}
+      >
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <>
+        {workflowAlreadyAdded ? (
+          <WorkflowAlreadyAdded handleCancelModal={handleCancelModal} />
+        ) : (
+          <>
+            {selectionDone ? (
+              <AddCustomWorkflow
+                workflowId={workflowId}
+                handleCancelModal={handleCancelModal}
+                handleNext={handleNext}
+              />
+            ) : (
+              <AddWorkflowForm
+                workflowType={workflowType}
+                handleWorkflowTypeChange={handleWorkflowTypeChange}
+                workflowName={workflowName}
+                setWorkflowName={setWorkflowName}
+                organisationType={organisationType}
+                handleOrganisationTypeChange={handleOrganisationTypeChange}
+                isDeleteAllowed={isDeleteAllowed}
+                currentError={currentError}
+                handleSkip={handleSkip}
+                handleSubmitForm={handleSubmitForm}
+                handleBack={handleBack}
+              />
+            )}
+          </>
+        )}
+      </>
+    );
+  }
 };
 
 const mapStateToProps = (state: any) => {

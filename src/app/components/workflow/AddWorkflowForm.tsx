@@ -99,7 +99,7 @@ const AddWorkflowForm = (props: any) => {
                   disabled={!isDeleteAllowed}
                   value={workflowType}
                 >
-                  <Option value="Custom workflow">
+                  <Option value="Default workflow">
                     <div
                       style={{
                         wordWrap: "break-word",
@@ -126,7 +126,7 @@ const AddWorkflowForm = (props: any) => {
                       </p>
                     </div>
                   </Option>
-                  <Option value="2">
+                  <Option value="Custom workflow">
                     <div>
                       <b> Add custom workflow</b>
                     </div>

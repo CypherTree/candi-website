@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Layout } from "antd";
+import { Button, Layout, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
@@ -12,7 +12,7 @@ const AddRoles = (props: any) => {
   const tenant = "zoom";
 
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
-  const { handleNext, handleBack } = props;
+  const { handleNext, handleBack, loading, setLoading } = props;
 
   const org_id = props.state.app.currentOrganization.id;
 
@@ -62,6 +62,8 @@ const AddRoles = (props: any) => {
   };
 
   const deleteRoleFromAPI = (role_id: number) => {
+    setLoading(true);
+
     const accessToken = localStorage.getItem("accessToken");
 
     const jwtToken = `Bearer ${accessToken}`;
@@ -81,6 +83,7 @@ const AddRoles = (props: any) => {
         setReloadRequired(true);
         getRolesFromAPI();
         console.log("reload value after change ---->", reloadRequired);
+        setLoading(false);
       })
       .catch((e) => console.log("err", e));
   };
@@ -89,6 +92,8 @@ const AddRoles = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
 
     const jwtToken = `Bearer ${accessToken}`;
+
+    setLoading(true);
 
     Axios.post(
       `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
@@ -101,7 +106,10 @@ const AddRoles = (props: any) => {
     )
       .then((response) => console.log("data", response.data))
       .then(() => updateOrganisation(1))
-      .then(() => handleNext())
+      .then(() => {
+        handleNext();
+        setLoading(false);
+      })
       .catch((e) => console.log("err", e));
   };
 
@@ -161,85 +169,102 @@ const AddRoles = (props: any) => {
     getRolesFromAPI();
   }, []);
 
-  return (
-    <Layout
-      style={{
-        backgroundColor: "#fff",
-        display: "flex",
-      }}
-    >
-      <div
-        style={{
-          height: "400px",
-          overflowY: "scroll",
-          width: "1000px",
-          paddingLeft: "150px",
-        }}
-      >
-        <Title
-          level={4}
-          style={{
-            fontWeight: "bold",
-            marginTop: "20px",
-            paddingLeft: "200px",
-          }}
-        >
-          Add Roles to Organization
-        </Title>
-        <br />
-        <div>
-          {oriRoles.map((roleData: any, index: number) => (
-            <div key={index}>
-              <AddRole
-                addRole={addRole}
-                roleData={roleData}
-                removeRole={removeRole}
-                index={index}
-                deleteRoleFromAPI={deleteRoleFromAPI}
-              />
-              <br />
-            </div>
-          ))}
-
-          {roles.map((roleData: any, index: number) => (
-            <div key={index}>
-              <AddRole
-                addRole={addRole}
-                roleData={roleData}
-                removeRole={removeRole}
-                index={index}
-                deleteRoleFromAPI={deleteRoleFromAPI}
-                error={error}
-                setError={setError}
-              />
-              <br />
-            </div>
-          ))}
-        </div>
-        <AddRole addRole={addRole} />
-      </div>
-
-      <div
+  if (loading) {
+    return (
+      <Layout
         style={{
           display: "flex",
-          flexDirection: "row",
           justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "500px",
+          backgroundColor: "white",
         }}
       >
-        <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
-          Back
-        </Button>{" "}
-        <Button
-          type="primary"
-          onClick={handleSubmitForm}
-          style={{ marginRight: "10px" }}
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout
+        style={{
+          backgroundColor: "#fff",
+          display: "flex",
+        }}
+      >
+        <div
+          style={{
+            height: "400px",
+            overflowY: "scroll",
+            width: "1000px",
+            paddingLeft: "150px",
+          }}
         >
-          Save and Next
-        </Button>
-        <Button onClick={handleSkip}>Skip</Button>
-      </div>
-    </Layout>
-  );
+          <Title
+            level={4}
+            style={{
+              fontWeight: "bold",
+              marginTop: "20px",
+              paddingLeft: "200px",
+            }}
+          >
+            Add Roles to Organization
+          </Title>
+          <br />
+          <div>
+            {oriRoles.map((roleData: any, index: number) => (
+              <div key={index}>
+                <AddRole
+                  addRole={addRole}
+                  roleData={roleData}
+                  removeRole={removeRole}
+                  index={index}
+                  deleteRoleFromAPI={deleteRoleFromAPI}
+                />
+                <br />
+              </div>
+            ))}
+
+            {roles.map((roleData: any, index: number) => (
+              <div key={index}>
+                <AddRole
+                  addRole={addRole}
+                  roleData={roleData}
+                  removeRole={removeRole}
+                  index={index}
+                  deleteRoleFromAPI={deleteRoleFromAPI}
+                  error={error}
+                  setError={setError}
+                />
+                <br />
+              </div>
+            ))}
+          </div>
+          <AddRole addRole={addRole} />
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
+            Back
+          </Button>{" "}
+          <Button
+            type="primary"
+            onClick={handleSubmitForm}
+            style={{ marginRight: "10px" }}
+          >
+            Save and Next
+          </Button>
+          <Button onClick={handleSkip}>Skip</Button>
+        </div>
+      </Layout>
+    );
+  }
 };
 
 const mapStateToProps = (state: any) => {

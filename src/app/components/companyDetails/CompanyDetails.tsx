@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Layout from "antd/lib/layout/layout";
-import { Button, Form, Input, Row, Col, Checkbox } from "antd";
+import { Button, Form, Input, Row, Col, Checkbox, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
@@ -18,7 +18,7 @@ import {
 function CompanyDetails(props: any) {
   console.log("--- ALL PROPS -- ", props);
 
-  const { handleBack, handleNext } = props;
+  const { handleBack, handleNext, loading, setLoading } = props;
 
   // const {
   //   id: organisation_id,
@@ -100,6 +100,9 @@ function CompanyDetails(props: any) {
 
   const fetchGSTDetails = () => {
     const accessToken = localStorage.getItem("accessToken");
+
+    setLoading(true);
+
     axios
       .get(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/verify-gst/?gst_number=${gstNumber}`,
@@ -131,6 +134,7 @@ function CompanyDetails(props: any) {
           );
         }
       })
+      .then(() => setLoading(false))
       .catch((err) => console.log("--- erro", err.message));
   };
 
@@ -163,7 +167,9 @@ function CompanyDetails(props: any) {
 
     // const organisation_id = 12;
 
-    dispatch(AddCompanyDetailsToOrganization(putData, organisation_id));
+    dispatch(
+      AddCompanyDetailsToOrganization(putData, organisation_id, setLoading)
+    );
 
     dispatch(AddCompanyDetailsToCurrentOrganization(dataForLocal));
 
@@ -181,277 +187,296 @@ function CompanyDetails(props: any) {
     console.log("Failed:", errorInfo);
   };
 
-  return (
-    <Layout
-      style={{
-        // textAlign: "center",
-        // paddingLeft: "100px",
-        // height: "75vh",
-        // width: "800px",
-
-        // justifyContent: "center",
-        // alignItems: "center",
-        backgroundColor: "#fff",
-        padding: "30px 30px 0px 30px",
-      }}
-    >
-      <div
-        style={{ height: "400px", overflowY: "scroll", paddingLeft: "60px" }}
-      >
-        <Title
-          level={4}
-          style={{
-            fontWeight: "bold",
-            width: "auto",
-            // marginTop: "20px",
-          }}
-        >
-          Enter company details
-        </Title>
-
-        <br />
-
-        <Form
-          name="basic"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-        >
-          <Row gutter={8}>
-            <Col
-              span={12}
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "row",
-              //   alignItems: "flex-start",
-              // }}
-            >
-              <Form.Item
-                // name="gstNumber"
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your gstNumber!",
-                  },
-                ]}
-              >
-                <Input
-                  placeholder="GST Number"
-                  onChange={(e) => {
-                    setGstNumber(e.target.value);
-                    clearEverything();
-                  }}
-                  value={gstNumber}
-                  style={{ width: "250px" }}
-                />
-                <Button
-                  type="primary"
-                  onClick={() => {
-                    fetchGSTDetails();
-                  }}
-                >
-                  Verify GST
-                </Button>
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                // name="country"
-                rules={[
-                  { required: true, message: "Please input your country!" },
-                ]}
-              >
-                <Input
-                  placeholder="Country"
-                  value={country}
-                  onChange={(e) => setCountry(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item
-                // name="state"
-                rules={[
-                  { required: true, message: "Please input your state!" },
-                ]}
-              >
-                <Input
-                  placeholder="State"
-                  value={state}
-                  onChange={(e) => setState(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={12}>
-              <Form.Item
-                // name="city"
-                rules={[{ required: true, message: "Please input your City!" }]}
-              >
-                <Input
-                  placeholder="City"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item
-                // name="pincode"
-                rules={[
-                  { required: true, message: "Please input your Pincode!" },
-                ]}
-              >
-                <Input
-                  placeholder="Pincode"
-                  value={pincode}
-                  onChange={(e) => setPincode(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item
-                // name="address"
-                rules={[
-                  { required: true, message: "Please input your Address!" },
-                ]}
-              >
-                <Input.TextArea
-                  placeholder="Address"
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Title
-            level={4}
-            style={{
-              fontWeight: "bold",
-              width: "auto",
-            }}
-          >
-            Enter billing details
-          </Title>
-
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item>
-                {/* <div style={{ paddingLeft: "35px", textAlign: "left" }}> */}
-                <Checkbox
-                  name="checkedC"
-                  checked={billingAddressSame}
-                  onChange={() => {
-                    setBillingAddressSame(!billingAddressSame);
-                    handleCopyBusinessAddress();
-                  }}
-                />{" "}
-                Same as company Address
-                {/* </div> */}
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item
-              // name="address"
-              // rules={[
-              //   { required: true, message: "Please input your Address!" },
-              // ]}
-              >
-                <Input
-                  placeholder="Business Email Address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  disabled={!isGSTVerified}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-
-            <Col span={12}>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: "Please input your Billing Address!",
-                  },
-                ]}
-              >
-                <Input.TextArea
-                  placeholder="Business Address"
-                  disabled={billingAddressSame ? true : false}
-                  value={billingAddressSame ? address : billingAddress}
-                  onChange={(e) => setBillingAddress(e.target.value)}
-                  style={styles}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          <Title
-            level={4}
-            style={{
-              fontWeight: "bold",
-              width: "auto",
-            }}
-          >
-            Company logo
-          </Title>
-
-          <Row gutter={8}>
-            <Col span={12}>
-              <Form.Item>
-                <UploadLogo
-                  organisation_id={organisation_id}
-                  name={name}
-                  website={website}
-                  logo={logo}
-                />
-              </Form.Item>
-            </Col>
-          </Row>
-
-          {props.state.app.companyDetailsToOrganizationMessage && (
-            <p>{props.state.app.companyDetailsToOrganizationMessage}</p>
-          )}
-        </Form>
-      </div>
-
-      <div
+  if (loading) {
+    return (
+      <Layout
         style={{
           display: "flex",
-          flexDirection: "row",
           justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "500px",
+          backgroundColor: "white",
         }}
       >
-        <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
-          Back
-        </Button>
-        <Button type="primary" onClick={() => handleFormSubmit()}>
-          Save and Next
-        </Button>
-      </div>
-    </Layout>
-  );
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout
+        style={{
+          // textAlign: "center",
+          // paddingLeft: "100px",
+          // height: "75vh",
+          // width: "800px",
+
+          // justifyContent: "center",
+          // alignItems: "center",
+          backgroundColor: "#fff",
+          padding: "30px 30px 0px 30px",
+        }}
+      >
+        <div
+          style={{ height: "400px", overflowY: "scroll", paddingLeft: "60px" }}
+        >
+          <Title
+            level={4}
+            style={{
+              fontWeight: "bold",
+              width: "auto",
+              // marginTop: "20px",
+            }}
+          >
+            Enter company details
+          </Title>
+
+          <br />
+
+          <Form
+            name="basic"
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+          >
+            <Row gutter={8}>
+              <Col
+                span={12}
+                // style={{
+                //   display: "flex",
+                //   flexDirection: "row",
+                //   alignItems: "flex-start",
+                // }}
+              >
+                <Form.Item
+                  // name="gstNumber"
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your gstNumber!",
+                    },
+                  ]}
+                >
+                  <Input
+                    placeholder="GST Number"
+                    onChange={(e) => {
+                      setGstNumber(e.target.value);
+                      clearEverything();
+                    }}
+                    value={gstNumber}
+                    style={{ width: "250px" }}
+                  />
+                  <Button
+                    type="primary"
+                    onClick={() => {
+                      fetchGSTDetails();
+                    }}
+                  >
+                    Verify GST
+                  </Button>
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  // name="country"
+                  rules={[
+                    { required: true, message: "Please input your country!" },
+                  ]}
+                >
+                  <Input
+                    placeholder="Country"
+                    value={country}
+                    onChange={(e) => setCountry(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item
+                  // name="state"
+                  rules={[
+                    { required: true, message: "Please input your state!" },
+                  ]}
+                >
+                  <Input
+                    placeholder="State"
+                    value={state}
+                    onChange={(e) => setState(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  // name="city"
+                  rules={[
+                    { required: true, message: "Please input your City!" },
+                  ]}
+                >
+                  <Input
+                    placeholder="City"
+                    value={city}
+                    onChange={(e) => setCity(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item
+                  // name="pincode"
+                  rules={[
+                    { required: true, message: "Please input your Pincode!" },
+                  ]}
+                >
+                  <Input
+                    placeholder="Pincode"
+                    value={pincode}
+                    onChange={(e) => setPincode(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  // name="address"
+                  rules={[
+                    { required: true, message: "Please input your Address!" },
+                  ]}
+                >
+                  <Input.TextArea
+                    placeholder="Address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Title
+              level={4}
+              style={{
+                fontWeight: "bold",
+                width: "auto",
+              }}
+            >
+              Enter billing details
+            </Title>
+
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item>
+                  {/* <div style={{ paddingLeft: "35px", textAlign: "left" }}> */}
+                  <Checkbox
+                    name="checkedC"
+                    checked={billingAddressSame}
+                    onChange={() => {
+                      setBillingAddressSame(!billingAddressSame);
+                      handleCopyBusinessAddress();
+                    }}
+                  />{" "}
+                  Same as company Address
+                  {/* </div> */}
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item
+                // name="address"
+                // rules={[
+                //   { required: true, message: "Please input your Address!" },
+                // ]}
+                >
+                  <Input
+                    placeholder="Business Email Address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    disabled={!isGSTVerified}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+
+              <Col span={12}>
+                <Form.Item
+                  rules={[
+                    {
+                      required: true,
+                      message: "Please input your Billing Address!",
+                    },
+                  ]}
+                >
+                  <Input.TextArea
+                    placeholder="Business Address"
+                    disabled={billingAddressSame ? true : false}
+                    value={billingAddressSame ? address : billingAddress}
+                    onChange={(e) => setBillingAddress(e.target.value)}
+                    style={styles}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            <Title
+              level={4}
+              style={{
+                fontWeight: "bold",
+                width: "auto",
+              }}
+            >
+              Company logo
+            </Title>
+
+            <Row gutter={8}>
+              <Col span={12}>
+                <Form.Item>
+                  <UploadLogo
+                    organisation_id={organisation_id}
+                    name={name}
+                    website={website}
+                    logo={logo}
+                  />
+                </Form.Item>
+              </Col>
+            </Row>
+
+            {props.state.app.companyDetailsToOrganizationMessage && (
+              <p>{props.state.app.companyDetailsToOrganizationMessage}</p>
+            )}
+          </Form>
+        </div>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
+            Back
+          </Button>
+          <Button type="primary" onClick={() => handleFormSubmit()}>
+            Save and Next
+          </Button>
+        </div>
+      </Layout>
+    );
+  }
 }
 
 const mapStateToProps = (state: any) => {

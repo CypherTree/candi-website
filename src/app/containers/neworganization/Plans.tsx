@@ -11,14 +11,27 @@ import Axios from "axios";
 // import { getAllPlans } from "../../core/services/plans";
 import PlanCard from "../../components/plancards/PlanCard";
 import { AssignPlanToOrganisation } from "../../core/redux/app/actions";
-import { Button, Layout, Radio, Typography } from "antd";
+import { Button, Layout, Radio, Spin, Typography } from "antd";
 import Title from "antd/lib/typography/Title";
 
 const { Text } = Typography;
 
 const Plans = (props: any) => {
-  const { handleNext, handleBack, currentOrganization } = props;
+  const {
+    handleNext,
+    handleBack,
+    currentOrganization,
+    loading,
+    setLoading,
+  } = props;
   //   const [plansData, setPlansData] = useState();
+
+  console.log("current organization in plans ---->", currentOrganization);
+
+  console.log(
+    "new organisation in plans ----- >",
+    props.state.app.newOrganisation
+  );
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
@@ -271,14 +284,16 @@ const Plans = (props: any) => {
         setOrganizationId(props.state.app.currentOrganization.id);
       }
     }
-  }, []);
+  }, [props]);
 
   const accessToken = localStorage.getItem("accessToken");
 
   const jwtToken = `Bearer ${accessToken}`;
 
   useEffect(() => {
-    if (organization_id !== 0) {
+    console.log("organisation id ", organization_id);
+
+    if (organization_id != 0) {
       Axios.get(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization/?organization_id=${organization_id}`,
         {
@@ -307,106 +322,129 @@ const Plans = (props: any) => {
     currentOrganization.selectedPlan = selectedPlan;
 
     if (!isSubmitted) {
-      dispatch(
-        AssignPlanToOrganisation(
-          // props.state.app.newOrganisation.id ||
-          organization_id,
-          selectedPlan.plan_id,
-          selectedPlan.period_type
-        )
-      );
+      console.log("--- organisation id ---", organization_id);
+      setLoading(true);
+      if (organization_id !== 0) {
+        dispatch(
+          AssignPlanToOrganisation(
+            // props.state.app.newOrganisation.id ||
+            organization_id,
+            selectedPlan.plan_id,
+            selectedPlan.period_type,
+            setLoading
+          )
+        );
+      }
     }
 
     handleNext();
   };
 
-  return (
-    <Layout style={{ padding: "0px 10px 0px 10px", backgroundColor: "#fff" }}>
-      <div
+  if (loading) {
+    return (
+      <Layout
         style={{
-          margin: "0 auto",
-          lineHeight: "40px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
           width: "100%",
-          paddingTop: "0px",
-          paddingBottom: "0px",
-          justifyContent: "center",
-          alignContent: "center",
-          display: "flex",
-          height: "400px",
-          overflowY: "scroll",
+          height: "500px",
+          backgroundColor: "white",
         }}
       >
-        <div>
-          <Title
-            level={4}
-            style={{
-              fontWeight: "bold",
-              width: "auto",
-              margin: "10px 40px 10px 0 ",
-              // padding: "0px 0px 0px 350px",
-              textAlign: "center",
-              paddingLeft: "30px",
-            }}
-          >
-            Choose a license plan
-          </Title>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Radio.Group
-              options={[
-                { label: "Monthly", value: "monthly" },
-                { label: "Yearly", value: "yearly" },
-              ]}
-              onChange={(e) => handlePricePeriod(e.target.value)}
-              value={pricePeriod}
-              optionType="button"
-              buttonStyle="solid"
-            />
-          </div>
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            {plansData.data.map((plan) => (
-              <div
-                style={{
-                  width: "300px",
-                  marginLeft: "0px",
-                  padding: "10px 5px 5px 0px",
-                  textAlign: "center",
-                }}
-              >
-                <PlanCard
-                  plan={plan}
-                  pricePeriod={pricePeriod}
-                  selectedPlan={selectedPlan}
-                  setSelectedPlan={setSelectedPlan}
-                />
-              </div>
-            ))}
-          </div>
-          {props.state.app && props.state.app.organisationPlanMessage && (
-            <Text>{props.state.app.organisationPlanMessage}</Text>
-          )}
-        </div>
-      </div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginTop: "10px",
-        }}
-      >
-        <Button htmlType="submit" onClick={() => handleBack()}>
-          Back
-        </Button>
-        <Button
-          type="primary"
-          onClick={() => handleSaveAndNext()}
-          style={{ marginLeft: "10px" }}
-          disabled={selectedPlan.plan_id !== 0 ? false : true}
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <Layout style={{ padding: "0px 10px 0px 10px", backgroundColor: "#fff" }}>
+        <div
+          style={{
+            margin: "0 auto",
+            lineHeight: "40px",
+            width: "100%",
+            paddingTop: "0px",
+            paddingBottom: "0px",
+            justifyContent: "center",
+            alignContent: "center",
+            display: "flex",
+            height: "400px",
+            overflowY: "scroll",
+          }}
         >
-          {isSubmitted ? "Next" : "Save and Next"}
-        </Button>
-      </div>
-    </Layout>
-  );
+          <div>
+            <Title
+              level={4}
+              style={{
+                fontWeight: "bold",
+                width: "auto",
+                margin: "10px 40px 10px 0 ",
+                // padding: "0px 0px 0px 350px",
+                textAlign: "center",
+                paddingLeft: "30px",
+              }}
+            >
+              Choose a license plan
+            </Title>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Radio.Group
+                options={[
+                  { label: "Monthly", value: "monthly" },
+                  { label: "Yearly", value: "yearly" },
+                ]}
+                onChange={(e) => handlePricePeriod(e.target.value)}
+                value={pricePeriod}
+                optionType="button"
+                buttonStyle="solid"
+              />
+            </div>
+            <div style={{ display: "flex", flexDirection: "row" }}>
+              {plansData.data.map((plan) => (
+                <div
+                  style={{
+                    width: "300px",
+                    marginLeft: "0px",
+                    padding: "10px 5px 5px 0px",
+                    textAlign: "center",
+                  }}
+                >
+                  <PlanCard
+                    key={plan.id}
+                    plan={plan}
+                    pricePeriod={pricePeriod}
+                    selectedPlan={selectedPlan}
+                    setSelectedPlan={setSelectedPlan}
+                  />
+                </div>
+              ))}
+            </div>
+            {props.state.app && props.state.app.organisationPlanMessage && (
+              <Text>{props.state.app.organisationPlanMessage}</Text>
+            )}
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
+          <Button htmlType="submit" onClick={() => handleBack()}>
+            Back
+          </Button>
+          <Button
+            type="primary"
+            onClick={() => handleSaveAndNext()}
+            style={{ marginLeft: "10px" }}
+            disabled={selectedPlan.plan_id !== 0 ? false : true}
+          >
+            {isSubmitted ? "Next" : "Save and Next"}
+          </Button>
+        </div>
+      </Layout>
+    );
+  }
 };
 
 const mapStateToProps = (state: any) => {
