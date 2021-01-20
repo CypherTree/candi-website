@@ -31,8 +31,6 @@ const PrivateRoute = (props: any) => {
         ) : privacyPolicyAccepted ? (
           <Component {...props} />
         ) : (
-          // <Redirect to="/dashboard" />
-          // <Redirect to="/dashboard" />
           <Component {...props} />
         )
       }

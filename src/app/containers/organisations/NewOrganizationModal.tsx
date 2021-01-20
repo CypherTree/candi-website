@@ -27,8 +27,6 @@ const NewOrganizationModal = (props: any) => {
     selectedPlan: null,
   });
 
-  useEffect(() => {}, [currentOrganization]);
-
   return (
     <Modal
       visible={open}
@@ -53,6 +51,7 @@ const NewOrganizationModal = (props: any) => {
           <NewOrganisation
             handleClose={handleClose}
             currentOrganization={currentOrganization}
+            setCurrentOrganization={setCurrentOrganization}
           />
         )}
       </Layout>

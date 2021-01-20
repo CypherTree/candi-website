@@ -31,34 +31,38 @@ export const appReducer: any = (
   switch (action.type) {
     case SET_AUTHENTICATED:
       return { ...state, ...payload };
+
     case DOMAIN_CHECK_MESSAGE:
       return { ...state, ...payload };
+
     case SET_LOADING:
       return { ...state, ...payload };
+
     case NEW_ORGANISATION_CREATE:
       return { ...state, ...payload };
+
     case SET_CURRENT_ORGANISATION:
       return { ...state, ...payload };
+
     case SET_PLAN_TO_ORGANISATION:
       return { ...state, ...payload };
+
     case ADD_COMPANY_DETAILS_TO_ORGANISATION: {
       const { currentOrganization } = state;
       Object.assign(payload, currentOrganization);
-
       return { ...state, ...currentOrganization };
     }
     case ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION: {
       const { currentOrganization } = state;
-
       Object.assign(payload, currentOrganization);
-
       return { ...state, ...currentOrganization };
     }
+
     case CLEAR_CURRENT_ORGANISATION: {
-      const newState = state;
-      state.currentOrganization = {};
-      return newState;
+      const currentOrganization = {};
+      return { ...state, ...currentOrganization };
     }
+
     default:
       return state;
   }

@@ -186,7 +186,8 @@ function Navbar(props: any) {
           </Button>
         </Layout>
       </Header>
-      <EmailVerificationBar />
+
+      {userData !== null && !userData.is_verified && <EmailVerificationBar />}
     </>
   );
 }

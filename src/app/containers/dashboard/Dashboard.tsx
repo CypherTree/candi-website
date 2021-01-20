@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Row } from "antd";
+import { Col, Layout, Row, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { ThunkDispatch } from "redux-thunk";
@@ -47,44 +47,62 @@ type Props = {
 };
 
 const Dashboard: React.FC<Props> = ({ state }) => {
-  const [loading, setLoading] = useState(false);
-
-  console.log(" data ", state);
-  console.log(" data ", state);
+  const [loading, setLoading] = useState(true);
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
-  useEffect(() => {}, [userData]);
+  useEffect(() => {
+    if (userData?.first_name) {
+      setLoading(false);
+    }
+  }, [userData]);
 
-  return (
-    <div>
-      {userData && !userData.privacy_policy_accepted ? (
-        <>
-          <br />
-          <Title level={4}>Welcome</Title>
-          <br />
-          <Title level={4}>
-            {userData !== null && userData.last_name},{" "}
-            {userData !== null && userData.first_name}
-          </Title>
-          <img
-            src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
-            height="500px"
-            width="800px"
-          />
-        </>
-      ) : (
-        <div style={{ padding: "20px 50px 50px 50px" }}>
-          <Row>
-            <Col span={24}>
-              <PrivacyPolicy />
-            </Col>
-          </Row>
-          <br />
-        </div>
-      )}
-    </div>
-  );
+  if (loading) {
+    return (
+      <Layout
+        style={{
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <div>
+        {userData && userData.privacy_policy_accepted ? (
+          <>
+            <br />
+            <Title level={4}>Welcome</Title>
+            <br />
+            <Title level={4}>
+              {userData !== null && userData.last_name},{" "}
+              {userData !== null && userData.first_name}
+            </Title>
+            <img
+              src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
+              height="500px"
+              width="800px"
+            />
+          </>
+        ) : (
+          <div style={{ padding: "20px 50px 50px 50px" }}>
+            <Row>
+              <Col span={24}>
+                <PrivacyPolicy />
+              </Col>
+            </Row>
+            <br />
+          </div>
+        )}
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state: StateType) => {

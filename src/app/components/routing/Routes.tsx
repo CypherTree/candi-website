@@ -4,6 +4,7 @@ import Layout, { Content } from "antd/lib/layout/layout";
 
 import { Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import EmailVerificationPage from "../../../auth/containers/emailVerification/EmailVerificationPage";
 import ForgotPassword from "../../../auth/containers/forgotPassword/ForgotPassword";
@@ -46,6 +47,10 @@ const Routes = (props: any) => {
     } else {
       return "0px";
     }
+  };
+
+  const ReturnHello = () => {
+    return <Redirect to="/organisations/all" />;
   };
 
   return (
@@ -91,6 +96,11 @@ const Routes = (props: any) => {
                   exact
                   path="/organisations/all"
                   component={Organisations}
+                />
+                <PrivateRoute
+                  exact
+                  path="/organisations"
+                  component={ReturnHello}
                 />
                 <Route component={PageNotFound} />
               </Switch>

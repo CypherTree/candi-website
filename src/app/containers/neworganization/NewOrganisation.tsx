@@ -4,6 +4,7 @@ import { Button, Card, Steps } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
 
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";
@@ -97,33 +98,39 @@ function getStepContent(
 const NewOrganisation = (props: any) => {
   console.log(" ---------- Props in New Organization ", props);
 
-  const { handleClose, currentOrganization, clearCurrentOrganisation } = props;
+  const {
+    handleClose,
+    currentOrganization,
+    setCurrentOrganization,
+    clearCurrentOrganisation,
+  } = props;
 
+  const [current, setCurrent] = useState(0);
   const [loading, setLoading] = useState(false);
-
   const [activeStep, setActiveStep] = useState(0);
 
   const steps = getSteps();
 
-  const [current, setCurrent] = useState(0);
-
-  useEffect(() => {}, [currentOrganization]);
+  useEffect(() => {
+    if (props.state.app.currentOrganization) {
+      const { name, domain, website } = props.state.app.currentOrganization;
+      setCurrentOrganization({
+        name,
+        website,
+        domain,
+      });
+    }
+  }, [props]);
 
   const onChange = (current: React.SetStateAction<number>) => {
-    console.log("onChange:", current);
     setCurrent(current);
   };
-
-  const accessToken = localStorage.getItem("accessToken");
-  console.log("acc", accessToken);
 
   const handleNext = () => {
     console.log(" ----- handle next was called ---- ");
 
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-
     setCurrent(current + 1);
-
     console.log("active step --- ", activeStep);
   };
 
@@ -140,6 +147,7 @@ const NewOrganisation = (props: any) => {
     console.log("modal close was called.");
     clearCurrentOrganisation(true);
     setActiveStep(0);
+    setCurrent(0);
     handleClose();
   };
 
@@ -161,7 +169,6 @@ const NewOrganisation = (props: any) => {
           height: "100%",
         }}
       >
-        {" "}
         <div
           style={{
             display: "flex",
@@ -223,8 +230,6 @@ const NewOrganisation = (props: any) => {
     </Card>
   );
 };
-
-// export default NewOrganisation;
 
 const mapStateToProps = (state: StateType) => {
   return {

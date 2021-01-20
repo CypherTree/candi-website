@@ -27,7 +27,6 @@ const OrganizationalDetails = (props: any) => {
   const { handleNext, currentOrganization, loading, setLoading } = props;
 
   console.log("props in org details --> ", props);
-
   console.log("props in org details --> current org", currentOrganization);
 
   let fieldsDisabled = false;
@@ -81,7 +80,6 @@ const OrganizationalDetails = (props: any) => {
       }
     }
   }, []);
-
   const handleDomainURLChange = (e: any) => {
     setDomain(e.target.value);
 
@@ -94,12 +92,9 @@ const OrganizationalDetails = (props: any) => {
       );
     }
   };
-
   const onFinish = (values: any) => {
     handleNewSubmit();
   };
-
-  useEffect(() => {}, [organisationName]);
 
   if (loading) {
     return (
