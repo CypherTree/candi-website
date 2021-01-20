@@ -2,8 +2,6 @@ import { Dispatch } from "redux";
 
 import { LoginDispatchTypes, Types } from "./types";
 
-import { RegisterUserData } from "./types";
-
 import axios from "axios";
 
 const {
@@ -18,13 +16,14 @@ const {
   SET_USERDATA,
   SET_LOGIN_ERROR,
   REGISTER_SUCCESS,
+  EMAIL_VERIFICATION_SUCCESS,
 } = Types;
 
 export const LoginUser = (
   username: string,
   password: string,
   rememberMe: boolean
-) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
+) => (dispatch: Dispatch<LoginDispatchTypes>) => {
   try {
     dispatch({
       type: LOGIN_USER,
@@ -64,9 +63,7 @@ export const LoginUser = (
   } catch (e) {}
 };
 
-export const LogoutUser = () => async (
-  dispatch: Dispatch<LoginDispatchTypes>
-) => {
+export const LogoutUser = () => (dispatch: Dispatch<LoginDispatchTypes>) => {
   try {
     dispatch({
       type: LOGOUT_USER,
@@ -80,7 +77,7 @@ export const LogoutUser = () => async (
   } catch (e) {}
 };
 
-export const SetAuthenticated = (isAuthenticated: boolean) => async (
+export const SetAuthenticated = (isAuthenticated: boolean) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {
@@ -93,7 +90,7 @@ export const SetAuthenticated = (isAuthenticated: boolean) => async (
   } catch (e) {}
 };
 
-export const GetUserData = (accessToken: string) => async (
+export const GetUserData = (accessToken: string) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   axios
@@ -115,10 +112,9 @@ export const GetUserData = (accessToken: string) => async (
     .catch((err) => console.log("--- erro", err.message));
 };
 
-export const GetNewToken = (
-  accessToken: string,
-  refreshToken: string
-) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
+export const GetNewToken = (accessToken: string, refreshToken: string) => (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
   axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/refresh/`, {
       refresh: refreshToken,
@@ -137,7 +133,7 @@ export const GetNewToken = (
     });
 };
 
-export const ForgotPassword = (email: string) => async (
+export const ForgotPassword = (email: string) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   axios
@@ -164,16 +160,14 @@ export const ForgotPassword = (email: string) => async (
     });
 };
 
-export const ClearState = () => async (
-  dispatch: Dispatch<LoginDispatchTypes>
-) => {
+export const ClearState = () => (dispatch: Dispatch<LoginDispatchTypes>) => {
   dispatch({
     type: CLEAR_STATE,
     payload: {},
   });
 };
 
-export const ResetPassword = (token: string, password: string) => async (
+export const ResetPassword = (token: string, password: string) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   axios
@@ -211,7 +205,7 @@ export const ResetPassword = (token: string, password: string) => async (
     });
 };
 
-export const AcceptPrivacyPolicy = (policyAccept: boolean) => async (
+export const AcceptPrivacyPolicy = (policyAccept: boolean) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   if (policyAccept === true) {
@@ -234,7 +228,7 @@ interface RegisterData {
   otp: string;
 }
 
-export const RegisterUser = (registerData: RegisterData) => async (
+export const RegisterUser = (registerData: RegisterData) => (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {
@@ -265,6 +259,39 @@ export const RegisterUser = (registerData: RegisterData) => async (
           type: SET_LOGIN_ERROR,
           payload: {
             error: err.response.data.message,
+          },
+        });
+      });
+  } catch (e) {
+    console.log("error in try", e);
+  }
+};
+
+export const EmailVerification = (token: string) => (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
+  try {
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/verify-email?token=${token}`
+      )
+      .then((response) => {
+        console.log("response of axios", response.data);
+        const { message } = response.data;
+
+        dispatch({
+          type: EMAIL_VERIFICATION_SUCCESS,
+          payload: {
+            emailVerificationMessage: message,
+          },
+        });
+      })
+      .catch((err: any) => {
+        console.log("error in axios API  -> ", err.response);
+        dispatch({
+          type: SET_LOGIN_ERROR,
+          payload: {
+            error: err.response.data.detail,
           },
         });
       });

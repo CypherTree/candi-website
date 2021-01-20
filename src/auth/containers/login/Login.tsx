@@ -18,11 +18,11 @@ import LoginForm from "../../components/login/LoginForm";
 
 import { SetAuthenticated } from "../../../app/core/redux/app/actions";
 
+import SideImage from "../../components/sideImage/SideImage";
+
 import { getCurrentSessionTokens } from "../../core/services/session";
 
 import { StateType } from "../../../app/core/redux/types";
-
-const mainImage = require("../../../shared/assets/images/main-image.jpg");
 
 type AuthProps = {
   isAuthenticated: boolean;
@@ -58,13 +58,7 @@ const Login: React.FC<Props> = ({ setAuthenticated, state, history }) => {
       <Grid container spacing={0}>
         {" "}
         <Grid item xs={1} sm={6}>
-          <div className="fill">
-            <img
-              alt="logo"
-              style={{ width: 100, height: "100vh" }}
-              src={String(mainImage)}
-            />
-          </div>
+          <SideImage />
         </Grid>
         <Grid item xs={11} sm={6} color="red">
           <Typography variant="h3" color="primary" component="h2">

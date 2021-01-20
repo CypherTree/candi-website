@@ -13,6 +13,8 @@ export enum Types {
   REGISTER_SUCCESS = "REGISTER_SUCCESS",
   REGISTER_FAIL = "REGISTER_FAIL",
   ACCEPT_POLICY_SUCCESS = "ACCEPT_POLICY_SUCCESS",
+  EMAIL_VERIFICATION = "EMAIL_VERIFICATION",
+  EMAIL_VERIFICATION_SUCCESS = "EMAIL_VERIFICATION_SUCCESS",
 }
 
 export type LoginData = {
@@ -127,6 +129,20 @@ export interface AcceptPolicySuccess {
   };
 }
 
+export interface EmailVerification {
+  type: typeof Types.EMAIL_VERIFICATION;
+  payload: {
+    token: string;
+  };
+}
+
+export interface EmailVerificationSuccess {
+  type: typeof Types.EMAIL_VERIFICATION_SUCCESS;
+  payload: {
+    emailVerificationMessage: string;
+  };
+}
+
 export type LoginDispatchTypes =
   | LoginUser
   | LogoutUser
@@ -141,4 +157,6 @@ export type LoginDispatchTypes =
   | RegisterUser
   | RegisterSuccess
   | RegisterFail
-  | AcceptPolicySuccess;
+  | AcceptPolicySuccess
+  | EmailVerification
+  | EmailVerificationSuccess;
