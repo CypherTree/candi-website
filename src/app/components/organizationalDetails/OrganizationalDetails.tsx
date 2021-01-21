@@ -93,6 +93,7 @@ const OrganizationalDetails = (props: any) => {
       );
     }
   };
+
   const onFinish = (values: any) => {
     handleNewSubmit();
   };
@@ -179,7 +180,7 @@ const OrganizationalDetails = (props: any) => {
               extra="example: google.com"
             >
               <Input
-                onChange={(e) => setOrganisationWebsite(e.target.value)}
+                onChange={(e) => handleDomainURLChange(e)}
                 disabled={isSubmitted}
                 placeholder="Website"
                 // value={organisationWebsite}
