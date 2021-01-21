@@ -68,9 +68,9 @@ const Organisations = (props: any) => {
                 backgroundColor: "#F9650D",
                 margin: "0px",
                 display: "flex",
-                marginTop: "14px",
-                height: "25px",
-                width: "25px",
+                marginTop: "18px",
+                height: "22px",
+                width: "22px",
                 textAlign: "center",
                 justifyContent: "center",
               }}
@@ -79,8 +79,8 @@ const Organisations = (props: any) => {
                 onClick={handleOpen}
                 style={{
                   alignSelf: "center",
-                  height: "20px",
-                  width: "20px",
+                  height: "19px",
+                  width: "19px",
                   color: "white",
                 }}
               />
