@@ -43,8 +43,7 @@ export const updateServerWithLogoUploadData = async (
   jwtToken: string,
   logo_key: string,
   organization_id: number,
-  name: string,
-  website: string
+  name: string
 ) => {
   let result;
 
@@ -55,7 +54,6 @@ export const updateServerWithLogoUploadData = async (
         organization: organization_id,
         name,
         logo_key,
-        website,
       },
       {
         headers: {

@@ -61,12 +61,13 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
+    // console.log(" <")
+
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
       organisation_id,
-      name,
-      website
+      name
     );
 
     console.log("data 2 --> ", data2);
