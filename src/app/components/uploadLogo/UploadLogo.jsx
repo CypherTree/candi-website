@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
-import { Upload, message } from "antd";
-import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
+import { Input } from "@material-ui/core";
+import { Button, Typography } from "antd";
+
+import { PlusOutlined } from "@ant-design/icons";
 
 import {
   getAWSTokenForLogoUpload,
@@ -9,41 +11,44 @@ import {
   updateServerWithLogoUploadData,
 } from "../../core/services/logo-upload";
 
-function beforeUpload(file) {
-  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
-  if (!isJpgOrPng) {
-    message.error("You can only upload JPG/PNG file!");
-  }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error("Image must smaller than 2MB!");
-  }
-  return isJpgOrPng && isLt2M;
-}
+import AddIcon from "@material-ui/icons/Add";
+
+import { Fab } from "@material-ui/core";
+import Layout from "antd/lib/layout/layout";
+
+const { Text } = Typography;
 
 const UploadLogo = ({ organisation_id, name, website, logo }) => {
+  const jwtToken = localStorage.getItem("accessToken");
+
+  const [logoUploadDone, setLogoUploadDone] = useState(false);
   const [logoUrl, setLogoUrl] = useState("");
 
   const [imageSrc, setImageSrc] = useState("");
 
-  const jwtToken = localStorage.getItem("accessToken");
+  const onFileChange = (e) => {
+    setLogoUploadDone(false);
 
-  const [loading, setLoading] = useState(false);
+    const file = e.target.files[0];
 
-  const [logoUploadDone, setLogoUploadDone] = useState(false);
+    setSelectedFile(e.target.files[0]);
 
-  console.log("<---- data *** logo  ----->", logo);
+    var reader = new FileReader();
+    var url = reader.readAsDataURL(file);
 
-  console.log("<---- data *** logo URL ----->", logoUrl);
+    reader.onloadend = function (e) {
+      setImageSrc(reader.result);
+    };
+    console.log(url);
 
-  useEffect(() => {
-    setLogoUrl(logo);
-  }, []);
+    onFileUpload();
+  };
 
   const onFileUpload = async () => {
     const formData = new FormData();
 
     const file = selectedFile.name !== "" ? selectedFile : "  ";
+    const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
 
     const keys = await getAWSTokenForLogoUpload(jwtToken);
 
@@ -61,13 +66,16 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
-    // console.log(" <")
+    // const organisation_id = 39;
+    // const name = "name";
+    // const website = "http://www.green.com.theonboarders.com";
 
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
       organisation_id,
-      name
+      name,
+      website
     );
 
     console.log("data 2 --> ", data2);
@@ -78,74 +86,65 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
   const [selectedFile, setSelectedFile] = useState("");
 
-  const handleChange = (info) => {
-    console.log("info here ----", info);
-    onFileUpload(info.file);
-    setLogoUrl(info.file.name);
-  };
-
-  const showLogoChangeMessage = () => {
-    if (logo || logoUrl) {
-      if (logo !== "" || logoUrl !== "") {
-        return true;
-      }
-    } else {
-      return false;
-    }
-  };
-
-  const uploadButton = (
-    <div>
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 8 }}>Upload</div>
-    </div>
-  );
-
-  const serverRequest = (file) => {
-    console.log("File YES -> ", file);
+  const showImage = () => {
+    return imageSrc !== "" || (logo && logo !== "");
   };
 
   return (
-    <div
-      style={{
-        paddingTop: "10px",
-        textAlign: "left",
-      }}
-    >
-      <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        beforeUpload={beforeUpload}
-        progress="line"
-        accept="image/png, image/jpeg"
-        onChange={handleChange}
-        style={{ height: "50px", width: "50px" }}
-        customRequest={(f) => serverRequest(f)}
-      >
-        {showLogoChangeMessage() ? (
-          <img
-            src={logo ? logo : logoUrl}
-            alt="logo"
-            style={{ width: "100%", height: "100%", padding: "2%" }}
+    <div style={{ paddingTop: "10px" }}>
+      <span>
+        <label htmlFor="upload-photo">
+          <Input
+            style={{ display: "none" }}
+            id="upload-photo"
+            name="upload-photo"
+            type="file"
+            onChange={(e) => onFileChange(e)}
           />
-        ) : (
-          uploadButton
+          <Layout
+            style={{
+              height: "100px",
+              width: "100px",
+              padding: "5px",
+              border: "1px dotted #c1c1c1",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              // padding: "2px",
+              // border: "1px solid #c1c1c1",
+              // width: "auto",
+            }}
+          >
+            {showImage() ? (
+              <img
+                src={imageSrc ? imageSrc : logo}
+                style={{
+                  height: "90px",
+                  width: "90px",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <>
+                <PlusOutlined />
+                <Text>Upload Logo</Text>
+              </>
+            )}
+          </Layout>
+        </label>
+        {showImage() && (
+          <p style={{ paddingTop: "5px" }}>
+            You may click on the logo to upload a new one.
+          </p>
         )}
-      </Upload>
 
-      {showLogoChangeMessage() && (
-        <p>You may click on image to a upload new logo.</p>
-      )}
-
-      {logoUploadDone && (
-        <div>
-          <p> Logo was uploaded Successfully.</p>
-        </div>
-      )}
+        {logoUploadDone && (
+          <div>
+            <p> Logo was uploaded Successfully.</p>
+          </div>
+        )}
+      </span>
     </div>
   );
 };
-
 export default UploadLogo;
