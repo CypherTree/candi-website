@@ -21,24 +21,31 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
   const [logoUploadDone, setLogoUploadDone] = useState(false);
   const [logoUrl, setLogoUrl] = useState("");
 
+  const [error, setError] = useState("");
+
   const [imageSrc, setImageSrc] = useState("");
 
   const onFileChange = (e) => {
     setLogoUploadDone(false);
+    setError("");
+
+    const accceptFileTypes = ["image/png", "image/jpeg"];
 
     const file = e.target.files[0];
 
-    setSelectedFile(e.target.files[0]);
+    if (accceptFileTypes.includes(file.type)) {
+      setSelectedFile(e.target.files[0]);
+      var reader = new FileReader();
+      var url = reader.readAsDataURL(file);
 
-    var reader = new FileReader();
-    var url = reader.readAsDataURL(file);
+      reader.onloadend = function (e) {
+        setImageSrc(reader.result);
+      };
 
-    reader.onloadend = function (e) {
-      setImageSrc(reader.result);
-    };
-    console.log(url);
-
-    onFileUpload();
+      onFileUpload();
+    } else {
+      setError("Only png/jpeg files are allowed.");
+    }
   };
 
   const onFileUpload = async () => {
@@ -70,8 +77,6 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
       name,
       website
     );
-
-    console.log("data 2 --> ", data2);
 
     setLogoUrl(data2.data.logo);
     setLogoUploadDone(true);
@@ -123,7 +128,12 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
           </Layout>
           {logoUploadDone && (
             <div>
-              <p> Logo was uploaded Successfully.</p>
+              <p> Logo was uploaded successfully.</p>
+            </div>
+          )}
+          {error && (
+            <div>
+              <Text type="danger"> {error}</Text>
             </div>
           )}
         </label>
