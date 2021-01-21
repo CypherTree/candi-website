@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { Input } from "@material-ui/core";
-import { Button, Typography } from "antd";
+import { Typography } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -11,9 +11,6 @@ import {
   updateServerWithLogoUploadData,
 } from "../../core/services/logo-upload";
 
-import AddIcon from "@material-ui/icons/Add";
-
-import { Fab } from "@material-ui/core";
 import Layout from "antd/lib/layout/layout";
 
 const { Text } = Typography;
@@ -66,10 +63,6 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
-    // const organisation_id = 39;
-    // const name = "name";
-    // const website = "http://www.green.com.theonboarders.com";
-
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
@@ -110,9 +103,6 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              // padding: "2px",
-              // border: "1px solid #c1c1c1",
-              // width: "auto",
             }}
           >
             {showImage() ? (
@@ -131,17 +121,16 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
               </>
             )}
           </Layout>
+          {logoUploadDone && (
+            <div>
+              <p> Logo was uploaded Successfully.</p>
+            </div>
+          )}
         </label>
         {showImage() && (
           <p style={{ paddingTop: "5px" }}>
             You may click on the logo to upload a new one.
           </p>
-        )}
-
-        {logoUploadDone && (
-          <div>
-            <p> Logo was uploaded Successfully.</p>
-          </div>
         )}
       </span>
     </div>

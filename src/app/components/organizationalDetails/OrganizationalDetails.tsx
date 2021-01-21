@@ -38,18 +38,19 @@ const OrganizationalDetails = (props: any) => {
     currentOrganization.website = organisationWebsite;
     currentOrganization.domain = domain;
 
+    const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+    const regex = new RegExp(expression);
+
     if (isSubmitted) {
       handleNext();
     } else {
-      const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-      const regex = new RegExp(expression);
-
       if (domain.length <= 4) {
         setCurrentError("Domain should be atleast 4 characters.");
       } else if (!organisationWebsite.match(regex)) {
         setCurrentError("Please enter website in required format.");
       } else {
         if (props.state.app.domainCheckMessage === "Domain available") {
+          setLoading(true);
           dispatch(
             SetOrganisationalDetails(
               organisationName,
@@ -64,8 +65,6 @@ const OrganizationalDetails = (props: any) => {
           setCurrentError("This domain cannot be selected.");
         }
       }
-
-      setLoading(true);
     }
   };
 
@@ -113,31 +112,10 @@ const OrganizationalDetails = (props: any) => {
   };
 
   const onFinish = (values: any) => {
-    // if (organisationName === "") {
-    //   setCurrentError("Organisation Name is required.");
-    // } else if (organisationWebsite === "") {
-    //   setCurrentError("Organisation Website is required.");
-    // } else if (domain === "") {
-    //   setCurrentError("Domain is required.");
-    // } else {
-    //   handleNewSubmit();
-    // }
-
     handleNewSubmit();
   };
 
-  const onFinishFailed = (values: any) => {
-    // if (organisationName === "") {
-    //   setCurrentError("Organisation Name is required.");
-    // } else if (organisationWebsite === "") {
-    //   setCurrentError("Organisation Website is required.");
-    // } else if (domain === "") {
-    //   setCurrentError("Domain is required.");
-    // } else {
-    //   handleNewSubmit();
-    // }
-    // alert("Hello");
-  };
+  const onFinishFailed = (values: any) => {};
 
   if (loading) {
     return (

@@ -94,9 +94,7 @@ export const SetOrganisationalDetails = (
     )
     .then((response: any) => {
       console.log("response", response.data);
-
       const { data } = response.data;
-
       dispatch({
         type: NEW_ORGANISATION_CREATE,
         payload: {
