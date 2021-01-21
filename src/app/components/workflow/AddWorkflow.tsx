@@ -10,8 +10,6 @@ import AddWorkflowForm from "./AddWorkflowForm";
 import { Layout, Spin } from "antd";
 
 const AddWorkflow = (props: any) => {
-  const org_id = props.state.app.currentOrganization.id;
-
   const accessToken = localStorage.getItem("accessToken");
 
   console.log("props in workflow --->", props);
@@ -26,7 +24,7 @@ const AddWorkflow = (props: any) => {
 
   const [workflowAlreadyAdded, setWorkflowAlreadyAdded] = useState(false);
 
-  const tenant = "cyphertree";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
   // const tenant = "thor";
   // const tenant = "tikona";
 

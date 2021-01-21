@@ -8,6 +8,8 @@ import Axios from "axios";
 import AddStepForm from "./AddStepForm";
 import SortableList from "./SortableList";
 
+import { connect } from "react-redux";
+
 const AddCustomWorkflow = (props: any) => {
   interface ItemType {
     id: number;
@@ -46,7 +48,7 @@ const AddCustomWorkflow = (props: any) => {
     setIsAddStepFormOpen(true);
   };
 
-  const tenant = "cyphertree";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
 
   const workflow_id = props.workflowId;
 
@@ -113,7 +115,7 @@ const AddCustomWorkflow = (props: any) => {
 
   useEffect(() => {
     updateStepsOrderAPI();
-  }, []);
+  }, [state]);
 
   useEffect(() => {
     getStepsAPI();
@@ -184,6 +186,7 @@ const AddCustomWorkflow = (props: any) => {
         )}
         <br />
       </div>
+
       <div
         style={{ display: "flex", alignContent: "center", paddingTop: "10px" }}
       >
@@ -197,4 +200,10 @@ const AddCustomWorkflow = (props: any) => {
   );
 };
 
-export default AddCustomWorkflow;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(AddCustomWorkflow);

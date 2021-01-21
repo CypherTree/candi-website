@@ -15,6 +15,8 @@ import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
 
+import { connect } from "react-redux";
+
 const { Text } = Typography;
 
 const { Option } = Select;
@@ -50,7 +52,7 @@ const AddStepForm = (props: any) => {
     setStepTypeValue(value);
   };
 
-  const tenant = "cyphertree";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
 
   const handleFormSubmit = () => {
     if (stepName === "") {
@@ -312,4 +314,10 @@ const AddStepForm = (props: any) => {
   );
 };
 
-export default AddStepForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(AddStepForm);
