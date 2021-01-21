@@ -22,28 +22,28 @@ function beforeUpload(file) {
 }
 
 const UploadLogo = ({ organisation_id, name, website, logo }) => {
+  const [logoUrl, setLogoUrl] = useState("");
+
+  const [imageSrc, setImageSrc] = useState("");
+
   const jwtToken = localStorage.getItem("accessToken");
 
   const [loading, setLoading] = useState(false);
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
 
-  console.log("<---- data in logo URL ----->", logo);
+  console.log("<---- data *** logo  ----->", logo);
+
+  console.log("<---- data *** logo URL ----->", logoUrl);
 
   useEffect(() => {
     setLogoUrl(logo);
   }, []);
 
-  const [logoUrl, setLogoUrl] = useState("");
-
-  const [imageSrc, setImageSrc] = useState("");
-
   const onFileUpload = async () => {
     const formData = new FormData();
 
     const file = selectedFile.name !== "" ? selectedFile : "  ";
-
-    // const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
 
     const keys = await getAWSTokenForLogoUpload(jwtToken);
 
@@ -60,10 +60,6 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
     formData.append("file", file);
 
     const result = await uploadFileToAWS(keys.url, formData, key);
-
-    // const organisation_id = 39;
-    // const name = "name";
-    // const website = "http://www.green.com.theonboarders.com";
 
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
@@ -82,7 +78,9 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
   const [selectedFile, setSelectedFile] = useState("");
 
   const handleChange = (info) => {
+    console.log("info here ----", info);
     onFileUpload(info.file);
+    setLogoUrl(info.file.name);
   };
 
   const showLogoChangeMessage = () => {
@@ -125,7 +123,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
         style={{ height: "50px", width: "50px" }}
         customRequest={(f) => serverRequest(f)}
       >
-        {logo !== "" ? (
+        {showLogoChangeMessage() ? (
           <img
             src={logo ? logo : logoUrl}
             alt="logo"
@@ -135,6 +133,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
           uploadButton
         )}
       </Upload>
+
       {showLogoChangeMessage() && (
         <p>You may click on image to a upload new logo.</p>
       )}
