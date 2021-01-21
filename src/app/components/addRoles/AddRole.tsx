@@ -62,6 +62,8 @@ const AddRole = (props: any) => {
 
     if (name !== "" && type) {
       setCurrentError("");
+      setName("");
+      setType(undefined);
       onSubmit();
     }
   };

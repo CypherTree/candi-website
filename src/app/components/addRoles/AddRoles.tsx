@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Layout, Spin } from "antd";
+import { Button, Layout, Spin, Typography } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
@@ -8,13 +8,19 @@ import { connect } from "react-redux";
 
 import AddRole from "./AddRole";
 
+const { Text } = Typography;
+
 const AddRoles = (props: any) => {
-  const tenant = "zoom";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
+
+  const availableList = ["cyphertree", "cocacola", "thor", "pepsi", "zoom"];
+
+  // const tenant = slug;
 
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
   const { handleNext, handleBack, loading, setLoading } = props;
 
-  const org_id = props.state.app.currentOrganization.id;
+  // const org_id = props.state.app.currentOrganization.id;
 
   interface role {
     role: [Iroles];
@@ -168,6 +174,33 @@ const AddRoles = (props: any) => {
 
     getRolesFromAPI();
   }, []);
+
+  if (!availableList.includes(tenant)) {
+    return (
+      <Layout
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          height: "500px",
+          backgroundColor: "white",
+        }}
+      >
+        <Title level={4}>Action unvailable</Title>
+        <Text>Action unvailable for you as of now.</Text>
+        <Text>
+          Action available only for{" "}
+          {availableList.map((item, index) => (
+            <Text>
+              {item}
+              {", "}
+            </Text>
+          ))}
+        </Text>
+      </Layout>
+    );
+  }
 
   if (loading) {
     return (

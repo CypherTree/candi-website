@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Layout, Row, Col } from "antd";
+import { Layout, Row, Col, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import axios from "axios";
@@ -104,9 +104,24 @@ const OrganizationList = (props: any) => {
       .catch((err: any) => console.log("Err", err));
   }, []);
 
+  if (loading) {
+    return (
+      <Layout
+        style={{
+          width: "100%",
+          height: "70vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Spin />
+      </Layout>
+    );
+  }
+
   return (
     <div>
-      {loading && <Title level={5}>Loading..... </Title>}
       {data.length > 0 ? (
         <Layout
           style={{
