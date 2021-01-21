@@ -180,7 +180,7 @@ const OrganizationalDetails = (props: any) => {
               extra="example: google.com"
             >
               <Input
-                onChange={(e) => handleDomainURLChange(e)}
+                onChange={(e) => setOrganisationWebsite(e.target.value)}
                 disabled={isSubmitted}
                 placeholder="Website"
                 // value={organisationWebsite}
@@ -192,7 +192,7 @@ const OrganizationalDetails = (props: any) => {
               rules={[{ required: true, message: "Please input your domain!" }]}
             >
               <Input
-                onChange={(e) => setDomain(e.target.value)}
+                onChange={(e) => handleDomainURLChange(e)}
                 disabled={isSubmitted}
                 placeholder="Domain"
               />
