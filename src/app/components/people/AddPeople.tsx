@@ -1,16 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import {
-  Input,
-  Form,
-  Button,
-  Select,
-  Row,
-  Col,
-  Typography,
-  Layout,
-  Card,
-} from "antd";
+import { Input, Form, Button, Select, Row, Col, Typography } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 import Axios from "axios";
@@ -61,9 +51,7 @@ const AddPeople = (props: any) => {
     console.log("data here --> ", name, email, tenant_role);
 
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/
-
-      `,
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/`,
       [{ name, email, tenant_role }],
       {
         headers: {

@@ -4,7 +4,6 @@ import { Button, Card, Steps } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import AddRoles from "../../components/addRoles/AddRoles";
 import AddWorkflow from "../../components/workflow/AddWorkflow";

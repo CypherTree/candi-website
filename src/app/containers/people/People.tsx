@@ -1,55 +1,41 @@
 import React, { useState, useEffect } from "react";
 
+import { Layout, Spin } from "antd";
+import AddIcon from "@material-ui/icons/Add";
+
 import Axios from "axios";
 
-import { Card, Layout, Spin } from "antd";
-
-import AddIcon from "@material-ui/icons/Add";
 import AddPeople from "../../components/people/AddPeople";
 
-const Pages = () => {
+interface Iroles {
+  name: string;
+  type: number;
+  id?: number;
+  uuid?: string;
+}
+
+interface ITenantRole {
+  id: number;
+  uuid: string;
+  name: string;
+  type: number;
+}
+
+interface IInviteData {
+  id: number;
+  name: string;
+  email: string;
+  tenant_role: ITenantRole;
+}
+
+const People = () => {
   const tenant = "zoom";
 
-  interface role {
-    role: [Iroles];
-  }
-
-  interface Iroles {
-    name: string;
-    type: number;
-    id?: number;
-    uuid?: string;
-  }
-
-  const [roles, setRoles] = useState<Iroles[]>([]);
-  const [oriRoles, setOriRoles] = useState<Iroles[]>([]);
-  const [openInviteForm, setOpenInviteForm] = useState(false);
-
   const [loading, setLoading] = useState(true);
-
+  const [openInviteForm, setOpenInviteForm] = useState(false);
   const [reloadRequired, setReloadRequired] = useState(false);
 
-  useEffect(() => {
-    if (reloadRequired) {
-      getSentInvites();
-      setReloadRequired(false);
-    }
-  }, [reloadRequired]);
-
-  interface ITenantRole {
-    id: number;
-    uuid: string;
-    name: string;
-    type: number;
-  }
-
-  interface IInviteData {
-    id: number;
-    name: string;
-    email: string;
-    tenant_role: ITenantRole;
-  }
-
+  const [oriRoles, setOriRoles] = useState<Iroles[]>([]);
   const [invites, setInvites] = useState<IInviteData[]>([]);
 
   const getRolesFromAPI = async () => {
@@ -96,11 +82,6 @@ const Pages = () => {
       .catch((err) => console.log("err", err));
   };
 
-  useEffect(() => {
-    getRolesFromAPI();
-    getSentInvites();
-  }, []);
-
   const handleAddInviteForm = () => {
     setOpenInviteForm(true);
   };
@@ -108,6 +89,18 @@ const Pages = () => {
   const handleCloseInviteForm = () => {
     setOpenInviteForm(false);
   };
+
+  useEffect(() => {
+    getRolesFromAPI();
+    getSentInvites();
+  }, []);
+
+  useEffect(() => {
+    if (reloadRequired) {
+      getSentInvites();
+      setReloadRequired(false);
+    }
+  }, [reloadRequired]);
 
   if (loading) {
     return (
@@ -220,4 +213,4 @@ const Pages = () => {
   );
 };
 
-export default Pages;
+export default People;

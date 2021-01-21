@@ -169,6 +169,7 @@ const OrganizationList = (props: any) => {
             height="400px"
             width="600px"
             src="https://cdn.dribbble.com/users/1170793/screenshots/5996967/work_pack_white-01.png"
+            alt="loading "
           />
         </div>
       )}

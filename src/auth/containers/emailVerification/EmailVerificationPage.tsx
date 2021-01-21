@@ -22,8 +22,6 @@ import * as H from "history";
 
 import { EmailVerification } from "../../core/redux/actions";
 
-// import SideImage from "../../components/sideImage/SideImage";
-
 const qs = require("query-string");
 
 type AuthProps = {
@@ -69,9 +67,6 @@ const EmailVerificationPage: React.FC<Props> = ({
           paddingTop: "100px",
         }}
       >
-        {/* <Grid item xs={1} sm={6}>
-          <SideImage />
-        </Grid> */}
         <Grid item xs={12} sm={6} color="red">
           <div>
             <Card>
@@ -95,7 +90,6 @@ const EmailVerificationPage: React.FC<Props> = ({
                 <br /> <br />
                 <CardActions style={{ justifyContent: "center" }}>
                   <Link to="/forgot-password">
-                    {" "}
                     <Button variant="contained" color="primary">
                       Continue to website
                     </Button>

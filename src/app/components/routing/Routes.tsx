@@ -25,7 +25,7 @@ import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
 import PrivateRoute from "./PrivateRoute";
-import People from "../../containers/pages/Pages";
+import People from "../../containers/people/People";
 
 import { useLocation } from "react-router-dom";
 
