@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 import * as H from "history";
 
 import { EmailVerification } from "../../core/redux/actions";
-import { Button, Card, Divider } from "antd";
+import { Button, Card, Divider, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
+
+// import SideImage from "../../components/sideImage/SideImage";
 
 const qs = require("query-string");
 
@@ -49,27 +51,33 @@ const EmailVerificationPage: React.FC<Props> = ({
   }, [token]);
 
   return (
-    <div
+    <Layout
       style={{
         alignContent: "center",
-        justifyContent: "center",
         paddingTop: "100px",
+        width: "100%",
+        height: "75vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
       }}
     >
-      <Card title="Email Verification">
-        {!state.auth.emailVerificationMessage && !state.auth.error && (
-          <Title level={4}>Please wait while we verify your account</Title>
-        )}
-        {state.auth.error && <Title level={4}>{state.auth.error}</Title>}
-        {state.auth.emailVerificationMessage && (
-          <Title level={4}>Your e-mail is verified</Title>
-        )}
-        <br /> <br />
-        <Link to="/forgot-password">
-          <Button type="primary">Continue to website</Button>
-        </Link>
-      </Card>
-    </div>
+      <div>
+        <Card title="Email Verification">
+          {!state.auth.emailVerificationMessage && !state.auth.error && (
+            <Title level={4}>Please wait while we verify your account</Title>
+          )}
+          {state.auth.error && <Title level={4}>{state.auth.error}</Title>}
+          {state.auth.emailVerificationMessage && (
+            <Title level={4}>Your e-mail is verified</Title>
+          )}
+          <br /> <br />
+          <Link to="/forgot-password">
+            <Button type="primary">Continue to website</Button>
+          </Link>
+        </Card>
+      </div>
+    </Layout>
   );
 };
 
