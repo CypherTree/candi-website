@@ -3,7 +3,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Layout from "antd/lib/layout/layout";
-import { Button, Form, Input, Row, Col, Checkbox, Spin } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Row,
+  Col,
+  Checkbox,
+  Spin,
+  Typography,
+} from "antd";
 import Title from "antd/lib/typography/Title";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
@@ -15,7 +24,9 @@ import {
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
 
-function CompanyDetails(props: any) {
+const { Text } = Typography;
+
+const CompanyDetails = (props: any) => {
   console.log("--- ALL PROPS -- ", props);
 
   const { handleBack, handleNext, loading, setLoading } = props;
@@ -82,6 +93,8 @@ function CompanyDetails(props: any) {
 
   const [logo, setLogo] = useState("");
 
+  const [gstError, setGstError] = useState("");
+
   const clearEverything = () => {
     setIsGSTVerified(false);
     setCountry("");
@@ -105,6 +118,8 @@ function CompanyDetails(props: any) {
 
   const fetchGSTDetails = () => {
     const accessToken = localStorage.getItem("accessToken");
+
+    setGstError("");
 
     setLoading(true);
 
@@ -140,7 +155,11 @@ function CompanyDetails(props: any) {
         }
       })
       .then(() => setLoading(false))
-      .catch((err) => console.log("--- erro", err.message));
+      .catch((err) => {
+        console.log("--- erro", err.message);
+        setLoading(false);
+        setGstError("GST details could not be fetched. Please retry.");
+      });
   };
 
   const handleFormSubmit = () => {
@@ -266,6 +285,7 @@ function CompanyDetails(props: any) {
                     Verify GST
                   </Button>
                 </Form.Item>
+                {gstError && <Text type="danger">{gstError}</Text>}
               </Col>
               <Col span={12}>
                 <Form.Item
@@ -456,7 +476,7 @@ function CompanyDetails(props: any) {
       </Layout>
     );
   }
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {

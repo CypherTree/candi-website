@@ -86,11 +86,17 @@ const PlanCard = (props: any) => {
         style={{ margin: "auto", display: "inline-flex", paddingTop: "0px" }}
       >
         <Button type="primary" onClick={() => handleClick()}>
-          Become a member -{" "}
+          Become a member -
           {pricePeriod === "monthly" ? (
-            <Text style={{ color: "#fff" }}>{plan.prices[0].price} $</Text>
+            <Text style={{ color: "#fff", paddingLeft: "2px" }}>
+              {" "}
+              {plan.prices[0].price} $
+            </Text>
           ) : (
-            <Text style={{ color: "#fff" }}>{plan.prices[1].price} $</Text>
+            <Text style={{ color: "#fff", paddingLeft: "2px" }}>
+              {" "}
+              {plan.prices[1].price} $
+            </Text>
           )}
         </Button>
       </div>
