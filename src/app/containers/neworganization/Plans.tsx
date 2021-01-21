@@ -247,13 +247,6 @@ const Plans = (props: any) => {
     ],
   };
 
-  //   useEffect(() => {
-  //     // get all plans
-  //     getAllPlans();
-  //     // setPlansData(getAllPlans());
-  //     console.log("All plans", plansData);
-  //   }, []);
-
   const dispatch = useDispatch();
 
   const [pricePeriod, setPricePeriod] = React.useState("yearly");
@@ -284,7 +277,7 @@ const Plans = (props: any) => {
         setOrganizationId(props.state.app.currentOrganization.id);
       }
     }
-  }, [props]);
+  }, []);
 
   const accessToken = localStorage.getItem("accessToken");
 
@@ -312,7 +305,7 @@ const Plans = (props: any) => {
         })
         .catch((err: any) => console.log("err--->", err.response));
     }
-  }, [organization_id]);
+  }, []);
 
   const handlePricePeriod = (newPricePeriod: React.SetStateAction<string>) => {
     setPricePeriod(newPricePeriod);

@@ -25,8 +25,18 @@ import Sidebar from "../sidebar/Sidebar";
 import Navbar from "../navbar/Navbar";
 
 import PrivateRoute from "./PrivateRoute";
+import People from "../../containers/pages/Pages";
+
+import { useLocation } from "react-router-dom";
 
 const Routes = (props: any) => {
+  console.log("props in routes ----->", props);
+
+  const location = useLocation();
+  console.log(location);
+
+  console.log(window.location.href); //yields: "https://stacksnippets.net/js"
+
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCollapsed = () => {
@@ -102,6 +112,7 @@ const Routes = (props: any) => {
                   path="/organisations"
                   component={ReturnHello}
                 />
+                <PrivateRoute exact path="/people" component={People} />
                 <Route component={PageNotFound} />
               </Switch>
             </div>

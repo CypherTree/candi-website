@@ -11,12 +11,9 @@ const PlanCard = (props: any) => {
   const { selectedPlan, setSelectedPlan } = props;
   const { pricePeriod, plan } = props;
 
-  const [reloadRequired, setReloadRequired] = useState(false);
-
   console.log(" <------ SELECTED PLAN -------> ", selectedPlan);
 
   const handleClick = () => {
-    setReloadRequired(true);
     setSelectedPlan({
       period_type: pricePeriod === "monthly" ? 0 : 1,
       plan_id: plan.id,
@@ -29,10 +26,6 @@ const PlanCard = (props: any) => {
       ? "5px 5px 5px 5px lightgrey"
       : "0px";
   };
-
-  useEffect(() => {
-    setReloadRequired(false);
-  }, [reloadRequired]);
 
   return (
     <Card

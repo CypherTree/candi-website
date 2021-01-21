@@ -59,7 +59,7 @@ function CompanyDetails(props: any) {
         setLogo(props.state.app.currentOrganization.logo);
       }
     }
-  });
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -206,13 +206,6 @@ function CompanyDetails(props: any) {
     return (
       <Layout
         style={{
-          // textAlign: "center",
-          // paddingLeft: "100px",
-          // height: "75vh",
-          // width: "800px",
-
-          // justifyContent: "center",
-          // alignItems: "center",
           backgroundColor: "#fff",
           padding: "30px 30px 0px 30px",
         }}

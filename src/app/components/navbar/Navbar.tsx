@@ -162,7 +162,7 @@ function Navbar(props: any) {
             </Title>
           </Link>
           <Link
-            to="#"
+            to="/people"
             style={{
               textDecoration: "none",
               color: "black",

@@ -120,7 +120,7 @@ const NewOrganisation = (props: any) => {
         domain,
       });
     }
-  }, [props]);
+  }, []);
 
   const onChange = (current: React.SetStateAction<number>) => {
     setCurrent(current);
