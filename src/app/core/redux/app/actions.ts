@@ -254,6 +254,8 @@ export const AddCompanyDetailsToOrganization = (
 export const AddCompanyDetailsToCurrentOrganization = (data: any) => (
   dispatch: any
 ) => {
+  console.log("******** data in addcompany details reducer *****", data);
+
   dispatch({
     type: ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
     payload: {

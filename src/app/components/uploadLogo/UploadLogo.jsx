@@ -28,6 +28,8 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
 
+  console.log("<---- data in logo URL ----->", logo);
+
   useEffect(() => {
     setLogoUrl(logo);
   }, []);
@@ -83,6 +85,16 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
     onFileUpload(info.file);
   };
 
+  const showLogoChangeMessage = () => {
+    if (logo || logoUrl) {
+      if (logo !== "" || logoUrl !== "") {
+        return true;
+      }
+    } else {
+      return false;
+    }
+  };
+
   const uploadButton = (
     <div>
       {loading ? <LoadingOutlined /> : <PlusOutlined />}
@@ -123,7 +135,9 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
           uploadButton
         )}
       </Upload>
-      {logoUrl && <p>You may click on image to a upload new logo.</p>}
+      {showLogoChangeMessage() && (
+        <p>You may click on image to a upload new logo.</p>
+      )}
 
       {logoUploadDone && (
         <div>

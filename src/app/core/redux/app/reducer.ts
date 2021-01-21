@@ -54,8 +54,31 @@ export const appReducer: any = (
     }
     case ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION: {
       const { currentOrganization } = state;
-      Object.assign(payload, currentOrganization);
-      return { ...state, ...currentOrganization };
+      console.log("<----- current org ----->", currentOrganization);
+
+      console.log("<----- payload ----->", payload);
+
+      let newOrg;
+
+      if (payload.currentOrganization) {
+        newOrg = Object.assign(
+          payload.currentOrganization,
+          currentOrganization
+        );
+        console.log("---has all");
+      } else {
+        newOrg = Object.assign(payload, currentOrganization);
+        console.log("--- had all");
+      }
+
+      console.log("final currentOrg", currentOrganization);
+
+      console.log(" ----- new org currentOrg", newOrg);
+
+      const newState = state;
+      newState.currentOrganization = newOrg;
+
+      return newState;
     }
 
     case CLEAR_CURRENT_ORGANISATION: {
