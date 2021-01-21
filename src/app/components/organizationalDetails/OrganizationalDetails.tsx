@@ -46,6 +46,8 @@ const OrganizationalDetails = (props: any) => {
     } else {
       if (domain.length <= 4) {
         setCurrentError("Domain should be atleast 4 characters.");
+      } else if (domain.includes(" ")) {
+        setCurrentError("Domain cannot include spaces.");
       } else if (!organisationWebsite.match(regex)) {
         setCurrentError("Please enter website in required format.");
       } else {
