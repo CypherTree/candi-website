@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Button, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
@@ -35,6 +35,8 @@ const AddCustomWorkflow = (props: any) => {
   const [isAddStepFormOpen, setIsAddStepFormOpen] = useState(false);
 
   const [didOrderChange, setDidOrderChange] = useState(false);
+
+  const messagesEndRef = useRef<any>(null);
 
   const { handleCancelModal, handleNext } = props;
 
@@ -122,6 +124,13 @@ const AddCustomWorkflow = (props: any) => {
     setDataReload(false);
   }, [dataReload]);
 
+  useEffect(() => {
+    console.log("<---- scroll thing was called--->", isAddStepFormOpen);
+    if (isAddStepFormOpen) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isAddStepFormOpen]);
+
   return (
     <Layout
       style={{
@@ -184,6 +193,7 @@ const AddCustomWorkflow = (props: any) => {
             workflowId={workflow_id}
           />
         )}
+        <div ref={messagesEndRef} />
         <br />
       </div>
 
