@@ -41,16 +41,31 @@ const OrganizationalDetails = (props: any) => {
     if (isSubmitted) {
       handleNext();
     } else {
+      const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+      const regex = new RegExp(expression);
+
+      if (domain.length <= 4) {
+        setCurrentError("Domain should be atleast 4 characters.");
+      } else if (!organisationWebsite.match(regex)) {
+        setCurrentError("Please enter website in required format.");
+      } else {
+        if (props.state.app.domainCheckMessage === "Domain available") {
+          dispatch(
+            SetOrganisationalDetails(
+              organisationName,
+              organisationWebsite,
+              domain,
+              handleNext,
+              setLoading
+            )
+          );
+          setCurrentError("");
+        } else {
+          setCurrentError("This domain cannot be selected.");
+        }
+      }
+
       setLoading(true);
-      dispatch(
-        SetOrganisationalDetails(
-          organisationName,
-          organisationWebsite,
-          domain,
-          handleNext,
-          setLoading
-        )
-      );
     }
   };
 
@@ -108,21 +123,7 @@ const OrganizationalDetails = (props: any) => {
     //   handleNewSubmit();
     // }
 
-    const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
-    const regex = new RegExp(expression);
-
-    if (domain.length <= 4) {
-      setCurrentError("Domain should be atleast 4 characters.");
-    } else if (!organisationWebsite.match(regex)) {
-      setCurrentError("Please enter website in required format.");
-    } else {
-      if (props.state.app.domainCheckMessage === "Domain available") {
-        handleNewSubmit();
-        setCurrentError("");
-      } else {
-        setCurrentError("This domain cannot be selected.");
-      }
-    }
+    handleNewSubmit();
   };
 
   const onFinishFailed = (values: any) => {
