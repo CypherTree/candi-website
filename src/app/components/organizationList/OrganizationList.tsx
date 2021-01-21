@@ -103,6 +103,7 @@ const OrganizationList = (props: any) => {
       .then(() => setLoading(false))
       .catch((err: any) => console.log("Err", err));
   }, []);
+
   return (
     <div>
       {loading && <Title level={5}>Loading..... </Title>}

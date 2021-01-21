@@ -88,6 +88,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
               src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
               height="500px"
               width="800px"
+              alt="welcome"
             />
           </>
         ) : (

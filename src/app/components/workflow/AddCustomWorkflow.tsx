@@ -113,7 +113,7 @@ const AddCustomWorkflow = (props: any) => {
 
   useEffect(() => {
     updateStepsOrderAPI();
-  }, [state]);
+  }, []);
 
   useEffect(() => {
     getStepsAPI();

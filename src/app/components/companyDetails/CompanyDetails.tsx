@@ -59,7 +59,7 @@ function CompanyDetails(props: any) {
         setLogo(props.state.app.currentOrganization.logo);
       }
     }
-  });
+  }, []);
 
   const dispatch = useDispatch();
 

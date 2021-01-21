@@ -80,6 +80,7 @@ const OrganizationalDetails = (props: any) => {
       }
     }
   }, []);
+
   const handleDomainURLChange = (e: any) => {
     setDomain(e.target.value);
 

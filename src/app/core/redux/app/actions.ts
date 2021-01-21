@@ -210,7 +210,10 @@ export const AssignPlanToOrganisation = (
     .then(() => {
       setLoading(false);
     })
-    .catch((err) => console.log("Err", err));
+    .catch((err) => {
+      console.log("Err", err);
+      setLoading(false);
+    });
 };
 
 export const AddCompanyDetailsToOrganization = (

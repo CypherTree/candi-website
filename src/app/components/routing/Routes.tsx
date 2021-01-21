@@ -99,7 +99,7 @@ const Routes = (props: any) => {
                 />
                 <PrivateRoute
                   exact
-                  path="/organisations"
+                  path="/organisation"
                   component={ReturnHello}
                 />
                 <Route component={PageNotFound} />
