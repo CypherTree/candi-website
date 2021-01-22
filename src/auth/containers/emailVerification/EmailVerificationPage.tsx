@@ -72,7 +72,7 @@ const EmailVerificationPage: React.FC<Props> = ({
             <Title level={4}>Your e-mail is verified</Title>
           )}
           <br /> <br />
-          <Link to="/forgot-password">
+          <Link to="/dashboard">
             <Button type="primary">Continue to website</Button>
           </Link>
         </Card>
