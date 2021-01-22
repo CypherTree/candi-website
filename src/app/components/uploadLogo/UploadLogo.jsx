@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 
+// import { Button, Input } from "@material-ui/core";
+
 import { Input } from "@material-ui/core";
-import { Typography } from "antd";
+import { Typography, Layout, Button } from "antd";
 
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -11,11 +13,13 @@ import {
   updateServerWithLogoUploadData,
 } from "../../core/services/logo-upload";
 
-import Layout from "antd/lib/layout/layout";
+import AddIcon from "@material-ui/icons/Add";
+
+import { Fab } from "@material-ui/core";
 
 const { Text } = Typography;
 
-const UploadLogo = ({ organisation_id, name, website, logo }) => {
+function UploadLogo({ organisation_id, name, website, logo }) {
   const jwtToken = localStorage.getItem("accessToken");
 
   const [logoUploadDone, setLogoUploadDone] = useState(false);
@@ -40,12 +44,16 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
       reader.onloadend = function (e) {
         setImageSrc(reader.result);
-      };
 
-      onFileUpload();
+        // onFileUpload();
+      };
     } else {
       setError("Only png/jpeg files are allowed.");
     }
+  };
+
+  const showImage = () => {
+    return imageSrc !== "" || (logo && logo !== "");
   };
 
   const onFileUpload = async () => {
@@ -70,6 +78,10 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
+    // const organisation_id = 39;
+    // const name = "name";
+    // const website = "http://www.green.com.theonboarders.com";
+
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
@@ -78,15 +90,13 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
       website
     );
 
+    console.log("data 2 --> ", data2);
+
     setLogoUrl(data2.data.logo);
     setLogoUploadDone(true);
   };
 
   const [selectedFile, setSelectedFile] = useState("");
-
-  const showImage = () => {
-    return imageSrc !== "" || (logo && logo !== "");
-  };
 
   return (
     <div style={{ paddingTop: "10px" }}>
@@ -99,6 +109,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
             type="file"
             onChange={(e) => onFileChange(e)}
           />
+
           <Layout
             style={{
               height: "100px",
@@ -126,24 +137,24 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
               </>
             )}
           </Layout>
-          {logoUploadDone && (
-            <div>
-              <p> Logo was uploaded successfully.</p>
-            </div>
-          )}
-          {error && (
-            <div>
-              <Text type="danger"> {error}</Text>
-            </div>
-          )}
+          <br />
         </label>
-        {showImage() && (
-          <p style={{ paddingTop: "5px" }}>
-            You may click on the logo to upload a new one.
-          </p>
+
+        <Button onClick={onFileUpload}> Upload </Button>
+
+        {error && (
+          <div>
+            <Text type="danger"> {error}</Text>
+          </div>
+        )}
+
+        {logoUploadDone && (
+          <div>
+            <p> Logo was uploaded Successfully.</p>
+          </div>
         )}
       </span>
     </div>
   );
-};
+}
 export default UploadLogo;

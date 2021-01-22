@@ -100,10 +100,11 @@ const OrganizationalDetails = (props: any) => {
   }, []);
 
   const handleDomainURLChange = (e: any) => {
-    setDomain(e.target.value);
     setCurrentError("");
 
-    if (domain.length >= 4) {
+    console.log("domain name --> ", domain, domain.length);
+
+    if (domain.length >= 3) {
       dispatch(
         CheckDomainName(
           e.target.value,
@@ -217,7 +218,10 @@ const OrganizationalDetails = (props: any) => {
               rules={[{ required: true, message: "Please input your domain!" }]}
             >
               <Input
-                onChange={(e) => handleDomainURLChange(e)}
+                onChange={(e) => {
+                  setDomain(e.target.value);
+                  handleDomainURLChange(e);
+                }}
                 disabled={isSubmitted}
                 placeholder="Domain"
               />
