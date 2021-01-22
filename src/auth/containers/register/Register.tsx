@@ -53,7 +53,6 @@ const Register: React.FC<Props> = ({ setAuthenticated, state, history }) => {
         style={{
           display: "flex",
           justifyContent: "center",
-          // overflowY: "scroll",
         }}
       >
         <Col span={12}>

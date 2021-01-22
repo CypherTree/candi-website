@@ -10,9 +10,41 @@ import { connect } from "react-redux";
 
 import SiderSubMenu from "./SiderSubMenu";
 
-const Sidebar = (props: any) => {
-  const { isAuthenticated } = props.state.auth;
-  const { toggleCollapsed, collapsed } = props;
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
+
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: UserDataProps;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  state: StateProps;
+  toggleCollapsed(): void;
+  collapsed: boolean;
+};
+
+const Sidebar: React.FC<Props> = ({ state, toggleCollapsed, collapsed }) => {
+  const { isAuthenticated } = state.auth;
 
   if (!isAuthenticated) {
     return <></>;

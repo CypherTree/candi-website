@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Col, Layout, Row, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
-import { ThunkDispatch } from "redux-thunk";
-import { AnyAction } from "redux";
 import { connect } from "react-redux";
 import * as H from "history";
 
@@ -112,10 +110,4 @@ const mapStateToProps = (state: StateType) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
-  return {
-    //
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

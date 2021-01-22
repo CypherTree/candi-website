@@ -109,12 +109,6 @@ const RegisterForm: React.FC<Props> = ({
     countdown();
   };
 
-  // const redirectToDashboard = () => {
-  //   setTimeout(() => {
-  //     setAuthenticated(true);
-  //   }, 1000);
-  // };
-
   type valuesType = {
     firstName?: string;
     lastName?: string;

@@ -6,7 +6,7 @@ import Axios from "axios";
 const source =
   "https://candi-website.s3.us-east-2.amazonaws.com/markdownText.txt";
 
-function PrivacyPolicyText() {
+const PrivacyPolicyText = () => {
   const [text, setText] = useState("");
 
   useEffect(() => {
@@ -14,11 +14,12 @@ function PrivacyPolicyText() {
       setText(result.data);
     });
   }, []);
+
   return (
     <div style={{ padding: "5px", textAlign: "left" }}>
       <ReactMarkdown source={text}></ReactMarkdown>
     </div>
   );
-}
+};
 
 export default PrivacyPolicyText;

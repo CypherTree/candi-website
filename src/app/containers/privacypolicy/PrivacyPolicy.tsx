@@ -30,7 +30,6 @@ const PrivacyPolicy = () => {
   return (
     <Card
       style={{
-        // border: "1px solid black",
         padding: "10px 50px 50px 50px",
         borderRadius: "10px",
       }}
@@ -64,7 +63,6 @@ const PrivacyPolicy = () => {
               {disabled ? (
                 <div
                   style={{
-                    // backgroundColor: "red",
                     height: "500px",
                     padding: "10px",
                     margin: "10px",

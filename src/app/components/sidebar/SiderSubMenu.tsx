@@ -11,8 +11,11 @@ import {
 
 const { SubMenu } = Menu;
 
-const SiderSubMenu = (props: any) => {
-  const { collapsed } = props;
+type Props = {
+  collapsed: boolean;
+};
+
+const SiderSubMenu: React.FC<Props> = ({ collapsed }) => {
   return (
     <Menu
       defaultSelectedKeys={["1"]}

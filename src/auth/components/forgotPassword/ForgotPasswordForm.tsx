@@ -50,7 +50,6 @@ const ForgotPasswordForm: React.FC<Props> = ({
   };
 
   const onFinish = (values: any) => {
-    console.log("Success:", values);
     handleFormSubmit();
   };
 

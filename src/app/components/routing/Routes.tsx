@@ -23,7 +23,38 @@ import PageNotFound from "../../containers/pagenotfound/PageNotFound";
 
 import "../../../App.css";
 
-const Routes = (props: any) => {
+export type UserDataProps = {
+  email: string;
+  first_name: string;
+  id: number;
+  is_active: boolean;
+  is_verified: boolean;
+  last_login: string;
+  last_name: string;
+  phone_number: string;
+  phone_number_extenstion: string;
+  privacy_policy_accepted: boolean;
+  profile_picture: string;
+  profile_picture_process_status: string;
+};
+
+type AuthProps = {
+  isAuthenticated: boolean;
+  error?: string;
+  success?: boolean;
+  message?: string;
+  userData?: UserDataProps;
+};
+
+type StateProps = {
+  auth: AuthProps;
+};
+
+type Props = {
+  state: StateProps;
+};
+
+const Routes: React.FC<Props> = ({ state }) => {
   const [collapsed, setCollapsed] = useState(false);
 
   const toggleCollapsed = () => {
@@ -32,7 +63,7 @@ const Routes = (props: any) => {
 
   const { accessToken } = getCurrentSessionTokens();
 
-  const { isAuthenticated } = props.state.auth;
+  const { isAuthenticated } = state.auth;
 
   const returnMargin = () => {
     if (isAuthenticated) {
