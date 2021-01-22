@@ -16,6 +16,8 @@ const AddPeople = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState("");
 
+  const [inviteColor, setInviteColor] = useState<any>("secondary");
+
   const {
     oriRoles,
     inviteData,
@@ -42,6 +44,8 @@ const AddPeople = (props: any) => {
   };
 
   const tenant = "zoom";
+
+  const [inviteStatus, setInviteStatus] = useState("");
 
   const sendInvite = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
@@ -108,6 +112,33 @@ const AddPeople = (props: any) => {
       setEmail(inviteData.email);
       setRoleType(inviteData.tenant_role.name);
       setDisabled(true);
+
+      // 0 = NOT SENT
+      // 1 = PENDING
+      // 2 = ACCEPTED
+      // 3 = REJECTED
+      // 4 = CANCELLED
+      // 5 = EXPIRED
+
+      if (inviteData.invite_status === 0) {
+        setInviteStatus("Not Sent");
+        setInviteColor("warning");
+      } else if (inviteData.invite_status === 1) {
+        setInviteStatus("Pending");
+        setInviteColor("warning");
+      } else if (inviteData.invite_status === 2) {
+        setInviteStatus("Accepted");
+        setInviteColor("success");
+      } else if (inviteData.invite_status === 3) {
+        setInviteStatus("Rejected");
+        setInviteColor("danger");
+      } else if (inviteData.invite_status === 4) {
+        setInviteStatus("Cancelled");
+        setInviteColor("danger");
+      } else if (inviteData.invite_status === 5) {
+        setInviteStatus("Expired");
+        setInviteColor("danger");
+      }
     }
   }, []);
 
@@ -122,73 +153,87 @@ const AddPeople = (props: any) => {
           width: "1000px",
           paddingBottom: "0px",
           display: "flex",
-          flexDirection: "row",
+          flexDirection: "column",
         }}
       >
         <Row gutter={20}>
-          <Col>
-            <Form.Item style={{ width: "250px" }}>
-              <Input
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={disabled}
-              />
-            </Form.Item>
-          </Col>
-          <Col>
-            <Form.Item style={{ width: "250px" }}>
-              <Input
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                disabled={disabled}
-              />
-            </Form.Item>
-          </Col>
-          <Col>
-            <Select
-              style={{ width: "250px" }}
-              placeholder="Role Type"
-              value={roleType === "" ? "Role Type" : roleType}
-              onChange={handleRoleTypeChange}
-              disabled={disabled}
-            >
-              {oriRoles.map((role: any) => (
-                <Option
-                  value={role.name}
-                  key={role.id}
-                  disabled={role.name === "Viewer"}
-                >
-                  {role.name}
-                </Option>
-              ))}
-            </Select>
-          </Col>
-          <Col>
-            {disabled ? (
-              <Form.Item style={{ paddingLeft: "50px" }}>
-                <Button type="primary" onClick={handleCancelInvite}>
-                  Cancel Invite
-                </Button>
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <Col>
+              <Form.Item style={{ width: "250px" }}>
+                <Input
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={disabled}
+                />
               </Form.Item>
-            ) : (
-              <Form.Item style={{ paddingLeft: "50px" }}>
-                <Button type="primary" htmlType="submit">
-                  Invite
-                </Button>
-                <Button
-                  danger
-                  style={{ marginLeft: "5px" }}
-                  onClick={handleCloseInviteForm}
-                >
-                  <CloseOutlined />
-                </Button>
+            </Col>
+            <Col>
+              <Form.Item style={{ width: "250px" }}>
+                <Input
+                  placeholder="Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  disabled={disabled}
+                />
               </Form.Item>
-            )}
-          </Col>
+            </Col>
+            <Col>
+              <Select
+                style={{ width: "250px" }}
+                placeholder="Role Type"
+                value={roleType === "" ? "Role Type" : roleType}
+                onChange={handleRoleTypeChange}
+                disabled={disabled}
+              >
+                {oriRoles.map((role: any) => (
+                  <Option
+                    value={role.name}
+                    key={role.id}
+                    disabled={role.name === "Viewer"}
+                  >
+                    {role.name}
+                  </Option>
+                ))}
+              </Select>
+            </Col>
+            <Col>
+              {disabled ? (
+                <Form.Item style={{ paddingLeft: "50px" }}>
+                  <Button type="primary" onClick={handleCancelInvite}>
+                    Cancel Invite
+                  </Button>
+                </Form.Item>
+              ) : (
+                <Form.Item style={{ paddingLeft: "50px" }}>
+                  <Button type="primary" htmlType="submit">
+                    Invite
+                  </Button>
+                  <Button
+                    danger
+                    style={{ marginLeft: "5px" }}
+                    onClick={handleCloseInviteForm}
+                  >
+                    <CloseOutlined />
+                  </Button>
+                </Form.Item>
+              )}
+            </Col>
+          </div>
+        </Row>
+        <Row>
+          {disabled && (
+            <Text type="secondary">
+              Current Status :{" "}
+              <Text type={inviteColor ? inviteColor : "secondary"}>
+                {" "}
+                {inviteStatus}
+              </Text>
+            </Text>
+          )}
         </Row>
       </Form>
+
       {error && (
         <Row>
           <Text type="danger">{error}</Text>
