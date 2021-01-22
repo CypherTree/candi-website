@@ -13,8 +13,6 @@ import ResetPassword from "../../../auth/containers/forgotPassword/ResetPassword
 
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
-import "../../../App.css";
-
 import Dashboard from "../../containers/dashboard/Dashboard";
 
 import Sidebar from "../sidebar/Sidebar";
@@ -22,6 +20,8 @@ import Navbar from "../navbar/Navbar";
 
 import PrivateRoute from "./PrivateRoute";
 import PageNotFound from "../../containers/pagenotfound/PageNotFound";
+
+import "../../../App.css";
 
 const Routes = (props: any) => {
   const [collapsed, setCollapsed] = useState(false);
@@ -67,7 +67,7 @@ const Routes = (props: any) => {
               <Switch>
                 <Route exact path="/" component={Login} />
                 <Route exact path="/login" component={Login} />
-                <Route exact path="/register" component={Register} />{" "}
+                <Route exact path="/register" component={Register} />
                 <Route
                   exact
                   path="/forgot-password"

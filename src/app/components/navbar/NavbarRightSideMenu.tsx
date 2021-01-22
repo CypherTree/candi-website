@@ -8,9 +8,11 @@ import {
   UserOutlined,
 } from "@ant-design/icons";
 
-const NavbarRightSideMenu = (props: any) => {
-  const { handleLogout } = props;
+type Props = {
+  handleLogout: () => void;
+};
 
+const NavbarRightSideMenu: React.FC<Props> = ({ handleLogout }) => {
   const menu = (
     <Menu>
       <Menu.Item>Profile</Menu.Item>

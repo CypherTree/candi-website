@@ -2,17 +2,16 @@ import React, { useEffect } from "react";
 
 import { Button, Layout } from "antd";
 
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 
-import * as H from "history";
-
-import { LogoutUser } from "../../../auth/core/redux/actions";
 import { StateType } from "../../core/redux/types";
 
 import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
+import { LogoutUser } from "../../../auth/core/redux/actions";
 
 import NavbarTopMenu from "./NavbarTopMenu";
-
 import NavbarRightSideMenu from "./NavbarRightSideMenu";
 
 const { Header } = Layout;
@@ -45,25 +44,18 @@ type StateProps = {
 };
 
 type Props = {
-  history: H.History;
-  setAuthenticated: () => void;
   state: StateProps;
   logoutUser: () => void;
-  getNewToken: (accessToken: string, refreshToken: string) => void;
 };
 
-function Navbar(props: any) {
-  const dispatch = useDispatch();
-
-  const state = props.state;
-
+const Navbar: React.FC<Props> = ({ state, logoutUser }) => {
   const userData = state.auth.userData ? state.auth.userData : null;
 
-  useEffect(() => {}, [userData]);
-
   const handleLogout = () => {
-    dispatch(LogoutUser());
+    logoutUser();
   };
+
+  useEffect(() => {}, [userData]);
 
   return (
     <>
@@ -75,7 +67,6 @@ function Navbar(props: any) {
         }}
       >
         <NavbarRightSideMenu handleLogout={handleLogout} />
-
         <Layout
           style={{
             float: "left",
@@ -107,7 +98,7 @@ function Navbar(props: any) {
       {userData !== null && !userData.is_verified && <EmailVerificationBar />}
     </>
   );
-}
+};
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -115,4 +106,10 @@ const mapStateToProps = (state: StateType) => {
   };
 };
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+  return {
+    logoutUser: () => dispatch(LogoutUser()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

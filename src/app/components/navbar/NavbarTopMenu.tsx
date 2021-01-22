@@ -4,8 +4,12 @@ import Title from "antd/lib/typography/Title";
 
 import { Link } from "react-router-dom";
 
-const NavbarTopMenu = (props: any) => {
-  const { title, link } = props;
+type Props = {
+  title: string;
+  link: string;
+};
+
+const NavbarTopMenu: React.FC<Props> = ({ title, link }) => {
   return (
     <Link
       to={link}
