@@ -22,8 +22,6 @@ import * as H from "history";
 
 import { EmailVerification } from "../../core/redux/actions";
 
-import SideImage from "../../components/sideImage/SideImage";
-
 const qs = require("query-string");
 
 type AuthProps = {
@@ -56,15 +54,24 @@ const EmailVerificationPage: React.FC<Props> = ({
     if (token) {
       emailVerification(token);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   return (
     <div>
-      <Grid container spacing={0}>
-        <Grid item xs={1} sm={6}>
+      <Grid
+        container
+        spacing={0}
+        style={{
+          alignContent: "center",
+          justifyContent: "center",
+          paddingTop: "100px",
+        }}
+      >
+        {/* <Grid item xs={1} sm={6}>
           <SideImage />
-        </Grid>
-        <Grid item xs={11} sm={6} color="red">
+        </Grid> */}
+        <Grid item xs={12} sm={6} color="red">
           <div>
             <Card>
               <CardHeader title="Email Verification" />

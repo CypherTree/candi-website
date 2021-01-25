@@ -1,31 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-import {
-  Button,
-  CardContent,
-  Typography,
-  Grid,
-  CardHeader,
-  Card,
-} from "@material-ui/core";
-
-import { ThunkDispatch } from "redux-thunk";
-
-import { AnyAction } from "redux";
+import { Col, Layout, Row, Spin } from "antd";
+import Title from "antd/lib/typography/Title";
 
 import { connect } from "react-redux";
-
 import * as H from "history";
 
+import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 import { StateType } from "../../core/redux/types";
-
-import { LogoutUser, GetNewToken } from "../../../auth/core/redux/actions";
-
-import { acceptPrivacyPolicy } from "../../../auth/core/services/privacypolicy";
-
-import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-
-import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
 
 export type UserDataProps = {
   email: string;
@@ -62,87 +44,64 @@ type Props = {
   getNewToken: (accessToken: string, refreshToken: string) => void;
 };
 
-const Dashboard: React.FC<Props> = ({ logoutUser, getNewToken, state }) => {
-  const [loading, setLoading] = useState(false);
-
-  const { accessToken } = getCurrentSessionTokens();
-
-  const handleLogout = () => {
-    logoutUser();
-  };
+const Dashboard: React.FC<Props> = ({ state }) => {
+  const [loading, setLoading] = useState(true);
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
-  useEffect(() => {}, [userData]);
-
-  const handleAcceptPrivacyPolicy = () => {
-    if (accessToken !== null) {
-      acceptPrivacyPolicy(accessToken);
-      setLoading(true);
-      setTimeout(() => {
-        window.location.reload(true);
-      }, 6000);
+  useEffect(() => {
+    if (userData?.first_name) {
+      setLoading(false);
     }
-  };
+  }, [userData]);
 
-  return (
-    <div>
-      <Card>
-        <Grid container direction="column">
-          <Grid item>
-            <Typography variant={"h2"} color="primary">
-              {" "}
-              Dashboard
-            </Typography>
-          </Grid>
-          <Grid item>
-            <Button color="secondary" onClick={() => handleLogout()}>
-              Logout
-            </Button>
-          </Grid>
-        </Grid>
-      </Card>
-
-      <Card>
-        <CardHeader title="Welcome"></CardHeader>
-        <CardContent>
-          {userData === null ? (
-            <div>
-              <Typography variant="h4" component="h4" color="error">
-                You need to accept Privacy policy before continuing.
-              </Typography>
-              <div>
-                <br />{" "}
-                {loading ? (
-                  <img
-                    src="https://media0.giphy.com/media/3oEjI6SIIHBdRxXI40/200.gif"
-                    alt="loading"
-                  ></img>
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleAcceptPrivacyPolicy}
-                  >
-                    Accept privacy policy
-                  </Button>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div>
-              {!userData.is_verified && <EmailVerificationBar />}
-              <br />
-              <Typography variant={"h3"} component="h2">
-                {userData !== null && userData.last_name},{" "}
-                {userData !== null && userData.first_name}
-              </Typography>
-            </div>
-          )}
-        </CardContent>
-      </Card>
-    </div>
-  );
+  if (loading) {
+    return (
+      <Layout
+        style={{
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <div>
+        {userData && userData.privacy_policy_accepted ? (
+          <>
+            <br />
+            <Title level={4}>Welcome</Title>
+            <br />
+            <Title level={4}>
+              {userData !== null && userData.last_name},{" "}
+              {userData !== null && userData.first_name}
+            </Title>
+            <img
+              src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
+              height="500px"
+              width="800px"
+              alt="welcome"
+            />
+          </>
+        ) : (
+          <div style={{ padding: "20px 50px 50px 50px" }}>
+            <Row>
+              <Col span={24}>
+                <PrivacyPolicy />
+              </Col>
+            </Row>
+            <br />
+          </div>
+        )}
+      </div>
+    );
+  }
 };
 
 const mapStateToProps = (state: StateType) => {
@@ -151,12 +110,4 @@ const mapStateToProps = (state: StateType) => {
   };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
-  return {
-    logoutUser: () => dispatch(LogoutUser()),
-    getNewToken: (accessToken: string, refreshToken: string) =>
-      dispatch(GetNewToken(accessToken, refreshToken)),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default connect(mapStateToProps)(Dashboard);

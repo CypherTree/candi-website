@@ -23,7 +23,7 @@ export const LoginUser = (
   username: string,
   password: string,
   rememberMe: boolean
-) => (dispatch: Dispatch<LoginDispatchTypes>) => {
+) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
   try {
     dispatch({
       type: LOGIN_USER,
@@ -63,7 +63,9 @@ export const LoginUser = (
   } catch (e) {}
 };
 
-export const LogoutUser = () => (dispatch: Dispatch<LoginDispatchTypes>) => {
+export const LogoutUser = () => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
   try {
     dispatch({
       type: LOGOUT_USER,
@@ -77,7 +79,7 @@ export const LogoutUser = () => (dispatch: Dispatch<LoginDispatchTypes>) => {
   } catch (e) {}
 };
 
-export const SetAuthenticated = (isAuthenticated: boolean) => (
+export const SetAuthenticated = (isAuthenticated: boolean) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {
@@ -90,9 +92,10 @@ export const SetAuthenticated = (isAuthenticated: boolean) => (
   } catch (e) {}
 };
 
-export const GetUserData = (accessToken: string) => (
+export const GetUserData = (accessToken: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
+  console.log("GET USER DATA was called. ");
   axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
       headers: {
@@ -109,12 +112,13 @@ export const GetUserData = (accessToken: string) => (
         },
       });
     })
-    .catch((err) => console.log("--- erro", err.message));
+    .catch((err) => console.log("--- erro", err));
 };
 
-export const GetNewToken = (accessToken: string, refreshToken: string) => (
-  dispatch: Dispatch<LoginDispatchTypes>
-) => {
+export const GetNewToken = (
+  accessToken: string,
+  refreshToken: string
+) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
   axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/refresh/`, {
       refresh: refreshToken,
@@ -133,7 +137,7 @@ export const GetNewToken = (accessToken: string, refreshToken: string) => (
     });
 };
 
-export const ForgotPassword = (email: string) => (
+export const ForgotPassword = (email: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   axios
@@ -160,14 +164,16 @@ export const ForgotPassword = (email: string) => (
     });
 };
 
-export const ClearState = () => (dispatch: Dispatch<LoginDispatchTypes>) => {
+export const ClearState = () => async (
+  dispatch: Dispatch<LoginDispatchTypes>
+) => {
   dispatch({
     type: CLEAR_STATE,
     payload: {},
   });
 };
 
-export const ResetPassword = (token: string, password: string) => (
+export const ResetPassword = (token: string, password: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   axios
@@ -205,7 +211,7 @@ export const ResetPassword = (token: string, password: string) => (
     });
 };
 
-export const AcceptPrivacyPolicy = (policyAccept: boolean) => (
+export const AcceptPrivacyPolicy = (policyAccept: boolean) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   if (policyAccept === true) {
@@ -228,7 +234,7 @@ interface RegisterData {
   otp: string;
 }
 
-export const RegisterUser = (registerData: RegisterData) => (
+export const RegisterUser = (registerData: RegisterData) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {
@@ -267,7 +273,7 @@ export const RegisterUser = (registerData: RegisterData) => (
   }
 };
 
-export const EmailVerification = (token: string) => (
+export const EmailVerification = (token: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import { Button, Grid } from "@material-ui/core";
+import { Button, Col, Layout, Row } from "antd";
 
 import { resendVerificationEmail } from "../../core/services/emailverification";
 
@@ -36,62 +36,37 @@ const EmailVerificationBar = () => {
   };
 
   return (
-    <div
-      style={{
-        alignContent: "center",
-        justifyContent: "space-around",
-        display: "flex",
-        flexDirection: "row",
-        border: "1px solid #4A4A4A",
-        backgroundColor: "#FBC4C4",
-      }}
-    >
-      <Grid
-        container
+    <Layout style={{ backgroundColor: "#FBC4C4" }}>
+      <Row
         style={{
           display: "flex",
-          alignItems: "center",
+          flexDirection: "row",
           justifyContent: "center",
         }}
       >
-        <Grid item xs={12} sm={10} md={8}>
-          <div
+        <Col span={8}>{snackbarMessage}</Col>
+        <Col span={4}>
+          <Button
+            type="text"
+            onClick={handleSendVerificationEmail}
+            disabled={disabledButton}
             style={{
-              alignContent: "center",
-              justifyContent: "space-around",
-              display: "flex",
-              flexDirection: "row",
-              paddingTop: "5px",
-              paddingBottom: "5px",
+              borderRadius: "10px",
             }}
           >
-            {snackbarMessage}
-            <Button
-              size="small"
-              variant="outlined"
-              onClick={handleSendVerificationEmail}
-              disabled={disabledButton}
+            <p
               style={{
-                borderRadius: "10px",
-                border: "1px solid #4A4A4A",
-                padding: "5px",
+                fontWeight: "bold",
+                margin: "0",
+                padding: "0",
               }}
             >
-              <p
-                style={{
-                  fontWeight: "bold",
-                  margin: "0",
-                  padding: "0",
-                }}
-              >
-                {" "}
-                Get Verification Link{" "}
-              </p>
-            </Button>
-          </div>
-        </Grid>
-      </Grid>
-    </div>
+              Get Verification Link
+            </p>
+          </Button>
+        </Col>
+      </Row>
+    </Layout>
   );
 };
 
