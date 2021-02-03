@@ -40,6 +40,7 @@ const PlanCard = (props: any) => {
         style={{
           margin: "auto",
           display: "inline-flex",
+          paddingBottom: "15px",
         }}
       >
         <Avatar

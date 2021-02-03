@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Layout, { Content } from "antd/lib/layout/layout";
 
@@ -28,6 +28,11 @@ import PrivateRoute from "./PrivateRoute";
 import People from "../../containers/people/People";
 
 import { useLocation } from "react-router-dom";
+import OrganisationDetailsPage from "../../containers/settings/OrganisationDetailsPage";
+import CompanyDetailsPage from "../../containers/settings/CompanyDetailsPage";
+import PlanDetailsPage from "../../containers/settings/PlanDetailsPage";
+import RolesDetailsPage from "../../containers/settings/RolesDetailsPage";
+// import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
   console.log("props in routes ----->", props);
@@ -35,7 +40,25 @@ const Routes = (props: any) => {
   const location = useLocation();
   console.log(location);
 
-  console.log(window.location.href); //yields: "https://stacksnippets.net/js"
+  const [tenant, setTenant] = useState<string | undefined>();
+
+  const getTenantInfo = () => {
+    console.log(window.location.href); //yields: "https://stacksnippets.net/js"
+
+    const location = window.location.href;
+
+    const result = location.split(".");
+
+    const first = result.shift();
+
+    const tenent = first?.split("://");
+
+    const last = tenent?.pop();
+
+    // console.log("----> the tenant recieved is ----> ", last);
+
+    return last;
+  };
 
   const [collapsed, setCollapsed] = useState(false);
 
@@ -62,6 +85,12 @@ const Routes = (props: any) => {
   const ReturnHello = () => {
     return <Redirect to="/organisations/all" />;
   };
+
+  useEffect(() => {
+    const ten = getTenantInfo();
+    console.log("hello world .... ", ten);
+    setTenant(ten);
+  }, []);
 
   return (
     <>
@@ -96,7 +125,12 @@ const Routes = (props: any) => {
                   path="/email-verification"
                   component={EmailVerificationPage}
                 />
-                <PrivateRoute exact path="/dashboard" component={Dashboard} />
+                <PrivateRoute
+                  exact
+                  path="/dashboard"
+                  component={Dashboard}
+                  tenant={getTenantInfo()}
+                />
                 <PrivateRoute
                   exact
                   path="/organisation/new"
@@ -113,6 +147,26 @@ const Routes = (props: any) => {
                   component={ReturnHello}
                 />
                 <PrivateRoute exact path="/people" component={People} />
+                <Route
+                  // exact
+                  path="/settings/org"
+                  component={OrganisationDetailsPage}
+                />
+                <Route
+                  // exact
+                  path="/settings/company"
+                  component={CompanyDetailsPage}
+                />
+                <Route
+                  // exact
+                  path="/settings/plan"
+                  component={PlanDetailsPage}
+                />
+                <Route
+                  // exact
+                  path="/org/roles"
+                  component={RolesDetailsPage}
+                />
                 <Route component={PageNotFound} />
               </Switch>
             </div>
