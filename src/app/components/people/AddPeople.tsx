@@ -23,6 +23,8 @@ const AddPeople = (props: any) => {
     inviteData,
     handleCloseInviteForm,
     setReloadRequired,
+    setLoading,
+    expired,
   } = props;
 
   const onFinish = (values: any) => {
@@ -39,11 +41,12 @@ const AddPeople = (props: any) => {
       );
       tenant_role = selectedRole[0].id;
 
+      setLoading(true);
       sendInvite({ name, email, tenant_role });
     }
   };
 
-  const tenant = "zoom";
+  const tenant = "cyphertree";
 
   const [inviteStatus, setInviteStatus] = useState("");
 
@@ -71,12 +74,51 @@ const AddPeople = (props: any) => {
         setName("");
         setEmail("");
         setRoleType("");
+        setLoading(false);
       })
       .catch((err) => console.log("err", err));
   };
 
   const handleCancelInvite = () => {
+    setLoading(true);
     cancelSentInvite(inviteData.id);
+  };
+
+  const handleResendInvite = () => {
+    // setLoading(true);
+    resendExpiredInvite(inviteData.id);
+  };
+
+  const resendExpiredInvite = (inviteId: number) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    Axios.delete(
+      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/${inviteId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .then(() => {
+        setReloadRequired(true);
+        setName("");
+        setEmail("");
+        setRoleType("");
+
+        let tenant_role;
+        const selectedRole = oriRoles.filter(
+          (role: any) => role.name === roleType
+        );
+        tenant_role = selectedRole[0].id;
+
+        sendInvite({ name, email, tenant_role });
+        setLoading(false);
+      })
+      .catch((err) => console.log("err", err));
   };
 
   const cancelSentInvite = (inviteId: number) => {
@@ -98,6 +140,7 @@ const AddPeople = (props: any) => {
         setName("");
         setEmail("");
         setRoleType("");
+        setLoading(false);
       })
       .catch((err) => console.log("err", err));
   };
@@ -119,8 +162,11 @@ const AddPeople = (props: any) => {
       // 3 = REJECTED
       // 4 = CANCELLED
       // 5 = EXPIRED
-
-      if (inviteData.invite_status === 0) {
+      if (expired) {
+        setInviteStatus("Expired");
+        setInviteColor("danger");
+        inviteData.invite_status = 5;
+      } else if (inviteData.invite_status === 0) {
         setInviteStatus("Not Sent");
         setInviteColor("warning");
       } else if (inviteData.invite_status === 1) {
@@ -199,11 +245,19 @@ const AddPeople = (props: any) => {
             </Col>
             <Col>
               {disabled ? (
-                <Form.Item style={{ paddingLeft: "50px" }}>
-                  <Button type="primary" onClick={handleCancelInvite}>
-                    Cancel Invite
-                  </Button>
-                </Form.Item>
+                inviteStatus === "Expired" ? (
+                  <Form.Item style={{ paddingLeft: "50px" }}>
+                    <Button type="primary" onClick={handleResendInvite}>
+                      Resend Invite
+                    </Button>
+                  </Form.Item>
+                ) : (
+                  <Form.Item style={{ paddingLeft: "50px" }}>
+                    <Button type="primary" onClick={handleCancelInvite}>
+                      Cancel Invite
+                    </Button>
+                  </Form.Item>
+                )
               ) : (
                 <Form.Item style={{ paddingLeft: "50px" }}>
                   <Button type="primary" htmlType="submit">

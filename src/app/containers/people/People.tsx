@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 
-import { Layout, Spin } from "antd";
+import { Divider, Layout, Spin } from "antd";
 import AddIcon from "@material-ui/icons/Add";
 
 import Axios from "axios";
 
 import AddPeople from "../../components/people/AddPeople";
+import Title from "antd/lib/typography/Title";
 
 interface Iroles {
   name: string;
@@ -29,7 +30,7 @@ interface IInviteData {
 }
 
 const People = () => {
-  const tenant = "zoom";
+  const tenant = "cyphertree";
 
   const [loading, setLoading] = useState(true);
   const [openInviteForm, setOpenInviteForm] = useState(false);
@@ -185,28 +186,45 @@ const People = () => {
           marginTop: "50px",
           backgroundColor: "white",
           padding: "50px",
-          width: "1075px",
           height: "100%",
+          width: "1100px",
           maxHeight: "75vh",
           overflowY: "scroll",
           marginLeft: "150px",
           borderRadius: "10px",
+          paddingRight: "20px",
         }}
       >
-        {invites.map((invite: any) => (
-          <AddPeople
-            inviteData={invite}
-            oriRoles={oriRoles}
-            key={invite.id}
-            setReloadRequired={setReloadRequired}
-          />
+        {invites.length == 0 && (
+          <Title level={5}>
+            You have not invited anyone yet. Invite to get started.
+          </Title>
+        )}
+
+        {invites.map((invite: any, i: number) => (
+          <>
+            {/* // TODO: remove this next logic / for expired only */}
+
+            <AddPeople
+              inviteData={invite}
+              oriRoles={oriRoles}
+              key={invite.id}
+              setReloadRequired={setReloadRequired}
+              expired={i === invites.length - 1}
+            />
+            {i !== invites.length - 1 && <Divider />}
+          </>
         ))}
         {openInviteForm && (
-          <AddPeople
-            handleCloseInviteForm={handleCloseInviteForm}
-            oriRoles={oriRoles}
-            setReloadRequired={setReloadRequired}
-          />
+          <div>
+            <Divider />
+            <AddPeople
+              handleCloseInviteForm={handleCloseInviteForm}
+              oriRoles={oriRoles}
+              setReloadRequired={setReloadRequired}
+              setLoading={setLoading}
+            />
+          </div>
         )}
       </div>
     </Layout>
