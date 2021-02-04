@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 import { Avatar, Button, Dropdown, Menu, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
@@ -21,6 +21,7 @@ import { LogoutUser } from "../../../auth/core/redux/actions";
 import { StateType } from "../../core/redux/types";
 
 import EmailVerificationBar from "../../../auth/components/emailVerification/EmailVerificationBar";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Header } = Layout;
 
@@ -66,9 +67,17 @@ function Navbar(props: any) {
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
+  const [tenant, setTenant] = useState<null | undefined | string>(null);
+
   console.log("user data in navbar ", userData);
 
   useEffect(() => {}, [userData]);
+
+  useEffect(() => {
+    const data: string | undefined = getTenantInfo();
+    console.log("************************** tenant ************", data);
+    setTenant(data);
+  }, []);
 
   const handleLogout = () => {
     console.log("Logout user was called");
@@ -90,6 +99,73 @@ function Navbar(props: any) {
         Logout
       </Menu.Item>
     </Menu>
+  );
+
+  const NavMenuInsideTenant = (
+    <>
+      <Link
+        to="/organisations/all"
+        style={{
+          textDecoration: "none",
+          color: "white",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          Organisation
+        </Title>
+      </Link>
+      <Link
+        to="#"
+        style={{
+          textDecoration: "none",
+          color: "black",
+          paddingLeft: "30px",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          Your Clients
+        </Title>
+      </Link>
+      <Link
+        to="/people"
+        style={{
+          textDecoration: "none",
+          color: "black",
+          paddingLeft: "30px",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          People
+        </Title>
+      </Link>
+      <Button
+        type="primary"
+        style={{
+          width: "150px",
+          height: "30px",
+          textTransform: "none",
+          marginLeft: "50px",
+        }}
+      >
+        Add Job
+      </Button>
+    </>
+  );
+
+  const NavMenuForAll = (
+    <>
+      <Link
+        to="/organisations/all"
+        style={{
+          textDecoration: "none",
+          color: "white",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          Organisations
+        </Title>
+      </Link>
+    </>
   );
 
   return (
@@ -138,52 +214,7 @@ function Navbar(props: any) {
             paddingTop: "5px",
           }}
         >
-          <Link
-            to="/organisations/all"
-            style={{
-              textDecoration: "none",
-              color: "white",
-            }}
-          >
-            <Title style={{ color: "black" }} level={5}>
-              Organisation
-            </Title>
-          </Link>
-          <Link
-            to="#"
-            style={{
-              textDecoration: "none",
-              color: "black",
-              paddingLeft: "30px",
-            }}
-          >
-            <Title style={{ color: "black" }} level={5}>
-              Your Clients
-            </Title>
-          </Link>
-          <Link
-            to="/people"
-            style={{
-              textDecoration: "none",
-              color: "black",
-              paddingLeft: "30px",
-            }}
-          >
-            <Title style={{ color: "black" }} level={5}>
-              People
-            </Title>
-          </Link>
-          <Button
-            type="primary"
-            style={{
-              width: "150px",
-              height: "30px",
-              textTransform: "none",
-              marginLeft: "50px",
-            }}
-          >
-            Add Job
-          </Button>
+          {tenant === "id" ? NavMenuForAll : NavMenuInsideTenant}
         </Layout>
       </Header>
 

@@ -1,17 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { Layout, Menu } from "antd";
 import {
   DesktopOutlined,
-  MailOutlined,
   MenuOutlined,
   UserOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import Sider from "antd/lib/layout/Sider";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { SubMenu } = Menu;
 
@@ -19,6 +20,45 @@ const Sidebar = (props: any) => {
   const { isAuthenticated } = props.state.auth;
 
   const { toggleCollapsed, collapsed } = props;
+
+  const [tenant, setTenant] = useState<null | undefined | string>(null);
+
+  useEffect(() => {
+    const data: string | undefined = getTenantInfo();
+    console.log("************************** tenant ************", data);
+    setTenant(data);
+  }, []);
+
+  const SidebarMenuForTenant = (
+    <>
+      <Menu.Item key="1" icon={<UserOutlined />}>
+        <Link to="/org/roles">Roles </Link>
+      </Menu.Item>
+      <Menu.Item key="2" icon={<DesktopOutlined />}>
+        Workflow
+      </Menu.Item>
+
+      <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
+        <Menu.Item key="9">
+          <Link to="/settings/org">Organisation </Link>
+        </Menu.Item>
+        <Menu.Item key="10">
+          <Link to="/settings/company">Billing </Link>
+        </Menu.Item>
+        <Menu.Item key="11">
+          <Link to="/settings/plan">Plan </Link>
+        </Menu.Item>
+      </SubMenu>
+    </>
+  );
+
+  const SidebarMenuForAll = (
+    <>
+      <Menu.Item key="1" icon={<UserOutlined />}>
+        <Link to="/organisations/all">Organisations </Link>
+      </Menu.Item>
+    </>
+  );
 
   if (!isAuthenticated) {
     return <></>;
@@ -82,24 +122,7 @@ const Sidebar = (props: any) => {
           inlineCollapsed={collapsed}
           style={{ height: "100vh" }}
         >
-          <Menu.Item key="1" icon={<UserOutlined />}>
-            <Link to="/org/roles">Roles </Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<DesktopOutlined />}>
-            Workflow
-          </Menu.Item>
-
-          <SubMenu key="sub1" icon={<MailOutlined />} title="Settings">
-            <Menu.Item key="9">
-              <Link to="/settings/org">Organisation </Link>
-            </Menu.Item>
-            <Menu.Item key="10">
-              <Link to="/settings/company">Billing </Link>
-            </Menu.Item>
-            <Menu.Item key="11">
-              <Link to="/settings/plan">Plan </Link>
-            </Menu.Item>
-          </SubMenu>
+          {tenant === "id" ? SidebarMenuForAll : SidebarMenuForTenant}
         </Menu>
       </Sider>
     );
