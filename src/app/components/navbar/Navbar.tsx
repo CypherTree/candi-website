@@ -159,10 +159,22 @@ function Navbar(props: any) {
         style={{
           textDecoration: "none",
           color: "white",
+          paddingRight: "20px",
         }}
       >
         <Title style={{ color: "black" }} level={5}>
           Organisations
+        </Title>
+      </Link>
+      <Link
+        to="/invites/all"
+        style={{
+          textDecoration: "none",
+          color: "white",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          My Invitations
         </Title>
       </Link>
     </>

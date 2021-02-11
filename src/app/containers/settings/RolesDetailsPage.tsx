@@ -107,7 +107,10 @@ const RolesDetailsPage = (props: any) => {
         },
       }
     )
-      .then((response) => console.log("data", response.data))
+      .then((response) => {
+        console.log("data", response.data);
+        setLoading(false);
+      })
       .then(() => updateOrganisation(1))
       .then(() => {
         handleNext();

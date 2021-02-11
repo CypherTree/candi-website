@@ -80,7 +80,7 @@ const AddPeople = (props: any) => {
   };
 
   const handleCancelInvite = () => {
-    setLoading(true);
+    // setLoading(true);
     cancelSentInvite(inviteData.id);
   };
 
@@ -140,7 +140,7 @@ const AddPeople = (props: any) => {
         setName("");
         setEmail("");
         setRoleType("");
-        setLoading(false);
+        // setLoading(false);
       })
       .catch((err) => console.log("err", err));
   };

@@ -32,6 +32,8 @@ import OrganisationDetailsPage from "../../containers/settings/OrganisationDetai
 import CompanyDetailsPage from "../../containers/settings/CompanyDetailsPage";
 import PlanDetailsPage from "../../containers/settings/PlanDetailsPage";
 import RolesDetailsPage from "../../containers/settings/RolesDetailsPage";
+import InviteLanding from "../../containers/invite/InviteLanding";
+import ViewIncomingInvites from "../../containers/invite/ViewIncomingInvites";
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
@@ -167,7 +169,18 @@ const Routes = (props: any) => {
                   path="/org/roles"
                   component={RolesDetailsPage}
                 />
+                <Route
+                  // exact
+                  path="/team/invite"
+                  component={InviteLanding}
+                />
+                <Route
+                  // exact
+                  path="/invites/all"
+                  component={ViewIncomingInvites}
+                />
                 <Route component={PageNotFound} />
+                {/* <Route component={InviteLanding} /> */}
               </Switch>
             </div>
           </Content>

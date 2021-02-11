@@ -6,12 +6,14 @@ import {
   MenuOutlined,
   UserOutlined,
   SettingOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 import Title from "antd/lib/typography/Title";
 import Sider from "antd/lib/layout/Sider";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
+
 import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { SubMenu } = Menu;
@@ -23,12 +25,6 @@ const Sidebar = (props: any) => {
 
   const [tenant, setTenant] = useState<null | undefined | string>(null);
 
-  useEffect(() => {
-    const data: string | undefined = getTenantInfo();
-    console.log("************************** tenant ************", data);
-    setTenant(data);
-  }, []);
-
   const SidebarMenuForTenant = (
     <>
       <Menu.Item key="1" icon={<UserOutlined />}>
@@ -37,7 +33,6 @@ const Sidebar = (props: any) => {
       <Menu.Item key="2" icon={<DesktopOutlined />}>
         Workflow
       </Menu.Item>
-
       <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
         <Menu.Item key="9">
           <Link to="/settings/org">Organisation </Link>
@@ -57,8 +52,16 @@ const Sidebar = (props: any) => {
       <Menu.Item key="1" icon={<UserOutlined />}>
         <Link to="/organisations/all">Organisations </Link>
       </Menu.Item>
+      <Menu.Item key="2" icon={<MailOutlined />}>
+        <Link to="/invites/all">Invites </Link>
+      </Menu.Item>
     </>
   );
+
+  useEffect(() => {
+    const data: string | undefined = getTenantInfo();
+    setTenant(data);
+  }, []);
 
   if (!isAuthenticated) {
     return <></>;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Title from "antd/lib/typography/Title";
-import { Button, Form, Input, Layout, Spin } from "antd";
+import { Button, Form, Input, Layout, Radio, Spin } from "antd";
 import PlanCard from "../../components/plancards/PlanCard";
 
 import { getTenantInfo } from "../../core/services/tenantinfo";
@@ -11,6 +11,7 @@ import AntSpinner from "../../components/spinner/AntSpinner";
 
 const PlanDetailsPage = () => {
   const [loading, setLoading] = useState(true);
+  const [pricePeriod, setPricePeriod] = React.useState("yearly");
 
   const getAndSetPlanDetails = async () => {
     const currentPlan = await getCurrentPlan(55, setLoading);
@@ -31,9 +32,13 @@ const PlanDetailsPage = () => {
   }, []);
 
   const [selectedPlan, setSelectedPlan] = React.useState({
-    period_type: 0,
-    plan_id: 0,
+    period_type: 1,
+    plan_id: 1,
   });
+
+  const handlePricePeriod = (newPricePeriod: React.SetStateAction<string>) => {
+    setPricePeriod(newPricePeriod);
+  };
 
   if (loading) {
     return <AntSpinner />;
@@ -69,6 +74,33 @@ const PlanDetailsPage = () => {
               >
                 Organisation Plan
               </Title>
+
+              {/* <Title
+                level={4}
+                style={{
+                  fontWeight: "bold",
+                  width: "auto",
+                  margin: "10px 40px 10px 0 ",
+                  // padding: "0px 0px 0px 350px",
+                  textAlign: "center",
+                  paddingLeft: "30px",
+                }}
+              >
+                Your current license plan
+              </Title> */}
+
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <Radio.Group
+                  options={[
+                    { label: "Monthly", value: "monthly" },
+                    { label: "Yearly", value: "yearly" },
+                  ]}
+                  onChange={(e) => handlePricePeriod(e.target.value)}
+                  value={pricePeriod}
+                  optionType="button"
+                  buttonStyle="solid"
+                />
+              </div>
 
               <div
                 style={{
