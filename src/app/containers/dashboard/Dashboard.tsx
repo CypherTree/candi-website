@@ -49,6 +49,7 @@ type Props = {
 
 const Dashboard: React.FC<Props> = ({ state }) => {
   const [loading, setLoading] = useState(true);
+
   const [tenant, setTenant] = useState<string | undefined>();
 
   const userData = state.auth.userData ? state.auth.userData : null;
@@ -61,72 +62,64 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   useEffect(() => {
     const data: string | undefined = getTenantInfo();
-    console.log("************************** tenant ************", data);
     setTenant(data);
   }, []);
 
-  // if (loading) {
-  //   return (
-  //     <Layout
-  //       style={{
-  //         backgroundColor: "#fff",
-  //         display: "flex",
-  //         justifyContent: "center",
-  //         alignItems: "center",
-  //         height: "100%",
-  //         width: "100%",
-  //       }}
-  //     >
-  //       <Spin />
-  //     </Layout>
-  //   );
-  // } else
-  // if (tenant !== "id") {
-  //   return (
-  //     <Layout
-  //       style={{
-  //         display: "flex",
-  //         alignContent: "center",
-  //         justifyContent: "center",
-  //         paddingTop: "100px",
-  //       }}
-  //     >
-  //       <Title level={3}>Welcome to "{tenant}"</Title>
-  //     </Layout>
-  //   );
-  // } else {
-  return (
-    <div>
-      {userData && userData.privacy_policy_accepted ? (
-        <>
-          <br />
-          <Title level={4}>Welcome</Title>
-          <br />
-          <Title level={4}>
-            {userData !== null && userData.last_name},{" "}
-            {userData !== null && userData.first_name}
-          </Title>
-          <img
-            src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
-            height="500px"
-            width="800px"
-            alt="welcome illustrations"
-          />
-        </>
-      ) : (
-        <div style={{ padding: "20px 50px 50px 50px" }}>
-          <Row>
-            <Col span={24}>
-              <PrivacyPolicy />
-            </Col>
-          </Row>
-          <br />
-        </div>
-      )}
-    </div>
-  );
+  if (loading) {
+    return (
+      <Layout
+        style={{
+          backgroundColor: "#fff",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100%",
+          width: "100%",
+        }}
+      >
+        <Spin />
+      </Layout>
+    );
+  } else {
+    return (
+      <div>
+        {userData && userData.privacy_policy_accepted ? (
+          <>
+            <br />
+
+            {tenant !== "id" ? (
+              <Title level={3}>Welcome to "{tenant}"</Title>
+            ) : (
+              <>
+                <Title level={4}>Welcome</Title>
+                <br />
+                <Title level={4}>
+                  {userData !== null && userData.last_name},{" "}
+                  {userData !== null && userData.first_name}
+                </Title>
+              </>
+            )}
+            <img
+              src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
+              height="500px"
+              width="800px"
+              alt="welcome illustrations"
+            />
+          </>
+        ) : (
+          <div style={{ padding: "20px 50px 50px 50px" }}>
+            <Row>
+              <Col span={24}>
+                <PrivacyPolicy />
+              </Col>
+            </Row>
+            <br />
+          </div>
+        )}
+      </div>
+    );
+  }
 };
-// };
 
 const mapStateToProps = (state: StateType) => {
   return {
@@ -141,3 +134,18 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+
+// } else
+// if (tenant !== "id") {
+//   return (
+//     <Layout
+//       style={{
+//         display: "flex",
+//         alignContent: "center",
+//         justifyContent: "center",
+//         paddingTop: "100px",
+//       }}
+//     >
+//       <Title level={3}>Welcome to "{tenant}"</Title>
+//     </Layout>
+//   );
