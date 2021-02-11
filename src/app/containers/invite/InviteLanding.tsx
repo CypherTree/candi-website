@@ -88,6 +88,7 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
     organization_name: string;
     tenant_role_name: string;
     user_present: boolean;
+    organization_logo?: string;
   };
 
   let decoded: Decoded = jwt_decode(token);
@@ -180,7 +181,7 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
           style={{
             backgroundColor: "white",
             padding: "20px",
-            height: "250px",
+            height: "300px",
             marginTop: "200px",
             borderRadius: "20px",
           }}
@@ -239,7 +240,20 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
               }}
               {inviteStatus == InvitationStatus.PENDING && (
                 <>
-                  <div style={{ padding: "20px" }}>
+                  {decoded.organization_logo && (
+                    <div style={{ paddingTop: "10px", paddingBottom: "10px" }}>
+                      <img
+                        src={decoded.organization_logo}
+                        alt=""
+                        style={{
+                          width: "75px",
+                          height: "75px",
+                          borderRadius: "50%",
+                        }}
+                      />
+                    </div>
+                  )}
+                  <div style={{ padding: "10px" }}>
                     <Text strong>{decoded.email}</Text> has been invited by{" "}
                     <Text strong>{decoded.organization_name}</Text> for the role{" "}
                     <Text strong>{decoded.tenant_role_name}.</Text>
