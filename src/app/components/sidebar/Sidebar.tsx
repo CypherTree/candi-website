@@ -53,7 +53,7 @@ const Sidebar = (props: any) => {
         <Link to="/organisations/all">Organisations </Link>
       </Menu.Item>
       <Menu.Item key="2" icon={<MailOutlined />}>
-        <Link to="/invites/all">Invites </Link>
+        <Link to="/invites/all">My Invitations </Link>
       </Menu.Item>
     </>
   );

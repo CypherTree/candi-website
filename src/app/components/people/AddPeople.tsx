@@ -243,36 +243,38 @@ const AddPeople = (props: any) => {
                 ))}
               </Select>
             </Col>
-            <Col>
-              {disabled ? (
-                inviteStatus === "Expired" ? (
-                  <Form.Item style={{ paddingLeft: "50px" }}>
-                    <Button type="primary" onClick={handleResendInvite}>
-                      Resend Invite
-                    </Button>
-                  </Form.Item>
+            {inviteStatus !== "Accepted" && (
+              <Col>
+                {disabled ? (
+                  inviteStatus === "Expired" ? (
+                    <Form.Item style={{ paddingLeft: "50px" }}>
+                      <Button type="primary" onClick={handleResendInvite}>
+                        Resend Invite
+                      </Button>
+                    </Form.Item>
+                  ) : (
+                    <Form.Item style={{ paddingLeft: "50px" }}>
+                      <Button type="primary" onClick={handleCancelInvite}>
+                        Cancel Invite
+                      </Button>
+                    </Form.Item>
+                  )
                 ) : (
                   <Form.Item style={{ paddingLeft: "50px" }}>
-                    <Button type="primary" onClick={handleCancelInvite}>
-                      Cancel Invite
+                    <Button type="primary" htmlType="submit">
+                      Invite
+                    </Button>
+                    <Button
+                      danger
+                      style={{ marginLeft: "5px" }}
+                      onClick={handleCloseInviteForm}
+                    >
+                      <CloseOutlined />
                     </Button>
                   </Form.Item>
-                )
-              ) : (
-                <Form.Item style={{ paddingLeft: "50px" }}>
-                  <Button type="primary" htmlType="submit">
-                    Invite
-                  </Button>
-                  <Button
-                    danger
-                    style={{ marginLeft: "5px" }}
-                    onClick={handleCloseInviteForm}
-                  >
-                    <CloseOutlined />
-                  </Button>
-                </Form.Item>
-              )}
-            </Col>
+                )}
+              </Col>
+            )}
           </div>
         </Row>
         <Row>

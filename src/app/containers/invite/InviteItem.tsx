@@ -35,7 +35,11 @@ const InviteItem = (props: any) => {
           backgroundColor: "white",
         }}
       >
-        <Button type="primary" style={{ width: "100px", marginRight: "20px" }}>
+        <Button
+          onClick={() => acceptInvite(inviteData.id)}
+          type="primary"
+          style={{ width: "100px", marginRight: "20px" }}
+        >
           Accept
         </Button>
         <Button
@@ -45,6 +49,21 @@ const InviteItem = (props: any) => {
         >
           Reject
         </Button>
+      </Layout>
+    </Row>
+  );
+
+  const ActionsForOthers = (
+    <Row>
+      <Layout
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          paddingTop: "10px",
+          backgroundColor: "white",
+        }}
+      >
+        <Button type="primary">View Details</Button>
       </Layout>
     </Row>
   );
@@ -71,6 +90,29 @@ const InviteItem = (props: any) => {
       .put(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/user/invitations/${invite_id}/`,
         { invite_status: 3 },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api reject invite--> ", response.data);
+        setShouldReload(true);
+      })
+      .then(() => setLoading(false))
+      .catch((err: any) => {
+        console.log("Err", err);
+        setLoading(false);
+      });
+  };
+
+  const acceptInvite = (invite_id: number) => {
+    setLoading(true);
+    axios
+      .put(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/invitations/${invite_id}/`,
+        { invite_status: 2 },
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -116,9 +158,9 @@ const InviteItem = (props: any) => {
             <div
               style={{
                 backgroundColor: "#ff9999",
-                borderRadius: "80%",
-                width: "80%",
-                height: "80%",
+                borderRadius: "50%",
+                width: "100px",
+                height: "100px",
               }}
             ></div>
           </Layout>
@@ -141,8 +183,9 @@ const InviteItem = (props: any) => {
               <b>{InvitationStatus[inviteData.invite_status]} </b>
             </Text>
           </Row>
-          {InvitationStatus[inviteData.invite_status] == "PENDING" &&
-            ActionsForPending}
+          {InvitationStatus[inviteData.invite_status] == "PENDING"
+            ? ActionsForPending
+            : ActionsForOthers}
         </Col>
       </Row>
     </Layout>

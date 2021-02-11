@@ -204,7 +204,6 @@ const People = () => {
         {invites.map((invite: any, i: number) => (
           <>
             {/* // TODO: remove this next logic / for expired only */}
-
             <AddPeople
               inviteData={invite}
               oriRoles={oriRoles}
