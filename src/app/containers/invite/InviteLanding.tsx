@@ -8,7 +8,8 @@ import * as H from "history";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { Divider } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 const { Text } = Typography;
 const qs = require("query-string");
@@ -32,6 +33,8 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
   console.log("--- data token ----", data);
 
   const { token } = data;
+
+  const { accessToken } = getCurrentSessionTokens();
 
   const [loading, setLoading] = useState(true);
   const [inviteStatus, setInviteStatus] = useState<undefined | number>();
@@ -99,6 +102,10 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
     }
   }, [token]);
 
+  // useEffect(() => {
+
+  // }, []);
+
   const InvitationStatusCancelled = (
     <div style={{ paddingTop: "20px" }}>
       <Title level={5} type="danger">
@@ -149,7 +156,9 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
     </>
   );
 
-  if (loading) {
+  if (accessToken) {
+    return <Redirect to="/invites/all" />;
+  } else if (loading) {
     return (
       <Layout
         style={{
