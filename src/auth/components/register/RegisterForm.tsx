@@ -89,6 +89,7 @@ const RegisterForm: React.FC<Props> = ({
   };
 
   const handleGetOTP = () => {
+    console.log("GET OTP WAS CALLED");
     if (phone && phone.length === 10 && Number.isInteger(parseInt(phone))) {
       setIsOTPSent(true);
       setIsResendAllowed(false);
@@ -102,18 +103,14 @@ const RegisterForm: React.FC<Props> = ({
   };
 
   const sendOTPFunc = () => {
+    console.log("--- is OTP SENT ----", isOTPSent);
     isOTPSent ? handleResendOTP(phone) : sendOTP(phone);
   };
 
   const handleResendOTP = (phone: string) => {
     countdown();
+    sendOTP(phone);
   };
-
-  // const redirectToDashboard = () => {
-  //   setTimeout(() => {
-  //     setAuthenticated(true);
-  //   }, 1000);
-  // };
 
   type valuesType = {
     firstName?: string;

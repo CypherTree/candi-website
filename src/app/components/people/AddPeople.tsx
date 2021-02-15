@@ -25,6 +25,7 @@ const AddPeople = (props: any) => {
     setReloadRequired,
     setLoading,
     expired,
+    setCurrentError,
   } = props;
 
   const onFinish = (values: any) => {
@@ -53,12 +54,14 @@ const AddPeople = (props: any) => {
   const sendInvite = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
 
+    console.log("*** props in people ***", props);
+
     const { name, email, tenant_role } = props;
 
     console.log("data here --> ", name, email, tenant_role);
 
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/`,
+      `http://${tenant}.thetobbers-staging.ml/api/v1/team/invite/`,
       [{ name, email, tenant_role }],
       {
         headers: {
@@ -76,7 +79,11 @@ const AddPeople = (props: any) => {
         setRoleType("");
         setLoading(false);
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        console.log("err", err.response);
+        setLoading(false);
+        setCurrentError(err.response.data.errors[0].email[0]);
+      });
   };
 
   const handleCancelInvite = () => {
@@ -93,7 +100,7 @@ const AddPeople = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
 
     Axios.delete(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/${inviteId}`,
+      `http://${tenant}.thetobbers-staging.ml/api/v1/team/invite/${inviteId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -125,7 +132,7 @@ const AddPeople = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
 
     Axios.delete(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/${inviteId}`,
+      `http://${tenant}.thetobbers-staging.ml/api/v1/team/invite/${inviteId}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -149,6 +156,10 @@ const AddPeople = (props: any) => {
     setRoleType(value);
   };
 
+  const setCurrentErrorClear = () => {
+    setCurrentError("");
+  };
+
   useEffect(() => {
     if (inviteData && inviteData.hasOwnProperty("id")) {
       setName(inviteData.name);
@@ -162,11 +173,12 @@ const AddPeople = (props: any) => {
       // 3 = REJECTED
       // 4 = CANCELLED
       // 5 = EXPIRED
-      if (expired) {
-        setInviteStatus("Expired");
-        setInviteColor("danger");
-        inviteData.invite_status = 5;
-      } else if (inviteData.invite_status === 0) {
+      // if (expired) {
+      //   setInviteStatus("Expired");
+      //   setInviteColor("danger");
+      //   inviteData.invite_status = 5;
+      // } else
+      if (inviteData.invite_status === 0) {
         setInviteStatus("Not Sent");
         setInviteColor("warning");
       } else if (inviteData.invite_status === 1) {
@@ -209,7 +221,10 @@ const AddPeople = (props: any) => {
                 <Input
                   placeholder="Email"
                   value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setCurrentErrorClear();
+                  }}
                   disabled={disabled}
                 />
               </Form.Item>
@@ -219,7 +234,10 @@ const AddPeople = (props: any) => {
                 <Input
                   placeholder="Name"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    setCurrentErrorClear();
+                  }}
                   disabled={disabled}
                 />
               </Form.Item>
@@ -243,38 +261,37 @@ const AddPeople = (props: any) => {
                 ))}
               </Select>
             </Col>
-            {inviteStatus !== "Accepted" && (
-              <Col>
-                {disabled ? (
-                  inviteStatus === "Expired" ? (
-                    <Form.Item style={{ paddingLeft: "50px" }}>
-                      <Button type="primary" onClick={handleResendInvite}>
-                        Resend Invite
-                      </Button>
-                    </Form.Item>
-                  ) : (
-                    <Form.Item style={{ paddingLeft: "50px" }}>
-                      <Button type="primary" onClick={handleCancelInvite}>
-                        Cancel Invite
-                      </Button>
-                    </Form.Item>
-                  )
-                ) : (
+
+            <Col>
+              {disabled ? (
+                inviteStatus === "Expired" ? (
                   <Form.Item style={{ paddingLeft: "50px" }}>
-                    <Button type="primary" htmlType="submit">
-                      Invite
-                    </Button>
-                    <Button
-                      danger
-                      style={{ marginLeft: "5px" }}
-                      onClick={handleCloseInviteForm}
-                    >
-                      <CloseOutlined />
+                    <Button type="primary" onClick={handleResendInvite}>
+                      Resend Invite
                     </Button>
                   </Form.Item>
-                )}
-              </Col>
-            )}
+                ) : (
+                  <Form.Item style={{ paddingLeft: "50px" }}>
+                    <Button type="primary" onClick={handleCancelInvite}>
+                      Cancel Invite
+                    </Button>
+                  </Form.Item>
+                )
+              ) : (
+                <Form.Item style={{ paddingLeft: "50px" }}>
+                  <Button type="primary" htmlType="submit">
+                    Invite
+                  </Button>
+                  <Button
+                    danger
+                    style={{ marginLeft: "5px" }}
+                    onClick={handleCloseInviteForm}
+                  >
+                    <CloseOutlined />
+                  </Button>
+                </Form.Item>
+              )}
+            </Col>
           </div>
         </Row>
         <Row>

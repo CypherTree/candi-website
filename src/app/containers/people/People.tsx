@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { Divider, Layout, Spin } from "antd";
+import { Divider, Layout, Spin, Typography, message, Alert } from "antd";
 import AddIcon from "@material-ui/icons/Add";
 
 import Axios from "axios";
 
 import AddPeople from "../../components/people/AddPeople";
 import Title from "antd/lib/typography/Title";
+import Message from "../../components/people/Message";
+
+const { Text } = Typography;
 
 interface Iroles {
   name: string;
@@ -39,6 +42,8 @@ const People = () => {
   const [oriRoles, setOriRoles] = useState<Iroles[]>([]);
   const [invites, setInvites] = useState<IInviteData[]>([]);
 
+  const [currentError, setCurrentError] = useState("");
+
   const getRolesFromAPI = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const jwtToken = `Bearer ${accessToken}`;
@@ -46,7 +51,7 @@ const People = () => {
     let fData = [];
 
     await Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      `http://${tenant}.thetobbers-staging.ml/api/v1/team/roles/`,
       {
         headers: {
           Authorization: `${jwtToken}`,
@@ -65,7 +70,7 @@ const People = () => {
     const accessToken = localStorage.getItem("accessToken");
 
     Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/invite/
+      `http://${tenant}.thetobbers-staging.ml/api/v1/team/invite/
       `,
       {
         headers: {
@@ -208,8 +213,8 @@ const People = () => {
               inviteData={invite}
               oriRoles={oriRoles}
               key={invite.id}
+              setCurrentError={setCurrentError}
               setReloadRequired={setReloadRequired}
-              expired={i === invites.length - 1}
             />
             {i !== invites.length - 1 && <Divider />}
           </>
@@ -220,10 +225,19 @@ const People = () => {
             <AddPeople
               handleCloseInviteForm={handleCloseInviteForm}
               oriRoles={oriRoles}
+              setCurrentError={setCurrentError}
               setReloadRequired={setReloadRequired}
               setLoading={setLoading}
             />
           </div>
+        )}
+        {currentError && (
+          <>
+            <Text type="danger">{currentError}</Text>
+            {/* <Alert message={currentError} type="error" showIcon /> */}
+            {message.error(currentError)}
+            <Divider />
+          </>
         )}
       </div>
     </Layout>
