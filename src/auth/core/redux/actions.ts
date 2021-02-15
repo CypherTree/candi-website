@@ -15,6 +15,7 @@ const {
   SET_AUTHENTICATED,
   SET_USERDATA,
   SET_LOGIN_ERROR,
+  SET_REGISTER_ERROR,
   REGISTER_SUCCESS,
   EMAIL_VERIFICATION_SUCCESS,
 } = Types;
@@ -51,6 +52,12 @@ export const LoginUser = (
             rememberMe,
           },
         });
+      })
+      .then(() => {
+        const accessToken = sessionStorage.getItem("accessToken");
+        if (accessToken !== null) {
+          GetUserData(accessToken);
+        }
       })
       .catch((err) => {
         dispatch({
@@ -261,10 +268,14 @@ export const RegisterUser = (registerData: RegisterData) => async (
       })
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response.data.message);
+
+        // TODO: OTP error message change
         dispatch({
-          type: SET_LOGIN_ERROR,
+          type: SET_REGISTER_ERROR,
           payload: {
-            error: err.response.data.message,
+            error: err.response.data.message
+              ? err.response.data.message
+              : err.response.data.otp,
           },
         });
       });

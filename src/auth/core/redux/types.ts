@@ -5,6 +5,7 @@ export enum Types {
   SET_LOADING = "SET_LOADING",
   SET_USERDATA = "SET_USERDATA",
   SET_LOGIN_ERROR = "SET_LOGIN_ERROR",
+  SET_REGISTER_ERROR = "SET_REGISTER_ERROR",
   SET_ACCESS_TOKEN = "SET_ACCESS_TOKEN",
   RESET_PASSWORD = "RESET_PASSWORD",
   FORGOT_PASSWORD = "FORGOT_PASSWORD",
@@ -94,6 +95,13 @@ export interface SetLoginError {
   };
 }
 
+export interface SetRegisterError {
+  type: typeof Types.SET_REGISTER_ERROR;
+  payload: {
+    error: any;
+  };
+}
+
 export interface SetAccessToken {
   type: typeof Types.SET_ACCESS_TOKEN;
   payload: {
@@ -150,6 +158,7 @@ export type LoginDispatchTypes =
   | SetLoadingPayload
   | SetUserData
   | SetLoginError
+  | SetRegisterError
   | SetAccessToken
   | ResetPassword
   | ForgotPassword
