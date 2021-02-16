@@ -36,13 +36,31 @@ export const LoginUser = (
       },
     });
 
-    axios
+    await axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/`, {
         email: username,
         password,
       })
-      .then((response) => {
+      .then(async (response) => {
         const { access: accessToken, refresh: refreshToken } = response.data;
+
+        await axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response: any) => {
+            const { data: userData } = response.data;
+
+            dispatch({
+              type: SET_USERDATA,
+              payload: {
+                userData,
+              },
+            });
+          })
+          .catch((err) => console.log("--- erro", err));
 
         dispatch({
           type: SET_AUTHENTICATED,
@@ -53,20 +71,6 @@ export const LoginUser = (
             rememberMe,
           },
         });
-
-        console.log("<--------- access token old ------>", accessToken);
-        if (accessToken !== null) {
-          console.log("<------ IF statement inside old ---->");
-          GetUserData(accessToken);
-        }
-      })
-      .then(() => {
-        const { accessToken } = getCurrentSessionTokens();
-        console.log("<--------- access token currently ------>", accessToken);
-        if (accessToken !== null) {
-          console.log("<------ IF statement inside ---->");
-          GetUserData(accessToken);
-        }
       })
       .catch((err) => {
         dispatch({
@@ -112,7 +116,8 @@ export const GetUserData = (accessToken: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   console.log("GET USER DATA was called. ");
-  axios
+
+  await axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
       headers: {
         Authorization: `${accessToken}`,

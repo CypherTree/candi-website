@@ -197,12 +197,13 @@ const NewOrganisation = (props: any) => {
       </div>
 
       <div>
-        <div style={{ paddingBottom: "10px" }}>
+        <div style={{ paddingBottom: "20px" }}>
           <Steps
-            type="navigation"
+            type="default"
             current={current}
             onChange={onChange}
             className="site-navigation-steps"
+            style={{ marginTop: "10px" }}
           >
             <Step status="process" title="Organisation" />
             <Step status="process" title="Plan" />
