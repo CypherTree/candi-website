@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-import { Input } from "@material-ui/core";
-import { Typography } from "antd";
-
-import { PlusOutlined } from "@ant-design/icons";
+import { Upload, message } from "antd";
+import { LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 
 import {
   getAWSTokenForLogoUpload,
@@ -11,48 +9,39 @@ import {
   updateServerWithLogoUploadData,
 } from "../../core/services/logo-upload";
 
-import Layout from "antd/lib/layout/layout";
-
-const { Text } = Typography;
+function beforeUpload(file) {
+  const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+  if (!isJpgOrPng) {
+    message.error("You can only upload JPG/PNG file!");
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error("Image must smaller than 2MB!");
+  }
+  return isJpgOrPng && isLt2M;
+}
 
 const UploadLogo = ({ organisation_id, name, website, logo }) => {
   const jwtToken = localStorage.getItem("accessToken");
 
+  const [loading, setLoading] = useState(false);
+
   const [logoUploadDone, setLogoUploadDone] = useState(false);
+
+  useEffect(() => {
+    setLogoUrl(logo);
+  }, []);
+
   const [logoUrl, setLogoUrl] = useState("");
 
-  const [error, setError] = useState("");
-
   const [imageSrc, setImageSrc] = useState("");
-
-  const onFileChange = (e) => {
-    setLogoUploadDone(false);
-    setError("");
-
-    const accceptFileTypes = ["image/png", "image/jpeg"];
-
-    const file = e.target.files[0];
-
-    if (accceptFileTypes.includes(file.type)) {
-      setSelectedFile(e.target.files[0]);
-      var reader = new FileReader();
-      var url = reader.readAsDataURL(file);
-
-      reader.onloadend = function (e) {
-        setImageSrc(reader.result);
-      };
-
-      onFileUpload();
-    } else {
-      setError("Only png/jpeg files are allowed.");
-    }
-  };
 
   const onFileUpload = async () => {
     const formData = new FormData();
 
     const file = selectedFile.name !== "" ? selectedFile : "  ";
-    const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
+
+    // const fileName = selectedFile.name !== "" ? selectedFile.name : "  ";
 
     const keys = await getAWSTokenForLogoUpload(jwtToken);
 
@@ -70,6 +59,10 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
 
     const result = await uploadFileToAWS(keys.url, formData, key);
 
+    // const organisation_id = 39;
+    // const name = "name";
+    // const website = "http://www.green.com.theonboarders.com";
+
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
@@ -78,72 +71,67 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
       website
     );
 
+    console.log("data 2 --> ", data2);
+
     setLogoUrl(data2.data.logo);
     setLogoUploadDone(true);
   };
 
   const [selectedFile, setSelectedFile] = useState("");
 
-  const showImage = () => {
-    return imageSrc !== "" || (logo && logo !== "");
+  const handleChange = (info) => {
+    onFileUpload(info.file);
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Upload</div>
+    </div>
+  );
+
+  const serverRequest = (file) => {
+    console.log("File YES -> ", file);
   };
 
   return (
-    <div style={{ paddingTop: "10px" }}>
-      <span>
-        <label htmlFor="upload-photo">
-          <Input
-            style={{ display: "none" }}
-            id="upload-photo"
-            name="upload-photo"
-            type="file"
-            onChange={(e) => onFileChange(e)}
+    <div
+      style={{
+        paddingTop: "10px",
+        textAlign: "left",
+      }}
+    >
+      <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        beforeUpload={beforeUpload}
+        progress="line"
+        accept="image/png, image/jpeg"
+        onChange={handleChange}
+        style={{ height: "50px", width: "50px" }}
+        customRequest={(f) => serverRequest(f)}
+      >
+        {logo !== "" ? (
+          <img
+            src={logo ? logo : logoUrl}
+            alt="logo"
+            style={{ width: "100%", height: "100%", padding: "2%" }}
           />
-          <Layout
-            style={{
-              height: "100px",
-              width: "100px",
-              padding: "5px",
-              border: "1px dotted #c1c1c1",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            {showImage() ? (
-              <img
-                src={imageSrc ? imageSrc : logo}
-                style={{
-                  height: "90px",
-                  width: "90px",
-                  objectFit: "cover",
-                }}
-              />
-            ) : (
-              <>
-                <PlusOutlined />
-                <Text>Upload Logo</Text>
-              </>
-            )}
-          </Layout>
-          {logoUploadDone && (
-            <div>
-              <p> Logo was uploaded successfully.</p>
-            </div>
-          )}
-          {error && (
-            <div>
-              <Text type="danger"> {error}</Text>
-            </div>
-          )}
-        </label>
-        {showImage() && (
-          <p style={{ paddingTop: "5px" }}>
-            You may click on the logo to upload a new one.
-          </p>
+        ) : (
+          uploadButton
         )}
-      </span>
+      </Upload>
+      {/* {logoUrl && <p>You may click on image to a upload new logo.</p>} */}
+
+      {logoUploadDone && (
+        <div>
+          <p> Logo was uploaded Successfully.</p>
+        </div>
+      )}
     </div>
   );
 };
+
 export default UploadLogo;
