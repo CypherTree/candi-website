@@ -29,11 +29,14 @@ const AddWorkflow = (props: any) => {
   // const tenant = "tikona";
 
   const getExistingWorkflows = () => {
-    Axios.get(`http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/`, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    })
+    Axios.get(
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    )
       .then((response) => {
         console.log("workflow data from API --> ", response.data);
         if (response.data.data.length !== 0) {
@@ -57,7 +60,7 @@ const AddWorkflow = (props: any) => {
     setLoading(true);
 
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/`,
       {
         name: workflowName,
         client_company: null,
@@ -151,7 +154,7 @@ const AddWorkflow = (props: any) => {
     const jwtToken = `Bearer ${accessToken}`;
 
     Axios.put(
-      `http://id.thetobbers-staging.ml:8000/api/v1/organization/${org_id}/`,
+      `http://id.${process.env.REACT_APP_BASE_URL}/api/v1/organization/${org_id}/`,
       data,
       {
         headers: {

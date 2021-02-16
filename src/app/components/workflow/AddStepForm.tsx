@@ -87,7 +87,7 @@ const AddStepForm = (props: any) => {
 
   const createStepApi = (data: any) => {
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/`,
       data,
       {
         headers: {
@@ -109,7 +109,7 @@ const AddStepForm = (props: any) => {
 
   const updateStepsApi = (data: any) => {
     Axios.put(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/${selectedStep.id}/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/${selectedStep.id}/`,
       data,
       {
         headers: {

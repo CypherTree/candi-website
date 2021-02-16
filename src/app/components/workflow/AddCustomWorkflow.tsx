@@ -56,7 +56,7 @@ const AddCustomWorkflow = (props: any) => {
 
   const getStepsAPI = () => {
     Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/1/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/1/`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -90,7 +90,7 @@ const AddCustomWorkflow = (props: any) => {
       console.log("Data for update Steps ---> ", data);
 
       Axios.put(
-        `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/`,
         data,
         {
           headers: {

@@ -75,7 +75,7 @@ const AddRoles = (props: any) => {
     const jwtToken = `Bearer ${accessToken}`;
 
     Axios.delete(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/${role_id}/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/roles/${role_id}/`,
 
       {
         headers: {
@@ -102,7 +102,7 @@ const AddRoles = (props: any) => {
     setLoading(true);
 
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/roles/`,
       roles,
       {
         headers: {
@@ -127,7 +127,7 @@ const AddRoles = (props: any) => {
     let fData = [];
 
     await Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/team/roles/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/roles/`,
       {
         headers: {
           Authorization: `${jwtToken}`,
@@ -151,7 +151,7 @@ const AddRoles = (props: any) => {
     const jwtToken = `Bearer ${accessToken}`;
 
     Axios.put(
-      `http://id.thetobbers-staging.ml:8000/api/v1/organization/${org_id}/`,
+      `http://id.${process.env.REACT_APP_BASE_URL}/api/v1/organization/${org_id}/`,
       data,
       {
         headers: {
