@@ -203,6 +203,7 @@ const OrganizationalDetails = (props: any) => {
               extra="example: google.com"
             >
               <Input
+                addonBefore="http://www."
                 onChange={(e) => {
                   setOrganisationWebsite(e.target.value);
                   setCurrentError("");
