@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { LoginDispatchTypes, Types } from "./types";
 
 import axios from "axios";
+import { getCurrentSessionTokens } from "../services/session";
 
 const {
   LOGIN_USER,
@@ -52,10 +53,18 @@ export const LoginUser = (
             rememberMe,
           },
         });
+
+        console.log("<--------- access token old ------>", accessToken);
+        if (accessToken !== null) {
+          console.log("<------ IF statement inside old ---->");
+          GetUserData(accessToken);
+        }
       })
       .then(() => {
-        const accessToken = sessionStorage.getItem("accessToken");
+        const { accessToken } = getCurrentSessionTokens();
+        console.log("<--------- access token currently ------>", accessToken);
         if (accessToken !== null) {
+          console.log("<------ IF statement inside ---->");
           GetUserData(accessToken);
         }
       })
