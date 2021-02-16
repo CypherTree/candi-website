@@ -66,11 +66,6 @@ export const SetOrganisationalDetails = (
   handleNext: Function,
   setLoading: Function
 ) => (dispatch: any) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: { isLoading: true },
-  });
-
   const accessToken = localStorage.getItem("accessToken");
 
   const jwtToken = `Bearer ${accessToken}`;
@@ -95,6 +90,9 @@ export const SetOrganisationalDetails = (
     .then((response: any) => {
       console.log("response", response.data);
       const { data } = response.data;
+
+      setLoading(false);
+
       dispatch({
         type: NEW_ORGANISATION_CREATE,
         payload: {
@@ -125,12 +123,9 @@ export const SetOrganisationalDetails = (
       handleNext();
       setLoading(false);
     })
-    .catch((err) => console.log("Err", err));
-
-  dispatch({
-    type: SET_LOADING,
-    payload: { isLoading: false },
-  });
+    .catch((err) => {
+      console.log("Err", err);
+    });
 };
 
 export const PassDataToModal = (

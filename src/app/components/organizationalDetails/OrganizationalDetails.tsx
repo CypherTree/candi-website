@@ -44,7 +44,7 @@ const OrganizationalDetails = (props: any) => {
     if (isSubmitted) {
       handleNext();
     } else {
-      if (domain.length <= 4) {
+      if (domain.length < 4) {
         setCurrentError("Domain should be atleast 4 characters.");
       } else if (domain.includes(" ")) {
         setCurrentError("Domain cannot include spaces.");
@@ -235,6 +235,7 @@ const OrganizationalDetails = (props: any) => {
 
             <Form.Item>
               {domain !== "" &&
+              domain.length > 3 &&
               props.state.app.domainCheckMessage !== "Domain already taken" ? (
                 <Text>
                   This domain is available.{" "}
