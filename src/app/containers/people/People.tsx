@@ -7,7 +7,6 @@ import Axios from "axios";
 
 import AddPeople from "../../components/people/AddPeople";
 import Title from "antd/lib/typography/Title";
-import Message from "../../components/people/Message";
 
 const { Text } = Typography;
 

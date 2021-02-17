@@ -34,6 +34,7 @@ import PlanDetailsPage from "../../containers/settings/PlanDetailsPage";
 import RolesDetailsPage from "../../containers/settings/RolesDetailsPage";
 import InviteLanding from "../../containers/invite/InviteLanding";
 import ViewIncomingInvites from "../../containers/invite/ViewIncomingInvites";
+import CompanySettings from "../../containers/settings/CompanySettings";
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
@@ -158,6 +159,11 @@ const Routes = (props: any) => {
                   // exact
                   path="/settings/company"
                   component={CompanyDetailsPage}
+                />
+                <Route
+                  // exact
+                  path="/settings/company-details"
+                  component={CompanySettings}
                 />
                 <Route
                   // exact

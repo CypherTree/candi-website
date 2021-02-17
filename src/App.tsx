@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 
 import { BrowserRouter as Router } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { ToastContainer } from "react-toastify";
 
 import { setLoggedInUser } from "./auth/core/services/login";
 import Routes from "./app/components/routing/Routes";
@@ -21,6 +22,7 @@ const App = () => {
   return (
     <Router>
       <Routes />
+      <ToastContainer />
     </Router>
   );
 };

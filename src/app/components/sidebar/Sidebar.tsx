@@ -41,6 +41,9 @@ const Sidebar = (props: any) => {
           <Link to="/settings/company">Billing </Link>
         </Menu.Item>
         <Menu.Item key="11">
+          <Link to="/settings/company-details">Company Details </Link>
+        </Menu.Item>
+        <Menu.Item key="12">
           <Link to="/settings/plan">Plan </Link>
         </Menu.Item>
       </SubMenu>
