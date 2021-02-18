@@ -6,10 +6,7 @@ import axios from "axios";
 
 import UploadLogo from "../../components/uploadLogo/UploadLogo";
 
-import {
-  getOrgIdFromTenantName,
-  getTenantInfo,
-} from "../../core/services/tenantinfo";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 import AntSpinner from "../../components/spinner/AntSpinner";
 
 import { toast } from "react-toastify";
@@ -365,10 +362,10 @@ const CompanyDetailsPage = () => {
               <Col style={{}}>
                 <Form.Item>
                   <UploadLogo
-                    organisation_id={2}
-                    name="Hellow"
+                    organisation_id={organizationId}
+                    name="name"
                     website="hellow.com"
-                    logo="logo"
+                    logo={logo}
                   />
                 </Form.Item>
               </Col>
@@ -381,10 +378,7 @@ const CompanyDetailsPage = () => {
             >
               <Button
                 type="primary"
-                // onClick={() =>
-                //   // handleFormSubmit(
-
-                //   )}
+                // onClick={() => handleFormSubmit()}
               >
                 Save Details
               </Button>

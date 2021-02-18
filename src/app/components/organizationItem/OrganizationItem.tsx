@@ -132,7 +132,7 @@ const OrganizationItem = (props: any) => {
                 {data.name}
               </p>
               <Tag
-                color="#2db7f5"
+                color="#c1c1c1"
                 style={{ height: "20px", marginTop: "20px" }}
               >
                 {type == 1 ? "ADMIN" : "MEMBER"}
