@@ -277,21 +277,25 @@ const AddPeople = (props: any) => {
             </Col>
 
             <Col>
-              {disabled ? (
-                inviteStatus === "Expired" ? (
-                  <Form.Item style={{ paddingLeft: "50px" }}>
-                    <Button type="primary" onClick={handleResendInvite}>
-                      Resend Invite
-                    </Button>
-                  </Form.Item>
-                ) : (
+              {disabled && inviteStatus === "Expired" && (
+                <Form.Item style={{ paddingLeft: "50px" }}>
+                  <Button type="primary" onClick={handleResendInvite}>
+                    Resend Invite
+                  </Button>
+                </Form.Item>
+              )}
+
+              {disabled &&
+                inviteStatus !== "Accepted" &&
+                inviteStatus !== "Expired" && (
                   <Form.Item style={{ paddingLeft: "50px" }}>
                     <Button type="primary" onClick={handleCancelInvite}>
                       Cancel Invite
                     </Button>
                   </Form.Item>
-                )
-              ) : (
+                )}
+
+              {!disabled && (
                 <Form.Item style={{ paddingLeft: "50px" }}>
                   <Button type="primary" htmlType="submit">
                     Invite
