@@ -10,6 +10,7 @@ import * as H from "history";
 
 import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 import { StateType } from "../../core/redux/types";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 export type UserDataProps = {
   email: string;
@@ -49,6 +50,8 @@ type Props = {
 const Dashboard: React.FC<Props> = ({ state }) => {
   const [loading, setLoading] = useState(true);
 
+  const [tenant, setTenant] = useState<string | undefined>();
+
   const userData = state.auth.userData ? state.auth.userData : null;
 
   useEffect(() => {
@@ -56,6 +59,11 @@ const Dashboard: React.FC<Props> = ({ state }) => {
       setLoading(false);
     }
   }, [userData]);
+
+  useEffect(() => {
+    const data: string | undefined = getTenantInfo();
+    setTenant(data);
+  }, []);
 
   if (loading) {
     return (
@@ -78,17 +86,28 @@ const Dashboard: React.FC<Props> = ({ state }) => {
         {userData && userData.privacy_policy_accepted ? (
           <>
             <br />
-            <Title level={4}>Welcome</Title>
-            <br />
-            <Title level={4}>
-              {userData !== null && userData.last_name},{" "}
-              {userData !== null && userData.first_name}
-            </Title>
+
+            {tenant !== "id" ? (
+              <Title level={3}>Welcome to "{tenant}"</Title>
+            ) : (
+              <>
+                <Title level={4}>Welcome</Title>
+                <br />
+                <Title level={4}>
+                  {userData !== null && userData.last_name},{" "}
+                  {userData !== null && userData.first_name}
+                </Title>
+              </>
+            )}
             <img
               src="https://image.freepik.com/free-vector/flat-design-colorful-characters-welcoming_23-2148271988.jpg"
               height="500px"
               width="800px"
+<<<<<<< HEAD
+              alt="welcome illustrations"
+=======
               alt="welcome"
+>>>>>>> bc0f316f9bce16675bbdeaa8e5219ff71d6f5c6f
             />
           </>
         ) : (
