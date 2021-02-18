@@ -176,7 +176,7 @@ const Routes = (props: any) => {
                   path="/org/roles"
                   component={RolesDetailsPage}
                 />
-                <PrivateRoute
+                <Route
                   // exact
                   path="/team/invite"
                   component={InviteLanding}

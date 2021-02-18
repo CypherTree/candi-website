@@ -193,7 +193,7 @@ const RolesDetailsPage = (props: any) => {
       <Layout
         style={{
           margin: "30px",
-          borderRadius: "10px",
+          borderRadius: "30px",
           backgroundColor: "#fff",
         }}
       >
