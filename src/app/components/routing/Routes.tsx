@@ -114,6 +114,7 @@ const Routes = (props: any) => {
           <Content>
             <div className="App">
               <Switch>
+                a
                 <Route exact path="/" component={Login} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />{" "}
@@ -146,7 +147,7 @@ const Routes = (props: any) => {
                 />
                 <PrivateRoute
                   exact
-                  path="/organisations"
+                  path="/organisation"
                   component={ReturnHello}
                 />
                 <PrivateRoute exact path="/people" component={People} />

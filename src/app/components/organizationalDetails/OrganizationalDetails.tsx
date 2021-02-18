@@ -22,6 +22,8 @@ const OrganizationalDetails = (props: any) => {
   const [organisationName, setOrganisationName] = useState("");
   const [organisationWebsite, setOrganisationWebsite] = useState("");
 
+  const [currentError, setCurrentError] = useState("");
+
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const { handleNext, currentOrganization, loading, setLoading } = props;
@@ -36,19 +38,35 @@ const OrganizationalDetails = (props: any) => {
     currentOrganization.website = organisationWebsite;
     currentOrganization.domain = domain;
 
+    const expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+    const regex = new RegExp(expression);
+
     if (isSubmitted) {
       handleNext();
     } else {
-      setLoading(true);
-      dispatch(
-        SetOrganisationalDetails(
-          organisationName,
-          organisationWebsite,
-          domain,
-          handleNext,
-          setLoading
-        )
-      );
+      if (domain.length < 4) {
+        setCurrentError("Domain should be atleast 4 characters.");
+      } else if (domain.includes(" ")) {
+        setCurrentError("Domain cannot include spaces.");
+      } else if (!organisationWebsite.match(regex)) {
+        setCurrentError("Please enter website in required format.");
+      } else {
+        if (props.state.app.domainCheckMessage === "Domain available") {
+          setLoading(true);
+          dispatch(
+            SetOrganisationalDetails(
+              organisationName,
+              organisationWebsite,
+              domain,
+              handleNext,
+              setLoading
+            )
+          );
+          setCurrentError("");
+        } else {
+          setCurrentError("This domain cannot be selected.");
+        }
+      }
     }
   };
 
@@ -80,10 +98,13 @@ const OrganizationalDetails = (props: any) => {
       }
     }
   }, []);
-  const handleDomainURLChange = (e: any) => {
-    setDomain(e.target.value);
 
-    if (domain.length >= 4) {
+  const handleDomainURLChange = (e: any) => {
+    setCurrentError("");
+
+    console.log("domain name --> ", domain, domain.length);
+
+    if (domain.length >= 3) {
       dispatch(
         CheckDomainName(
           e.target.value,
@@ -92,9 +113,12 @@ const OrganizationalDetails = (props: any) => {
       );
     }
   };
+
   const onFinish = (values: any) => {
     handleNewSubmit();
   };
+
+  const onFinishFailed = (values: any) => {};
 
   if (loading) {
     return (
@@ -127,6 +151,7 @@ const OrganizationalDetails = (props: any) => {
             : currentOrganization.domain,
         }}
         onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
       >
         <Layout
           style={{ padding: "30px 30px 0px 30px", backgroundColor: "#fff" }}
@@ -178,7 +203,11 @@ const OrganizationalDetails = (props: any) => {
               extra="example: google.com"
             >
               <Input
-                onChange={(e) => setOrganisationWebsite(e.target.value)}
+                addonBefore="http://www."
+                onChange={(e) => {
+                  setOrganisationWebsite(e.target.value);
+                  setCurrentError("");
+                }}
                 disabled={isSubmitted}
                 placeholder="Website"
                 // value={organisationWebsite}
@@ -190,7 +219,10 @@ const OrganizationalDetails = (props: any) => {
               rules={[{ required: true, message: "Please input your domain!" }]}
             >
               <Input
-                onChange={(e) => setDomain(e.target.value)}
+                onChange={(e) => {
+                  setDomain(e.target.value);
+                  handleDomainURLChange(e);
+                }}
                 disabled={isSubmitted}
                 placeholder="Domain"
               />
@@ -203,6 +235,7 @@ const OrganizationalDetails = (props: any) => {
 
             <Form.Item>
               {domain !== "" &&
+              domain.length > 3 &&
               props.state.app.domainCheckMessage !== "Domain already taken" ? (
                 <Text>
                   This domain is available.{" "}
@@ -219,6 +252,7 @@ const OrganizationalDetails = (props: any) => {
                 </Text>
               )}
             </Form.Item>
+            {currentError && <Text type="danger">{currentError}</Text>}
           </div>
           <div
             style={{
@@ -231,7 +265,7 @@ const OrganizationalDetails = (props: any) => {
               Back
             </Button>
             <Form.Item>
-              <Button type="primary" htmlType="submit" onClick={onFinish}>
+              <Button type="primary" htmlType="submit">
                 {isSubmitted ? "Next" : "Save and Next"}
               </Button>
             </Form.Item>

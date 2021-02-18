@@ -64,6 +64,7 @@ const RegisterForm: React.FC<Props> = ({
   const [otp, setOTP] = useState("");
 
   const [otpError, setOTPError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   let counter = 15;
 
@@ -125,6 +126,8 @@ const RegisterForm: React.FC<Props> = ({
   const validationCheck = () => {
     const errors: any = {};
 
+    console.log("passwords", password, password2);
+
     if (!firstName) {
       errors.firstName = "Required";
     }
@@ -136,6 +139,9 @@ const RegisterForm: React.FC<Props> = ({
     }
     if (!password2) {
       errors.password2 = "Required";
+    }
+    if (password !== password2) {
+      errors.password2 = "Passwords are not same";
     }
     if (!otp) {
       errors.otp = "Required";
@@ -158,6 +164,14 @@ const RegisterForm: React.FC<Props> = ({
       registerUser(values);
     } else {
       console.log("Errors", errors);
+    }
+  };
+
+  const checkIfPasswordsSame = () => {
+    if (password !== password2) {
+      setPasswordError("Passwords do not match");
+    } else {
+      setPasswordError("");
     }
   };
 
@@ -226,7 +240,9 @@ const RegisterForm: React.FC<Props> = ({
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
             />
           </Form.Item>
           <Form.Item
@@ -239,9 +255,18 @@ const RegisterForm: React.FC<Props> = ({
               prefix={<LockOutlined className="site-form-item-icon" />}
               type="password"
               placeholder="Confirm Password"
-              onChange={(e) => setPassword2(e.target.value)}
+              onChange={(e) => {
+                setPassword2(e.target.value);
+              }}
             />
           </Form.Item>
+          {password !== password2 ? (
+            <Form.Item>
+              <Text type="danger">Passwords do not match</Text>
+            </Form.Item>
+          ) : (
+            <></>
+          )}
           <Form.Item
             name="phone_number"
             rules={[

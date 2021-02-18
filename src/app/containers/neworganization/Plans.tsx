@@ -302,7 +302,8 @@ const Plans = (props: any) => {
         })
         .catch((err: any) => console.log("err--->", err.response));
     }
-  }, []);
+    // }, [organization_id]);
+  }, [organization_id]);
 
   const handlePricePeriod = (newPricePeriod: React.SetStateAction<string>) => {
     setPricePeriod(newPricePeriod);

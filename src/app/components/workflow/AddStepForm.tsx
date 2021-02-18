@@ -15,6 +15,8 @@ import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
 
+import { connect } from "react-redux";
+
 const { Text } = Typography;
 
 const { Option } = Select;
@@ -50,7 +52,7 @@ const AddStepForm = (props: any) => {
     setStepTypeValue(value);
   };
 
-  const tenant = "cyphertree";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
 
   const handleFormSubmit = () => {
     if (stepName === "") {
@@ -85,7 +87,7 @@ const AddStepForm = (props: any) => {
 
   const createStepApi = (data: any) => {
     Axios.post(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/`,
       data,
       {
         headers: {
@@ -107,7 +109,7 @@ const AddStepForm = (props: any) => {
 
   const updateStepsApi = (data: any) => {
     Axios.put(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/${selectedStep.id}/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/${selectedStep.id}/`,
       data,
       {
         headers: {
@@ -312,4 +314,10 @@ const AddStepForm = (props: any) => {
   );
 };
 
-export default AddStepForm;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(AddStepForm);

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Avatar } from "antd";
+import { Avatar, Button, Tag } from "antd";
 
 import { useDispatch } from "react-redux";
 
@@ -11,7 +11,7 @@ const OrganizationItem = (props: any) => {
 
   console.log(" data in organisation item -->", props);
 
-  const { data, handleOpen } = props;
+  const { data, handleOpen, type } = props;
 
   let progress: number = 20;
 
@@ -61,12 +61,11 @@ const OrganizationItem = (props: any) => {
     <div
       style={{
         border: "none",
-        cursor: "pointer",
+        // cursor: "pointer",
         width: "auto",
         padding: "none",
         margin: "none",
       }}
-      onClick={(e) => handleClick()}
     >
       <div
         style={{
@@ -111,16 +110,32 @@ const OrganizationItem = (props: any) => {
               lineHeight: "10px",
             }}
           >
-            <p
+            <span
               style={{
-                fontSize: "24px",
-                color: "#696969	",
-                margin: "20px 0 15px 0px",
-                padding: 0,
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "400px",
+                // backgroundColor: "red",
               }}
             >
-              {data.name}
-            </p>
+              <p
+                style={{
+                  fontSize: "24px",
+                  color: "#696969	",
+                  margin: "20px 0 15px 0px",
+                  padding: 0,
+                }}
+              >
+                {data.name}
+              </p>
+              <Tag
+                color="#2db7f5"
+                style={{ height: "20px", marginTop: "20px" }}
+              >
+                {type == 1 ? "ADMIN" : "MEMBER"}
+              </Tag>
+            </span>
             <p
               style={{
                 fontSize: "14px",
@@ -129,9 +144,27 @@ const OrganizationItem = (props: any) => {
             >
               {data.website}
             </p>
-            <p>
-              <b>{progress}</b>% completed.{" "}
-            </p>
+
+            {progress === 100 ? (
+              <Button
+                onClick={() => alert("This will send to tenant")}
+                style={{ marginBottom: "10px" }}
+              >
+                Visit Tenant
+              </Button>
+            ) : (
+              <span>
+                <p>
+                  <b>{progress}</b>% completed.
+                </p>
+                <Button
+                  onClick={(e) => handleClick()}
+                  style={{ marginBottom: "10px" }}
+                >
+                  Complete Process
+                </Button>
+              </span>
+            )}
           </div>
         </div>
       </div>

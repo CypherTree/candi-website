@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { LoginDispatchTypes, Types } from "./types";
 
 import axios from "axios";
+import { getCurrentSessionTokens } from "../services/session";
 
 const {
   LOGIN_USER,
@@ -35,13 +36,31 @@ export const LoginUser = (
       },
     });
 
-    axios
+    await axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/`, {
         email: username,
         password,
       })
-      .then((response) => {
+      .then(async (response) => {
         const { access: accessToken, refresh: refreshToken } = response.data;
+
+        await axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response: any) => {
+            const { data: userData } = response.data;
+
+            dispatch({
+              type: SET_USERDATA,
+              payload: {
+                userData,
+              },
+            });
+          })
+          .catch((err) => console.log("--- erro", err));
 
         dispatch({
           type: SET_AUTHENTICATED,
@@ -97,7 +116,8 @@ export const GetUserData = (accessToken: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   console.log("GET USER DATA was called. ");
-  axios
+
+  await axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
       headers: {
         Authorization: `${accessToken}`,

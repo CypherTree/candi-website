@@ -15,6 +15,7 @@ import Plans from "./Plans";
 import { StateType } from "../../../app/core/redux/types";
 import { ClearCurrentOrganisation } from "../../core/redux/app/actions";
 import FinalStepModal from "./FinalStepModal";
+import { Redirect } from "react-router-dom";
 
 const { Step } = Steps;
 
@@ -108,6 +109,8 @@ const NewOrganisation = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [activeStep, setActiveStep] = useState(0);
 
+  const [reloadRequired, setReloadRequired] = useState(false);
+
   const steps = getSteps();
 
   useEffect(() => {
@@ -148,7 +151,12 @@ const NewOrganisation = (props: any) => {
     setActiveStep(0);
     setCurrent(0);
     handleClose();
+    setReloadRequired(true);
   };
+
+  if (reloadRequired) {
+    return <Redirect to="/organisation" />;
+  }
 
   return (
     <Card
@@ -189,12 +197,13 @@ const NewOrganisation = (props: any) => {
       </div>
 
       <div>
-        <div style={{ paddingBottom: "10px" }}>
+        <div style={{ paddingBottom: "20px" }}>
           <Steps
-            type="navigation"
+            type="default"
             current={current}
             onChange={onChange}
             className="site-navigation-steps"
+            style={{ marginTop: "10px" }}
           >
             <Step status="process" title="Organisation" />
             <Step status="process" title="Plan" />

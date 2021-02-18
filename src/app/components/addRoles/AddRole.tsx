@@ -62,6 +62,8 @@ const AddRole = (props: any) => {
 
     if (name !== "" && type) {
       setCurrentError("");
+      setName("");
+      setType(undefined);
       onSubmit();
     }
   };
@@ -88,7 +90,7 @@ const AddRole = (props: any) => {
       }
       setType(roleType);
     }
-  }, [props]);
+  }, []);
 
   return (
     <Form name="basic" initialValues={{ remember: true }} onFinish={onFinish}>

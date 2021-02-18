@@ -66,11 +66,6 @@ export const SetOrganisationalDetails = (
   handleNext: Function,
   setLoading: Function
 ) => (dispatch: any) => {
-  dispatch({
-    type: SET_LOADING,
-    payload: { isLoading: true },
-  });
-
   const accessToken = localStorage.getItem("accessToken");
 
   const jwtToken = `Bearer ${accessToken}`;
@@ -94,8 +89,9 @@ export const SetOrganisationalDetails = (
     )
     .then((response: any) => {
       console.log("response", response.data);
-
       const { data } = response.data;
+
+      setLoading(false);
 
       dispatch({
         type: NEW_ORGANISATION_CREATE,
@@ -127,12 +123,9 @@ export const SetOrganisationalDetails = (
       handleNext();
       setLoading(false);
     })
-    .catch((err) => console.log("Err", err));
-
-  dispatch({
-    type: SET_LOADING,
-    payload: { isLoading: false },
-  });
+    .catch((err) => {
+      console.log("Err", err);
+    });
 };
 
 export const PassDataToModal = (
@@ -210,7 +203,10 @@ export const AssignPlanToOrganisation = (
     .then(() => {
       setLoading(false);
     })
-    .catch((err) => console.log("Err", err));
+    .catch((err) => {
+      console.log("Err", err);
+      setLoading(false);
+    });
 };
 
 export const AddCompanyDetailsToOrganization = (
@@ -251,6 +247,8 @@ export const AddCompanyDetailsToOrganization = (
 export const AddCompanyDetailsToCurrentOrganization = (data: any) => (
   dispatch: any
 ) => {
+  console.log("******** data in addcompany details reducer *****", data);
+
   dispatch({
     type: ADD_COMPANY_DETAILS_TO_CURRENT_ORGANISATION,
     payload: {

@@ -11,13 +11,6 @@ import NewOrganizationModal from "./NewOrganizationModal";
 const Organisations = (props: any) => {
   const [open, setOpen] = React.useState(false);
 
-  // const [orgData, setOrgData] = React.useState({
-  //   domain: null,
-  //   name: null,
-  //   selectedPlan: null,
-  //   website: null,
-  // });
-
   const handleOpen = () => {
     setOpen(true);
   };
@@ -51,7 +44,6 @@ const Organisations = (props: any) => {
               style={{
                 fontSize: "26px",
                 fontWeight: "bold",
-                // fontFamily: "Helvetica",
                 color: "#696969	",
                 width: "auto",
                 margin: "10px 20px 5px 0 ",
