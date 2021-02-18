@@ -6,8 +6,13 @@ import axios from "axios";
 
 import UploadLogo from "../../components/uploadLogo/UploadLogo";
 
-import { getTenantInfo } from "../../core/services/tenantinfo";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
 import AntSpinner from "../../components/spinner/AntSpinner";
+
+import { toast } from "react-toastify";
 
 const CompanyDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -24,6 +29,8 @@ const CompanyDetailsPage = () => {
 
   const [isGSTVerified, setIsGSTVerified] = useState(false);
   const [billingAddressSame, setBillingAddressSame] = useState(true);
+
+  const organizationId = 55;
 
   const clearEverything = () => {
     setIsGSTVerified(false);
@@ -50,11 +57,14 @@ const CompanyDetailsPage = () => {
     const accessToken = localStorage.getItem("accessToken");
     setLoading(true);
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/organization/55/`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((response: any) => {
         console.log("data recieved ------>", response.data);
 
@@ -76,7 +86,10 @@ const CompanyDetailsPage = () => {
         setLogo(companyData.logo);
       })
       .then(() => setLoading(false))
-      .catch((err) => console.log("--- erro", err.message));
+      .catch((err) => {
+        console.log("--- erro", err.message);
+        toast.error("Unexpected Error occoured.");
+      });
   };
 
   const fetchGSTDetails = () => {
@@ -112,7 +125,10 @@ const CompanyDetailsPage = () => {
         }
       })
       .then(() => setLoading(false))
-      .catch((err) => console.log("--- erro", err.message));
+      .catch((err) => {
+        console.log("--- erro", err.message);
+        toast.error("Unexpected Error occoured.");
+      });
   };
 
   const onFinish = (values: any) => {

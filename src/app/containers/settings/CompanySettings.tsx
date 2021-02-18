@@ -20,6 +20,7 @@ import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import AntSpinner from "../../components/spinner/AntSpinner";
 
 import "react-toastify/dist/ReactToastify.css";
+import { getOrgIdFromTenantName } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
@@ -40,6 +41,8 @@ const CompanySettings = () => {
   const [companySize, setCompanySize] = useState<any>();
   const [markets, setMarkets] = useState<any>();
   const [selectedMarkets, setSelectedMarkets] = useState<any>();
+
+  const organizationId = 55;
 
   const styles = { width: "400px" };
 
@@ -95,11 +98,14 @@ const CompanySettings = () => {
 
   const getCompanyDetails = () => {
     axios
-      .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/organization/55/`, {
-        headers: {
-          Authorization: `${jwtToken}`,
-        },
-      })
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
       .then(async (response) => {
         console.log("Company details data", response.data);
 
@@ -133,14 +139,17 @@ const CompanySettings = () => {
       .then(() => {
         setLoading(false);
       })
-      .catch((e) => console.log("err", e));
+      .catch((e) => {
+        console.log("err", e);
+        toast.error("Unexpected Error occoured.");
+      });
   };
 
   const updateCompanyDetails = (marketData: any) => {
     setLoading(true);
     axios
       .put(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/55/`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
         {
           about,
           year_established: `${yearEstablished}-01-01`,

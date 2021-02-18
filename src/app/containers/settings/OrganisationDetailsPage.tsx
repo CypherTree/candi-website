@@ -5,24 +5,67 @@ import Title from "antd/lib/typography/Title";
 
 import AntSpinner from "../../components/spinner/AntSpinner";
 
-import { getTenantInfo } from "../../core/services/tenantinfo";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const OrganisationDetailsPage = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const [isSubmitted, setIsSubmitted] = useState(true);
 
-  const [orgName, setOrgName] = useState("thor");
+  const [orgName, setOrgName] = useState();
 
-  const [orgWebsite, setOrgWebsite] = useState("thor.com");
+  const [orgWebsite, setOrgWebsite] = useState();
 
-  const [orgDomain, setOrgDomain] = useState("thor.candi.local");
+  const [orgDomain, setOrgDomain] = useState();
+
+  // const organisation_id = getOrgIdFromTenantName();
+
+  const organisation_id = 55;
 
   useEffect(() => {
     const ten = getTenantInfo();
 
     console.log("tenant -->", ten);
+
+    getOrganisationData();
   }, []);
+
+  const getOrganisationData = async () => {
+    const { accessToken } = getCurrentSessionTokens();
+
+    const jwtToken = `Bearer ${accessToken}`;
+
+    toast.success(`ID recieved id  ${organisation_id}`);
+
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organisation_id}/`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("Current plan details from api ----->", response.data);
+        setLoading(false);
+        setOrgName(response.data.data.name);
+        setOrgWebsite(response.data.data.website);
+        setOrgDomain(response.data.data.slug);
+        // setIsSubmitted(true);
+      })
+      .catch((err: any) => {
+        // setLoading(false);
+        console.log("err--->", err.response);
+        toast.error("Some error occoured.");
+      });
+  };
 
   if (loading) {
     return <AntSpinner />;
