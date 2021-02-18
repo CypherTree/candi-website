@@ -151,37 +151,37 @@ const Routes = (props: any) => {
                   component={ReturnHello}
                 />
                 <PrivateRoute exact path="/people" component={People} />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/settings/org"
                   component={OrganisationDetailsPage}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/settings/company"
                   component={CompanyDetailsPage}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/settings/company-details"
                   component={CompanySettings}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/settings/plan"
                   component={PlanDetailsPage}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/org/roles"
                   component={RolesDetailsPage}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/team/invite"
                   component={InviteLanding}
                 />
-                <Route
+                <PrivateRoute
                   // exact
                   path="/invites/all"
                   component={ViewIncomingInvites}

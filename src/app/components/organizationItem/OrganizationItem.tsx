@@ -11,6 +11,8 @@ const OrganizationItem = (props: any) => {
 
   console.log(" data in organisation item -->", props);
 
+  const tenantURL = `http://cyphertree.${process.env.REACT_APP_FRONTEND_BASE_DOMAIN}`;
+
   const { data, handleOpen, type } = props;
 
   let progress: number = 20;
@@ -146,12 +148,9 @@ const OrganizationItem = (props: any) => {
             </p>
 
             {progress === 100 ? (
-              <Button
-                onClick={() => alert("This will send to tenant")}
-                style={{ marginBottom: "10px" }}
-              >
-                Visit Tenant
-              </Button>
+              <a href={tenantURL}>
+                <Button style={{ marginBottom: "10px" }}>Visit Tenant</Button>
+              </a>
             ) : (
               <span>
                 <p>

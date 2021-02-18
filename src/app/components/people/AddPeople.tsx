@@ -4,6 +4,7 @@ import { Input, Form, Button, Select, Row, Col, Typography } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 
 import Axios from "axios";
+import { toast } from "react-toastify";
 
 const { Option } = Select;
 
@@ -83,6 +84,7 @@ const AddPeople = (props: any) => {
         console.log("err", err.response);
         setLoading(false);
         setCurrentError(err.response.data.errors[0].email[0]);
+        toast.error("Request could not be processed.");
       });
   };
 
@@ -125,7 +127,10 @@ const AddPeople = (props: any) => {
         sendInvite({ name, email, tenant_role });
         setLoading(false);
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        console.log("err", err);
+        toast.error("Request could not be processed.");
+      });
   };
 
   const cancelSentInvite = (inviteId: number) => {
@@ -149,7 +154,10 @@ const AddPeople = (props: any) => {
         setRoleType("");
         // setLoading(false);
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        console.log("err", err);
+        toast.error("Request could not be processed.");
+      });
   };
 
   const handleRoleTypeChange = (value: any) => {

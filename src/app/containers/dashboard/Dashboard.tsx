@@ -10,7 +10,10 @@ import * as H from "history";
 
 import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 import { StateType } from "../../core/redux/types";
-import { getTenantInfo } from "../../core/services/tenantinfo";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
 
 export type UserDataProps = {
   email: string;
@@ -63,6 +66,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
   useEffect(() => {
     const data: string | undefined = getTenantInfo();
     setTenant(data);
+    getOrgIdFromTenantName();
   }, []);
 
   if (loading) {
@@ -86,7 +90,6 @@ const Dashboard: React.FC<Props> = ({ state }) => {
         {userData && userData.privacy_policy_accepted ? (
           <>
             <br />
-
             {tenant !== "id" ? (
               <Title level={3}>Welcome to "{tenant}"</Title>
             ) : (

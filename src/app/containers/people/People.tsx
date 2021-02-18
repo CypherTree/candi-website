@@ -7,6 +7,7 @@ import Axios from "axios";
 
 import AddPeople from "../../components/people/AddPeople";
 import Title from "antd/lib/typography/Title";
+import { toast } from "react-toastify";
 
 const { Text } = Typography;
 
@@ -62,7 +63,10 @@ const People = () => {
         setOriRoles(fData);
         console.log("<--- role data --->", fData);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        toast.error("Request could not be processed.");
+      });
   };
 
   const getSentInvites = () => {
@@ -84,7 +88,10 @@ const People = () => {
       .then(() => {
         setLoading(false);
       })
-      .catch((err) => console.log("err", err));
+      .catch((err) => {
+        console.log("err", err);
+        toast.error("Request could not be processed.");
+      });
   };
 
   const handleAddInviteForm = () => {

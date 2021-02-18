@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Avatar, Button, Dropdown, Menu, Layout } from "antd";
+import { Avatar, Button, Dropdown, Menu, Layout, Tag } from "antd";
 import Title from "antd/lib/typography/Title";
 import {
   SettingFilled,
@@ -93,7 +93,9 @@ function Navbar(props: any) {
 
   const menu = (
     <Menu>
-      <Menu.Item>Profile</Menu.Item>
+      <Menu.Item>
+        <a href="http://id.candi.local:3000">Profile</a>
+      </Menu.Item>
       <Menu.Item>My account</Menu.Item>
       <Menu.Item danger onClick={handleLogout}>
         Logout
@@ -103,17 +105,6 @@ function Navbar(props: any) {
 
   const NavMenuInsideTenant = (
     <>
-      <Link
-        to="/organisations/all"
-        style={{
-          textDecoration: "none",
-          color: "white",
-        }}
-      >
-        <Title style={{ color: "black" }} level={5}>
-          Organisation
-        </Title>
-      </Link>
       <Link
         to="#"
         style={{
@@ -198,6 +189,9 @@ function Navbar(props: any) {
             alignItems: "center",
           }}
         >
+          <Tag color="magenta">
+            {getTenantInfo() === "id" ? "Home" : getTenantInfo()}
+          </Tag>
           <SearchOutlined
             style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
           />

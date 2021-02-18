@@ -1,27 +1,51 @@
+import axios from "axios";
+import { toast } from "react-toastify";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+
 export const getTenantInfo = () => {
-  console.log("loc -->", window.location.href); //yields: "https://stacksnippets.net/js"
-
   const location = window.location.href;
-
-  console.log("loc1 -->", location);
 
   const result = location.split(".");
 
-  console.log("loc2 -->", result);
-
   const first = result.shift();
-
-  console.log("loc3 -->", first);
 
   const tenent = first?.split("://");
 
-  console.log("loc4 -->", tenent);
-
   const last = tenent?.pop();
 
-  console.log("loc5 -->", last);
-
-  console.log("----> the tenant recieved is ----> ", last);
-
   return last;
+};
+
+export const getOrgIdFromTenantName = async () => {
+  const { accessToken } = getCurrentSessionTokens();
+
+  const jwtToken = `Bearer ${accessToken}`;
+
+  const slug = getTenantInfo();
+
+  let organizationId;
+
+  if (slug !== "id") {
+    await axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
+    `,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        organizationId = response.data.data[0].organization.id;
+        toast.success(`Welcome to ${slug}`);
+        return organizationId;
+      })
+      .catch((err: any) => {
+        console.log("Err", err);
+        toast.error("Action could not be performed.");
+        return 0;
+      });
+  }
 };
