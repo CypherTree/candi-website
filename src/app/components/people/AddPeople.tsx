@@ -83,7 +83,9 @@ const AddPeople = (props: any) => {
       .catch((err) => {
         console.log("err", err.response);
         setLoading(false);
-        setCurrentError(err.response.data.errors[0].email[0]);
+        if (err.response.data.errors[0].email[0]) {
+          setCurrentError(err.response.data.errors[0].email[0]);
+        }
         toast.error("Request could not be processed.");
       });
   };
