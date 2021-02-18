@@ -9,6 +9,7 @@ import Pagination from "@material-ui/lab/Pagination";
 
 import OrganizationItem from "../organizationItem/OrganizationItem";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import { toast } from "react-toastify";
 
 interface IOrganization {
   type: any;
@@ -103,7 +104,15 @@ const OrganizationList = (props: any) => {
         setCount(response.data.count);
       })
       .then(() => setLoading(false))
-      .catch((err: any) => console.log("Err", err));
+      .catch((err: any) => {
+        console.log("Err", err.response);
+        setLoading(false);
+        if (err.response.data.detail) {
+          toast.error(err.response.data.detail);
+        } else {
+          toast.error("Some error occoured");
+        }
+      });
   }, []);
 
   if (loading) {

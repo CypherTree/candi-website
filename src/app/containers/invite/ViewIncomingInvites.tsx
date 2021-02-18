@@ -7,6 +7,8 @@ import axios from "axios";
 
 import InviteList from "./InviteList";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import { toast } from "react-toastify";
+import Title from "antd/lib/typography/Title";
 
 type InviteType = {
   id: number;
@@ -41,7 +43,15 @@ const ViewIncomingInvites = () => {
         setInviteList(response.data.data);
       })
       .then(() => setLoading(false))
-      .catch((err: any) => console.log("Err", err));
+      .catch((err: any) => {
+        console.log("Err", err);
+        setLoading(false);
+        if (err.response.data.detail) {
+          toast.error(err.response.data.detail);
+        } else {
+          toast.error("Some error occoured");
+        }
+      });
   };
 
   useEffect(() => {
@@ -85,13 +95,17 @@ const ViewIncomingInvites = () => {
               </p>
             </div>
           </div>
-          <InviteList
-            loading={loading}
-            setLoading={setLoading}
-            inviteList={inviteList}
-            setShouldReload={setShouldReload}
-            getIncomingInvites={getIncomingInvites}
-          />
+          {inviteList && inviteList?.length > 0 ? (
+            <InviteList
+              loading={loading}
+              setLoading={setLoading}
+              inviteList={inviteList}
+              setShouldReload={setShouldReload}
+              getIncomingInvites={getIncomingInvites}
+            />
+          ) : (
+            <Title level={3}>You have no pending invites</Title>
+          )}
         </div>
       </Layout>
     );

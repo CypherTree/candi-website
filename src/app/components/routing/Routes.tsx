@@ -35,6 +35,9 @@ import RolesDetailsPage from "../../containers/settings/RolesDetailsPage";
 import InviteLanding from "../../containers/invite/InviteLanding";
 import ViewIncomingInvites from "../../containers/invite/ViewIncomingInvites";
 import CompanySettings from "../../containers/settings/CompanySettings";
+
+import WorkflowMain from "../../containers/settings/WorkflowMain";
+import WorkflowPage from "../../containers/settings/WorkflowPage";
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
@@ -185,6 +188,16 @@ const Routes = (props: any) => {
                   // exact
                   path="/invites/all"
                   component={ViewIncomingInvites}
+                />
+                <PrivateRoute
+                  // exact
+                  path="/settings/workflow"
+                  component={WorkflowMain}
+                />
+                <PrivateRoute
+                  // exact
+                  path="/settings/workflow/modify"
+                  component={WorkflowPage}
                 />
                 <Route component={PageNotFound} />
                 {/* <Route component={InviteLanding} /> */}

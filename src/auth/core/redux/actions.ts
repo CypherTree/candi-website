@@ -259,18 +259,19 @@ export const RegisterUser = (registerData: RegisterData) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   try {
-    axios
+    await axios
       .post(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/register/`,
         registerData
       )
-      .then((response) => {
+      .then(async (response) => {
         console.log("response of axios", response.data);
         const { message } = response.data;
         const {
           access: accessToken,
           refresh: refreshToken,
         } = response.data.data;
+
         dispatch({
           type: REGISTER_SUCCESS,
           payload: {
@@ -279,7 +280,35 @@ export const RegisterUser = (registerData: RegisterData) => async (
             success: message,
           },
         });
+
+        await axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response: any) => {
+            const { data: userData } = response.data;
+
+            dispatch({
+              type: SET_USERDATA,
+              payload: {
+                userData,
+              },
+            });
+          })
+          .catch((err) => console.log("--- erro", err));
+
+        dispatch({
+          type: SET_AUTHENTICATED,
+          payload: {
+            isAuthenticated: true,
+            accessToken,
+            refreshToken,
+          },
+        });
       })
+
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response.data.message);
 
