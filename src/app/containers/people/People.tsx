@@ -234,6 +234,7 @@ const People = () => {
               setCurrentError={setCurrentError}
               setReloadRequired={setReloadRequired}
               setLoading={setLoading}
+              getSentInvites={getSentInvites}
             />
           </div>
         )}

@@ -46,7 +46,7 @@ const AddRole = (props: any) => {
     } else if (type === "Viewer") {
       roleValue = 4;
     } else if (type === "Third Party") {
-      roleValue = 5;
+      roleValue = 6;
     }
 
     addRole(name, roleValue);

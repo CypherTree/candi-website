@@ -52,7 +52,7 @@ export const updateServerWithLogoUploadData = async (
       `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organization_id}/`,
       {
         organization: organization_id,
-        name,
+        // name,
         logo_key,
       },
       {

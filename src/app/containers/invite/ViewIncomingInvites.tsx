@@ -29,7 +29,7 @@ const ViewIncomingInvites = () => {
 
   const jwtToken = `Bearer ${accessToken}`;
 
-  useEffect(() => {
+  const getIncomingInvites = () => {
     axios
       .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/invitations/`, {
         headers: {
@@ -42,6 +42,10 @@ const ViewIncomingInvites = () => {
       })
       .then(() => setLoading(false))
       .catch((err: any) => console.log("Err", err));
+  };
+
+  useEffect(() => {
+    getIncomingInvites();
   }, [shouldReload]);
 
   if (loading) {
@@ -86,6 +90,7 @@ const ViewIncomingInvites = () => {
             setLoading={setLoading}
             inviteList={inviteList}
             setShouldReload={setShouldReload}
+            getIncomingInvites={getIncomingInvites}
           />
         </div>
       </Layout>

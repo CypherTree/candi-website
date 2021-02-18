@@ -19,7 +19,7 @@ export enum InvitationStatus {
 }
 
 const InviteItem = (props: any) => {
-  const { inviteData, setLoading, setShouldReload } = props;
+  const { inviteData, setLoading, setShouldReload, getIncomingInvites } = props;
 
   const { accessToken } = getCurrentSessionTokens();
 
@@ -122,6 +122,7 @@ const InviteItem = (props: any) => {
       .then((response: any) => {
         console.log("response from api reject invite--> ", response.data);
         setShouldReload(true);
+        getIncomingInvites();
       })
       .then(() => setLoading(false))
       .catch((err: any) => {

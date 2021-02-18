@@ -27,6 +27,7 @@ const AddPeople = (props: any) => {
     setLoading,
     expired,
     setCurrentError,
+    getSentInvites,
   } = props;
 
   const onFinish = (values: any) => {
@@ -72,6 +73,7 @@ const AddPeople = (props: any) => {
     )
       .then((response) => {
         console.log(response.data);
+        getSentInvites();
       })
       .then(() => {
         setReloadRequired(true);
@@ -120,6 +122,7 @@ const AddPeople = (props: any) => {
         setEmail("");
         setRoleType("");
 
+        getSentInvites();
         let tenant_role;
         const selectedRole = oriRoles.filter(
           (role: any) => role.name === roleType

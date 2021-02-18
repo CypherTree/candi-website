@@ -7,7 +7,7 @@ import InviteItem from "./InviteItem";
 const { Text } = Typography;
 
 const InviteList = (props: any) => {
-  const { setLoading, inviteList, setShouldReload } = props;
+  const { setLoading, inviteList, setShouldReload, getIncomingInvites } = props;
 
   return (
     <div>
@@ -17,6 +17,7 @@ const InviteList = (props: any) => {
             inviteData={invite}
             setLoading={setLoading}
             setShouldReload={setShouldReload}
+            getIncomingInvites={getIncomingInvites}
           />
         ))
       ) : (
