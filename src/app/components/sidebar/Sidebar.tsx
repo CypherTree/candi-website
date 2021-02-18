@@ -31,7 +31,7 @@ const Sidebar = (props: any) => {
         <Link to="/org/roles">Roles </Link>
       </Menu.Item>
       <Menu.Item key="2" icon={<DesktopOutlined />}>
-        Workflow
+        <Link to="/settings/workflow">Workflow </Link>
       </Menu.Item>
       <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
         <Menu.Item key="9">

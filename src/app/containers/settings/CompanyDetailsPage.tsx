@@ -10,6 +10,14 @@ import { getTenantInfo } from "../../core/services/tenantinfo";
 import AntSpinner from "../../components/spinner/AntSpinner";
 
 import { toast } from "react-toastify";
+import { connect } from "react-redux";
+
+import { useDispatch } from "react-redux";
+
+import {
+  AddCompanyDetailsToOrganization,
+  AddCompanyDetailsToCurrentOrganization,
+} from "../../core/redux/app/actions";
 
 const CompanyDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -26,6 +34,8 @@ const CompanyDetailsPage = () => {
 
   const [isGSTVerified, setIsGSTVerified] = useState(false);
   const [billingAddressSame, setBillingAddressSame] = useState(true);
+
+  const dispatch = useDispatch();
 
   const organizationId = 55;
 
@@ -135,6 +145,29 @@ const CompanyDetailsPage = () => {
 
   const onFinishFailed = (errorInfo: any) => {
     console.log("Failed:", errorInfo);
+  };
+
+  const handleFormSubmit = () => {
+    const putData = {
+      gst: gstNumber,
+      email,
+      address,
+      country,
+      state,
+      city,
+      // locality, //
+      pincode,
+      billing_address: billingAddress,
+      billing_email: email,
+      // website,
+      // name,
+    };
+
+    // const organisation_id = 12;
+
+    dispatch(
+      AddCompanyDetailsToOrganization(putData, organizationId, setLoading)
+    );
   };
 
   useEffect(() => {
@@ -376,10 +409,7 @@ const CompanyDetailsPage = () => {
                 paddingBottom: "20px",
               }}
             >
-              <Button
-                type="primary"
-                // onClick={() => handleFormSubmit()}
-              >
+              <Button type="primary" onClick={() => handleFormSubmit()}>
                 Save Details
               </Button>
             </div>

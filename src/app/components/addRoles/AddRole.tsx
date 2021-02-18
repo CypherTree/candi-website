@@ -85,7 +85,7 @@ const AddRole = (props: any) => {
         roleType = "Editor";
       } else if (props.roleData.type === 4) {
         roleType = "Viewer";
-      } else if (props.roleData.type === 5) {
+      } else if (props.roleData.type === 6) {
         roleType = "Third Party";
       }
       setType(roleType);

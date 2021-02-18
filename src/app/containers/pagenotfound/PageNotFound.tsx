@@ -1,14 +1,23 @@
 import React from "react";
 
-import { Typography } from "@material-ui/core";
+import { Layout } from "antd";
+import Title from "antd/lib/typography/Title";
 
 const PageNotFound = () => {
   return (
-    <div>
-      <Typography variant="h5" component="h5">
+    <Layout
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "80vh",
+      }}
+    >
+      <Title level={3}>
         404: Page you requested was not found on this server.
-      </Typography>
-    </div>
+      </Title>
+    </Layout>
   );
 };
 
