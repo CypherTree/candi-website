@@ -11,6 +11,8 @@ import OrganizationItem from "../organizationItem/OrganizationItem";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 interface IOrganization {
+  type: any;
+  organization: any;
   address: string;
   billing_address: string;
   billing_email: string;
@@ -68,7 +70,7 @@ const OrganizationList = (props: any) => {
     setLoading(true);
     await axios
       .get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/?is_owner=1&page=${page}&size=${perPage}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?page=${page}&size=${perPage}`,
         {
           headers: {
             Authorization: `${jwtToken}`,
@@ -88,7 +90,7 @@ const OrganizationList = (props: any) => {
     setLoading(true);
     axios
       .get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/?is_owner=1&page=${currentPage}&size=${perPage}`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?page=${currentPage}&size=${perPage}`,
         {
           headers: {
             Authorization: `${jwtToken}`,
@@ -138,7 +140,11 @@ const OrganizationList = (props: any) => {
           >
             {data.map((organization) => (
               <Col span={10} style={{ paddingTop: "15px" }}>
-                <OrganizationItem data={organization} handleOpen={handleOpen} />
+                <OrganizationItem
+                  data={organization.organization}
+                  handleOpen={handleOpen}
+                  type={organization.type}
+                />
               </Col>
             ))}
           </Row>
