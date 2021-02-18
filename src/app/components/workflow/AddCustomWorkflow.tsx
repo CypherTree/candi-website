@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Button, Layout } from "antd";
 import Title from "antd/lib/typography/Title";
@@ -7,6 +7,8 @@ import Axios from "axios";
 
 import AddStepForm from "./AddStepForm";
 import SortableList from "./SortableList";
+
+import { connect } from "react-redux";
 
 const AddCustomWorkflow = (props: any) => {
   interface ItemType {
@@ -34,6 +36,8 @@ const AddCustomWorkflow = (props: any) => {
 
   const [didOrderChange, setDidOrderChange] = useState(false);
 
+  const messagesEndRef = useRef<any>(null);
+
   const { handleCancelModal, handleNext } = props;
 
   const closeAddStepForm = () => {
@@ -46,13 +50,13 @@ const AddCustomWorkflow = (props: any) => {
     setIsAddStepFormOpen(true);
   };
 
-  const tenant = "cyphertree";
+  const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
 
   const workflow_id = props.workflowId;
 
   const getStepsAPI = () => {
     Axios.get(
-      `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/1/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/1/`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -86,7 +90,7 @@ const AddCustomWorkflow = (props: any) => {
       console.log("Data for update Steps ---> ", data);
 
       Axios.put(
-        `http://${tenant}.thetobbers-staging.ml:8000/api/v1/workflow/step/`,
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/`,
         data,
         {
           headers: {
@@ -119,6 +123,13 @@ const AddCustomWorkflow = (props: any) => {
     getStepsAPI();
     setDataReload(false);
   }, [dataReload]);
+
+  useEffect(() => {
+    console.log("<---- scroll thing was called--->", isAddStepFormOpen);
+    if (isAddStepFormOpen) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [isAddStepFormOpen]);
 
   return (
     <Layout
@@ -182,8 +193,10 @@ const AddCustomWorkflow = (props: any) => {
             workflowId={workflow_id}
           />
         )}
+        <div ref={messagesEndRef} />
         <br />
       </div>
+
       <div
         style={{ display: "flex", alignContent: "center", paddingTop: "10px" }}
       >
@@ -197,4 +210,10 @@ const AddCustomWorkflow = (props: any) => {
   );
 };
 
-export default AddCustomWorkflow;
+const mapStateToProps = (state: any) => {
+  return {
+    state: state,
+  };
+};
+
+export default connect(mapStateToProps)(AddCustomWorkflow);

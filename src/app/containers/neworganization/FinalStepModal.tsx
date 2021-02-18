@@ -4,7 +4,7 @@ import { Button, Layout, Typography } from "antd";
 
 const { Text } = Typography;
 
-function FinalStepModal(props: any) {
+const FinalStepModal = (props: any) => {
   const { handleCancelModal } = props;
 
   return (
@@ -38,6 +38,6 @@ function FinalStepModal(props: any) {
       </Layout>
     </>
   );
-}
+};
 
 export default FinalStepModal;

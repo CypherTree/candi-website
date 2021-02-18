@@ -3,6 +3,7 @@ import { Dispatch } from "redux";
 import { LoginDispatchTypes, Types } from "./types";
 
 import axios from "axios";
+import { getCurrentSessionTokens } from "../services/session";
 
 const {
   LOGIN_USER,
@@ -15,6 +16,7 @@ const {
   SET_AUTHENTICATED,
   SET_USERDATA,
   SET_LOGIN_ERROR,
+  SET_REGISTER_ERROR,
   REGISTER_SUCCESS,
   EMAIL_VERIFICATION_SUCCESS,
 } = Types;
@@ -34,13 +36,31 @@ export const LoginUser = (
       },
     });
 
-    axios
+    await axios
       .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/`, {
         email: username,
         password,
       })
-      .then((response) => {
+      .then(async (response) => {
         const { access: accessToken, refresh: refreshToken } = response.data;
+
+        await axios
+          .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
+          .then((response: any) => {
+            const { data: userData } = response.data;
+
+            dispatch({
+              type: SET_USERDATA,
+              payload: {
+                userData,
+              },
+            });
+          })
+          .catch((err) => console.log("--- erro", err));
 
         dispatch({
           type: SET_AUTHENTICATED,
@@ -96,7 +116,8 @@ export const GetUserData = (accessToken: string) => async (
   dispatch: Dispatch<LoginDispatchTypes>
 ) => {
   console.log("GET USER DATA was called. ");
-  axios
+
+  await axios
     .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
       headers: {
         Authorization: `${accessToken}`,
@@ -261,10 +282,14 @@ export const RegisterUser = (registerData: RegisterData) => async (
       })
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response.data.message);
+
+        // TODO: OTP error message change
         dispatch({
-          type: SET_LOGIN_ERROR,
+          type: SET_REGISTER_ERROR,
           payload: {
-            error: err.response.data.message,
+            error: err.response.data.message
+              ? err.response.data.message
+              : err.response.data.otp,
           },
         });
       });

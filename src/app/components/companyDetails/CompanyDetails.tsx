@@ -3,7 +3,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 import Layout from "antd/lib/layout/layout";
-import { Button, Form, Input, Row, Col, Checkbox, Spin } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  Row,
+  Col,
+  Checkbox,
+  Spin,
+  Typography,
+} from "antd";
 import Title from "antd/lib/typography/Title";
 
 import UploadLogo from "../uploadLogo/UploadLogo";
@@ -15,7 +24,9 @@ import {
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
 
-function CompanyDetails(props: any) {
+const { Text } = Typography;
+
+const CompanyDetails = (props: any) => {
   console.log("--- ALL PROPS -- ", props);
 
   const { handleBack, handleNext, loading, setLoading } = props;
@@ -42,8 +53,14 @@ function CompanyDetails(props: any) {
       setWebsite(props.state.app.currentOrganization.website);
       setName(props.state.app.currentOrganization.name);
 
+      setLogo(props.state.app.currentOrganization.logo);
+
       if (props.state.app.currentOrganization.country !== "") {
-        setGstNumber(props.state.app.currentOrganization.gst);
+        setGstNumber(
+          props.state.app.currentOrganization.gst
+            ? props.state.app.currentOrganization.gst
+            : props.state.app.currentOrganization.gstNumber
+        );
         setCountry(props.state.app.currentOrganization.country);
         setState(props.state.app.currentOrganization.state);
         setCity(props.state.app.currentOrganization.city);
@@ -56,10 +73,9 @@ function CompanyDetails(props: any) {
             : props.state.app.currentOrganization.address
         );
         setEmail(props.state.app.currentOrganization.email);
-        setLogo(props.state.app.currentOrganization.logo);
       }
     }
-  });
+  }, []);
 
   const dispatch = useDispatch();
 
@@ -76,6 +92,8 @@ function CompanyDetails(props: any) {
   const [billingAddressSame, setBillingAddressSame] = useState(true);
 
   const [logo, setLogo] = useState("");
+
+  const [gstError, setGstError] = useState("");
 
   const clearEverything = () => {
     setIsGSTVerified(false);
@@ -100,6 +118,8 @@ function CompanyDetails(props: any) {
 
   const fetchGSTDetails = () => {
     const accessToken = localStorage.getItem("accessToken");
+
+    setGstError("");
 
     setLoading(true);
 
@@ -135,7 +155,11 @@ function CompanyDetails(props: any) {
         }
       })
       .then(() => setLoading(false))
-      .catch((err) => console.log("--- erro", err.message));
+      .catch((err) => {
+        console.log("--- erro", err.message);
+        setLoading(false);
+        setGstError("GST details could not be fetched. Please retry.");
+      });
   };
 
   const handleFormSubmit = () => {
@@ -163,6 +187,8 @@ function CompanyDetails(props: any) {
       city,
       pincode,
       billingAddress,
+      gstNumber,
+      logo,
     };
 
     // const organisation_id = 12;
@@ -206,13 +232,6 @@ function CompanyDetails(props: any) {
     return (
       <Layout
         style={{
-          // textAlign: "center",
-          // paddingLeft: "100px",
-          // height: "75vh",
-          // width: "800px",
-
-          // justifyContent: "center",
-          // alignItems: "center",
           backgroundColor: "#fff",
           padding: "30px 30px 0px 30px",
         }}
@@ -225,7 +244,6 @@ function CompanyDetails(props: any) {
             style={{
               fontWeight: "bold",
               width: "auto",
-              // marginTop: "20px",
             }}
           >
             Enter company details
@@ -240,16 +258,8 @@ function CompanyDetails(props: any) {
             onFinishFailed={onFinishFailed}
           >
             <Row gutter={8}>
-              <Col
-                span={12}
-                // style={{
-                //   display: "flex",
-                //   flexDirection: "row",
-                //   alignItems: "flex-start",
-                // }}
-              >
+              <Col span={12}>
                 <Form.Item
-                  // name="gstNumber"
                   rules={[
                     {
                       required: true,
@@ -275,10 +285,10 @@ function CompanyDetails(props: any) {
                     Verify GST
                   </Button>
                 </Form.Item>
+                {gstError && <Text type="danger">{gstError}</Text>}
               </Col>
               <Col span={12}>
                 <Form.Item
-                  // name="country"
                   rules={[
                     { required: true, message: "Please input your country!" },
                   ]}
@@ -297,7 +307,6 @@ function CompanyDetails(props: any) {
             <Row gutter={8}>
               <Col span={12}>
                 <Form.Item
-                  // name="state"
                   rules={[
                     { required: true, message: "Please input your state!" },
                   ]}
@@ -314,7 +323,6 @@ function CompanyDetails(props: any) {
 
               <Col span={12}>
                 <Form.Item
-                  // name="city"
                   rules={[
                     { required: true, message: "Please input your City!" },
                   ]}
@@ -333,7 +341,6 @@ function CompanyDetails(props: any) {
             <Row gutter={8}>
               <Col span={12}>
                 <Form.Item
-                  // name="pincode"
                   rules={[
                     { required: true, message: "Please input your Pincode!" },
                   ]}
@@ -349,7 +356,6 @@ function CompanyDetails(props: any) {
               </Col>
               <Col span={12}>
                 <Form.Item
-                  // name="address"
                   rules={[
                     { required: true, message: "Please input your Address!" },
                   ]}
@@ -378,7 +384,6 @@ function CompanyDetails(props: any) {
             <Row gutter={8}>
               <Col span={12}>
                 <Form.Item>
-                  {/* <div style={{ paddingLeft: "35px", textAlign: "left" }}> */}
                   <Checkbox
                     name="checkedC"
                     checked={billingAddressSame}
@@ -388,19 +393,13 @@ function CompanyDetails(props: any) {
                     }}
                   />{" "}
                   Same as company Address
-                  {/* </div> */}
                 </Form.Item>
               </Col>
             </Row>
 
             <Row gutter={8}>
               <Col span={12}>
-                <Form.Item
-                // name="address"
-                // rules={[
-                //   { required: true, message: "Please input your Address!" },
-                // ]}
-                >
+                <Form.Item>
                   <Input
                     placeholder="Business Email Address"
                     value={email}
@@ -477,7 +476,7 @@ function CompanyDetails(props: any) {
       </Layout>
     );
   }
-}
+};
 
 const mapStateToProps = (state: any) => {
   return {

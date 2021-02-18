@@ -123,7 +123,7 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
           uploadButton
         )}
       </Upload>
-      {logoUrl && <p>You may click on image to a upload new logo.</p>}
+      {/* {logoUrl && <p>You may click on image to a upload new logo.</p>} */}
 
       {logoUploadDone && (
         <div>

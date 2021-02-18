@@ -12,6 +12,7 @@ const {
   LOGOUT_USER,
   SET_AUTHENTICATED,
   SET_LOGIN_ERROR,
+  SET_REGISTER_ERROR,
   SET_USERDATA,
   SET_ACCESS_TOKEN,
   RESET_PASSWORD,
@@ -55,10 +56,15 @@ export const authReducer: any = (
     case LOGOUT_USER: {
       localStorage.clear();
       sessionStorage.clear();
-      return { ...state, ...payload };
+      return { ...state, payload };
     }
 
     case SET_LOGIN_ERROR: {
+      return { ...state, ...payload };
+    }
+
+    case SET_REGISTER_ERROR: {
+      console.log("payload recieved");
       return { ...state, ...payload };
     }
 
