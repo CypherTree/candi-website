@@ -5,6 +5,7 @@ import { CloseOutlined } from "@ant-design/icons";
 
 import Axios from "axios";
 import { toast } from "react-toastify";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 const { Option } = Select;
 
@@ -28,6 +29,7 @@ const AddPeople = (props: any) => {
     expired,
     setCurrentError,
     getSentInvites,
+    canInvitePeople,
   } = props;
 
   const onFinish = (values: any) => {
@@ -213,6 +215,13 @@ const AddPeople = (props: any) => {
     }
   }, []);
 
+  if (canInvitePeople <= 0) {
+    return (
+      <div>
+        <Text type="danger">You cannot invite more people.</Text>
+      </div>
+    );
+  }
   return (
     <div style={{}}>
       <Form

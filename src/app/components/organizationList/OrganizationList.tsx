@@ -139,6 +139,7 @@ const OrganizationList = (props: any) => {
             paddingLeft: "150px",
             display: "flex",
             flexDirection: "column",
+            // backgroundColor: "red",
           }}
         >
           <Row
@@ -148,7 +149,7 @@ const OrganizationList = (props: any) => {
             }}
           >
             {data.map((organization) => (
-              <Col span={10} style={{ paddingTop: "15px" }}>
+              <Col span={12} style={{ paddingTop: "15px" }}>
                 <OrganizationItem
                   data={organization.organization}
                   handleOpen={handleOpen}

@@ -8,6 +8,7 @@ import Axios from "axios";
 import AddPeople from "../../components/people/AddPeople";
 import Title from "antd/lib/typography/Title";
 import { toast } from "react-toastify";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 const { Text } = Typography;
 
@@ -41,6 +42,8 @@ const People = () => {
 
   const [oriRoles, setOriRoles] = useState<Iroles[]>([]);
   const [invites, setInvites] = useState<IInviteData[]>([]);
+
+  const [allowedInvites, setAllowedInvites] = useState<number>(0);
 
   const [currentError, setCurrentError] = useState("");
 
@@ -102,9 +105,32 @@ const People = () => {
     setOpenInviteForm(false);
   };
 
+  const getActivePlan = () => {
+    const { accessToken } = getCurrentSessionTokens();
+
+    const jwtToken = `Bearer ${accessToken}`;
+    Axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization?organization_id=55`,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        // setAllowedInvites(response.data.data.plan.id.quotas[0].value);
+        setAllowedInvites(4);
+      })
+      .catch((err: any) => {
+        console.log("Err", err);
+      });
+  };
+
   useEffect(() => {
     getRolesFromAPI();
     getSentInvites();
+    getActivePlan();
   }, []);
 
   useEffect(() => {
@@ -141,7 +167,7 @@ const People = () => {
           paddingTop: "20px",
         }}
       >
-        <br />
+        {/* <br /> */}
         <div
           style={{
             display: "flex",
@@ -190,13 +216,24 @@ const People = () => {
             </div>
           </div>
         </div>
+        {allowedInvites - invites.length > 0 ? (
+          <Text>
+            You have {allowedInvites - invites.length}{" "}
+            {allowedInvites - invites.length > 1 ? "invites" : "invite"} left.
+          </Text>
+        ) : (
+          <Text type="danger">
+            You have no invites left. Upgrade plan or remove previously added
+            people to invite more.
+          </Text>
+        )}
       </div>
 
       <div
         style={{
-          marginTop: "50px",
+          marginTop: "20px",
           backgroundColor: "white",
-          padding: "50px",
+          padding: "50px 50px 50px 50px",
           height: "100%",
           width: "1100px",
           maxHeight: "75vh",
@@ -235,6 +272,7 @@ const People = () => {
               setReloadRequired={setReloadRequired}
               setLoading={setLoading}
               getSentInvites={getSentInvites}
+              canInvitePeople={allowedInvites - invites.length}
             />
           </div>
         )}

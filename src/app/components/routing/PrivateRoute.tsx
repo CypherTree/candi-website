@@ -26,13 +26,7 @@ const PrivateRoute = (props: any) => {
     <Route
       {...rest}
       render={(props) =>
-        !isAuthenticated ? (
-          <Redirect to="/login" />
-        ) : privacyPolicyAccepted ? (
-          <Component {...props} />
-        ) : (
-          <Component {...props} />
-        )
+        !isAuthenticated ? <Redirect to="/login" /> : <Component {...props} />
       }
     />
   );

@@ -63,10 +63,17 @@ const Dashboard: React.FC<Props> = ({ state }) => {
     }
   }, [userData]);
 
+  let orgData;
+
+  const getOrgData = async () => {
+    orgData = await getOrgIdFromTenantName();
+    console.log("<----------- ORG DATA -------->", orgData);
+  };
+
   useEffect(() => {
     const data: string | undefined = getTenantInfo();
     setTenant(data);
-    getOrgIdFromTenantName();
+    getOrgData();
   }, []);
 
   if (loading) {
@@ -137,18 +144,3 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
-
-// } else
-// if (tenant !== "id") {
-//   return (
-//     <Layout
-//       style={{
-//         display: "flex",
-//         alignContent: "center",
-//         justifyContent: "center",
-//         paddingTop: "100px",
-//       }}
-//     >
-//       <Title level={3}>Welcome to "{tenant}"</Title>
-//     </Layout>
-//   );

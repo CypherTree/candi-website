@@ -117,7 +117,6 @@ const Routes = (props: any) => {
           <Content>
             <div className="App">
               <Switch>
-                a
                 <Route exact path="/" component={Login} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/register" component={Register} />{" "}

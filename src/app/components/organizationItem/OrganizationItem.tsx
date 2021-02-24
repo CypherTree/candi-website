@@ -59,6 +59,26 @@ const OrganizationItem = (props: any) => {
     handleOpen();
   };
 
+  const days_between = (date1: any, date2: any) => {
+    console.log("Date 1 : ", date1);
+    console.log("Date 2 : ", date2);
+
+    const date3: any = new Date(date2);
+
+    // The number of milliseconds in one day
+    const ONE_DAY = 1000 * 60 * 60 * 24;
+
+    // Calculate the difference in milliseconds
+    const differenceMs = Math.abs(date1 - date3);
+
+    // Convert back to days and return
+    const result = Math.round(differenceMs / ONE_DAY);
+
+    console.log("total days ---> ", result);
+
+    return result;
+  };
+
   return (
     <div
       style={{
@@ -117,7 +137,7 @@ const OrganizationItem = (props: any) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: "400px",
+                width: "550px",
                 // backgroundColor: "red",
               }}
             >
@@ -131,12 +151,43 @@ const OrganizationItem = (props: any) => {
               >
                 {data.name}
               </p>
-              <Tag
-                color="#c1c1c1"
-                style={{ height: "20px", marginTop: "20px" }}
+              <span
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  // backgroundColor: "yellow",
+                  alignSelf: "flex-end",
+                }}
               >
-                {type == 1 ? "ADMIN" : "MEMBER"}
-              </Tag>
+                {" "}
+                <Tag
+                  color="#c1c1c1"
+                  style={{ height: "20px", marginTop: "20px" }}
+                >
+                  {type == 1 ? "ADMIN" : "MEMBER"}
+                </Tag>
+                {data.plan_has_expired && (
+                  <Tag
+                    color="red"
+                    style={{ height: "20px", marginTop: "20px" }}
+                  >
+                    EXPIRED
+                  </Tag>
+                )}
+                {data.plan_has_expired !== null && !data.plan_has_expired && (
+                  <Tag
+                    color="red"
+                    style={{ height: "20px", marginTop: "20px" }}
+                  >
+                    {/* Expiring on : {data.plan_expiry_date} */}
+                    Expiring in{" "}
+                    {days_between(new Date(), data.plan_expiry_date)}{" "}
+                    {days_between(new Date(), data.plan_expiry_date) === 1
+                      ? "day"
+                      : "days"}
+                  </Tag>
+                )}
+              </span>
             </span>
             <p
               style={{
