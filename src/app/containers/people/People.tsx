@@ -223,8 +223,7 @@ const People = () => {
           </Text>
         ) : (
           <Text type="danger">
-            You have no invites left. Upgrade plan or remove previously added
-            people to invite more.
+            Upgrade plan or remove previously added people to invite more.
           </Text>
         )}
       </div>
