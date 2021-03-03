@@ -38,6 +38,8 @@ import CompanySettings from "../../containers/settings/CompanySettings";
 
 import WorkflowMain from "../../containers/settings/WorkflowMain";
 import WorkflowPage from "../../containers/settings/WorkflowPage";
+import AllClients from "../../containers/clients/AllClients";
+import EditClientDetails from "../../containers/clients/EditClientDetails";
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
@@ -197,6 +199,16 @@ const Routes = (props: any) => {
                   // exact
                   path="/settings/workflow/modify"
                   component={WorkflowPage}
+                />
+                <PrivateRoute
+                  // exact
+                  path="/client/all"
+                  component={AllClients}
+                />
+                <PrivateRoute
+                  // exact
+                  path="/client/:clientId"
+                  component={EditClientDetails}
                 />
                 <Route component={PageNotFound} />
                 {/* <Route component={InviteLanding} /> */}

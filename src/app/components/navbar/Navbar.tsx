@@ -106,7 +106,7 @@ function Navbar(props: any) {
   const NavMenuInsideTenant = (
     <>
       <Link
-        to="#"
+        to="/client/all"
         style={{
           textDecoration: "none",
           color: "black",
@@ -114,7 +114,7 @@ function Navbar(props: any) {
         }}
       >
         <Title style={{ color: "black" }} level={5}>
-          Your Clients
+          My Clients
         </Title>
       </Link>
       <Link
