@@ -15,7 +15,15 @@ import {
   getTenantInfo,
 } from "../../core/services/tenantinfo";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { toast } from "react-toastify";
+
+import { LoadingOutlined } from "@ant-design/icons";
+import AccessDenied from "./AccessDenied";
+
+import TrialExpired from "./TrialExpired";
+
+const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 const { Text } = Typography;
 
@@ -59,6 +67,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   const [tenant, setTenant] = useState<string | undefined>();
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
+  const [isAccessDenied, setIsAccessDenied] = useState<boolean>(false);
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
@@ -70,10 +79,6 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   let orgData;
 
-  const getTrialStatus = async () => {
-    orgData = await getOrgIdFromTenantName();
-    console.log("<----------- ORG DATA -------->", orgData);
-  };
   const getOrgData = async () => {
     const { accessToken } = getCurrentSessionTokens();
     const jwtToken = `Bearer ${accessToken}`;
@@ -91,11 +96,32 @@ const Dashboard: React.FC<Props> = ({ state }) => {
       )
       .then((response: any) => {
         console.log("response from api --> ", response.data);
-
         setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
       })
       .catch((err: any) => {
         console.log("Err", err);
+      });
+
+    await axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      .then((response: any) => {
+        console.log("&&&&&&&&&& respons data ---------> ", response);
+      })
+      .catch((err: any) => {
+        console.log("--- erro", err.response);
+        if (err.response) {
+          if (err.response.status == 401) {
+            setIsAccessDenied(true);
+            toast.error("You dont have access to this resource.");
+            setLoading(false);
+          }
+        } else {
+          toast.error("Some other error occoured.");
+        }
       });
   };
 
@@ -121,6 +147,9 @@ const Dashboard: React.FC<Props> = ({ state }) => {
       </Layout>
     );
   } else {
+    if (isAccessDenied) {
+      return <AccessDenied />;
+    }
     return (
       <div>
         {userData && userData.privacy_policy_accepted ? (
@@ -155,33 +184,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
             <br />
           </div>
         )}
-        {isTrialExpired && (
-          <Modal
-            centered
-            width="600px"
-            visible={isTrialExpired}
-            closable={false}
-            footer={null}
-          >
-            <Layout
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                backgroundColor: "white",
-              }}
-            >
-              <Title type="danger" level={3}>
-                Your trial plan has expired.
-              </Title>
-              <Text>Kindly upgrade your plan to continue.</Text>
-              <Button type="primary" style={{ margin: "20px" }}>
-                Upgrade Now
-              </Button>
-            </Layout>
-          </Modal>
-        )}
+        {/* {isTrialExpired && <TrialExpired />} */}
       </div>
     );
   }
