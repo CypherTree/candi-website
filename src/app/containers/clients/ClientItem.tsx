@@ -51,9 +51,19 @@ const ClientItem = (props: any) => {
             ></div>
           </Layout>
         </Col>
-        <Col span={12} style={{ paddingLeft: "10px" }}>
+        <Col span={18} style={{ paddingLeft: "10px" }}>
           <Row>
-            <Title level={4}>{clientData.name}</Title>
+            <Title
+              level={4}
+              style={{
+                width: "80%",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
+              {clientData.name}
+            </Title>
           </Row>
           {clientData.markets.length > 0 &&
             clientData.markets.map((data: any) => (

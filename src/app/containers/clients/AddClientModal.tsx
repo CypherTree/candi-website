@@ -161,6 +161,7 @@ const AddClientModal = (props: any) => {
               value={name}
               onChange={(e: any) => setName(e.target.value)}
               placeholder="Name of the company"
+              maxLength={100}
             />
           </Form.Item>
           <Form.Item

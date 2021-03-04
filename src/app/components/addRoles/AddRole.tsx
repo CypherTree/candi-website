@@ -39,12 +39,20 @@ const AddRole = (props: any) => {
   const onSubmit = () => {
     let roleValue;
 
+    // ADMIN: int = 1
+    // MANAGER: int = 2
+    // EDITOR: int = 3
+    // CLIENT: int = 4
+    // VIEWER: int = 5
+    // THIRD_PARTY: int = 6
+    // CANDIDATE: int = 7
+
     if (type === "Manager") {
       roleValue = 2;
     } else if (type === "Editor") {
       roleValue = 3;
     } else if (type === "Viewer") {
-      roleValue = 4;
+      roleValue = 5;
     } else if (type === "Third Party") {
       roleValue = 6;
     }
@@ -79,11 +87,19 @@ const AddRole = (props: any) => {
 
       let roleType;
 
+      // ADMIN: int = 1
+      // MANAGER: int = 2
+      // EDITOR: int = 3
+      // CLIENT: int = 4
+      // VIEWER: int = 5
+      // THIRD_PARTY: int = 6
+      // CANDIDATE: int = 7
+
       if (props.roleData.type === 2) {
         roleType = "Manager";
       } else if (props.roleData.type === 3) {
         roleType = "Editor";
-      } else if (props.roleData.type === 4) {
+      } else if (props.roleData.type === 5) {
         roleType = "Viewer";
       } else if (props.roleData.type === 6) {
         roleType = "Third Party";
