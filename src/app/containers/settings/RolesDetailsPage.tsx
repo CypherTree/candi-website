@@ -296,23 +296,6 @@ const RolesDetailsPage = (props: any) => {
               <AddRole addRole={addRole} setLoading={setLoading} />
             </div>
           </div>
-
-          {/* <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              paddingBottom: "20px",
-            }}
-          >
-            <Button
-              type="primary"
-              onClick={handleSubmitForm}
-              style={{ marginRight: "10px" }}
-            >
-              Save Roles
-            </Button>
-          </div> */}
         </Layout>
       </Layout>
     );

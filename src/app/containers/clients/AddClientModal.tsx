@@ -179,7 +179,7 @@ const AddClientModal = (props: any) => {
           >
             <InputNumber
               value={yearEstablished}
-              onChange={(e: any) => setYearEstablished(e.target.value)}
+              onChange={(e: any) => setYearEstablished(e)}
               placeholder="Year when company was established - (YYYY) - eg. (2001)"
               max={2021}
               min={1000}
