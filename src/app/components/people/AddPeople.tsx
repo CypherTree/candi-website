@@ -276,7 +276,6 @@ const AddPeople = (props: any) => {
                   <Option
                     value={role.name}
                     key={role.id}
-                    // {"message":"Invalid data for team invite POST","data":null,"errors":[{"client_company":["This field is required"]}]}
                     disabled={role.name === "Viewer"}
                   >
                     {role.name}

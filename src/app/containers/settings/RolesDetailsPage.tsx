@@ -1,13 +1,11 @@
 import { Layout, Button, Spin, Divider } from "antd";
 import Title from "antd/lib/typography/Title";
 import React, { useState, useEffect } from "react";
-import AddRoles from "../../components/addRoles/AddRoles";
 
 import Axios from "axios";
 
-import { connect } from "react-redux";
+import AddRole from "./AddRole";
 
-import AddRole from "../../components/addRoles/AddRole";
 import { toast } from "react-toastify";
 
 const RolesDetailsPage = (props: any) => {
@@ -54,12 +52,44 @@ const RolesDetailsPage = (props: any) => {
     } else {
       setError("");
       setRoles([...roles, { name, type }]);
+
+      const accessToken = localStorage.getItem("accessToken");
+
+      const jwtToken = `Bearer ${accessToken}`;
+
+      setLoading(true);
+
+      Axios.post(
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/roles/`,
+        [{ name, type }],
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+        .then((response) => {
+          console.log("data", response.data);
+          setLoading(false);
+          setReloadRequired(true);
+          setRoles([]);
+        })
+        .then(() => {
+          setLoading(false);
+        })
+        .catch((e) => {
+          console.log("err", e);
+          toast.error("Some error occoured.");
+        });
     }
   };
 
   const removeRole = (index: number) => {
+    console.log("***************** here to remove role ********** ", index);
     const newRoles = [...roles];
-    newRoles.splice(index, 0);
+    newRoles.splice(index, 1);
+    console.log("***************** old roles ********** ", roles);
+    console.log("***************** new roles ********** ", newRoles);
     setRoles(newRoles);
   };
 
@@ -195,6 +225,7 @@ const RolesDetailsPage = (props: any) => {
           margin: "30px",
           borderRadius: "30px",
           backgroundColor: "#fff",
+          width: "1200px",
         }}
       >
         <Layout
@@ -223,7 +254,14 @@ const RolesDetailsPage = (props: any) => {
               Add Roles to Organization
             </Title>
             <br />
-            <div>
+            <div
+              style={{
+                width: "1000px",
+                padding: "10px",
+                paddingLeft: "40px",
+                // backgroundColor: "yellow",
+              }}
+            >
               {oriRoles.map((roleData: any, index: number) => (
                 <div key={index}>
                   <AddRole
@@ -232,6 +270,8 @@ const RolesDetailsPage = (props: any) => {
                     removeRole={removeRole}
                     index={index}
                     deleteRoleFromAPI={deleteRoleFromAPI}
+                    setLoading={setLoading}
+                    setReloadRequired={setReloadRequired}
                   />
                   <br />
                 </div>
@@ -247,15 +287,17 @@ const RolesDetailsPage = (props: any) => {
                     deleteRoleFromAPI={deleteRoleFromAPI}
                     error={error}
                     setError={setError}
+                    setLoading={setLoading}
+                    setReloadRequired={setReloadRequired}
                   />
                   <br />
                 </div>
               ))}
+              <AddRole addRole={addRole} setLoading={setLoading} />
             </div>
-            <AddRole addRole={addRole} />
           </div>
 
-          <div
+          {/* <div
             style={{
               display: "flex",
               flexDirection: "row",
@@ -270,7 +312,7 @@ const RolesDetailsPage = (props: any) => {
             >
               Save Roles
             </Button>
-          </div>
+          </div> */}
         </Layout>
       </Layout>
     );

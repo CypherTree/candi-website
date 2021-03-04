@@ -278,7 +278,6 @@ const People = () => {
         {currentError && (
           <>
             <Text type="danger">{currentError}</Text>
-            {/* <Alert message={currentError} type="error" showIcon /> */}
             {message.error(currentError)}
             <Divider />
           </>
