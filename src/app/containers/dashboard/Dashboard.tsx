@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Layout, Row, Spin } from "antd";
+import { Button, Col, Layout, Modal, Row, Spin, Typography } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { ThunkDispatch } from "redux-thunk";
@@ -14,6 +14,10 @@ import {
   getOrgIdFromTenantName,
   getTenantInfo,
 } from "../../core/services/tenantinfo";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import axios from "axios";
+
+const { Text } = Typography;
 
 export type UserDataProps = {
   email: string;
@@ -54,6 +58,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
   const [loading, setLoading] = useState(true);
 
   const [tenant, setTenant] = useState<string | undefined>();
+  const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
 
   const userData = state.auth.userData ? state.auth.userData : null;
 
@@ -65,9 +70,33 @@ const Dashboard: React.FC<Props> = ({ state }) => {
 
   let orgData;
 
-  const getOrgData = async () => {
+  const getTrialStatus = async () => {
     orgData = await getOrgIdFromTenantName();
     console.log("<----------- ORG DATA -------->", orgData);
+  };
+  const getOrgData = async () => {
+    const { accessToken } = getCurrentSessionTokens();
+    const jwtToken = `Bearer ${accessToken}`;
+    const slug = getTenantInfo();
+
+    await axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
+  `,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+
+        setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
+      })
+      .catch((err: any) => {
+        console.log("Err", err);
+      });
   };
 
   useEffect(() => {
@@ -125,6 +154,33 @@ const Dashboard: React.FC<Props> = ({ state }) => {
             </Row>
             <br />
           </div>
+        )}
+        {isTrialExpired && (
+          <Modal
+            centered
+            width="600px"
+            visible={isTrialExpired}
+            closable={false}
+            footer={null}
+          >
+            <Layout
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                backgroundColor: "white",
+              }}
+            >
+              <Title type="danger" level={3}>
+                Your trial plan has expired.
+              </Title>
+              <Text>Kindly upgrade your plan to continue.</Text>
+              <Button type="primary" style={{ margin: "20px" }}>
+                Upgrade Now
+              </Button>
+            </Layout>
+          </Modal>
         )}
       </div>
     );
