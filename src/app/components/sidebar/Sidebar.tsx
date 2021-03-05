@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
 import { getTenantInfo } from "../../core/services/tenantinfo";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import axios from "axios";
 
 const { SubMenu } = Menu;
 
@@ -24,14 +26,17 @@ const Sidebar = (props: any) => {
   const { toggleCollapsed, collapsed } = props;
 
   const [tenant, setTenant] = useState<null | undefined | string>(null);
+  const [orgData, setOrgData] = useState<any>(null);
+
+  const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
 
   const SidebarMenuForTenant = (
     <>
       <Menu.Item key="1" icon={<UserOutlined />}>
-        <Link to="/org/roles">Roles </Link>
+        <Link to={isTrialExpired ? "#" : "/org/roles"}>Roles </Link>
       </Menu.Item>
       <Menu.Item key="2" icon={<DesktopOutlined />}>
-        <Link to="/settings/workflow">Workflow </Link>
+        <Link to={isTrialExpired ? "#" : "/settings/workflow"}>Workflow </Link>
       </Menu.Item>
       <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
         <Menu.Item key="9">
@@ -61,9 +66,36 @@ const Sidebar = (props: any) => {
     </>
   );
 
+  const getOrgData = async () => {
+    const { accessToken } = getCurrentSessionTokens();
+    const jwtToken = `Bearer ${accessToken}`;
+    const slug = getTenantInfo();
+
+    await axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
+  `,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+
+        setOrgData(response.data.data[0].organization);
+        setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
+      })
+      .catch((err: any) => {
+        console.log("Err", err);
+      });
+  };
+
   useEffect(() => {
     const data: string | undefined = getTenantInfo();
     setTenant(data);
+    getOrgData();
   }, []);
 
   if (!isAuthenticated) {
