@@ -6,6 +6,7 @@ import { CloseOutlined } from "@ant-design/icons";
 import Axios from "axios";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import ClientItem from "../../containers/clients/ClientItem";
 
 const { Option } = Select;
 
@@ -14,9 +15,10 @@ const { Text } = Typography;
 const AddPeople = (props: any) => {
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
-  const [roleType, setRoleType] = useState("");
+  const [roleType, setRoleType] = useState<any>();
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState("");
+  const [client, setClient] = useState<any>();
 
   const [inviteColor, setInviteColor] = useState<any>("secondary");
 
@@ -27,12 +29,13 @@ const AddPeople = (props: any) => {
     setReloadRequired,
     setLoading,
     expired,
+    clientList,
     setCurrentError,
     getSentInvites,
     canInvitePeople,
   } = props;
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     if (email === "") {
       setError("Email is required.");
     } else if (name === "") {
@@ -42,12 +45,36 @@ const AddPeople = (props: any) => {
     } else {
       let tenant_role;
       const selectedRole = oriRoles.filter(
-        (role: any) => role.name === roleType
+        (role: any) => role.type === roleType
       );
+
       tenant_role = selectedRole[0].id;
 
+      let selectedRoleType = selectedRole[0].type;
+
+      type sendInvite = {
+        name: string;
+        email: string;
+        tenant_role: number;
+        client_company?: number;
+      };
+
+      const dataToPost: sendInvite = {
+        name,
+        email,
+        tenant_role,
+      };
+
+      console.log("@@@@@ selected role type @@@ ", selectedRoleType);
+
+      console.log("---- value of client ", client);
+
+      if (selectedRoleType === 4) {
+        dataToPost.client_company = client.key;
+      }
+
       setLoading(true);
-      sendInvite({ name, email, tenant_role });
+      await sendInvite({ dataToPost });
     }
   };
 
@@ -55,18 +82,18 @@ const AddPeople = (props: any) => {
 
   const [inviteStatus, setInviteStatus] = useState("");
 
-  const sendInvite = (props: any) => {
+  const sendInvite = async (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
 
     console.log("*** props in people ***", props);
 
-    const { name, email, tenant_role } = props;
+    const { dataToPost } = props;
 
-    console.log("data here --> ", name, email, tenant_role);
+    // console.log("data here --> ", name, email, tenant_role);
 
-    Axios.post(
+    await Axios.post(
       `http://${tenant}.thetobbers-staging.ml/api/v1/team/invite/`,
-      [{ name, email, tenant_role }],
+      [dataToPost],
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -87,9 +114,9 @@ const AddPeople = (props: any) => {
       .catch((err) => {
         console.log("err", err.response);
         setLoading(false);
-        if (err.response.data.errors[0].email[0]) {
-          setCurrentError(err.response.data.errors[0].email[0]);
-        }
+        // if (err.response.data.errors[0].email[0]) {
+        //   setCurrentError(err.response.data.errors[0].email[0]);
+        // }
         toast.error("Request could not be processed.");
       });
   };
@@ -168,7 +195,13 @@ const AddPeople = (props: any) => {
   };
 
   const handleRoleTypeChange = (value: any) => {
+    console.log("role", value);
     setRoleType(value);
+  };
+
+  const handleSetClientId = (value: any) => {
+    console.log("### value ###", value);
+    setClient(value);
   };
 
   const setCurrentErrorClear = () => {
@@ -264,26 +297,49 @@ const AddPeople = (props: any) => {
                 />
               </Form.Item>
             </Col>
-            <Col>
-              <Select
-                style={{ width: "250px" }}
-                placeholder="Role Type"
-                value={roleType === "" ? "Role Type" : roleType}
-                onChange={handleRoleTypeChange}
-                disabled={disabled}
-              >
-                {oriRoles.map((role: any) => (
-                  <Option
-                    value={role.name}
-                    key={role.id}
-                    disabled={role.name === "Viewer"}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <Col>
+                <Select
+                  style={{ width: "250px" }}
+                  placeholder="Role Type"
+                  value={roleType === "" ? "Role Type" : roleType}
+                  onChange={handleRoleTypeChange}
+                  disabled={disabled}
+                >
+                  {oriRoles.map((role: any) => (
+                    <Option
+                      value={role.type}
+                      key={role.id}
+                      // disabled={role.type === 4}
+                    >
+                      {role.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Col>
+              {roleType === 4 && (
+                <Col>
+                  <Select
+                    labelInValue
+                    style={{ width: "250px" }}
+                    placeholder="Client Name"
+                    value={client}
+                    onChange={(e) => handleSetClientId(e)}
+                    disabled={disabled}
                   >
-                    {role.name}
-                  </Option>
-                ))}
-              </Select>
-            </Col>
-
+                    {clientList.map((client: any) => (
+                      <Option
+                        value={client.id}
+                        key={client.id}
+                        // disabled={client.type === 4}
+                      >
+                        {client.name}
+                      </Option>
+                    ))}
+                  </Select>
+                </Col>
+              )}
+            </div>
             <Col>
               {disabled && inviteStatus === "Expired" && (
                 <Form.Item style={{ paddingLeft: "50px" }}>

@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import UploadLogo from "../../components/uploadLogo/UploadLogo";
 
 const { Option } = Select;
 
@@ -39,6 +40,7 @@ const EditClientForm = (props: any) => {
   const [locality, setLocality] = useState("");
   const [pincode, setPincode] = useState("");
   const [markets, setMarkets] = useState<any>();
+  const [logo, setLogo] = useState("");
   const [selectedMarkets, setSelectedMarkets] = useState<any>();
   const [isGSTVerified, setIsGSTVerified] = useState(false);
 
@@ -117,7 +119,9 @@ const EditClientForm = (props: any) => {
   const onFinish = () => {};
 
   const handleSelectedMarketsChange = (values: any) => {
-    setSelectedMarkets(values);
+    if (selectedMarkets.length <= 5) {
+      setSelectedMarkets(values);
+    }
   };
 
   const { accessToken } = getCurrentSessionTokens();
@@ -212,6 +216,10 @@ const EditClientForm = (props: any) => {
     }
     if (clientData.company_size) {
       setCompanySize(clientData.company_size);
+    }
+
+    if (clientData.logo) {
+      setLogo(clientData.logo);
     }
 
     if (clientData.private_data) {
@@ -402,6 +410,7 @@ const EditClientForm = (props: any) => {
           placeholder="Markets"
           onChange={handleSelectedMarketsChange}
           value={selectedMarkets}
+          maxTagCount={5}
         >
           {markets}
         </Select>
@@ -444,6 +453,13 @@ const EditClientForm = (props: any) => {
           </Form.Item>
         </Col>
       </Row>
+
+      <UploadLogo
+        organisation_id={clientData.id}
+        name={name}
+        website={website}
+        logo={logo}
+      />
 
       <Form.Item>
         <Button type="primary" onClick={() => onOk()}>

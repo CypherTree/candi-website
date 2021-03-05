@@ -47,6 +47,8 @@ const People = () => {
 
   const [currentError, setCurrentError] = useState("");
 
+  const [clientList, setClientList] = useState<undefined | any>();
+
   const getRolesFromAPI = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const jwtToken = `Bearer ${accessToken}`;
@@ -119,11 +121,37 @@ const People = () => {
     )
       .then((response: any) => {
         console.log("response from api --> ", response.data);
-        // setAllowedInvites(response.data.data.plan.id.quotas[0].value);
-        setAllowedInvites(4);
+        setAllowedInvites(response.data.data.plan.id.quotas[0].value);
+        // setAllowedInvites(10);
       })
       .catch((err: any) => {
         console.log("Err", err);
+      });
+  };
+
+  const { accessToken } = getCurrentSessionTokens();
+
+  const jwtToken = `Bearer ${accessToken}`;
+
+  const getAllClients = () => {
+    Axios.get(
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/`,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        setClientList(response.data.data);
+      })
+      .then(() => setLoading(false))
+      .catch((err: any) => {
+        console.log("Err", err);
+        setLoading(false);
+
+        toast.error("Some error occoured");
       });
   };
 
@@ -131,6 +159,7 @@ const People = () => {
     getRolesFromAPI();
     getSentInvites();
     getActivePlan();
+    getAllClients();
   }, []);
 
   useEffect(() => {
@@ -257,6 +286,7 @@ const People = () => {
               key={invite.id}
               setCurrentError={setCurrentError}
               setReloadRequired={setReloadRequired}
+              clientList={clientList}
             />
             {i !== invites.length - 1 && <Divider />}
           </>
@@ -272,6 +302,7 @@ const People = () => {
               setLoading={setLoading}
               getSentInvites={getSentInvites}
               canInvitePeople={allowedInvites - invites.length}
+              clientList={clientList}
             />
           </div>
         )}

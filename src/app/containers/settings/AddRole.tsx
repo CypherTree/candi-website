@@ -57,6 +57,8 @@ const AddRole = (props: any) => {
       roleValue = 2;
     } else if (type === "Editor") {
       roleValue = 3;
+    } else if (type === "Client") {
+      roleValue = 4;
     } else if (type === "Viewer") {
       roleValue = 5;
     } else if (type === "Third Party") {
@@ -134,6 +136,8 @@ const AddRole = (props: any) => {
         roleType = "Manager";
       } else if (props.roleData.type === 3) {
         roleType = "Editor";
+      } else if (props.roleData.type === 4) {
+        roleType = "Client";
       } else if (props.roleData.type === 5) {
         roleType = "Viewer";
       } else if (props.roleData.type === 6) {
@@ -238,6 +242,21 @@ const AddRole = (props: any) => {
                     can't view workflow and space. Can't modify or delete the
                     workspace or delete the workspace and flow. Can only do
                     tasks assigned by editor/manager/admin
+                  </p>
+                </div>
+              </Option>
+              <Option value="Client">
+                <div>
+                  <p style={{ fontWeight: "bold" }}> Client</p>
+                  <p
+                    style={{
+                      wordWrap: "break-word",
+                      fontSize: "14px",
+                      whiteSpace: "initial",
+                    }}
+                  >
+                    Can view workflow and space. Can't modify or delete the
+                    workspace or delete the workspace and flow.
                   </p>
                 </div>
               </Option>

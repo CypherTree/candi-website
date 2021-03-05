@@ -184,7 +184,7 @@ const Dashboard: React.FC<Props> = ({ state }) => {
             <br />
           </div>
         )}
-        {isTrialExpired && <TrialExpired />}
+        {/* {isTrialExpired && <TrialExpired />} */}
       </div>
     );
   }
