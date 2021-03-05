@@ -36,10 +36,12 @@ import InviteLanding from "../../containers/invite/InviteLanding";
 import ViewIncomingInvites from "../../containers/invite/ViewIncomingInvites";
 import CompanySettings from "../../containers/settings/CompanySettings";
 
-import WorkflowMain from "../../containers/settings/WorkflowMain";
+// import WorkflowMain from "../../containers/settings/WorkflowMain";
 import WorkflowPage from "../../containers/settings/WorkflowPage";
 import AllClients from "../../containers/clients/AllClients";
 import EditClientDetails from "../../containers/clients/EditClientDetails";
+import WorkflowMain from "../../containers/workflow/WorkflowMain";
+
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
 const Routes = (props: any) => {
