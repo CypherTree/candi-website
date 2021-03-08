@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from "react";
 
-import { Button, Row, Col, Input, Form, Select, Typography } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Input,
+  Form,
+  Select,
+  Typography,
+  Popconfirm,
+} from "antd";
 import { DeleteFilled, EditOutlined, CloseOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import axios from "axios";
@@ -323,9 +332,17 @@ const AddRole = (props: any) => {
             )}
             {!isDeleteAllowed && (
               <Form.Item style={{ width: "100px" }}>
-                <Button onClick={handleDeleteRoleFromApi}>
-                  <DeleteFilled style={{ color: "red" }} />
-                </Button>
+                <Popconfirm
+                  placement="topRight"
+                  title="Do you want to delete this role?"
+                  onConfirm={handleDeleteRoleFromApi}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button>
+                    <DeleteFilled style={{ color: "red" }} />
+                  </Button>
+                </Popconfirm>
               </Form.Item>
             )}
           </span>
