@@ -96,23 +96,36 @@ const Dashboard: React.FC<Props> = ({ state }) => {
     const jwtToken = `Bearer ${accessToken}`;
     const slug = getTenantInfo();
 
-    await axios
-      .get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
-  `,
-        {
-          headers: {
-            Authorization: `${jwtToken}`,
-          },
-        }
-      )
-      .then((response: any) => {
-        console.log("response from api --> ", response.data);
-        setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
-      })
-      .catch((err: any) => {
-        console.log("Err", err);
-      });
+    if (slug !== "id") {
+      await axios
+        .get(
+          `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
+`,
+          {
+            headers: {
+              Authorization: `${jwtToken}`,
+            },
+          }
+        )
+        .then((response: any) => {
+          console.log("response from api --> ", response.data);
+
+          if (response.data.data === null || response.data.data.length === 0) {
+            setIsAccessDenied(true);
+            setLoading(false);
+            dispatch(LogoutUser);
+            localStorage.clear();
+            window.location.href = "/login";
+          } else {
+            setIsTrialExpired(
+              response.data.data[0].organization.plan_has_expired
+            );
+          }
+        })
+        .catch((err: any) => {
+          console.log("Err", err);
+        });
+    }
 
     await axios
       .get(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/profile/`, {
@@ -127,9 +140,9 @@ const Dashboard: React.FC<Props> = ({ state }) => {
         console.log("--- erro", err.response);
         if (err.response) {
           if (err.response.status == 401) {
-            setIsAccessDenied(true);
-            toast.error("You dont have access to this resource.");
-            setLoading(false);
+            // setIsAccessDenied(true);
+            // toast.error("You dont have access to this resource.");
+            // setLoading(false);
             // dispatch(LogoutUser());f (err.response && err.response.status === 401) {
             // console.log("--- yes --- error is 401.", refreshToken);
             // if (refreshToken) {

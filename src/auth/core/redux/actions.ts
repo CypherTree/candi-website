@@ -176,6 +176,8 @@ export const GetNewToken = (
     })
     .catch((err) => {
       localStorage.clear();
+
+      window.location.href = "/login";
       toast.error("Logging out");
       console.log("refresh token api failed");
     });
