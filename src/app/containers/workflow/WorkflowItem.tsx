@@ -7,24 +7,10 @@ import { Link } from "react-router-dom";
 const { Text } = Typography;
 
 const WorkflowItem = (props: any) => {
-  //     client_company: null
-  // for_organization: true
-  // id: 1
-  // name: "WF1"
-
-  const { workflowData, workflowTypesList, clientList } = props;
-
-  let selectedClient;
-
-  // useEffect(() => {
-  //   if (clientList.length > 0) {
-  //     selectedClient = clientList.filter(
-  //       (client: any) => client.id === workflowData.client_company
-  //     );
-  //   }
-  // });
+  const { workflowData } = props;
 
   console.log("props", props);
+
   return (
     <Layout
       style={{

@@ -31,12 +31,16 @@ const AddStepForm = (props: any) => {
   const [stepDescription, setStepDescription] = useState("");
 
   const [formTypeValue, setFormTypeValue] = useState("Default form");
-  const [stepTypeValue, setStepTypeValue] = useState("In Progress");
 
   const [currentError, setCurrentError] = useState("");
 
   const [categoryList, setCategoryList] = useState<undefined | any>();
-  const [category, setCategory] = useState();
+
+  type Category = {
+    value: number;
+  };
+
+  const [category, setCategory] = useState<Category | any>();
 
   const {
     setIsAddStepFormOpen,
@@ -47,18 +51,17 @@ const AddStepForm = (props: any) => {
     typeId,
   } = props;
 
+  console.log("props in steps -->", props);
+
   const [editMode, setEditMode] = useState(false);
 
   const handleFormTypeValueChange = (value: any) => {
     setFormTypeValue(value);
   };
 
-  const handleStepTypeValueChange = (value: any) => {
-    setStepTypeValue(value);
-  };
-
   const handleStepCategoryChange = (value: any) => {
     console.log("--- new category", value);
+    setCurrentError("");
     setCategory(value);
   };
 
@@ -67,22 +70,25 @@ const AddStepForm = (props: any) => {
   const handleFormSubmit = () => {
     if (stepName === "") {
       setCurrentError("Step must have a name");
+    } else if (!category) {
+      setCurrentError("Add step category");
     } else {
       if (editMode) {
         const data = {
           name: stepName,
           description: stepDescription,
           video_enabled: checkVideoEnabled,
+          category: category ? category.value : 0,
         };
 
         console.log("data submitted for step update----->", data);
 
-        // updateStepsApi(data);
+        updateStepsApi(data);
       } else {
         const data = {
           name: stepName,
           description: stepDescription,
-          category: stepTypeValue === "In Progress" ? 0 : 1,
+          category: category ? category.value : 0,
           video_enabled: checkVideoEnabled,
           workflow: workflowId,
           order: steps.length,
@@ -116,10 +122,6 @@ const AddStepForm = (props: any) => {
         console.log("err ", err);
         toast.error("Could not get step categories.");
       });
-
-    setIsAddStepFormOpen(false);
-
-    setDataReload(true);
   };
 
   const createStepApi = (data: any) => {
@@ -172,7 +174,16 @@ const AddStepForm = (props: any) => {
 
   useEffect(() => {
     getStepCategories();
+    if (selectedStep.category && selectedStep.category.id) {
+      setCategory({
+        key: selectedStep.category.id,
+        value: selectedStep.category.id,
+        name: selectedStep.category.id,
+      });
+    }
+  }, []);
 
+  useEffect(() => {
     if (selectedStep !== null) {
       console.log("<------ COOL UNTIL HERE ------->", selectedStep);
 
@@ -249,7 +260,7 @@ const AddStepForm = (props: any) => {
             </Form.Item>
           </Col>
         </Row>
-        <Row>
+        <Row gutter={8}>
           <Col span={12}>
             <Select
               style={{ width: "250px" }}
@@ -267,60 +278,6 @@ const AddStepForm = (props: any) => {
             </Select>
           </Col>
           <Col span={12}>
-            <Select
-              style={{ width: "250px" }}
-              placeholder="Step category"
-              disabled={!isDeleteAllowed}
-              value={stepTypeValue}
-              onChange={handleStepTypeValueChange}
-            >
-              <Option value="In-Progress">
-                <div
-                  style={{
-                    wordWrap: "break-word",
-                  }}
-                >
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    In Progress
-                  </p>
-
-                  <p
-                    style={{
-                      wordWrap: "break-word",
-                      fontSize: "14px",
-                      whiteSpace: "initial",
-                    }}
-                  >
-                    This means that candidate selection is still in progress
-                  </p>
-                </div>
-              </Option>
-              <Option value="Interview">
-                <div
-                  style={{
-                    wordWrap: "break-word",
-                  }}
-                >
-                  <p style={{ fontWeight: "bold", fontFamily: "helvetica" }}>
-                    Interview
-                  </p>
-
-                  <p
-                    style={{
-                      wordWrap: "break-word",
-                      fontSize: "14px",
-                      whiteSpace: "initial",
-                    }}
-                  >
-                    This option is selected when interview is in progress.
-                  </p>
-                </div>
-              </Option>
-            </Select>
-          </Col>
-        </Row>
-        <Row gutter={8} style={{ marginTop: "10px" }}>
-          <Col span={12}>
             <Checkbox
               name="checkedC"
               checked={checkVideoEnabled}
@@ -333,7 +290,32 @@ const AddStepForm = (props: any) => {
           </Col>
         </Row>
 
-        <Row gutter={8} style={{ marginTop: "10px" }}>
+        <Row gutter={8}>
+          <Col span={12}>
+            <Form.Item
+              label={category ? "Select step category: " : ""}
+              rules={[{ required: true }]}
+            >
+              <Select
+                style={{ width: "250px" }}
+                labelInValue
+                placeholder="Step Category"
+                value={category}
+                onChange={(e) => handleStepCategoryChange(e)}
+              >
+                {categoryList &&
+                  categoryList.length > 0 &&
+                  categoryList.map((category: any) => (
+                    <Option value={category.id} key={category.id}>
+                      {category.name}
+                    </Option>
+                  ))}
+              </Select>
+            </Form.Item>
+          </Col>
+        </Row>
+
+        {/* <Row gutter={8} style={{ marginTop: "10px" }}>
           <Col span={12}>
             <Form.Item
               label={category ? "Select step category: " : ""}
@@ -356,7 +338,7 @@ const AddStepForm = (props: any) => {
               </Select>
             </Form.Item>
           </Col>
-        </Row>
+        </Row> */}
 
         {currentError && <Text type="danger">{currentError}</Text>}
 

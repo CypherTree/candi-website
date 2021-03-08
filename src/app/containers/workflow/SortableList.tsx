@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "antd";
 
 import { ReactSortable } from "react-sortablejs";
+import { toast } from "react-toastify";
 
 const SortableList = (props: any) => {
   console.log("props-------->", props);
@@ -12,23 +13,29 @@ const SortableList = (props: any) => {
     setSelectedStep,
     setIsAddStepFormOpen,
     isAddStepFormOpen,
-    // setDidOrderChange,
+    setDidOrderChange,
   } = props;
+
+  console.log(" list -- is ass dtep form open", isAddStepFormOpen);
 
   console.log("---- state data ", state);
 
   const handleEdit = (data: any) => {
+    toast.warn("Edit was called");
+    console.log("isAddStepFormOpen", isAddStepFormOpen, data);
     if (isAddStepFormOpen) {
       setIsAddStepFormOpen(false);
     }
     setIsAddStepFormOpen(true);
+
+    console.log("isAddStepFormOpen", isAddStepFormOpen, data);
     setSelectedStep(data);
   };
 
-  // const handleStateListChange = () => {
-  //   console.log("handle state list change was called ----->");
-  //   setDidOrderChange(true);
-  // };
+  const handleStateListChange = () => {
+    console.log("handle state list change was called ----->");
+    setDidOrderChange(true);
+  };
 
   return (
     <div>
@@ -81,7 +88,6 @@ const SortableList = (props: any) => {
                   <b>{item.name}</b>
                 </p>
                 <p>{item.description}</p>
-                {/* <p>{item.description}</p> */}
               </div>
               <Button onClick={() => handleEdit(item)}>Edit</Button>
             </div>

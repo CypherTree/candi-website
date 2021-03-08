@@ -15,7 +15,22 @@ import { useParams } from "react-router-dom";
 const EditWorkflowSteps = (props: any) => {
   const { workflowData } = props;
 
+  interface Category {
+    id: number;
+  }
+
   interface ItemType {
+    id: number;
+    name: string;
+    description: string;
+    step_type: number;
+    category: Category;
+    order: number;
+    video_enabled: boolean;
+    workflow: number;
+  }
+
+  interface LocalData {
     id: number;
     name: string;
     description: string;
@@ -41,8 +56,6 @@ const EditWorkflowSteps = (props: any) => {
   const [didOrderChange, setDidOrderChange] = useState(false);
 
   const messagesEndRef = useRef<any>(null);
-
-  const { handleCancelModal, handleNext } = props;
 
   const tenant = "cyphertree";
 
@@ -99,11 +112,38 @@ const EditWorkflowSteps = (props: any) => {
         return item;
       });
 
+      const dataToUpdate: {
+        id: number;
+        name: string;
+        description: string;
+        step_type: number;
+        category: number;
+        order: number;
+        video_enabled: boolean;
+        workflow: number;
+      }[] = [];
+
+      state.map((item, index) => {
+        const localData = {
+          id: item.id,
+          name: item.name,
+          description: item.description,
+          step_type: item.step_type,
+
+          category: item.category.id,
+          order: item.order,
+          video_enabled: item.video_enabled,
+          workflow: item.workflow,
+        };
+
+        dataToUpdate.push(localData);
+      });
+
       console.log("Data for update Steps ---> ", data);
 
       Axios.put(
         `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/step/`,
-        data,
+        dataToUpdate,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -156,24 +196,17 @@ const EditWorkflowSteps = (props: any) => {
     >
       <div
         style={{
-          height: "400px",
+          maxHeight: "1000px",
           overflowY: "scroll",
-          width: "100%",
-          paddingLeft: "150px",
+          width: "90%",
+          // paddingLeft: "150px",
+          overflowX: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
-        <Title
-          level={4}
-          style={{
-            fontWeight: "bold",
-            width: "auto",
-            margin: "10px 0px 10px 0px ",
-            padding: "0px 0px 0px 150px",
-          }}
-        >
-          Edit Workflow Steps
-        </Title>
-
         <SortableList
           state={state}
           setState={setState}
@@ -215,15 +248,3 @@ const EditWorkflowSteps = (props: any) => {
 };
 
 export default EditWorkflowSteps;
-
-{
-  /* <div
-        style={{ display: "flex", alignContent: "center", paddingTop: "10px" }}
-      >
-        <span style={{ paddingRight: "10px" }}>
-          <Button type="primary" onClick={() => handleNext()}>
-            Finish
-          </Button>
-        </span>
-      </div> */
-}
