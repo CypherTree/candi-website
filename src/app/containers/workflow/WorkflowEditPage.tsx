@@ -10,82 +10,58 @@ import { RollbackOutlined } from "@ant-design/icons";
 import WorkflowEditForm from "./WorkflowEditForm";
 
 const WorkflowEditPage = (props: any) => {
-  const [loading, setLoading] = useState(false);
-
-  let { workflowId } = useParams();
-
-  const { accessToken } = getCurrentSessionTokens();
-
-  const [workflowData, setWorkflowData] = useState("");
-
-  const jwtToken = `Bearer ${accessToken}`;
-
-  const tenant = "cyphertree";
-
-  // useEffect(() => {
-  //   getWorkflowDetails();
-  // }, []);
-
-  if (loading) {
-    return (
-      <Layout>
-        <AntSpinner />
-      </Layout>
-    );
-  } else {
-    return (
-      <Layout>
+  return (
+    <Layout>
+      <div
+        style={{
+          alignItems: "left",
+          textAlign: "left",
+          paddingLeft: "150px",
+          paddingTop: "20px",
+        }}
+      >
+        <br />
         <div
           style={{
-            alignItems: "left",
-            textAlign: "left",
-            paddingLeft: "150px",
-            paddingTop: "20px",
+            display: "flex",
+            flexDirection: "row",
+            width: "300px",
+            textAlign: "center",
           }}
         >
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "300px",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <p
-                style={{
-                  fontSize: "26px",
-                  fontWeight: "bold",
-                  color: "#696969	",
-                  width: "auto",
-                  margin: "10px 20px 5px 0 ",
-                  padding: "0",
-                }}
-              >
-                Edit Workflow
-              </p>
-            </div>
-          </div>
-          <Link to="/settings/workflow">
-            Back to All Workflows <RollbackOutlined />
-          </Link>
-          <div
-            style={{
-              backgroundColor: "white",
-              marginTop: "30px",
-              marginBottom: "30px",
-              padding: "40px",
-              width: "1000px",
-              borderRadius: "10px",
-            }}
-          >
-            <WorkflowEditForm />
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <p
+              style={{
+                fontSize: "26px",
+                fontWeight: "bold",
+                color: "#696969	",
+                width: "auto",
+                margin: "10px 20px 5px 0 ",
+                padding: "0",
+              }}
+            >
+              Edit Workflow
+            </p>
           </div>
         </div>
-      </Layout>
-    );
-  }
+        <Link to="/settings/workflow">
+          Back to All Workflows <RollbackOutlined />
+        </Link>
+        <div
+          style={{
+            backgroundColor: "white",
+            marginTop: "30px",
+            marginBottom: "30px",
+            padding: "40px",
+            width: "1000px",
+            borderRadius: "10px",
+          }}
+        >
+          <WorkflowEditForm />
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default WorkflowEditPage;

@@ -70,7 +70,6 @@ const WorkflowItem = (props: any) => {
           {workflowData.client_company && (
             <Row>
               <>
-                Client :{" "}
                 <Tag color="geekblue">{workflowData.client_company.name}</Tag>
               </>
             </Row>
