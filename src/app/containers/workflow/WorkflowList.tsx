@@ -5,7 +5,14 @@ import WorkflowItem from "./WorkflowItem";
 const { Text } = Typography;
 
 const WorkflowList = (props: any) => {
-  const { setLoading, workflowList, setShouldReload, getAllWorkflows } = props;
+  const {
+    setLoading,
+    workflowList,
+    setShouldReload,
+    getAllWorkflows,
+    workflowTypesList,
+    clientList,
+  } = props;
   return (
     <div>
       {workflowList.length > 0 ? (
@@ -15,6 +22,8 @@ const WorkflowList = (props: any) => {
             setLoading={setLoading}
             setShouldReload={setShouldReload}
             getAllWorkflows={getAllWorkflows}
+            workflowTypesList={workflowTypesList}
+            clientList={clientList}
           />
         ))
       ) : (

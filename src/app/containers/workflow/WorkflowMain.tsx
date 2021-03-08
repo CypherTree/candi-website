@@ -7,6 +7,7 @@ import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import { toast } from "react-toastify";
 import WorkflowList from "./WorkflowList";
 import Title from "antd/lib/typography/Title";
+import WorkflowModal from "./WorkflowModal";
 
 const WorkflowMain = () => {
   const [loading, setLoading] = useState(false);
@@ -16,6 +17,33 @@ const WorkflowMain = () => {
   const [shouldReload, setShouldReload] = useState<undefined | boolean>(false);
 
   const [showModal, setShowModal] = useState(false);
+
+  const [clientList, setClientList] = useState<undefined | any>();
+
+  const [workflowTypesList, setWorkflowTypesList] = useState<undefined | any>();
+
+  const getAllWorkflowTypes = () => {
+    axios
+      .get(
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/types/`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        setWorkflowTypesList(response.data.data);
+      })
+      .then(() => setLoading(false))
+      .catch((err: any) => {
+        console.log("Err", err);
+        setLoading(false);
+
+        toast.error("Some error occoured");
+      });
+  };
 
   const { accessToken } = getCurrentSessionTokens();
 
@@ -46,9 +74,46 @@ const WorkflowMain = () => {
       });
   };
 
+  const getAllClients = () => {
+    axios
+      .get(
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        setClientList(response.data.data);
+      })
+      .then(() => setLoading(false))
+      .catch((err: any) => {
+        console.log("Err", err);
+        setLoading(false);
+
+        toast.error("Some error occoured");
+      });
+  };
+
   useEffect(() => {
     getAllWorkflows();
+    getAllClients();
+    getAllWorkflowTypes();
   }, []);
+
+  useEffect(() => {
+    if (shouldReload) {
+      setWorkflowList([]);
+      getAllWorkflows();
+      setShouldReload(false);
+    }
+  }, [shouldReload]);
+
+  const handleOpen = () => {
+    setShowModal(true);
+  };
 
   if (loading) {
     return (
@@ -114,7 +179,7 @@ const WorkflowMain = () => {
                 }}
               >
                 <AddIcon
-                  //   onClick={handleOpen}
+                  onClick={handleOpen}
                   style={{
                     alignSelf: "center",
                     height: "19px",
@@ -132,6 +197,8 @@ const WorkflowMain = () => {
               workflowList={workflowList}
               setShouldReload={setShouldReload}
               getAllWorkflows={getAllWorkflows}
+              workflowTypesList={workflowTypesList}
+              clientList={clientList}
             />
           ) : (
             // <Text>You got some clients bob.</Text>
@@ -139,12 +206,14 @@ const WorkflowMain = () => {
           )}
         </div>
 
-        {/* {showModal && (
-      <AddClientModal
-        setShowModal={setShowModal}
-        setShouldReload={setShouldReload}
-      />
-    )} */}
+        {showModal && (
+          <WorkflowModal
+            setShowModal={setShowModal}
+            setShouldReload={setShouldReload}
+            workflowTypesList={workflowTypesList}
+            clientList={clientList}
+          />
+        )}
       </Layout>
     );
   }

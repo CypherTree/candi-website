@@ -12,7 +12,17 @@ const WorkflowItem = (props: any) => {
   // id: 1
   // name: "WF1"
 
-  const { workflowData } = props;
+  const { workflowData, workflowTypesList, clientList } = props;
+
+  let selectedClient;
+
+  // useEffect(() => {
+  //   if (clientList.length > 0) {
+  //     selectedClient = clientList.filter(
+  //       (client: any) => client.id === workflowData.client_company
+  //     );
+  //   }
+  // });
 
   console.log("props", props);
   return (
@@ -50,18 +60,23 @@ const WorkflowItem = (props: any) => {
             <div>
               {" "}
               {workflowData.for_organization ? (
-                <Tag color="geekblue">For self organisation</Tag>
+                <Tag color="geekblue">For Self </Tag>
               ) : (
-                <Tag color="magenta">For Client Company</Tag>
+                <Tag color="magenta">For Client </Tag>
+              )}
+            </div>
+            <div>
+              {workflowData.client_company && (
+                <>
+                  Client :{" "}
+                  <Tag color="geekblue">{workflowData.client_company.name}</Tag>
+                </>
               )}
             </div>
           </Row>
 
           <Row style={{ paddingTop: "5px" }}>
-            <Link
-              to="#"
-              // to={`/client/${clientData.id}/`}
-            >
+            <Link to={`/workflow/${workflowData.id}/`}>
               <Button type="primary"> View/Edit Workflow</Button>
             </Link>
           </Row>

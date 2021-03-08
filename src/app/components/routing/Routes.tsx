@@ -41,6 +41,7 @@ import WorkflowPage from "../../containers/settings/WorkflowPage";
 import AllClients from "../../containers/clients/AllClients";
 import EditClientDetails from "../../containers/clients/EditClientDetails";
 import WorkflowMain from "../../containers/workflow/WorkflowMain";
+import WorkflowEditPage from "../../containers/workflow/WorkflowEditPage";
 
 // import SettingsOrgDetails from "../settingOrgDetails/SettingsOrgDetails";
 
@@ -211,6 +212,11 @@ const Routes = (props: any) => {
                   // exact
                   path="/client/:clientId"
                   component={EditClientDetails}
+                />
+                <PrivateRoute
+                  // exact
+                  path="/workflow/:workflowId"
+                  component={WorkflowEditPage}
                 />
                 <Route component={PageNotFound} />
                 {/* <Route component={InviteLanding} /> */}
