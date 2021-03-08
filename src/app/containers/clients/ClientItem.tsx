@@ -41,14 +41,22 @@ const ClientItem = (props: any) => {
               backgroundColor: "white",
             }}
           >
-            <div
-              style={{
-                backgroundColor: "#ff9999",
-                borderRadius: "50%",
-                width: "100px",
-                height: "100px",
-              }}
-            ></div>
+            {clientData.logo ? (
+              <img
+                src={clientData.logo}
+                alt="company logo"
+                style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+              ></img>
+            ) : (
+              <div
+                style={{
+                  backgroundColor: "#ff9999",
+                  borderRadius: "50%",
+                  width: "100px",
+                  height: "100px",
+                }}
+              ></div>
+            )}
           </Layout>
         </Col>
         <Col span={18} style={{ paddingLeft: "10px" }}>
