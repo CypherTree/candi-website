@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
 
-import { Button, Col, Layout, Modal, Row, Spin, Typography } from "antd";
+import { Col, Layout, Row, Spin, Typography } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { ThunkDispatch } from "redux-thunk";
+import { connect, useDispatch } from "react-redux";
 import { AnyAction } from "redux";
-import { connect } from "react-redux";
+
 import * as H from "history";
 
 import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 import { StateType } from "../../core/redux/types";
-import {
-  getOrgIdFromTenantName,
-  getTenantInfo,
-} from "../../core/services/tenantinfo";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import axios, { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -22,6 +20,10 @@ import { LoadingOutlined } from "@ant-design/icons";
 import AccessDenied from "./AccessDenied";
 
 import TrialExpired from "./TrialExpired";
+
+import { LoginDispatchTypes } from "../../../auth/core/redux/types";
+import { GetNewToken, LogoutUser } from "../../../auth/core/redux/actions";
+import { Redirect } from "react-router-dom";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
@@ -69,6 +71,8 @@ const Dashboard: React.FC<Props> = ({ state }) => {
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
   const [isAccessDenied, setIsAccessDenied] = useState<boolean>(false);
 
+  const [shouldReload, setShouldReload] = useState(false);
+
   const userData = state.auth.userData ? state.auth.userData : null;
 
   useEffect(() => {
@@ -77,10 +81,18 @@ const Dashboard: React.FC<Props> = ({ state }) => {
     }
   }, [userData]);
 
+  // useEffect(() => {
+  //   if (shouldReload) {
+  //     return <Redirect to="/dashboard"></Redirect>;
+  //   }
+  // }, [shouldReload]);
+
   let orgData;
 
+  const dispatch = useDispatch();
+
   const getOrgData = async () => {
-    const { accessToken } = getCurrentSessionTokens();
+    const { accessToken, refreshToken } = getCurrentSessionTokens();
     const jwtToken = `Bearer ${accessToken}`;
     const slug = getTenantInfo();
 
@@ -118,6 +130,17 @@ const Dashboard: React.FC<Props> = ({ state }) => {
             setIsAccessDenied(true);
             toast.error("You dont have access to this resource.");
             setLoading(false);
+            // dispatch(LogoutUser());f (err.response && err.response.status === 401) {
+            // console.log("--- yes --- error is 401.", refreshToken);
+            // if (refreshToken) {
+
+            if (refreshToken) {
+              toast.error("calling refresh token");
+              console.log("+++ calleing for refresh token");
+              dispatch(GetNewToken(refreshToken, setShouldReload));
+            }
+            // }
+            // }
           }
         } else {
           toast.error("Some other error occoured.");
@@ -130,6 +153,11 @@ const Dashboard: React.FC<Props> = ({ state }) => {
     setTenant(data);
     getOrgData();
   }, []);
+
+  if (shouldReload) {
+    setShouldReload(false);
+    return <Redirect to="/dashboard"></Redirect>;
+  }
 
   if (loading) {
     return (
@@ -198,7 +226,7 @@ const mapStateToProps = (state: StateType) => {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AnyAction>) => {
   return {
-    //
+    // logoutUser: () => LogoutUSer
   };
 };
 
