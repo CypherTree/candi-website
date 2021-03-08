@@ -28,6 +28,8 @@ const Sidebar = (props: any) => {
   const [tenant, setTenant] = useState<null | undefined | string>(null);
   const [orgData, setOrgData] = useState<any>(null);
 
+  const [userRole, setUserRole] = useState<number>(0);
+
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
 
   const SidebarMenuForTenant = (
@@ -55,6 +57,22 @@ const Sidebar = (props: any) => {
     </>
   );
 
+  const SidebarMenuInsideTenantForClient = (
+    <>
+      {" "}
+      <Menu.Item key="2" icon={<DesktopOutlined />}>
+        <Link to={isTrialExpired ? "#" : "/settings/workflow"}>
+          My Workflow{" "}
+        </Link>
+      </Menu.Item>
+      <Menu.Item key="2" icon={<DesktopOutlined />}>
+        <Link to={isTrialExpired ? "#" : "/settings/workflow"}>
+          Company Details{" "}
+        </Link>
+      </Menu.Item>
+    </>
+  );
+
   const SidebarMenuForAll = (
     <>
       <Menu.Item key="1" icon={<UserOutlined />}>
@@ -65,6 +83,18 @@ const Sidebar = (props: any) => {
       </Menu.Item>
     </>
   );
+
+  const whichSidebarMenuToReturn = () => {
+    if (tenant === "id") {
+      return SidebarMenuForAll;
+    } else {
+      if (tenant !== "id" && userRole === 4) {
+        return SidebarMenuInsideTenantForClient;
+      } else {
+        return SidebarMenuForTenant;
+      }
+    }
+  };
 
   const getOrgData = async () => {
     const { accessToken } = getCurrentSessionTokens();
@@ -86,6 +116,7 @@ const Sidebar = (props: any) => {
 
         setOrgData(response.data.data[0].organization);
         setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
+        setUserRole(response.data.data[0].type);
       })
       .catch((err: any) => {
         console.log("Err", err);
@@ -160,7 +191,7 @@ const Sidebar = (props: any) => {
           inlineCollapsed={collapsed}
           style={{ height: "100vh" }}
         >
-          {tenant === "id" ? SidebarMenuForAll : SidebarMenuForTenant}
+          {whichSidebarMenuToReturn()}
         </Menu>
       </Sider>
     );

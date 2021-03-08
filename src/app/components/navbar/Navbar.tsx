@@ -77,6 +77,8 @@ function Navbar(props: any) {
   const [tenant, setTenant] = useState<null | undefined | string>(null);
   const [orgData, setOrgData] = useState<any>(null);
 
+  const [userRole, setUserRole] = useState<number>(0);
+
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
 
   console.log("******************** org data in navbar ", orgData);
@@ -99,10 +101,11 @@ function Navbar(props: any) {
         }
       )
       .then((response: any) => {
-        console.log("response from api --> ", response.data);
+        console.log("********* response from api --> ", response.data);
 
         setOrgData(response.data.data[0].organization);
         setIsTrialExpired(response.data.data[0].organization.plan_has_expired);
+        setUserRole(response.data.data[0].type);
       })
       .catch((err: any) => {
         console.log("Err", err);
@@ -206,6 +209,20 @@ function Navbar(props: any) {
     </>
   );
 
+  const NavMenuInsideTenantForClient = <></>;
+
+  const whichNavMenuToReturn = () => {
+    if (tenant === "id") {
+      return NavMenuForAll;
+    } else {
+      if (tenant !== "id" && userRole === 4) {
+        return NavMenuInsideTenantForClient;
+      } else {
+        return NavMenuInsideTenant;
+      }
+    }
+  };
+
   const NavMenuForAll = (
     <>
       <Link
@@ -283,7 +300,9 @@ function Navbar(props: any) {
             paddingTop: "5px",
           }}
         >
-          {tenant === "id" ? NavMenuForAll : NavMenuInsideTenant}
+          {/* {tenant === "id" && NavMenuForAll }
+          {tenant!=="id" && } */}
+          {whichNavMenuToReturn()}
         </Layout>
       </Header>
 
