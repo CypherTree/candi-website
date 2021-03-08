@@ -67,3 +67,30 @@ export const updateServerWithLogoUploadData = async (
 
   return result?.data;
 };
+
+export const updateLogoForClientCompany = async (
+  jwtToken: string,
+  logo_key: string,
+  tenant: string,
+  id: number
+) => {
+  let result;
+
+  try {
+    result = await axios.put(
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/${id}/`,
+      {
+        logo_key,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      }
+    );
+  } catch (err) {
+    console.log("errr", err);
+  }
+
+  return result?.data;
+};

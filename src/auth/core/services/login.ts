@@ -33,7 +33,8 @@ const setLoggedInUser = (dispatch: any) => {
   if (accessToken != null && refreshToken !== null) {
     const jwtToken = `Bearer ${accessToken}`;
     dispatch(SetAuthenticated(true));
-    dispatch(GetUserData(jwtToken));
+
+    dispatch(GetUserData(jwtToken, refreshToken));
   }
 };
 

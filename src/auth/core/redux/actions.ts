@@ -5,6 +5,8 @@ import { LoginDispatchTypes, Types } from "./types";
 import axios from "axios";
 import { getCurrentSessionTokens } from "../services/session";
 
+import { toast } from "react-toastify";
+
 const {
   LOGIN_USER,
   LOGOUT_USER,
@@ -112,9 +114,10 @@ export const SetAuthenticated = (isAuthenticated: boolean) => async (
   } catch (e) {}
 };
 
-export const GetUserData = (accessToken: string) => async (
-  dispatch: Dispatch<LoginDispatchTypes>
-) => {
+export const GetUserData = (
+  accessToken: string,
+  refreshToken: string
+) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
   console.log("GET USER DATA was called. ");
 
   await axios
@@ -133,14 +136,27 @@ export const GetUserData = (accessToken: string) => async (
         },
       });
     })
-    .catch((err) => console.log("--- erro", err));
+    .catch((err) => {
+      console.log("--- erro", err);
+
+      // if (err.response && err.response.status === 401) {
+      //   console.log("--- yes --- error is 401.", refreshToken);
+      //   // if (refreshToken) {
+      //   // dispatch(GetNewToken(refreshToken));
+      //   // }
+      // }
+    });
 };
 
 export const GetNewToken = (
-  accessToken: string,
-  refreshToken: string
+  refreshToken: string,
+  setShouldReload: any
 ) => async (dispatch: Dispatch<LoginDispatchTypes>) => {
-  axios
+  toast.success("reached here");
+  console.log("==== get new token api was called ====", refreshToken);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  // let history = useHistory();x
+  await axios
     .post(`${process.env.REACT_APP_SERVER_URL}/api/v1/login/refresh/`, {
       refresh: refreshToken,
     })
@@ -152,9 +168,16 @@ export const GetNewToken = (
           accessToken,
         },
       });
+      toast.success("Login info updated");
+      window.location.href = "/dashboard";
+      // history.push("/dashboard");
+      setShouldReload(true);
+      console.log("==== got new data ===");
     })
     .catch((err) => {
       localStorage.clear();
+      toast.error("Logging out");
+      console.log("refresh token api failed");
     });
 };
 

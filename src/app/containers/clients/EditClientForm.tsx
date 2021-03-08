@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-import UploadLogo from "../../components/uploadLogo/UploadLogo";
+import UploadClientLogo from "./UploadClientLogo";
 
 const { Option } = Select;
 
@@ -454,12 +454,7 @@ const EditClientForm = (props: any) => {
         </Col>
       </Row>
 
-      <UploadLogo
-        organisation_id={clientData.id}
-        name={name}
-        website={website}
-        logo={logo}
-      />
+      <UploadClientLogo id={clientData.id} tenant={tenant} logo={logo} />
 
       <Form.Item>
         <Button type="primary" onClick={() => onOk()}>
