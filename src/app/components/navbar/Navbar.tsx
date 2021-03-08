@@ -209,7 +209,23 @@ function Navbar(props: any) {
     </>
   );
 
-  const NavMenuInsideTenantForClient = <></>;
+  const NavMenuInsideTenantForClient = (
+    <>
+      <Link
+        to={isTrialExpired ? "#" : "/client/all"}
+        // aria-disabled={isTrialExpired}
+        style={{
+          textDecoration: "none",
+          color: "black",
+          paddingLeft: "30px",
+        }}
+      >
+        <Title style={{ color: "black" }} level={5}>
+          Your Clients
+        </Title>
+      </Link>
+    </>
+  );
 
   const whichNavMenuToReturn = () => {
     if (tenant === "id") {
