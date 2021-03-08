@@ -52,7 +52,7 @@ const WorkflowModal = (props: any) => {
         name,
         description,
         for_organization: forOrganization,
-        client_company: clientCompany.value,
+        client_company: clientCompany ? clientCompany.value : "",
         workflow_type: workflowType.value,
       };
       addANewWorkflow(sendObject);
@@ -165,7 +165,7 @@ const WorkflowModal = (props: any) => {
               value={name}
               onChange={(e: any) => setName(e.target.value)}
               placeholder="Name of the Workflow"
-              maxLength={100}
+              maxLength={50}
             />
           </Form.Item>
           <Form.Item
@@ -175,6 +175,7 @@ const WorkflowModal = (props: any) => {
             <Input.TextArea
               value={description}
               onChange={(e: any) => setDescription(e.target.value)}
+              maxLength={200}
               placeholder="Description:"
             />
           </Form.Item>

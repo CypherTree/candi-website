@@ -42,8 +42,8 @@ const WorkflowItem = (props: any) => {
           <Row
             style={{
               display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
+              flexDirection: "row",
+              justifyContent: "flex-end",
             }}
           >
             <Title
@@ -65,15 +65,27 @@ const WorkflowItem = (props: any) => {
                 <Tag color="magenta">For Client </Tag>
               )}
             </div>
-            <div>
-              {workflowData.client_company && (
-                <>
-                  Client :{" "}
-                  <Tag color="geekblue">{workflowData.client_company.name}</Tag>
-                </>
-              )}
-            </div>
           </Row>
+
+          {workflowData.client_company && (
+            <Row>
+              <>
+                Client :{" "}
+                <Tag color="geekblue">{workflowData.client_company.name}</Tag>
+              </>
+            </Row>
+          )}
+
+          {/* //TODO: When description is added */}
+
+          {/* {workflowData.client_company &&
+            workflowData.client_company.description && (
+              <Row>
+                <>
+                  About : <Text>{workflowData.client_company.description}</Text>
+                </>
+              </Row>
+            )} */}
 
           <Row style={{ paddingTop: "5px" }}>
             <Link to={`/workflow/${workflowData.id}/`}>
@@ -87,26 +99,3 @@ const WorkflowItem = (props: any) => {
 };
 
 export default WorkflowItem;
-
-//  {/* <Col span={6}>
-//           <Layout
-//             style={{
-//               display: "flex",
-//               justifyContent: "center",
-//               alignContent: "center",
-//               alignItems: "center",
-//               width: "100%",
-//               height: "100%",
-//               backgroundColor: "white",
-//             }}
-//           >
-//             {/* <div
-//               style={{
-//                 backgroundColor: "#ff9999",
-//                 borderRadius: "50%",
-//                 width: "100px",
-//                 height: "100px",
-//               }}
-//             ></div> */}
-//             </Layout>
-//         </Col> */}
