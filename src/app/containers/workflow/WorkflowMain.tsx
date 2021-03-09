@@ -77,7 +77,7 @@ const WorkflowMain = () => {
   const getAllClients = () => {
     axios
       .get(
-        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/`,
+        `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/clients/`,
         {
           headers: {
             Authorization: `${jwtToken}`,
@@ -85,7 +85,7 @@ const WorkflowMain = () => {
         }
       )
       .then((response: any) => {
-        console.log("response from api --> ", response.data);
+        console.log("add new client from api --> ", response.data);
         setClientList(response.data.data);
       })
       .then(() => setLoading(false))

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import { Input, Form, Button, Select, Row, Col, Typography } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
@@ -19,6 +19,8 @@ const AddPeople = (props: any) => {
   const [disabled, setDisabled] = useState(false);
   const [error, setError] = useState("");
   const [client, setClient] = useState<any>();
+
+  const [isClient, setIsClient] = useState(false);
 
   const [inviteColor, setInviteColor] = useState<any>("secondary");
 
@@ -208,7 +210,13 @@ const AddPeople = (props: any) => {
     setCurrentError("");
   };
 
+  const messagesEndRef = useRef<any>(null);
+
   useEffect(() => {
+    if (props.openInviteForm) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+
     if (inviteData && inviteData.hasOwnProperty("id")) {
       setName(inviteData.name);
       setEmail(inviteData.email);
@@ -244,6 +252,10 @@ const AddPeople = (props: any) => {
       } else if (inviteData.invite_status === 5) {
         setInviteStatus("Expired");
         setInviteColor("danger");
+      }
+
+      if (inviteData.tenant_role && inviteData.tenant_role.type === 4) {
+        setIsClient(true);
       }
     }
   }, []);
@@ -317,8 +329,36 @@ const AddPeople = (props: any) => {
                   ))}
                 </Select>
               </Col>
+              {isClient && (
+                <Col style={{ padding: "5px" }}>
+                  <Select
+                    style={{ width: "250px" }}
+                    placeholder="Client Name"
+                    value={
+                      inviteData.client_company
+                        ? inviteData.client_company.name
+                        : ""
+                    }
+                    disabled={true}
+                  >
+                    <Option
+                      value={
+                        inviteData.client_company
+                          ? inviteData.client_company.name
+                          : ""
+                      }
+                      key={1}
+                      disabled={true}
+                    >
+                      {inviteData.client_company
+                        ? inviteData.client_company.name
+                        : ""}
+                    </Option>
+                  </Select>
+                </Col>
+              )}
               {roleType === 4 && (
-                <Col>
+                <Col style={{ padding: "5px" }}>
                   <Select
                     labelInValue
                     style={{ width: "250px" }}
@@ -388,6 +428,8 @@ const AddPeople = (props: any) => {
           )}
         </Row>
       </Form>
+
+      <div ref={messagesEndRef} />
 
       {error && (
         <Row>

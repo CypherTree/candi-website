@@ -135,7 +135,7 @@ const People = () => {
 
   const getAllClients = () => {
     Axios.get(
-      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/`,
+      `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/clients/`,
       {
         headers: {
           Authorization: `${jwtToken}`,
@@ -303,6 +303,7 @@ const People = () => {
               getSentInvites={getSentInvites}
               canInvitePeople={allowedInvites - invites.length}
               clientList={clientList}
+              openInviteForm={openInviteForm}
             />
           </div>
         )}
