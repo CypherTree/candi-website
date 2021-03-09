@@ -24,23 +24,16 @@ const WorkflowItem = (props: any) => {
       }}
     >
       <Row gutter={8}>
-        <Col span={18} style={{ paddingLeft: "10px" }}>
+        <Col span={24} style={{ paddingLeft: "10px" }}>
           <Row
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
+              padding: "5px",
             }}
           >
-            <Title
-              level={4}
-              style={{
-                width: "80%",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
+            <Title level={4} style={{}}>
               {workflowData.name}
             </Title>
             <div>
@@ -54,24 +47,23 @@ const WorkflowItem = (props: any) => {
           </Row>
 
           {workflowData.client_company && (
-            <Row>
+            <Row style={{ paddingTop: "5px" }}>
               <>
                 <Tag color="geekblue">{workflowData.client_company.name}</Tag>
               </>
             </Row>
           )}
 
-          {/* //TODO: When description is added */}
-
-          {/* {workflowData.client_company &&
-            workflowData.client_company.description && (
-              <Row>
-                <>
-                  About : <Text>{workflowData.client_company.description}</Text>
-                </>
-              </Row>
-            )} */}
-
+          {workflowData && workflowData.description && (
+            <Row
+              style={{ display: "flex", flexDirection: "row", padding: "5px" }}
+            >
+              <>
+                <Text strong> About :</Text>{" "}
+                <Text ellipsis={true}>{workflowData.description}</Text>
+              </>
+            </Row>
+          )}
           <Row style={{ paddingTop: "5px" }}>
             <Link to={`/workflow/${workflowData.id}/`}>
               <Button type="primary"> View/Edit Workflow</Button>
