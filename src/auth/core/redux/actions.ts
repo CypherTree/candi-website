@@ -370,6 +370,8 @@ export const EmailVerification = (token: string) => async (
             emailVerificationMessage: message,
           },
         });
+
+        window.location.href = "/dashboard";
       })
       .catch((err: any) => {
         console.log("error in axios API  -> ", err.response);
