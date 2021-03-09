@@ -11,7 +11,7 @@ import {
 
 import { connect, useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
 
@@ -70,6 +70,8 @@ type Props = {
 function Navbar(props: any) {
   const dispatch = useDispatch();
 
+  const location = useLocation();
+
   const state = props.state;
 
   const userData = state.auth.userData ? state.auth.userData : null;
@@ -81,7 +83,9 @@ function Navbar(props: any) {
 
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
 
-  console.log("******************** org data in navbar ", orgData);
+  const clientURLs = ["/client"];
+
+  console.log("******************** location data in navbar ", location);
 
   useEffect(() => {}, [userData]);
 
@@ -177,7 +181,12 @@ function Navbar(props: any) {
           paddingLeft: "30px",
         }}
       >
-        <Title style={{ color: "black" }} level={5}>
+        <Title
+          style={{
+            color: location.pathname.includes("/client") ? "blue" : "black",
+          }}
+          level={5}
+        >
           Your Clients
         </Title>
       </Link>
@@ -191,7 +200,12 @@ function Navbar(props: any) {
           paddingLeft: "30px",
         }}
       >
-        <Title style={{ color: "black" }} level={5}>
+        <Title
+          style={{
+            color: location.pathname.includes("/people") ? "blue" : "black",
+          }}
+          level={5}
+        >
           People
         </Title>
       </Link>
