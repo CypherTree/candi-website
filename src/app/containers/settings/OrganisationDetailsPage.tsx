@@ -24,10 +24,6 @@ const OrganisationDetailsPage = () => {
 
   const [orgDomain, setOrgDomain] = useState();
 
-  // const organisation_id = getOrgIdFromTenantName();
-
-  const organisation_id = 55;
-
   useEffect(() => {
     const ten = getTenantInfo();
 
@@ -41,11 +37,13 @@ const OrganisationDetailsPage = () => {
 
     const jwtToken = `Bearer ${accessToken}`;
 
-    toast.success(`ID recieved id  ${organisation_id}`);
+    const organizationId = await getOrgIdFromTenantName();
 
-    axios
+    toast.success(`ID recieved id  ${organizationId}`);
+
+    await axios
       .get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organisation_id}/`,
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
         {
           headers: {
             Authorization: `${jwtToken}`,

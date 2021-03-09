@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 import UploadClientLogo from "./UploadClientLogo";
 
 const { Option } = Select;
@@ -18,7 +19,7 @@ export enum COMPANY_SIZE_ENUM {
 }
 
 const EditClientForm = (props: any) => {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const { clientData } = props;
 

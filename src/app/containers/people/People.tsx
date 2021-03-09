@@ -9,6 +9,10 @@ import AddPeople from "../../components/people/AddPeople";
 import Title from "antd/lib/typography/Title";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
 
 const { Text } = Typography;
 
@@ -34,7 +38,7 @@ interface IInviteData {
 }
 
 const People = () => {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const [loading, setLoading] = useState(true);
   const [openInviteForm, setOpenInviteForm] = useState(false);
@@ -107,12 +111,15 @@ const People = () => {
     setOpenInviteForm(false);
   };
 
-  const getActivePlan = () => {
+  const getActivePlan = async () => {
     const { accessToken } = getCurrentSessionTokens();
 
     const jwtToken = `Bearer ${accessToken}`;
-    Axios.get(
-      `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization?organization_id=55`,
+
+    const organizationId = await getOrgIdFromTenantName();
+
+    await Axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization?organization_id=${organizationId}`,
       {
         headers: {
           Authorization: `${jwtToken}`,
@@ -120,8 +127,16 @@ const People = () => {
       }
     )
       .then((response: any) => {
+        const userQuote = response.data.data.plan.quotas.filter(
+          (quota: { unit: string }) => {
+            return quota.unit == "users";
+          }
+        );
         console.log("response from api --> ", response.data);
-        setAllowedInvites(response.data.data.plan.id.quotas[0].value);
+
+        console.log("user quote", userQuote);
+
+        setAllowedInvites(userQuote[0].value);
         // setAllowedInvites(10);
       })
       .catch((err: any) => {
@@ -134,6 +149,8 @@ const People = () => {
   const jwtToken = `Bearer ${accessToken}`;
 
   const getAllClients = () => {
+    // clients which are not invited yet
+
     Axios.get(
       `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/clients/`,
       {

@@ -1,25 +1,16 @@
-import { Description } from "@material-ui/icons";
-import {
-  Button,
-  Form,
-  Input,
-  InputNumber,
-  Layout,
-  Modal,
-  Select,
-  Spin,
-} from "antd";
+import { Form, Input, Layout, Modal, Select, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-import AntSpinner from "../../components/spinner/AntSpinner";
+
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
 const WorkflowModal = (props: any) => {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const {
     setShowModal,

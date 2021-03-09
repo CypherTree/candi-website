@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
 import { Button, Layout } from "antd";
-import Title from "antd/lib/typography/Title";
 
 import Axios from "axios";
 
 import AddStepForm from "./AddStepForm";
 import SortableList from "./SortableList";
 
-import { connect } from "react-redux";
 import { toast } from "react-toastify";
 import { useParams } from "react-router-dom";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const EditWorkflowSteps = (props: any) => {
   const { workflowData } = props;
@@ -35,7 +34,7 @@ const EditWorkflowSteps = (props: any) => {
     name: string;
     description: string;
     step_type: number;
-    category: number;
+    category?: number | null;
     order: number;
     video_enabled: boolean;
     workflow: number;
@@ -57,7 +56,7 @@ const EditWorkflowSteps = (props: any) => {
 
   const messagesEndRef = useRef<any>(null);
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const closeAddStepForm = () => {
     setIsAddStepFormOpen(false);
@@ -135,7 +134,6 @@ const EditWorkflowSteps = (props: any) => {
           video_enabled: item.video_enabled,
           workflow: item.workflow,
         };
-
         dataToUpdate.push(localData);
       });
 

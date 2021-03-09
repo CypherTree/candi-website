@@ -14,6 +14,7 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import AntSpinner from "../../components/spinner/AntSpinner";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
@@ -28,7 +29,7 @@ export enum COMPANY_SIZE_ENUM {
 }
 
 const AddClientModal = (props: any) => {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const { setShowModal, setShouldReload } = props;
 

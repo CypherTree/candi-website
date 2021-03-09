@@ -26,26 +26,16 @@ export const getOrgIdFromTenantName = async () => {
   let organizationId;
 
   if (slug !== "id") {
-    await axios
-      .get(
-        `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
+    const response = await axios.get(
+      `${process.env.REACT_APP_SERVER_URL}/api/v1/user/organization/?slug=${slug}
     `,
-        {
-          headers: {
-            Authorization: `${jwtToken}`,
-          },
-        }
-      )
-      .then((response: any) => {
-        console.log("response from api --> ", response.data);
-        organizationId = response.data.data[0].organization.id;
-        toast.success(`Welcome to ${slug}`);
-        return organizationId;
-      })
-      .catch((err: any) => {
-        console.log("Err", err);
-        toast.error("Action could not be performed.");
-        return 0;
-      });
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    );
+    organizationId = response.data.data[0].organization.id;
+    return organizationId;
   }
 };

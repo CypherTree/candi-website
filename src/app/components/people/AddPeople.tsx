@@ -7,6 +7,7 @@ import Axios from "axios";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import ClientItem from "../../containers/clients/ClientItem";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
@@ -80,7 +81,7 @@ const AddPeople = (props: any) => {
     }
   };
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const [inviteStatus, setInviteStatus] = useState("");
 

@@ -9,6 +9,7 @@ import AntSpinner from "../../components/spinner/AntSpinner";
 import EditClientForm from "./EditClientForm";
 
 import { RollbackOutlined } from "@ant-design/icons";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const EditClientDetails = () => {
   const { accessToken } = getCurrentSessionTokens();
@@ -17,7 +18,7 @@ const EditClientDetails = () => {
 
   const jwtToken = `Bearer ${accessToken}`;
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   type currentOrg = {
     id: 5;
@@ -41,7 +42,7 @@ const EditClientDetails = () => {
     about: "lkdsjlkfj";
     company_size: 4;
     year_established: "2020-02-01";
-    organization: 55;
+    organization: number;
     owner: null;
   };
 

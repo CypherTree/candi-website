@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import WorkflowList from "./WorkflowList";
 import Title from "antd/lib/typography/Title";
 import WorkflowModal from "./WorkflowModal";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const WorkflowMain = () => {
   const [loading, setLoading] = useState(false);
@@ -49,7 +50,7 @@ const WorkflowMain = () => {
 
   const jwtToken = `Bearer ${accessToken}`;
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const getAllWorkflows = () => {
     axios

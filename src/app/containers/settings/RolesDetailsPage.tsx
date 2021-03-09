@@ -7,9 +7,10 @@ import Axios from "axios";
 import AddRole from "./AddRole";
 
 import { toast } from "react-toastify";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const RolesDetailsPage = (props: any) => {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   console.log("<------------ PROPS IN ADD ROLES -------------->", props);
   const { handleNext, handleBack } = props;

@@ -4,7 +4,10 @@ import Title from "antd/lib/typography/Title";
 import { Button, Form, Input, Layout, Radio, Spin } from "antd";
 import PlanCard from "../../components/plancards/PlanCard";
 
-import { getTenantInfo } from "../../core/services/tenantinfo";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
 
 import { getCurrentPlan, plansData } from "../../core/services/plans";
 import AntSpinner from "../../components/spinner/AntSpinner";
@@ -14,7 +17,9 @@ const PlanDetailsPage = () => {
   const [pricePeriod, setPricePeriod] = React.useState("yearly");
 
   const getAndSetPlanDetails = async () => {
-    const currentPlan = await getCurrentPlan(55, setLoading);
+    const organizationId = await getOrgIdFromTenantName();
+
+    const currentPlan = await getCurrentPlan(organizationId, setLoading);
 
     console.log("current plan --->", currentPlan);
 

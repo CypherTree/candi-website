@@ -42,8 +42,6 @@ const CompanySettings = () => {
   const [markets, setMarkets] = useState<any>();
   const [selectedMarkets, setSelectedMarkets] = useState<any>();
 
-  const organizationId = 55;
-
   const styles = { width: "400px" };
 
   const onFinish = async (values: any) => {
@@ -96,8 +94,10 @@ const CompanySettings = () => {
       });
   };
 
-  const getCompanyDetails = () => {
-    axios
+  const getCompanyDetails = async () => {
+    const organizationId = await getOrgIdFromTenantName();
+
+    await axios
       .get(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
         {
@@ -145,9 +145,12 @@ const CompanySettings = () => {
       });
   };
 
-  const updateCompanyDetails = (marketData: any) => {
+  const updateCompanyDetails = async (marketData: any) => {
     setLoading(true);
-    axios
+
+    const organizationId = await getOrgIdFromTenantName();
+
+    await axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
         {

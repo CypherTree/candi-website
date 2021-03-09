@@ -13,6 +13,7 @@ import {
 import { DeleteFilled, EditOutlined, CloseOutlined } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 const { Text } = Typography;
@@ -97,7 +98,7 @@ const AddRole = (props: any) => {
     const accessToken = localStorage.getItem("accessToken");
     const jwtToken = `Bearer ${accessToken}`;
     setLoading(true);
-    const tenant = "cyphertree";
+    const tenant = getTenantInfo();
     await axios
       .put(
         `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/team/roles/${role_id}/  `,

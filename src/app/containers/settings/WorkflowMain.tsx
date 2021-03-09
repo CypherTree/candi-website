@@ -6,9 +6,10 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Redirect } from "react-router";
 import { Link } from "react-router-dom";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 function WorkflowMain() {
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const accessToken = localStorage.getItem("accessToken");
 

@@ -17,6 +17,7 @@ import Axios from "axios";
 
 import { connect } from "react-redux";
 import { toast } from "react-toastify";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Text } = Typography;
 
@@ -65,7 +66,7 @@ const AddStepForm = (props: any) => {
     setCategory(value);
   };
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const handleFormSubmit = () => {
     if (stepName === "") {

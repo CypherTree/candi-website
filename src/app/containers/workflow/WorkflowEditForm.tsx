@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import AntSpinner from "../../components/spinner/AntSpinner";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 import EditWorkflowSteps from "./EditWorkflowSteps";
 
 const WorkflowEditForm = (props: any) => {
@@ -21,7 +22,7 @@ const WorkflowEditForm = (props: any) => {
 
   const [loading, setLoading] = useState(false);
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const { accessToken } = getCurrentSessionTokens();
 

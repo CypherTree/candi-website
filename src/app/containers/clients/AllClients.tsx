@@ -10,6 +10,7 @@ import ClientList from "./ClientList";
 import AddIcon from "@material-ui/icons/Add";
 import AddClientModal from "./AddClientModal";
 import { Link } from "react-router-dom";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Text } = Typography;
 
@@ -26,7 +27,7 @@ const AllClients = () => {
 
   const jwtToken = `Bearer ${accessToken}`;
 
-  const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const getAllClients = () => {
     axios

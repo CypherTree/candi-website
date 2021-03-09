@@ -6,7 +6,10 @@ import axios from "axios";
 
 import UploadLogo from "../../components/uploadLogo/UploadLogo";
 
-import { getTenantInfo } from "../../core/services/tenantinfo";
+import {
+  getOrgIdFromTenantName,
+  getTenantInfo,
+} from "../../core/services/tenantinfo";
 import AntSpinner from "../../components/spinner/AntSpinner";
 
 import { toast } from "react-toastify";
@@ -37,7 +40,7 @@ const CompanyDetailsPage = () => {
 
   const dispatch = useDispatch();
 
-  const organizationId = 55;
+  const organizationId = getOrgIdFromTenantName();
 
   const clearEverything = () => {
     setIsGSTVerified(false);
@@ -147,7 +150,7 @@ const CompanyDetailsPage = () => {
     console.log("Failed:", errorInfo);
   };
 
-  const handleFormSubmit = () => {
+  const handleFormSubmit = async () => {
     const putData = {
       gst: gstNumber,
       email,
@@ -166,7 +169,7 @@ const CompanyDetailsPage = () => {
     // const organisation_id = 12;
 
     dispatch(
-      AddCompanyDetailsToOrganization(putData, organizationId, setLoading)
+      AddCompanyDetailsToOrganization(putData, await organizationId, setLoading)
     );
   };
 
