@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Divider, Layout, Spin, Typography, message, Alert } from "antd";
+import { Divider, Layout, Spin, Typography, message } from "antd";
 import AddIcon from "@material-ui/icons/Add";
 
 import Axios from "axios";
@@ -104,7 +104,9 @@ const People = () => {
   };
 
   const handleAddInviteForm = () => {
-    setOpenInviteForm(true);
+    if (allowedInvites) {
+      setOpenInviteForm(true);
+    }
   };
 
   const handleCloseInviteForm = () => {
@@ -129,7 +131,7 @@ const People = () => {
       .then((response: any) => {
         const userQuote = response.data.data.plan.quotas.filter(
           (quota: { unit: string }) => {
-            return quota.unit == "users";
+            return quota.unit === "users";
           }
         );
         console.log("response from api --> ", response.data);
@@ -177,6 +179,7 @@ const People = () => {
     getSentInvites();
     getActivePlan();
     getAllClients();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -184,6 +187,7 @@ const People = () => {
       getSentInvites();
       setReloadRequired(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [reloadRequired]);
 
   if (loading) {
@@ -288,7 +292,7 @@ const People = () => {
           paddingRight: "20px",
         }}
       >
-        {invites.length == 0 && (
+        {invites.length === 0 && (
           <Title level={5}>
             You have not invited anyone yet. Invite to get started.
           </Title>

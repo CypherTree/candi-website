@@ -13,8 +13,8 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import CityInput from "../../../shared/customComponents/CityInput";
 import AntSpinner from "../../components/spinner/AntSpinner";
-import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
@@ -29,7 +29,7 @@ export enum COMPANY_SIZE_ENUM {
 }
 
 const AddClientModal = (props: any) => {
-  const tenant = getTenantInfo();
+  const tenant = "cyphertree";
 
   const { setShowModal, setShouldReload } = props;
 
@@ -39,6 +39,7 @@ const AddClientModal = (props: any) => {
   const [website, setWebsite] = useState("");
   const [about, setAbout] = useState("");
   const [city, setCity] = useState("");
+  const [otherCity, setOtherCity] = useState("");
   const [yearEstablished, setYearEstablished] = useState<number | undefined>();
   const [companySize, setCompanySize] = useState("");
 
@@ -61,7 +62,7 @@ const AddClientModal = (props: any) => {
         name,
         website,
         about,
-        city,
+        city: city === "Other" ? otherCity : city,
         company_size: companySize,
         year_established: `${yearEstablished}-01-01`,
       };
@@ -192,12 +193,27 @@ const AddClientModal = (props: any) => {
             label={city === "" ? "" : "City : "}
             rules={[{ required: true }]}
           >
-            <Input
+            {/* <Input
               value={city}
               onChange={(e: any) => setCity(e.target.value)}
               placeholder="City"
+            /> */}
+            <CityInput
+              city={city}
+              setCity={setCity}
+              placeholder="City"
+              style={{ width: "100%" }}
             />
           </Form.Item>
+          {city === "Other" && (
+            <Form.Item label={"City Name: "} rules={[{ required: true }]}>
+              <Input
+                value={otherCity}
+                onChange={(e: any) => setOtherCity(e.target.value)}
+                placeholder="City"
+              />
+            </Form.Item>
+          )}
           <Form.Item
             label={about === "" ? "" : "About the company: "}
             rules={[{ required: true }]}
