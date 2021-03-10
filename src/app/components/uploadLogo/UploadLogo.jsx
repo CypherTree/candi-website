@@ -17,6 +17,8 @@ import AddIcon from "@material-ui/icons/Add";
 import { Fab } from "@material-ui/core";
 import Layout from "antd/lib/layout/layout";
 
+import { getOrgIdFromTenantName } from "../../core/services/tenantinfo";
+
 const { Text } = Typography;
 
 const UploadLogo = ({ organisation_id, name, website, logo }) => {
@@ -71,10 +73,12 @@ const UploadLogo = ({ organisation_id, name, website, logo }) => {
     // const name = "name";
     // const website = "http://www.green.com.theonboarders.com";
 
+    const orgId = await getOrgIdFromTenantName();
+
     const data2 = await updateServerWithLogoUploadData(
       jwtToken,
       key,
-      organisation_id,
+      orgId,
       name,
       website
     );

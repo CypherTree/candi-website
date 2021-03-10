@@ -40,8 +40,6 @@ const CompanyDetailsPage = () => {
 
   const dispatch = useDispatch();
 
-  const organizationId = getOrgIdFromTenantName();
-
   const clearEverything = () => {
     setIsGSTVerified(false);
     setCountry("");
@@ -63,10 +61,15 @@ const CompanyDetailsPage = () => {
     }
   };
 
-  const fetchCompanyDetails = () => {
+  const organizationId = getOrgIdFromTenantName();
+
+  const fetchCompanyDetails = async () => {
     const accessToken = localStorage.getItem("accessToken");
     setLoading(true);
-    axios
+
+    const organizationId = await getOrgIdFromTenantName();
+
+    await axios
       .get(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
         {
@@ -167,9 +170,14 @@ const CompanyDetailsPage = () => {
     };
 
     // const organisation_id = 12;
+    const organizationId = await getOrgIdFromTenantName();
 
     dispatch(
-      AddCompanyDetailsToOrganization(putData, await organizationId, setLoading)
+      await AddCompanyDetailsToOrganization(
+        putData,
+        await organizationId,
+        setLoading
+      )
     );
   };
 
