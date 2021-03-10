@@ -11,9 +11,10 @@ const OrganizationItem = (props: any) => {
 
   console.log(" data in organisation item -->", props);
 
-  const tenantURL = `http://cyphertree.${process.env.REACT_APP_FRONTEND_BASE_DOMAIN}`;
-
   const { data, handleOpen, type } = props;
+
+  // TODO
+  const tenantURL = `http://${data.slug}.${process.env.REACT_APP_FRONTEND_BASE_DOMAIN}`;
 
   let progress: number = 20;
 
