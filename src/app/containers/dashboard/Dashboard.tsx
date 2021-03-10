@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 
-import { Col, Layout, Row, Spin, Typography } from "antd";
+import { Col, Layout, Row, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import { ThunkDispatch } from "redux-thunk";
 import { connect, useDispatch } from "react-redux";
 import { AnyAction } from "redux";
+
+import axios from "axios";
+import { toast } from "react-toastify";
 
 import * as H from "history";
 
@@ -13,21 +16,11 @@ import PrivacyPolicy from "../privacypolicy/PrivacyPolicy";
 import { StateType } from "../../core/redux/types";
 import { getTenantInfo } from "../../core/services/tenantinfo";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
-import axios, { AxiosError } from "axios";
-import { toast } from "react-toastify";
 
-import { LoadingOutlined } from "@ant-design/icons";
 import AccessDenied from "./AccessDenied";
 
-import TrialExpired from "./TrialExpired";
-
-import { LoginDispatchTypes } from "../../../auth/core/redux/types";
-import { GetNewToken, LogoutUser } from "../../../auth/core/redux/actions";
+import { LogoutUser } from "../../../auth/core/redux/actions";
 import { Redirect } from "react-router-dom";
-
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
-
-const { Text } = Typography;
 
 export type UserDataProps = {
   email: string;
@@ -81,18 +74,10 @@ const Dashboard: React.FC<Props> = ({ state }) => {
     }
   }, [userData]);
 
-  // useEffect(() => {
-  //   if (shouldReload) {
-  //     return <Redirect to="/dashboard"></Redirect>;
-  //   }
-  // }, [shouldReload]);
-
-  let orgData;
-
   const dispatch = useDispatch();
 
   const getOrgData = async () => {
-    const { accessToken, refreshToken } = getCurrentSessionTokens();
+    const { accessToken } = getCurrentSessionTokens();
     const jwtToken = `Bearer ${accessToken}`;
     const slug = getTenantInfo();
 
@@ -138,26 +123,8 @@ const Dashboard: React.FC<Props> = ({ state }) => {
       })
       .catch((err: any) => {
         console.log("--- erro", err.response);
-        if (err.response) {
-          if (err.response.status == 401) {
-            // setIsAccessDenied(true);
-            // toast.error("You dont have access to this resource.");
-            // setLoading(false);
-            // dispatch(LogoutUser());f (err.response && err.response.status === 401) {
-            // console.log("--- yes --- error is 401.", refreshToken);
-            // if (refreshToken) {
 
-            if (refreshToken) {
-              toast.error("calling refresh token");
-              console.log("+++ calleing for refresh token");
-              dispatch(GetNewToken(refreshToken, setShouldReload));
-            }
-            // }
-            // }
-          }
-        } else {
-          toast.error("Some other error occoured.");
-        }
+        toast.error("Error in fetching profile.");
       });
   };
 
