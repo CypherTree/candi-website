@@ -156,14 +156,27 @@ const InviteItem = (props: any) => {
               backgroundColor: "white",
             }}
           >
-            <div
-              style={{
-                backgroundColor: "#ff9999",
-                borderRadius: "50%",
-                width: "100px",
-                height: "100px",
-              }}
-            ></div>
+            {inviteData.inviting_organization &&
+            inviteData.inviting_organization.logo ? (
+              <img
+                style={{
+                  borderRadius: "50%",
+                  width: "100px",
+                  height: "100px",
+                }}
+                src={inviteData.inviting_organization.logo}
+                alt="organization logo"
+              ></img>
+            ) : (
+              <div
+                style={{
+                  backgroundColor: "#ff9999",
+                  borderRadius: "50%",
+                  width: "100px",
+                  height: "100px",
+                }}
+              ></div>
+            )}
           </Layout>
         </Col>
         <Col span={12} style={{ paddingLeft: "10px" }}>
