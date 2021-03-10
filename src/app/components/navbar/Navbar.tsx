@@ -263,7 +263,14 @@ function Navbar(props: any) {
           paddingRight: "20px",
         }}
       >
-        <Title style={{ color: "black" }} level={5}>
+        <Title
+          style={{
+            color: location.pathname.includes("/organisations")
+              ? "blue"
+              : "black",
+          }}
+          level={5}
+        >
           Organisations
         </Title>
       </Link>
@@ -274,7 +281,12 @@ function Navbar(props: any) {
           color: "white",
         }}
       >
-        <Title style={{ color: "black" }} level={5}>
+        <Title
+          style={{
+            color: location.pathname.includes("/invites") ? "blue" : "black",
+          }}
+          level={5}
+        >
           My Invitations
         </Title>
       </Link>
