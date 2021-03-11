@@ -187,7 +187,7 @@ function Navbar(props: any) {
           }}
           level={5}
         >
-          Your Clients
+          Clients
         </Title>
       </Link>
 
@@ -235,7 +235,7 @@ function Navbar(props: any) {
         }}
       >
         <Title style={{ color: "black" }} level={5}>
-          Your Clients
+          Clients
         </Title>
       </Link>
     </>

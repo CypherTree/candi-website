@@ -68,6 +68,9 @@ const ClientItem = (props: any) => {
                 whiteSpace: "nowrap",
                 overflow: "hidden",
                 textOverflow: "ellipsis",
+                padding: "0px",
+                margin: "0px",
+                textDecoration: "none",
               }}
             >
               {clientData.name}

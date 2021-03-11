@@ -87,8 +87,9 @@ const OrganizationItem = (props: any) => {
         // cursor: "pointer",
         width: "auto",
         // margin: "none",
-        margin: "20px",
+        // margin: "20px",
         overflow: "auto",
+        padding: "10px 0px 10px 0px",
         // backgroundColor: "orange",
       }}
     >
@@ -98,7 +99,7 @@ const OrganizationItem = (props: any) => {
           // padding: "none",
           // margin: "10px",
           borderRadius: "10px",
-          padding: "10px",
+          padding: "10px 0px 10px 0px",
         }}
       >
         <div
