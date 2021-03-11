@@ -8,6 +8,9 @@ import AddCustomWorkflow from "./AddCustomWorkflow";
 import WorkflowAlreadyAdded from "./WorkflowAlreadyAdded";
 import AddWorkflowForm from "./AddWorkflowForm";
 import { Layout, Spin } from "antd";
+import { getTenantInfo } from "../../core/services/tenantinfo";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import { toast } from "react-toastify";
 
 const AddWorkflow = (props: any) => {
   const accessToken = localStorage.getItem("accessToken");
@@ -65,6 +68,7 @@ const AddWorkflow = (props: any) => {
         name: workflowName,
         client_company: null,
         for_organization: true,
+        workflow_type: workflowType.key,
       },
       {
         headers: {
@@ -98,13 +102,14 @@ const AddWorkflow = (props: any) => {
     string | undefined
   >();
 
-  const [workflowType, setWorkflowType] = useState<string | undefined>();
+  const [workflowType, setWorkflowType] = useState<any>();
 
   const [selectionDone, setSelectionDone] = useState(false);
 
   const [workflowName, setWorkflowName] = useState("");
 
   const handleWorkflowTypeChange = (value: any) => {
+    console.log("------> value of workflow ");
     setWorkflowType(value);
   };
 
@@ -129,11 +134,13 @@ const AddWorkflow = (props: any) => {
     } else {
       let workflowTypeValue;
 
-      if (workflowType === "Default workflow") {
-        workflowTypeValue = 0;
-      } else if (workflowType === "Custom workflow") {
-        workflowTypeValue = 1;
-      }
+      workflowTypeValue = workflowType.key;
+
+      // if (workflowType === "Default workflow") {
+      //   workflowTypeValue = 0;
+      // } else if (workflowType === "Custom workflow") {
+      //   workflowTypeValue = 1;
+      // }
 
       setCurrentError("");
 
@@ -153,18 +160,65 @@ const AddWorkflow = (props: any) => {
 
     const jwtToken = `Bearer ${accessToken}`;
 
+    setLoading(true);
+
     Axios.put(
       `http://id.${process.env.REACT_APP_BASE_URL}/api/v1/organization/${org_id}/`,
-      data,
+      { workflow_added: 1 },
       {
         headers: {
           Authorization: `${jwtToken}`,
         },
       }
     )
-      .then((response) => console.log("data", response.data))
-      .catch((e) => console.log("err", e));
+      .then((response) => {
+        console.log("data", response.data);
+        setLoading(false);
+      })
+      .catch((e) => {
+        console.log("err", e);
+        setLoading(false);
+        toast.error("Workflow could not be added");
+      });
   };
+
+  const [workflowTypesList, setWorkflowTypesList] = useState<undefined | any>();
+
+  const getAllWorkflowTypes = async () => {
+    const { accessToken } = getCurrentSessionTokens();
+
+    const jwtToken = `Bearer ${accessToken}`;
+
+    const tenant = getTenantInfo();
+
+    console.log(
+      "props.state.app.currentOrganization",
+      props.state.app.currentOrganization
+    );
+
+    const data = props.state.app.currentOrganization;
+
+    await Axios.get(
+      `http://${data.slug}.${process.env.REACT_APP_BASE_URL}/api/v1/workflow/types/`,
+      {
+        headers: {
+          Authorization: `${jwtToken}`,
+        },
+      }
+    )
+      .then((response: any) => {
+        console.log("response from api --> ", response.data);
+        setWorkflowTypesList(response.data.data);
+      })
+      .catch((err: any) => {
+        console.log("Err", err);
+        toast.error("Some error occoured");
+      });
+  };
+
+  useEffect(() => {
+    getAllWorkflowTypes();
+  }, []);
 
   if (loading) {
     return (
@@ -207,6 +261,7 @@ const AddWorkflow = (props: any) => {
                 handleSkip={handleSkip}
                 handleSubmitForm={handleSubmitForm}
                 handleBack={handleBack}
+                workflowTypesList={workflowTypesList}
               />
             )}
           </>

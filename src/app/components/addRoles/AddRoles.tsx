@@ -152,7 +152,7 @@ const AddRoles = (props: any) => {
 
     Axios.put(
       `http://id.${process.env.REACT_APP_BASE_URL}/api/v1/organization/${org_id}/`,
-      data,
+      { roles_added: 1 },
       {
         headers: {
           Authorization: `${jwtToken}`,

@@ -225,7 +225,7 @@ const OrganizationItem = (props: any) => {
               {data.website}
             </p>
 
-            {progress === 100 ? (
+            {progress > 40 ? (
               <a href={tenantURL}>
                 <Button style={{ marginBottom: "10px" }}>Visit Tenant</Button>
               </a>

@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
 import {
   Button,
+  Card,
   Col,
   Form,
   Input,
@@ -11,6 +12,11 @@ import {
   Typography,
 } from "antd";
 import Title from "antd/lib/typography/Title";
+import axios from "axios";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
+import { getTenantInfo } from "../../core/services/tenantinfo";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 const { Option } = Select;
 
@@ -29,7 +35,9 @@ const AddWorkflowForm = (props: any) => {
     handleSkip,
     handleSubmitForm,
     handleBack,
+    workflowTypesList,
   } = props;
+
   return (
     <Layout
       style={{
@@ -73,18 +81,8 @@ const AddWorkflowForm = (props: any) => {
                           fontFamily: "helvetica",
                         }}
                       >
-                        Default Cyphertree
+                        For Self Organisation
                       </p>
-
-                      {/* <p
-                                style={{
-                                  wordWrap: "break-word",
-                                  fontSize: "14px",
-                                  whiteSpace: "initial",
-                                }}
-                              >
-                                random lorem
-                              </p> */}
                     </div>
                   </Option>
                 </Select>
@@ -93,44 +91,20 @@ const AddWorkflowForm = (props: any) => {
             <Col span={12}>
               <Form.Item>
                 <Select
+                  labelInValue
                   style={{ width: "300px" }}
                   onChange={handleWorkflowTypeChange}
-                  placeholder="Add Workflow"
+                  placeholder="Workflow Type"
                   disabled={!isDeleteAllowed}
                   value={workflowType}
                 >
-                  <Option value="Default workflow">
-                    <div
-                      style={{
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontWeight: "bold",
-                          fontFamily: "helvetica",
-                        }}
-                      >
-                        Choose Default Recruitment Template
-                      </p>
-
-                      <p
-                        style={{
-                          wordWrap: "break-word",
-                          fontSize: "14px",
-                          whiteSpace: "initial",
-                        }}
-                      >
-                        This template consists of screening, interview, basic
-                        recruitment flow.
-                      </p>
-                    </div>
-                  </Option>
-                  <Option value="Custom workflow">
-                    <div>
-                      <b> Add custom workflow</b>
-                    </div>
-                  </Option>
+                  {workflowTypesList &&
+                    workflowTypesList.length > 0 &&
+                    workflowTypesList.map((type: any) => (
+                      <Option value={type.id} key={type.id}>
+                        {type.name}
+                      </Option>
+                    ))}
                 </Select>
               </Form.Item>
             </Col>
@@ -158,6 +132,13 @@ const AddWorkflowForm = (props: any) => {
           </Row>
           {currentError && <Text type="danger">{currentError}</Text>}
         </Form>
+        <Card style={{ textAlign: "center" }}>
+          <p>You may add/modify your workflow in your organisation. </p>
+          <p>
+            To go to Organisation workflow <Link to="$">Click here</Link>{" "}
+          </p>
+        </Card>
+        ,
       </div>
 
       <div
