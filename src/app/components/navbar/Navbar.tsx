@@ -28,6 +28,8 @@ import {
 import axios from "axios";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
+import THEMECOLORS from "../../../shared/theme/themeColors";
+
 const { Header } = Layout;
 
 const { Text } = Typography;
@@ -183,7 +185,9 @@ function Navbar(props: any) {
       >
         <Title
           style={{
-            color: location.pathname.includes("/client") ? "blue" : "black",
+            color: location.pathname.includes("/client")
+              ? THEMECOLORS.selected
+              : "black",
           }}
           level={5}
         >
@@ -202,7 +206,9 @@ function Navbar(props: any) {
       >
         <Title
           style={{
-            color: location.pathname.includes("/people") ? "blue" : "black",
+            color: location.pathname.includes("/people")
+              ? THEMECOLORS.selected
+              : "black",
           }}
           level={5}
         >
@@ -266,7 +272,7 @@ function Navbar(props: any) {
         <Title
           style={{
             color: location.pathname.includes("/organisations")
-              ? "blue"
+              ? THEMECOLORS.selected
               : "black",
           }}
           level={5}
@@ -283,7 +289,9 @@ function Navbar(props: any) {
       >
         <Title
           style={{
-            color: location.pathname.includes("/invites") ? "blue" : "black",
+            color: location.pathname.includes("/invites")
+              ? THEMECOLORS.selected
+              : "black",
           }}
           level={5}
         >
