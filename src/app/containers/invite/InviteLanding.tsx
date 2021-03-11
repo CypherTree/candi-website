@@ -71,7 +71,7 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
     setLoading(true);
     setRejectTried(true);
     axios
-      .put(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/reject-invite/`, {
+      .patch(`${process.env.REACT_APP_SERVER_URL}/api/v1/user/reject-invite/`, {
         token,
       })
       .then((response) => {

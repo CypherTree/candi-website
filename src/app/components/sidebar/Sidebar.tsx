@@ -62,13 +62,11 @@ const Sidebar = (props: any) => {
       {" "}
       <Menu.Item key="2" icon={<DesktopOutlined />}>
         <Link to={isTrialExpired ? "#" : "/settings/workflow"}>
-          My Workflow{" "}
+          My Workflow
         </Link>
       </Menu.Item>
-      <Menu.Item key="2" icon={<DesktopOutlined />}>
-        <Link to={isTrialExpired ? "#" : "/settings/workflow"}>
-          Company Details{" "}
-        </Link>
+      <Menu.Item key="3" icon={<DesktopOutlined />}>
+        <Link to={isTrialExpired ? "#" : "/client/all"}>Company Details </Link>
       </Menu.Item>
     </>
   );
