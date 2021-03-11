@@ -86,15 +86,19 @@ const OrganizationItem = (props: any) => {
         border: "none",
         // cursor: "pointer",
         width: "auto",
-        padding: "none",
-        margin: "none",
+        // margin: "none",
+        margin: "20px",
+        overflow: "auto",
+        // backgroundColor: "orange",
       }}
     >
       <div
         style={{
-          backgroundColor: "#f8f8f8",
-          padding: "none",
-          margin: "none",
+          backgroundColor: "white",
+          // padding: "none",
+          // margin: "10px",
+          borderRadius: "10px",
+          padding: "10px",
         }}
       >
         <div
@@ -103,34 +107,55 @@ const OrganizationItem = (props: any) => {
             alignItems: "center",
             flexWrap: "wrap",
             justifyContent: "flex-start",
+            // backgroundColor: "blue",
           }}
         >
           <div
             style={{
               paddingLeft: "20px",
               paddingRight: "20px",
+              // backgroundColor: "yellowgreen",
             }}
           >
-            <Avatar
-              style={{
-                backgroundColor: "#F9650D",
-                fontSize: "40px",
-                width: "60px",
-                height: "60px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                verticalAlign: "middle",
-              }}
-            >
-              {data.slug.charAt(0).toUpperCase() || "A"}
-            </Avatar>
+            {data.logo ? (
+              <img
+                src={data.logo}
+                style={{
+                  // backgroundColor: "#F9650D",
+                  fontSize: "40px",
+                  width: "90px",
+                  height: "90px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  verticalAlign: "middle",
+                  borderRadius: "50%",
+                }}
+                alt="logo"
+              />
+            ) : (
+              <Avatar
+                style={{
+                  backgroundColor: "#F9650D",
+                  fontSize: "40px",
+                  width: "90px",
+                  height: "90px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  verticalAlign: "middle",
+                }}
+              >
+                {data.slug.charAt(0).toUpperCase() || "A"}
+              </Avatar>
+            )}
           </div>
           <div
             style={{
               paddingLeft: "10px ",
               textAlign: "left",
               lineHeight: "10px",
+              // backgroundColor: "yellow",
             }}
           >
             <span
@@ -138,7 +163,7 @@ const OrganizationItem = (props: any) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: "550px",
+                width: "450px",
                 // backgroundColor: "red",
               }}
             >
