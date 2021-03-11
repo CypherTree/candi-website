@@ -127,8 +127,15 @@ const RolesDetailsPage = (props: any) => {
       })
       .catch((e) => {
         console.log("err", e);
+
         setLoading(false);
-        toast.error("Some error occoured");
+        // {"message":"Role is in use. Cannot delete.","data":null}
+
+        if (e.response && e.response.data && e.response.data.message) {
+          toast.error("Role not deleted as it's already in use.");
+        } else {
+          toast.error("Role could not be deleted.");
+        }
       });
   };
 
