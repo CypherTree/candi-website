@@ -23,6 +23,7 @@ import {
   AddCompanyDetailsToOrganization,
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
+import WizardUploadLogo from "../workflow/WizardUploadLogo";
 
 const { Text } = Typography;
 
@@ -443,7 +444,7 @@ const CompanyDetails = (props: any) => {
             <Row gutter={8}>
               <Col span={12}>
                 <Form.Item>
-                  <UploadLogo
+                  <WizardUploadLogo
                     organisation_id={organisation_id}
                     name={name}
                     website={website}

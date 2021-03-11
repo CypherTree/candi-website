@@ -91,6 +91,10 @@ const CompanySettings = () => {
         }
 
         setMarkets(children);
+      })
+      .catch((err: any) => {
+        console.log("errors could not be get");
+        toast.error("Could not get markets dara.");
       });
   };
 
@@ -150,15 +154,32 @@ const CompanySettings = () => {
 
     const organizationId = await getOrgIdFromTenantName();
 
+    type DataToUpdate = {
+      about?: string;
+      company_size?: number;
+      markets?: any;
+      year_established?: any;
+    };
+
+    const dataToUpdate: DataToUpdate = {};
+
+    if (about) {
+      dataToUpdate.about = about;
+    }
+    if (companySize) {
+      dataToUpdate.company_size = companySize;
+    }
+    if (marketData) {
+      dataToUpdate.markets = marketData;
+    }
+    if (yearEstablished) {
+      dataToUpdate.year_established = `${yearEstablished}-01-01`;
+    }
+
     await axios
       .put(
         `${process.env.REACT_APP_SERVER_URL}/api/v1/organization/${organizationId}/`,
-        {
-          about,
-          year_established: `${yearEstablished}-01-01`,
-          company_size: companySize,
-          markets: marketData,
-        },
+        dataToUpdate,
         {
           headers: {
             Authorization: `${jwtToken}`,
@@ -174,6 +195,7 @@ const CompanySettings = () => {
       .catch((e) => {
         console.log("err", e);
         toast.error("Some error occoured.");
+        setLoading(false);
       });
   };
 
