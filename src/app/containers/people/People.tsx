@@ -185,6 +185,7 @@ const People = () => {
   useEffect(() => {
     if (reloadRequired) {
       getSentInvites();
+      getAllClients();
       setReloadRequired(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

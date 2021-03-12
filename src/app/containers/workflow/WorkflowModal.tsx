@@ -177,7 +177,7 @@ const WorkflowModal = (props: any) => {
           >
             <Select
               // style={styles}
-              placeholder="Is organization for self?"
+              placeholder="Is workflow for self?"
               value={forOrganization}
               onChange={handleForOrganizationChange}
             >

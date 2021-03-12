@@ -109,6 +109,7 @@ const WorkflowMain = () => {
       setWorkflowList([]);
       getAllWorkflows();
       setShouldReload(false);
+      getAllClients();
     }
   }, [shouldReload]);
 
