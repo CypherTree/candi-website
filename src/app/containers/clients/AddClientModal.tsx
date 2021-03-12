@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 import CityInput from "../../../shared/customComponents/CityInput";
 import AntSpinner from "../../components/spinner/AntSpinner";
+import { getTenantInfo } from "../../core/services/tenantinfo";
 
 const { Option } = Select;
 
@@ -29,7 +30,8 @@ export enum COMPANY_SIZE_ENUM {
 }
 
 const AddClientModal = (props: any) => {
-  const tenant = "cyphertree";
+  // const tenant = "cyphertree";
+  const tenant = getTenantInfo();
 
   const { setShowModal, setShouldReload } = props;
 
@@ -85,10 +87,18 @@ const AddClientModal = (props: any) => {
 
   const jwtToken = `Bearer ${accessToken}`;
 
-  const addANewClient = (values: any) => {
+  const addANewClient = async (values: any) => {
     console.log("value ---->", values);
+
+    // const { accessToken } = await getCurrentSessionTokens();
+
+    const accessToken = localStorage.getItem("accessToken");
+
+    const jwtToken = `Bearer ${accessToken}`;
+
     setLoading(true);
-    axios
+
+    await axios
       .post(
         `http://${tenant}.${process.env.REACT_APP_BASE_URL}/api/v1/clients/`,
         values,
