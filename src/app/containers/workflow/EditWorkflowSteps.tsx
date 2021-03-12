@@ -170,10 +170,10 @@ const EditWorkflowSteps = (props: any) => {
     updateStepsOrderAPI();
   }, [state]);
 
-  //   useEffect(() => {
-  //     getStepsAPI();
-  //     setDataReload(false);
-  //   }, [dataReload]);
+  useEffect(() => {
+    getStepsAPI();
+    setDataReload(false);
+  }, [dataReload]);
 
   useEffect(() => {
     console.log("<---- scroll thing was called--->", isAddStepFormOpen);
@@ -189,7 +189,7 @@ const EditWorkflowSteps = (props: any) => {
         alignItems: "center",
         display: "flex",
         backgroundColor: "#fff",
-        width: "100%",
+        width: "95%",
       }}
     >
       <div
@@ -219,9 +219,11 @@ const EditWorkflowSteps = (props: any) => {
 
         <br />
         <div
-          style={{
-            paddingLeft: "250px",
-          }}
+          style={
+            {
+              // paddingLeft: "250px",
+            }
+          }
         >
           <Button onClick={handleAddNewStep}>Add new Step</Button>
         </div>

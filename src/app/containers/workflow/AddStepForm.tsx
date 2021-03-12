@@ -175,7 +175,7 @@ const AddStepForm = (props: any) => {
 
   useEffect(() => {
     getStepCategories();
-    if (selectedStep.category && selectedStep.category.id) {
+    if (selectedStep && selectedStep.category && selectedStep.category.id) {
       setCategory({
         key: selectedStep.category.id,
         value: selectedStep.category.id,
@@ -291,7 +291,7 @@ const AddStepForm = (props: any) => {
           </Col>
         </Row>
 
-        <Row gutter={8}>
+        <Row gutter={8} style={{ paddingTop: "10px" }}>
           <Col span={12}>
             <Form.Item
               label={category ? "Select step category: " : ""}
