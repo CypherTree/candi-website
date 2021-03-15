@@ -160,11 +160,15 @@ function Navbar(props: any) {
     return result;
   };
 
+  const redirectHomeUrl = `http://${process.env.REACT_APP_FRONTEND_HOME_URL}`;
+
   const menu = (
     <Menu>
       <Menu.Item>
-        <a href="http://id.candi.local:3000">Profile</a>
+        <a href={redirectHomeUrl}>Home</a>
       </Menu.Item>
+      <Menu.Item>Profile</Menu.Item>
+
       <Menu.Item>My account</Menu.Item>
       <Menu.Item danger onClick={handleLogout}>
         Logout
