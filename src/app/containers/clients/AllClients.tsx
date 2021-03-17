@@ -145,7 +145,7 @@ const AllClients = () => {
                   padding: "0",
                 }}
               >
-                Clients
+                CLIENTS
               </p>
 
               <div
