@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Layout, Button, Row, Col, Tag } from "antd";
+import { Typography, Layout, Button, Row, Col, Tag, Avatar } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import axios from "axios";
@@ -48,14 +48,20 @@ const ClientItem = (props: any) => {
                 style={{ borderRadius: "50%", width: "100px", height: "100px" }}
               ></img>
             ) : (
-              <div
+              <Avatar
                 style={{
-                  backgroundColor: "#ff9999",
-                  borderRadius: "50%",
-                  width: "100px",
-                  height: "100px",
+                  backgroundColor: "#F9650D",
+                  fontSize: "40px",
+                  width: "90px",
+                  height: "90px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  verticalAlign: "middle",
                 }}
-              ></div>
+              >
+                {clientData.name.charAt(0).toUpperCase() || "A"}
+              </Avatar>
             )}
           </Layout>
         </Col>

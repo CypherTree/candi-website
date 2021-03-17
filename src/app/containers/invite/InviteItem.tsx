@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { Typography, Layout, Button, Row, Col } from "antd";
+import { Typography, Layout, Button, Row, Col, Avatar } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import axios from "axios";
@@ -168,14 +168,20 @@ const InviteItem = (props: any) => {
                 alt="organization logo"
               ></img>
             ) : (
-              <div
+              <Avatar
                 style={{
-                  backgroundColor: "#ff9999",
-                  borderRadius: "50%",
-                  width: "100px",
-                  height: "100px",
+                  backgroundColor: "#F9650D",
+                  fontSize: "40px",
+                  width: "90px",
+                  height: "90px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  verticalAlign: "middle",
                 }}
-              ></div>
+              >
+                {inviteData.organization_name.charAt(0).toUpperCase() || "A"}
+              </Avatar>
             )}
           </Layout>
         </Col>
