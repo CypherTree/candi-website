@@ -23,6 +23,8 @@ const { Option } = Select;
 const { Text } = Typography;
 
 const AddWorkflowForm = (props: any) => {
+  console.log("props", props);
+
   const {
     workflowType,
     handleWorkflowTypeChange,
@@ -36,7 +38,12 @@ const AddWorkflowForm = (props: any) => {
     handleSubmitForm,
     handleBack,
     workflowTypesList,
+    state,
   } = props;
+
+  const linkToTenant = props.state.app.currentOrganization.slug
+    ? `http://${props.state.app.currentOrganization.slug}.${process.env.REACT_APP_FRONTEND_BASE_DOMAIN}`
+    : `http://${props.state.app.slug}.${process.env.REACT_APP_FRONTEND_BASE_DOMAIN}`;
 
   return (
     <Layout
@@ -135,7 +142,8 @@ const AddWorkflowForm = (props: any) => {
         <Card style={{ textAlign: "center" }}>
           <p>You may add/modify your workflow in your organisation. </p>
           <p>
-            To go to Organisation workflow <Link to="$">Click here</Link>{" "}
+            To go to Organisation workflow{" "}
+            <a href={linkToTenant}>Click here </a>
           </p>
         </Card>
         ,

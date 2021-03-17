@@ -23,6 +23,7 @@ const AddWorkflow = (props: any) => {
     handleCancelModal,
     loading,
     setLoading,
+    state,
   } = props;
 
   const [workflowAlreadyAdded, setWorkflowAlreadyAdded] = useState(false);
@@ -262,6 +263,7 @@ const AddWorkflow = (props: any) => {
                 handleSubmitForm={handleSubmitForm}
                 handleBack={handleBack}
                 workflowTypesList={workflowTypesList}
+                state={state}
               />
             )}
           </>
