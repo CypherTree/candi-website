@@ -7,6 +7,7 @@ import {
   InputNumber,
   Row,
   Select,
+  Typography,
 } from "antd";
 import Title from "antd/lib/typography/Title";
 import axios from "axios";
@@ -17,6 +18,8 @@ import { getTenantInfo } from "../../core/services/tenantinfo";
 import UploadClientLogo from "./UploadClientLogo";
 
 const { Option } = Select;
+
+const { Text } = Typography;
 
 export enum COMPANY_SIZE_ENUM {
   BETWEEN_1_TO_10 = 0,
@@ -56,6 +59,7 @@ const EditClientForm = (props: any) => {
   const [logo, setLogo] = useState("");
   const [selectedMarkets, setSelectedMarkets] = useState<any>();
   const [isGSTVerified, setIsGSTVerified] = useState(false);
+  const [currentError, setCurrentError] = useState("");
 
   const [isCreated, setIsCreated] = useState(false);
 
@@ -67,32 +71,39 @@ const EditClientForm = (props: any) => {
     setCompanySize("");
   };
 
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regex = new RegExp(emailRegex);
+
   const onOk = async () => {
     const marketsData: { market: number }[] = [];
     await selectedMarkets.map((item: number) => {
       marketsData.push({ market: item });
     });
 
-    const private_data = {
-      billing_address: billingAddress,
-      billing_email: billingEmail,
-      gst: isGSTVerified ? gst : "",
-    };
+    if (billingEmail.match(regex)) {
+      const private_data = {
+        billing_address: billingAddress,
+        billing_email: billingEmail,
+        gst: isGSTVerified ? gst : "",
+      };
 
-    const putObject = {
-      name,
-      website,
-      about,
-      city,
-      state,
-      country,
-      pincode,
-      company_size: companySize,
-      year_established: `${yearEstablished}-01-01`,
-      markets: marketsData,
-      private_data,
-    };
-    await updateClientDetails(putObject);
+      const putObject = {
+        name,
+        website,
+        about,
+        city,
+        state,
+        country,
+        pincode,
+        company_size: companySize,
+        year_established: `${yearEstablished}-01-01`,
+        markets: marketsData,
+        private_data,
+      };
+      await updateClientDetails(putObject);
+    } else {
+      setCurrentError("Email is not valid");
+    }
   };
 
   const updateClientDetails = (values: any) => {
@@ -483,12 +494,18 @@ const EditClientForm = (props: any) => {
               </Button>
             </Form.Item>
           </Col>
+
           <Col span={12}>
             <Form.Item label={"Billing Email : "} rules={[{ required: true }]}>
               <Input
                 value={billingEmail}
-                onChange={(e: any) => setBillingEmail(e.target.value)}
+                onChange={(e: any) => {
+                  setBillingEmail(e.target.value);
+
+                  setCurrentError("");
+                }}
               />
+              {currentError && <Text type="danger">{currentError}</Text>}
             </Form.Item>
           </Col>
         </Row>
