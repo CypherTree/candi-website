@@ -2,6 +2,7 @@ import { Form, Input, Layout, Modal, Select, Spin } from "antd";
 import Title from "antd/lib/typography/Title";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
@@ -195,21 +196,28 @@ const WorkflowModal = (props: any) => {
               label={clientCompany ? "Select client company: " : ""}
               rules={[{ required: true }]}
             >
-              <Select
-                // style={styles}
-                labelInValue
-                placeholder="Client Company"
-                value={clientCompany}
-                onChange={(e) => handleClientCompanyChange(e)}
-              >
-                {clientList &&
-                  clientList.length > 0 &&
-                  clientList.map((client: any) => (
-                    <Option value={client.id} key={client.id}>
-                      {client.name}
-                    </Option>
-                  ))}
-              </Select>
+              {clientList && clientList.length > 0 ? (
+                <Select
+                  // style={styles}
+                  labelInValue
+                  placeholder="Client Company"
+                  value={clientCompany}
+                  onChange={(e) => handleClientCompanyChange(e)}
+                >
+                  {clientList &&
+                    clientList.length > 0 &&
+                    clientList.map((client: any) => (
+                      <Option value={client.id} key={client.id}>
+                        {client.name}
+                      </Option>
+                    ))}
+                </Select>
+              ) : (
+                <p>
+                  You have not added any clients.{" "}
+                  <Link to="/client/all">Click here</Link> to add now.
+                </p>
+              )}
             </Form.Item>
           )}
 
