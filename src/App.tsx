@@ -36,9 +36,8 @@ axios.interceptors.response.use(
       }
     }
     if (err.response.status === 403) {
-      toast.error("refresh token expired. Logging out.");
-      localStorage.clear();
-      window.location.href = "/login";
+      toast.error("You do not have permissions to perform this action.");
+      return;
     }
     throw err;
   }

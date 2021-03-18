@@ -161,9 +161,9 @@ const InviteItem = (props: any) => {
               <img
                 style={{
                   borderRadius: "50%",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "cover",
+                  width: "100px",
+                  height: "100px",
+                  // objectFit: "cover",
                 }}
                 src={inviteData.inviting_organization.logo}
                 alt="organization logo"

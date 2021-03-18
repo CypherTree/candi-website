@@ -146,10 +146,19 @@ const OrganizationList = (props: any) => {
             style={{
               display: "flex",
               flexDirection: "column",
+              // backgroundColor: "yellow",
             }}
           >
             {data.map((organization) => (
-              <Col span={12} style={{ paddingTop: "15px" }}>
+              <Col
+                // span={12}
+                md={{ span: 24 }}
+                lg={{ span: 12 }}
+                style={{
+                  paddingTop: "15px",
+                  // backgroundColor: "green"
+                }}
+              >
                 <OrganizationItem
                   data={organization.organization}
                   handleOpen={handleOpen}
