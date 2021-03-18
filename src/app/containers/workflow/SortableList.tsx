@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button } from "antd";
+import { Button, Tag } from "antd";
 
 import { ReactSortable } from "react-sortablejs";
 import { toast } from "react-toastify";
@@ -87,7 +87,8 @@ const SortableList = (props: any) => {
                 <p>
                   <b>{item.name}</b>
                 </p>
-                <p>{item.description}</p>
+                <Tag>{item.category.name}</Tag>
+                <p style={{ paddingTop: "10px" }}>{item.description}</p>
               </div>
               <Button onClick={() => handleEdit(item)}>Edit</Button>
             </div>
