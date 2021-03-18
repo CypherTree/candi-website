@@ -115,6 +115,7 @@ const Routes = (props: any) => {
         <Layout
           style={{
             marginLeft: returnMargin(),
+            backgroundColor: "#f0f2f5",
           }}
         >
           {accessToken && <Navbar />}
