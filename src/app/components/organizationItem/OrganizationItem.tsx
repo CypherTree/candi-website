@@ -131,6 +131,7 @@ const OrganizationItem = (props: any) => {
                   justifyContent: "center",
                   verticalAlign: "middle",
                   borderRadius: "50%",
+                  objectFit: "cover",
                 }}
                 alt="logo"
               />

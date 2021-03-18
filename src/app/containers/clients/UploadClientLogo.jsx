@@ -76,9 +76,11 @@ const UploadClientLogo = ({ id, tenant, logo }) => {
 
     console.log("data 2 --> ", data2);
 
-    setLogoUrl(data2.data.logo);
-    setLogoUploadDone(true);
-    toast.success("Logo was uploaded successfully.");
+    if (data2.data && data2.data.logo) {
+      setLogoUrl(data2.data.logo);
+      setLogoUploadDone(true);
+      toast.success("Logo was uploaded successfully.");
+    }
   };
 
   const [selectedFile, setSelectedFile] = useState("");
@@ -116,10 +118,11 @@ const UploadClientLogo = ({ id, tenant, logo }) => {
               <img
                 src={imageSrc ? imageSrc : logo}
                 style={{
-                  height: "90px",
-                  width: "90px",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
                   objectFit: "cover",
                 }}
+                alt="logo"
               />
             ) : (
               <>

@@ -45,7 +45,12 @@ const ClientItem = (props: any) => {
               <img
                 src={clientData.logo}
                 alt="company logo"
-                style={{ borderRadius: "50%", width: "100px", height: "100px" }}
+                style={{
+                  borderRadius: "50%",
+                  maxWidth: "100%",
+                  maxHeight: "100%",
+                  objectFit: "cover",
+                }}
               ></img>
             ) : (
               <Avatar
