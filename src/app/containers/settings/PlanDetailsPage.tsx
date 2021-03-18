@@ -11,6 +11,8 @@ import {
 
 import { getCurrentPlan, plansData } from "../../core/services/plans";
 import AntSpinner from "../../components/spinner/AntSpinner";
+import axios from "axios";
+import { getCurrentSessionTokens } from "../../../auth/core/services/session";
 
 const PlanDetailsPage = () => {
   const [loading, setLoading] = useState(true);
@@ -19,11 +21,33 @@ const PlanDetailsPage = () => {
   const getAndSetPlanDetails = async () => {
     const organizationId = await getOrgIdFromTenantName();
 
-    const currentPlan = await getCurrentPlan(organizationId, setLoading);
+    const { accessToken } = getCurrentSessionTokens();
 
-    console.log("current plan --->", currentPlan);
+    const jwtToken = `Bearer ${accessToken}`;
 
-    // if (currentPlan.hasOwnProperty("period_type")) {
+    axios
+      .get(
+        `${process.env.REACT_APP_SERVER_URL}/api/v1/plans/organization/?organization_id=${organizationId}`,
+        {
+          headers: {
+            Authorization: `${jwtToken}`,
+          },
+        }
+      )
+      .then((response: any) => {
+        console.log("Current plan details from api ----->", response.data);
+        setLoading(false);
+        setSelectedPlan({
+          period_type: 2,
+          plan_id: response.data.data.plan.id,
+        });
+        // setIsSubmitted(true);
+      })
+      .catch((err: any) => {});
+
+    // console.log("current plan --->", currentPlan);
+    //
+    // if (currentPlan && currentPlan.hasOwnProperty("period_type")) {
     //   setSelectedPlan(currentPlan);
     // }
   };
@@ -36,9 +60,9 @@ const PlanDetailsPage = () => {
     console.log("tenant -->", ten);
   }, []);
 
-  const [selectedPlan, setSelectedPlan] = React.useState({
-    period_type: 1,
-    plan_id: 1,
+  const [selectedPlan, setSelectedPlan] = useState({
+    period_type: 0,
+    plan_id: 0,
   });
 
   const handlePricePeriod = (newPricePeriod: React.SetStateAction<string>) => {
