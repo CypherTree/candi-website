@@ -47,9 +47,10 @@ const ClientItem = (props: any) => {
                 alt="company logo"
                 style={{
                   borderRadius: "50%",
-                  maxWidth: "100%",
-                  maxHeight: "100%",
-                  objectFit: "cover",
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "contain",
+                  backgroundColor: "#c1c1c1",
                 }}
               ></img>
             ) : (
