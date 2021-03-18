@@ -164,7 +164,7 @@ const WorkflowMain = () => {
                   padding: "0",
                 }}
               >
-                All Workflows
+                ALL WORKFLOWS
               </p>
 
               <div

@@ -243,7 +243,7 @@ const AddRoles = (props: any) => {
               paddingLeft: "200px",
             }}
           >
-            Add Roles to Organization
+            ADD ROLES TO ORGANISATION
           </Title>
           <br />
           <div>

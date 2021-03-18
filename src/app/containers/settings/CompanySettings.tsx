@@ -226,7 +226,7 @@ const CompanySettings = () => {
               width: "auto",
             }}
           >
-            Company details
+            ABOUT US
           </Title>
 
           <br />
@@ -329,7 +329,14 @@ const CompanySettings = () => {
 
             <Row gutter={8}>
               <Col span={12}>
-                <Form.Item style={styles}>
+                <Form.Item
+                  style={styles}
+                  label={
+                    selectedMarkets && selectedMarkets.length > 0
+                      ? "Markets:"
+                      : ""
+                  }
+                >
                   <Select
                     mode="multiple"
                     allowClear

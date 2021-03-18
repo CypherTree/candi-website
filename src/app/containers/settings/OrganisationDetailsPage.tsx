@@ -98,7 +98,7 @@ const OrganisationDetailsPage = () => {
                   paddingBottom: "20px",
                 }}
               >
-                Organisation Details
+                ORGANISATION DETAILS
               </Title>
 
               <Form.Item

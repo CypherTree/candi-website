@@ -101,7 +101,7 @@ const PlanDetailsPage = () => {
                   paddingBottom: "20px",
                 }}
               >
-                Organisation Plan
+                ORGANISATION PLAN
               </Title>
 
               {/* <Title

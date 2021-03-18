@@ -209,7 +209,7 @@ const CompanyDetailsPage = () => {
               width: "auto",
             }}
           >
-            Company details
+            COMPANY DETAILS
           </Title>
 
           <br />
@@ -340,7 +340,7 @@ const CompanyDetailsPage = () => {
                 width: "auto",
               }}
             >
-              Billing details
+              BILLING DETAILS
             </Title>
 
             <Row gutter={8}>
