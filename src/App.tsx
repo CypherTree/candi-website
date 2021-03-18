@@ -28,17 +28,31 @@ axios.interceptors.response.use(
     if (err.response.status === 401) {
       console.log("calling refresh token");
 
-      const { refreshToken } = getCurrentSessionTokens();
+      console.log("error data ", err.response.data.detail);
 
-      if (refreshToken) {
-        console.log("requested refresh token ", refreshToken);
-        getNewAccessToken(refreshToken);
+      if (
+        err.response &&
+        err.response.data &&
+        err.response.data.detail === "User has not accepted the privacy policy."
+      ) {
+      } else {
+        const { refreshToken } = getCurrentSessionTokens();
+        if (refreshToken) {
+          console.log("requested refresh token ", refreshToken);
+          getNewAccessToken(refreshToken);
+        }
       }
     }
+
     if (err.response.status === 403) {
       toast.error("You do not have permissions to perform this action.");
       return;
     }
+
+    if (err.response.status === 406) {
+      toast.error("You have not accepted privacy policy.");
+    }
+
     throw err;
   }
 );
