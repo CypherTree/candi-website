@@ -54,18 +54,19 @@ const InviteItem = (props: any) => {
   );
 
   const ActionsForOthers = (
-    <Row>
-      <Layout
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          paddingTop: "10px",
-          backgroundColor: "white",
-        }}
-      >
-        <Button type="primary">View Details</Button>
-      </Layout>
-    </Row>
+    <></>
+    // <Row>
+    //   <Layout
+    //     style={{
+    //       display: "flex",
+    //       flexDirection: "row",
+    //       paddingTop: "10px",
+    //       backgroundColor: "white",
+    //     }}
+    //   >
+    //     <Button type="primary">View Details</Button>
+    //   </Layout>
+    // </Row>
   );
 
   useEffect(() => {
