@@ -13,7 +13,23 @@ const { Text } = Typography;
 const AddRoles = (props: any) => {
   const { slug: tenant, id: org_id } = props.state.app.currentOrganization;
 
-  const availableList = ["cyphertree", "cocacola", "thor", "pepsi", "zoom"];
+  const availableList = [
+    "cyphertree",
+    "cocacola",
+    "thor",
+    "pepsi",
+    "zoom",
+    "plant",
+    "fruit",
+    "apple",
+    "mango",
+    "onion",
+    "tomato",
+    "ginger",
+    "pencil",
+    "eraser",
+    "sharpner",
+  ];
 
   // const tenant = slug;
 
