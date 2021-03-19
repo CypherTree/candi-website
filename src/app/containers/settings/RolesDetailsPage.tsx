@@ -234,7 +234,8 @@ const RolesDetailsPage = (props: any) => {
           margin: "30px",
           borderRadius: "30px",
           backgroundColor: "#fff",
-          width: "1200px",
+          maxWidth: "1200px",
+          justifyContent: "center",
         }}
       >
         <Layout
@@ -244,13 +245,15 @@ const RolesDetailsPage = (props: any) => {
             justifyContent: "center",
             alignContent: "center",
             alignItems: "center",
-            width: "800px",
+            // width: "800px",
           }}
         >
           <div
-            style={{
-              paddingLeft: "200px",
-            }}
+            style={
+              {
+                // paddingLeft: "200px",
+              }
+            }
           >
             <Title
               level={4}
@@ -260,7 +263,7 @@ const RolesDetailsPage = (props: any) => {
                 paddingLeft: "200px",
               }}
             >
-              Add Roles to Organization
+              ADD ROLES TO ORGANISATION
             </Title>
             <br />
             <div
