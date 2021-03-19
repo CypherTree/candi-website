@@ -1,4 +1,4 @@
-import { Layout, Spin } from "antd";
+import { Col, Layout, Row, Spin } from "antd";
 import React, { useState, useEffect } from "react";
 
 import AddIcon from "@material-ui/icons/Add";
@@ -134,79 +134,89 @@ const WorkflowMain = () => {
     );
   } else {
     return (
-      <Layout>
-        <div
-          style={{
-            alignItems: "left",
-            textAlign: "left",
-            paddingLeft: "150px",
-            paddingTop: "20px",
-            paddingBottom: "20px",
-          }}
-        >
-          <br />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              width: "300px",
-              textAlign: "center",
-            }}
-          >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <p
-                style={{
-                  fontSize: "26px",
-                  fontWeight: "bold",
-                  color: "#696969	",
-                  width: "auto",
-                  margin: "10px 20px 5px 0 ",
-                  padding: "0",
-                }}
-              >
-                ALL WORKFLOWS
-              </p>
-
+      <Layout
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          // justifyContent: "center",
+        }}
+      >
+        <Row>
+          <Col>
+            <div
+              style={{
+                alignItems: "left",
+                textAlign: "left",
+                paddingLeft: "150px",
+                paddingTop: "20px",
+                paddingBottom: "20px",
+              }}
+            >
+              <br />
               <div
                 style={{
-                  borderRadius: "14px",
-                  backgroundColor: "#F9650D",
-                  margin: "0px",
                   display: "flex",
-                  marginTop: "18px",
-                  height: "22px",
-                  width: "22px",
+                  flexDirection: "row",
+                  width: "300px",
                   textAlign: "center",
-                  justifyContent: "center",
                 }}
               >
-                <AddIcon
-                  onClick={handleOpen}
-                  style={{
-                    alignSelf: "center",
-                    height: "19px",
-                    width: "19px",
-                    color: "white",
-                  }}
-                />
+                <div style={{ display: "flex", flexDirection: "row" }}>
+                  <p
+                    style={{
+                      fontSize: "26px",
+                      fontWeight: "bold",
+                      color: "#696969	",
+                      width: "auto",
+                      margin: "10px 20px 5px 0 ",
+                      padding: "0",
+                    }}
+                  >
+                    ALL WORKFLOWS
+                  </p>
+
+                  <div
+                    style={{
+                      borderRadius: "14px",
+                      backgroundColor: "#F9650D",
+                      margin: "0px",
+                      display: "flex",
+                      marginTop: "18px",
+                      height: "22px",
+                      width: "22px",
+                      textAlign: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <AddIcon
+                      onClick={handleOpen}
+                      style={{
+                        alignSelf: "center",
+                        height: "19px",
+                        width: "19px",
+                        color: "white",
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
+              {workflowList && workflowList?.length > 0 ? (
+                <WorkflowList
+                  // loading={loading}
+                  setLoading={setLoading}
+                  workflowList={workflowList}
+                  setShouldReload={setShouldReload}
+                  getAllWorkflows={getAllWorkflows}
+                  workflowTypesList={workflowTypesList}
+                  clientList={clientList}
+                />
+              ) : (
+                // <Text>You got some clients bob.</Text>
+                <Title level={3}>You have no workflows</Title>
+              )}
             </div>
-          </div>
-          {workflowList && workflowList?.length > 0 ? (
-            <WorkflowList
-              // loading={loading}
-              setLoading={setLoading}
-              workflowList={workflowList}
-              setShouldReload={setShouldReload}
-              getAllWorkflows={getAllWorkflows}
-              workflowTypesList={workflowTypesList}
-              clientList={clientList}
-            />
-          ) : (
-            // <Text>You got some clients bob.</Text>
-            <Title level={3}>You have no workflows</Title>
-          )}
-        </div>
+          </Col>
+        </Row>
 
         {showModal && (
           <WorkflowModal

@@ -131,6 +131,7 @@ const WorkflowPage = () => {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [isAddStepFormOpen]);
+
   return (
     <Layout
       style={{
@@ -138,14 +139,14 @@ const WorkflowPage = () => {
         alignItems: "center",
         display: "flex",
         backgroundColor: "#fff",
-        width: "80vw",
+        width: "90vw",
       }}
     >
       <div
         style={{
           overflowY: "scroll",
           width: "80vw",
-          paddingLeft: "150px",
+          // paddingLeft: "150px",
         }}
       >
         <Title
@@ -174,9 +175,11 @@ const WorkflowPage = () => {
 
         <br />
         <div
-          style={{
-            paddingLeft: "250px",
-          }}
+          style={
+            {
+              // paddingLeft: "250px",
+            }
+          }
         >
           <Button onClick={handleAddNewStep}>Add new Step</Button>
         </div>

@@ -11,13 +11,24 @@ import WorkflowEditForm from "./WorkflowEditForm";
 
 const WorkflowEditPage = (props: any) => {
   return (
-    <Layout>
+    <Layout
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        alignItems: "center",
+        alignContent: "center",
+        // backgroundColor: "yellow",
+      }}
+    >
       <div
         style={{
           alignItems: "left",
           textAlign: "left",
-          paddingLeft: "150px",
+          // paddingLeft: "150px",
           paddingTop: "20px",
+          // backgroundColor: "blue",
+          width: "80vw",
         }}
       >
         <br />
@@ -40,7 +51,7 @@ const WorkflowEditPage = (props: any) => {
                 padding: "0",
               }}
             >
-              Edit Workflow
+              EDIT WORKFLOW
             </p>
           </div>
         </div>
@@ -52,8 +63,8 @@ const WorkflowEditPage = (props: any) => {
             backgroundColor: "white",
             marginTop: "30px",
             marginBottom: "30px",
-            padding: "40px",
-            width: "1000px",
+            padding: "20px",
+            maxWidth: "1200px",
             borderRadius: "10px",
           }}
         >

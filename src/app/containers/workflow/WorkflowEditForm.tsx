@@ -107,46 +107,58 @@ const WorkflowEditForm = (props: any) => {
 
   return (
     <>
-      <Form
-        name="add-a-new-client"
-        // onFinish={onFinish}
-        {...layout}
-        style={{ width: "1000px" }}
-      >
-        <Form.Item
-          label="Workflow name: "
-          rules={[{ required: true }]}
-          style={{ marginRight: "20px" }}
-        >
-          <Input
-            value={workflowName}
-            onChange={(e: any) => setWorkflowName(e.target.value)}
-            style={{ width: "300px" }}
-            maxLength={50}
-          />
-        </Form.Item>
+      <Row>
+        <Col xs={24} sm={24} md={24}>
+          <Form
+            name="add-a-new-client"
+            // onFinish={onFinish}
+            // {...layout}
+            style={{
+              maxWidth: "1200px",
+              // backgroundColor: "red",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              // textAlign: "center",
+              alignItems: "center",
+            }}
+          >
+            <Form.Item
+              label="Workflow name: "
+              rules={[{ required: true }]}
+              style={{ marginRight: "20px" }}
+            >
+              <Input
+                value={workflowName}
+                onChange={(e: any) => setWorkflowName(e.target.value)}
+                style={{ width: "300px" }}
+                maxLength={50}
+              />
+            </Form.Item>
 
-        <Form.Item
-          label="Description: "
-          rules={[{ required: true }]}
-          style={{ marginRight: "20px" }}
-        >
-          <Input.TextArea
-            value={description}
-            onChange={(e: any) => setDescription(e.target.value)}
-            style={{ width: "300px" }}
-            maxLength={200}
-          />
-        </Form.Item>
+            <Form.Item
+              label="Description: "
+              rules={[{ required: true }]}
+              style={{ marginRight: "20px" }}
+            >
+              <Input.TextArea
+                value={description}
+                onChange={(e: any) => setDescription(e.target.value)}
+                style={{ width: "300px" }}
+                maxLength={200}
+              />
+            </Form.Item>
 
-        <Form.Item {...tailLayout}>
-          <Button type="primary" onClick={() => onOk()}>
-            Update
-          </Button>
-        </Form.Item>
-        <Divider />
-        <EditWorkflowSteps workflowData={workflowData} />
-      </Form>
+            <Form.Item {...tailLayout}>
+              <Button type="primary" onClick={() => onOk()}>
+                Update
+              </Button>
+            </Form.Item>
+            <Divider />
+            <EditWorkflowSteps workflowData={workflowData} />
+          </Form>
+        </Col>
+      </Row>
     </>
   );
 };
