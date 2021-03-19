@@ -5,6 +5,7 @@ import { Avatar, Button, Tag } from "antd";
 import { useDispatch } from "react-redux";
 
 import { PassDataToModal } from "../../core/redux/app/actions";
+import Title from "antd/lib/typography/Title";
 
 const OrganizationItem = (props: any) => {
   const dispatch = useDispatch();
@@ -164,56 +165,70 @@ const OrganizationItem = (props: any) => {
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                width: "450px",
+                width: "500px",
                 // backgroundColor: "red",
               }}
             >
-              <p
-                style={{
-                  fontSize: "24px",
-                  color: "#696969	",
-                  margin: "20px 0 15px 0px",
-                  padding: 0,
-                }}
-              >
-                {data.name}
-              </p>
               <span
                 style={{
                   display: "flex",
                   flexDirection: "row",
                   // backgroundColor: "yellow",
-                  alignSelf: "flex-end",
+                  alignSelf: "center",
+                }}
+              >
+                <Title
+                  style={{
+                    fontSize: "24px",
+                    color: "#696969	",
+                    // margin: "20px 0 15px 0px",
+                    padding: 0,
+                    width: "300px",
+                  }}
+                >
+                  {data.name}
+                </Title>
+              </span>
+
+              <span
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  // backgroundColor: "yellow",
+                  alignSelf: "flex-start",
+                  top: "0px",
                 }}
               >
                 {" "}
-                <Tag
-                  color="#c1c1c1"
-                  style={{ height: "20px", marginTop: "20px" }}
-                >
-                  {type == 1 ? "ADMIN" : "MEMBER"}
-                </Tag>
-                {data.plan_has_expired && (
+                <div style={{ display: "flex", flexDirection: "column" }}>
                   <Tag
-                    color="red"
+                    color="#c1c1c1"
                     style={{ height: "20px", marginTop: "20px" }}
                   >
-                    EXPIRED
+                    {type == 1 ? "ADMIN" : "MEMBER"}
                   </Tag>
-                )}
-                {data.plan_has_expired !== null && !data.plan_has_expired && (
-                  <Tag
-                    color="red"
-                    style={{ height: "20px", marginTop: "20px" }}
-                  >
-                    {/* Expiring on : {data.plan_expiry_date} */}
-                    Expiring in{" "}
-                    {days_between(new Date(), data.plan_expiry_date)}{" "}
-                    {days_between(new Date(), data.plan_expiry_date) === 1
-                      ? "day"
-                      : "days"}
-                  </Tag>
-                )}
+                  {data.plan_has_expired && (
+                    <Tag
+                      color="red"
+                      style={{ height: "20px", marginTop: "20px" }}
+                    >
+                      EXPIRED
+                    </Tag>
+                  )}
+                  {data.plan_has_expired !== null && !data.plan_has_expired && (
+                    <Tag
+                      color="red"
+                      style={{ height: "20px", marginTop: "20px" }}
+                    >
+                      {/* Expiring on : {data.plan_expiry_date} */}
+                      Expiring in{" "}
+                      {days_between(new Date(), data.plan_expiry_date)}{" "}
+                      {days_between(new Date(), data.plan_expiry_date) === 1
+                        ? "day"
+                        : "days"}
+                    </Tag>
+                  )}
+                </div>
               </span>
             </span>
             <p

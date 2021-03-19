@@ -323,7 +323,11 @@ const EditClientForm = (props: any) => {
           rules={[{ required: true }]}
           style={rowStyle}
         >
-          <Input value={name} onChange={(e: any) => setName(e.target.value)} />
+          <Input
+            value={name}
+            onChange={(e: any) => setName(e.target.value)}
+            maxLength={50}
+          />
         </Form.Item>
         <Form.Item
           label="Website - eg. (http://www.website.com): "

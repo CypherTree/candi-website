@@ -73,20 +73,23 @@ const ClientItem = (props: any) => {
         </Col>
         <Col span={18} style={{ paddingLeft: "10px" }}>
           <Row>
-            <Title
-              level={4}
-              style={{
-                width: "80%",
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-                padding: "0px",
-                margin: "0px",
-                textDecoration: "none",
-              }}
-            >
-              {clientData.name}
-            </Title>
+            <span>
+              <Title
+                level={4}
+                style={{
+                  width: "80%",
+                  // whiteSpace: "nowrap",
+                  // overflow: "hidden",
+                  // textOverflow: "ellipsis",
+                  padding: "0px",
+                  margin: "0px",
+                  textDecoration: "none",
+                  wordWrap: "break-word",
+                }}
+              >
+                {clientData.name}
+              </Title>
+            </span>
           </Row>
           {clientData.markets.length > 0 &&
             clientData.markets.map((data: any) => (

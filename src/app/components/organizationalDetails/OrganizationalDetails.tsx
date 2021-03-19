@@ -192,6 +192,7 @@ const OrganizationalDetails = (props: any) => {
                 onChange={(e) => setOrganisationName(e.target.value)}
                 disabled={isSubmitted}
                 placeholder="Organisation Name"
+                maxLength={50}
               />
             </Form.Item>
 

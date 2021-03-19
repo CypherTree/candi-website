@@ -71,6 +71,22 @@ const Sidebar = (props: any) => {
     </>
   );
 
+  const SidebarMenuForEditor = (
+    <>
+      <Menu.Item key="1" icon={<UserOutlined />}>
+        <Link to={isTrialExpired ? "#" : "/org/roles"}>Roles </Link>
+      </Menu.Item>
+      <Menu.Item key="2" icon={<DesktopOutlined />}>
+        <Link to={isTrialExpired ? "#" : "/settings/workflow"}>Workflow </Link>
+      </Menu.Item>
+      <SubMenu key="sub1" icon={<SettingOutlined />} title="Settings">
+        <Menu.Item key="9">
+          <Link to="/settings/org">Organisation </Link>
+        </Menu.Item>
+      </SubMenu>
+    </>
+  );
+
   const SidebarMenuForAll = (
     <>
       <Menu.Item key="1" icon={<UserOutlined />}>
@@ -88,6 +104,9 @@ const Sidebar = (props: any) => {
     } else {
       if (tenant !== "id" && userRole === 4) {
         return SidebarMenuInsideTenantForClient;
+      }
+      if (tenant !== "id" && userRole === 3) {
+        return SidebarMenuForEditor;
       } else {
         return SidebarMenuForTenant;
       }

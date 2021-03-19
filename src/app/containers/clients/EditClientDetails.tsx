@@ -96,12 +96,13 @@ const EditClientDetails = () => {
         }}
       >
         <br />
-        <div
+        <span
           style={{
             display: "flex",
             flexDirection: "row",
-            width: "300px",
+            // width: "500px",
             textAlign: "center",
+            wordWrap: "break-word",
           }}
         >
           <div style={{ display: "flex", flexDirection: "row" }}>
@@ -118,7 +119,7 @@ const EditClientDetails = () => {
               Edit {clientData ? clientData.name : "Client"}
             </p>
           </div>
-        </div>
+        </span>
         <Link to="/client/all">
           Back to All clients <RollbackOutlined />
         </Link>
