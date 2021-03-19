@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Avatar, Button, Tag } from "antd";
+import { Avatar, Button, Card, Col, Layout, Row, Tag } from "antd";
 
 import { useDispatch } from "react-redux";
 
@@ -82,185 +82,199 @@ const OrganizationItem = (props: any) => {
   };
 
   return (
-    <div
+    // <Row style={{ backgroundColor: "red" }}>
+    <Col
       style={{
-        border: "none",
-        // cursor: "pointer",
-        width: "auto",
-        // margin: "none",
-        // margin: "20px",
-        overflow: "auto",
-        padding: "10px 0px 10px 0px",
-        // backgroundColor: "orange",
+        // backgroundColor: "green",
+        maxWidth: "700px",
       }}
+      sm={24}
+      md={20}
+      lg={19}
+      xl={16}
     >
       <div
         style={{
-          backgroundColor: "white",
-          // padding: "none",
-          // margin: "10px",
-          borderRadius: "10px",
-          padding: "10px 0px 10px 0px",
+          border: "none",
+          // cursor: "pointer",
+          width: "auto",
+          // margin: "none",
+          // margin: "20px",
+          overflow: "auto",
+          // padding: "10px 0px 10px 0px",
+          // backgroundColor: "orange",
+          padding: "0px",
         }}
       >
         <div
           style={{
-            display: "flex",
-            alignItems: "center",
-            flexWrap: "wrap",
-            justifyContent: "flex-start",
-            // backgroundColor: "blue",
+            backgroundColor: "white",
+            // padding: "none",
+            // margin: "10px",
+            borderRadius: "10px",
+            padding: "10px 0px 10px 0px",
           }}
         >
           <div
             style={{
-              paddingLeft: "20px",
-              paddingRight: "20px",
-              // backgroundColor: "yellowgreen",
+              display: "flex",
+              alignItems: "center",
+              flexWrap: "wrap",
+              justifyContent: "flex-start",
+              // backgroundColor: "blue",
             }}
           >
-            {data.logo ? (
-              <img
-                src={data.logo}
-                style={{
-                  // backgroundColor: "#F9650D",
-                  fontSize: "40px",
-                  width: "90px",
-                  height: "90px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  verticalAlign: "middle",
-                  borderRadius: "50%",
-                }}
-                alt="logo"
-              />
-            ) : (
-              <Avatar
-                style={{
-                  backgroundColor: "#F9650D",
-                  fontSize: "40px",
-                  width: "90px",
-                  height: "90px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  verticalAlign: "middle",
-                }}
-              >
-                {data.slug.charAt(0).toUpperCase() || "A"}
-              </Avatar>
-            )}
-          </div>
-          <div
-            style={{
-              paddingLeft: "10px ",
-              textAlign: "left",
-              lineHeight: "10px",
-              // backgroundColor: "yellow",
-            }}
-          >
-            <span
+            <div
               style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-                width: "500px",
-                // backgroundColor: "red",
+                paddingLeft: "20px",
+                paddingRight: "20px",
+                // backgroundColor: "yellowgreen",
               }}
             >
-              <span
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  // backgroundColor: "yellow",
-                  alignSelf: "center",
-                }}
-              >
-                <Title
+              {data.logo ? (
+                <img
+                  src={data.logo}
                   style={{
-                    fontSize: "24px",
-                    color: "#696969	",
-                    // margin: "20px 0 15px 0px",
-                    padding: 0,
-                    width: "300px",
+                    // backgroundColor: "#F9650D",
+                    fontSize: "40px",
+                    width: "90px",
+                    height: "90px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    verticalAlign: "middle",
+                    borderRadius: "50%",
+                  }}
+                  alt="logo"
+                />
+              ) : (
+                <Avatar
+                  style={{
+                    backgroundColor: "#F9650D",
+                    fontSize: "40px",
+                    width: "90px",
+                    height: "90px",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    verticalAlign: "middle",
                   }}
                 >
-                  {data.name}
-                </Title>
-              </span>
-
+                  {data.slug.charAt(0).toUpperCase() || "A"}
+                </Avatar>
+              )}
+            </div>
+            <div
+              style={{
+                paddingLeft: "10px ",
+                textAlign: "left",
+                lineHeight: "10px",
+                // backgroundColor: "yellow",
+              }}
+            >
               <span
                 style={{
                   display: "flex",
                   flexDirection: "row",
-                  // backgroundColor: "yellow",
-                  alignSelf: "flex-start",
-                  top: "0px",
+                  justifyContent: "space-between",
+                  // width: "500px",
+                  // backgroundColor: "red",
                 }}
               >
-                {" "}
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <Tag
-                    color="#c1c1c1"
-                    style={{ height: "20px", marginTop: "20px" }}
-                  >
-                    {type == 1 ? "ADMIN" : "MEMBER"}
-                  </Tag>
-                  {data.plan_has_expired && (
-                    <Tag
-                      color="red"
-                      style={{ height: "20px", marginTop: "20px" }}
-                    >
-                      EXPIRED
-                    </Tag>
-                  )}
-                  {data.plan_has_expired !== null && !data.plan_has_expired && (
-                    <Tag
-                      color="red"
-                      style={{ height: "20px", marginTop: "20px" }}
-                    >
-                      {/* Expiring on : {data.plan_expiry_date} */}
-                      Expiring in{" "}
-                      {days_between(new Date(), data.plan_expiry_date)}{" "}
-                      {days_between(new Date(), data.plan_expiry_date) === 1
-                        ? "day"
-                        : "days"}
-                    </Tag>
-                  )}
-                </div>
-              </span>
-            </span>
-            <p
-              style={{
-                fontSize: "14px",
-                color: "#696969	",
-              }}
-            >
-              {data.website}
-            </p>
-
-            {progress > 40 ? (
-              <a href={tenantURL}>
-                <Button style={{ marginBottom: "10px" }}>Visit Tenant</Button>
-              </a>
-            ) : (
-              <span>
-                <p>
-                  <b>{progress}</b>% completed.
-                </p>
-                <Button
-                  onClick={(e) => handleClick()}
-                  style={{ marginBottom: "10px" }}
+                <span
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    // backgroundColor: "yellow",
+                    alignSelf: "center",
+                  }}
                 >
-                  Complete Process
-                </Button>
+                  <Title
+                    style={{
+                      fontSize: "24px",
+                      color: "#696969	",
+                      // margin: "20px 0 15px 0px",
+                      padding: 0,
+                      width: "300px",
+                    }}
+                  >
+                    {data.name}
+                  </Title>
+                </span>
+
+                <span
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    // backgroundColor: "yellow",
+                    alignSelf: "flex-start",
+                    top: "0px",
+                  }}
+                >
+                  {" "}
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <Tag
+                      color="#c1c1c1"
+                      style={{ height: "20px", marginTop: "20px" }}
+                    >
+                      {type == 1 ? "ADMIN" : "MEMBER"}
+                    </Tag>
+                    {data.plan_has_expired && (
+                      <Tag
+                        color="red"
+                        style={{ height: "20px", marginTop: "20px" }}
+                      >
+                        EXPIRED
+                      </Tag>
+                    )}
+                    {data.plan_has_expired !== null && !data.plan_has_expired && (
+                      <Tag
+                        color="red"
+                        style={{ height: "20px", marginTop: "20px" }}
+                      >
+                        {/* Expiring on : {data.plan_expiry_date} */}
+                        Expiring in{" "}
+                        {days_between(new Date(), data.plan_expiry_date)}{" "}
+                        {days_between(new Date(), data.plan_expiry_date) === 1
+                          ? "day"
+                          : "days"}
+                      </Tag>
+                    )}
+                  </div>
+                </span>
               </span>
-            )}
+              <p
+                style={{
+                  fontSize: "14px",
+                  color: "#696969	",
+                }}
+              >
+                {data.website}
+              </p>
+
+              {progress > 40 ? (
+                <a href={tenantURL}>
+                  <Button style={{ marginBottom: "10px" }}>Visit Tenant</Button>
+                </a>
+              ) : (
+                <span>
+                  <p>
+                    <b>{progress}</b>% completed.
+                  </p>
+                  <Button
+                    onClick={(e) => handleClick()}
+                    style={{ marginBottom: "10px" }}
+                  >
+                    Complete Process
+                  </Button>
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </Col>
+    // </Row>
   );
 };
 

@@ -147,27 +147,28 @@ const OrganizationList = (props: any) => {
               display: "flex",
               flexDirection: "column",
               // backgroundColor: "yellow",
-              // width: "70%",
+              width: "90%",
+              paddingTop: "20px",
             }}
-            // md={{ span: 24 }}
-            // lg={{ span: 12 }}
+            gutter={[24, 24]}
           >
             {data.map((organization) => (
-              <Col
-                // span={12}
-                md={{ span: 24 }}
-                lg={{ span: 12 }}
-                style={{
-                  paddingTop: "15px",
-                  // backgroundColor: "green"
-                }}
-              >
-                <OrganizationItem
-                  data={organization.organization}
-                  handleOpen={handleOpen}
-                  type={organization.type}
-                />
-              </Col>
+              // <Col
+              //   // span={12}
+              //   // sm={{ span: 24 }}
+              //   // md={{ span: 16 }}
+              //   // lg={{ span: 12 }}
+              //   style={{
+              //     paddingTop: "15px",
+              //     // backgroundColor: "green"
+              //   }}
+              // >
+              <OrganizationItem
+                data={organization.organization}
+                handleOpen={handleOpen}
+                type={organization.type}
+              />
+              // </Col>
             ))}
           </Row>
 
