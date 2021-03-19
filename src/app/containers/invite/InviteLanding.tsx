@@ -180,10 +180,11 @@ const InviteLanding: React.FC<Props> = ({ location }) => {
         style={{
           display: "flex",
           justifyContent: "center",
+          alignContent: "center",
           height: "100vh",
           width: "100vw",
-          maxWidth: "1500px",
-          //   backgroundColor: "yellow",
+          maxWidth: "1800px",
+          // backgroundColor: "yellow",
         }}
       >
         <Card
