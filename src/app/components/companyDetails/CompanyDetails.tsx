@@ -24,6 +24,7 @@ import {
   AddCompanyDetailsToCurrentOrganization,
 } from "../../core/redux/app/actions";
 import WizardUploadLogo from "../workflow/WizardUploadLogo";
+import { toast } from "react-toastify";
 
 const { Text } = Typography;
 
@@ -96,6 +97,8 @@ const CompanyDetails = (props: any) => {
 
   const [gstError, setGstError] = useState("");
 
+  const [currentError, setCurrentError] = useState("");
+
   const clearEverything = () => {
     setIsGSTVerified(false);
     setCountry("");
@@ -161,6 +164,18 @@ const CompanyDetails = (props: any) => {
         setLoading(false);
         setGstError("GST details could not be fetched. Please retry.");
       });
+  };
+
+  const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const regex = new RegExp(emailRegex);
+
+  const checkErrorsAndHandleSubmit = () => {
+    if (email !== "" && email.match(regex)) {
+      handleFormSubmit();
+    } else {
+      setCurrentError("Email is not valid");
+      toast.error("Email is not valid.");
+    }
   };
 
   const handleFormSubmit = () => {
@@ -400,14 +415,22 @@ const CompanyDetails = (props: any) => {
 
             <Row gutter={8}>
               <Col span={12}>
-                <Form.Item>
+                <Form.Item style={{ display: "flex", flexDirection: "column" }}>
                   <Input
                     placeholder="Business Email Address"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setCurrentError("");
+                    }}
                     disabled={!isGSTVerified}
                     style={styles}
+                    autoComplete="off"
                   />
+                  <div>
+                    {" "}
+                    {currentError && <Text type="danger">{currentError}</Text>}
+                  </div>
                 </Form.Item>
               </Col>
 
@@ -470,7 +493,7 @@ const CompanyDetails = (props: any) => {
           <Button onClick={() => handleBack()} style={{ marginRight: "10px" }}>
             Back
           </Button>
-          <Button type="primary" onClick={() => handleFormSubmit()}>
+          <Button type="primary" onClick={() => checkErrorsAndHandleSubmit()}>
             Save and Next
           </Button>
         </div>
