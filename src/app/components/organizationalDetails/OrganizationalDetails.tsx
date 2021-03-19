@@ -226,6 +226,7 @@ const OrganizationalDetails = (props: any) => {
                 }}
                 disabled={isSubmitted}
                 placeholder="Domain"
+                autoComplete="off"
               />
             </Form.Item>
             <Form.Item style={{ marginBottom: "0px" }}>
