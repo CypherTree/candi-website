@@ -87,7 +87,6 @@ const EditWorkflowSteps = (props: any) => {
     )
       .then((response) => {
         console.log("workflow data from API --> ", response.data);
-        toast.success("hello");
         const stepsData = response.data.data.steps.sort(
           (a: any, b: any) => a.order - b.order
         );
@@ -98,7 +97,6 @@ const EditWorkflowSteps = (props: any) => {
       })
       .catch((err) => {
         console.log("err ", err);
-        toast.error("hello");
       });
   };
 

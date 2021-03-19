@@ -147,7 +147,10 @@ const OrganizationList = (props: any) => {
               display: "flex",
               flexDirection: "column",
               // backgroundColor: "yellow",
+              // width: "70%",
             }}
+            // md={{ span: 24 }}
+            // lg={{ span: 12 }}
           >
             {data.map((organization) => (
               <Col
