@@ -80,7 +80,7 @@ const EditClientForm = (props: any) => {
       marketsData.push({ market: item });
     });
 
-    if (billingEmail.match(regex)) {
+    if (billingEmail === "" || billingEmail.match(regex)) {
       const private_data = {
         billing_address: billingAddress,
         billing_email: billingEmail,
