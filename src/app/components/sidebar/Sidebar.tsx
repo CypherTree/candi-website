@@ -20,10 +20,18 @@ import axios from "axios";
 
 const { SubMenu } = Menu;
 
+function getWindowDimensions() {
+  const { innerWidth: width, innerHeight: height } = window;
+  return {
+    width,
+    height,
+  };
+}
+
 const Sidebar = (props: any) => {
   const { isAuthenticated } = props.state.auth;
 
-  const { toggleCollapsed, collapsed } = props;
+  const { toggleCollapsed, collapsed, setCollapsed } = props;
 
   const [tenant, setTenant] = useState<null | undefined | string>(null);
   const [orgData, setOrgData] = useState<any>(null);
@@ -31,6 +39,25 @@ const Sidebar = (props: any) => {
   const [userRole, setUserRole] = useState<number>(0);
 
   const [isTrialExpired, setIsTrialExpired] = useState<boolean>(false);
+
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowDimensions(getWindowDimensions());
+    }
+
+    console.log("----> values --->", getWindowDimensions());
+
+    if (windowDimensions.width && windowDimensions.width < 1200) {
+      setCollapsed(true);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const SidebarMenuForTenant = (
     <>

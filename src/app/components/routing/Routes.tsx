@@ -107,7 +107,11 @@ const Routes = (props: any) => {
     <>
       <div>
         {accessToken && (
-          <Sidebar collapsed={collapsed} toggleCollapsed={toggleCollapsed} />
+          <Sidebar
+            collapsed={collapsed}
+            toggleCollapsed={toggleCollapsed}
+            setCollapsed={setCollapsed}
+          />
         )}
       </div>
 
