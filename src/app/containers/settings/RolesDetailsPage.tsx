@@ -81,6 +81,7 @@ const RolesDetailsPage = (props: any) => {
         .catch((e) => {
           console.log("err", e);
           toast.error("Some error occoured.");
+          setLoading(false);
         });
     }
   };

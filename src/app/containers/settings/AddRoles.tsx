@@ -92,7 +92,10 @@ const AddRoles = (props: any) => {
         console.log("reload value after change ---->", reloadRequired);
         setLoading(false);
       })
-      .catch((e) => console.log("err", e));
+      .catch((e) => {
+        console.log("err", e);
+        setLoading(false);
+      });
   };
 
   const handleSubmitForm = () => {
@@ -117,7 +120,10 @@ const AddRoles = (props: any) => {
         handleNext();
         setLoading(false);
       })
-      .catch((e) => console.log("err", e));
+      .catch((e) => {
+        console.log("err", e);
+        setLoading(false);
+      });
   };
 
   const getRolesFromAPI = async () => {
