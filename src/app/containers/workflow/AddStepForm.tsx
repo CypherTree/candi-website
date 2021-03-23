@@ -211,13 +211,17 @@ const AddStepForm = (props: any) => {
   }, [selectedStep]);
 
   return (
-    <Layout
+    <div
       style={{
         border: "1px solid #c1c1c1",
         borderRadius: 10,
         justifyContent: "center",
         padding: "20px",
-        width: "600px",
+        // width: "600px",
+        display: "flex",
+        flexDirection: "column",
+        // backgroundColor: "red",
+        backgroundColor: "whitesmoke",
       }}
     >
       <Title level={5} style={{ textAlign: "center", paddingBottom: "10px" }}>
@@ -362,7 +366,7 @@ const AddStepForm = (props: any) => {
           </span>
         </div>
       </Form>
-    </Layout>
+    </div>
   );
 };
 

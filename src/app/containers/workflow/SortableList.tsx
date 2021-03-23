@@ -21,7 +21,7 @@ const SortableList = (props: any) => {
   console.log("---- state data ", state);
 
   const handleEdit = (data: any) => {
-    toast.warn("Edit was called");
+    // toast.warn("Edit was called");
     console.log("isAddStepFormOpen", isAddStepFormOpen, data);
     if (isAddStepFormOpen) {
       setIsAddStepFormOpen(false);
