@@ -83,12 +83,38 @@ const SortableList = (props: any) => {
                 flexDirection: "row",
               }}
             >
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <p>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  // overflow: "hidden",
+                }}
+              >
+                <p
+                  style={{
+                    paddingTop: "10px",
+                    wordWrap: "break-word",
+                    width: "200px",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
                   <b>{item.name}</b>
                 </p>
-                <Tag>{item.category.name}</Tag>
-                <p style={{ paddingTop: "10px" }}>{item.description}</p>
+                <Tag>{item.category.name.trim()}</Tag>
+                <p
+                  style={{
+                    paddingTop: "10px",
+                    wordWrap: "break-word",
+                    width: "200px",
+                    textOverflow: "ellipsis",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                  }}
+                >
+                  {item.description}
+                </p>
               </div>
               <Button onClick={() => handleEdit(item)}>Edit</Button>
             </div>
