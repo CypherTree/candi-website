@@ -208,168 +208,186 @@ const CompanySettings = () => {
     return <AntSpinner />;
   } else {
     return (
-      <Layout
-        style={{
-          backgroundColor: "#fff",
-          margin: "30px",
-          padding: "30px 30px 0px 30px",
-          borderRadius: "10px",
-          textAlign: "left",
-          paddingLeft: "200px",
-        }}
-      >
-        <div>
-          <Title
-            level={4}
+      <Layout style={{ width: "90vw" }}>
+        <Layout
+          style={{
+            backgroundColor: "#fff",
+            margin: "30px",
+            padding: "30px 30px 0px 30px",
+            borderRadius: "10px",
+            textAlign: "left",
+            display: "flex",
+            flexDirection: "row",
+            // justifyContent: "center",
+            width: "90vw",
+            maxWidth: "1000px",
+          }}
+        >
+          <div
             style={{
-              fontWeight: "bold",
-              width: "auto",
+              // backgroundColor: "red",
+              width: "800px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              paddingLeft: "50px",
             }}
           >
-            ABOUT US
-          </Title>
-
-          <br />
-
-          <Form
-            name="basic"
-            initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            layout="vertical"
-          >
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item label={about ? "About:" : ""}>
-                  <Input.TextArea
-                    placeholder="About"
-                    onChange={(e) => {
-                      setAbout(e.target.value);
-                    }}
-                    maxLength={2000}
-                    value={about}
-                    style={styles}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item label={yearEstablished ? "Year Established:" : ""}>
-                  <InputNumber
-                    placeholder="Year Established"
-                    value={yearEstablished ? yearEstablished : ""}
-                    onChange={(value: any) => setYearEstablished(value)}
-                    min={1000}
-                    max={2021}
-                    style={styles}
-                  />
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item
-                  label={companySize || companySize == 0 ? "Company Size:" : ""}
-                >
-                  <Select
-                    style={styles}
-                    placeholder="Company Size"
-                    value={companySize}
-                    onChange={handleCompanySizeChange}
-                  >
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_1_TO_10}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_1_TO_10}
-                    >
-                      BETWEEN 1 TO 10
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_11_TO_50}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_11_TO_50}
-                    >
-                      BETWEEN 11 TO 50
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_51_TO_200}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_51_TO_200}
-                    >
-                      BETWEEN 51 TO 200
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_201_TO_500}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_201_TO_500}
-                    >
-                      BETWEEN 201 TO 500
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_501_TO_1000}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_501_TO_1000}
-                    >
-                      BETWEEN 501 TO 1000
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.BETWEEN_1001_TO_5000}
-                      key={COMPANY_SIZE_ENUM.BETWEEN_1001_TO_5000}
-                    >
-                      BETWEEN 1001 TO 5000
-                    </Option>
-                    <Option
-                      value={COMPANY_SIZE_ENUM.PLUS_5000}
-                      key={COMPANY_SIZE_ENUM.PLUS_5000}
-                    >
-                      MORE THAN 5000
-                    </Option>
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item
-                  style={styles}
-                  label={
-                    selectedMarkets && selectedMarkets.length > 0
-                      ? "Markets:"
-                      : ""
-                  }
-                >
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    autoClearSearchValue
-                    bordered
-                    defaultActiveFirstOption={false}
-                    filterOption={(input, option: any) =>
-                      option.children
-                        .toLowerCase()
-                        .indexOf(input.toLowerCase()) >= 0
-                    }
-                    style={{ width: "100%" }}
-                    placeholder="Markets"
-                    onChange={handleSelectedMarketsChange}
-                    value={selectedMarkets}
-                  >
-                    {markets}
-                  </Select>
-                </Form.Item>
-              </Col>
-            </Row>
-
-            <div
+            <Title
+              level={4}
               style={{
-                paddingBottom: "40px",
+                fontWeight: "bold",
+                width: "auto",
+                textAlign: "center",
               }}
             >
-              <Button type="primary" htmlType="submit">
-                Save Details
-              </Button>
-            </div>
-          </Form>
-        </div>
+              ABOUT US
+            </Title>
+
+            <br />
+
+            <Form
+              name="basic"
+              initialValues={{ remember: true }}
+              onFinish={onFinish}
+              onFinishFailed={onFinishFailed}
+              layout="vertical"
+            >
+              <Row gutter={8}>
+                <Col span={14}>
+                  <Form.Item label={about ? "About:" : ""}>
+                    <Input.TextArea
+                      placeholder="About"
+                      onChange={(e) => {
+                        setAbout(e.target.value);
+                      }}
+                      maxLength={2000}
+                      value={about}
+                      style={styles}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={8}>
+                <Col span={12}>
+                  <Form.Item label={yearEstablished ? "Year Established:" : ""}>
+                    <InputNumber
+                      placeholder="Year Established"
+                      value={yearEstablished ? yearEstablished : ""}
+                      onChange={(value: any) => setYearEstablished(value)}
+                      min={1000}
+                      max={2021}
+                      style={styles}
+                    />
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={8}>
+                <Col span={12}>
+                  <Form.Item
+                    label={
+                      companySize || companySize == 0 ? "Company Size:" : ""
+                    }
+                  >
+                    <Select
+                      style={styles}
+                      placeholder="Company Size"
+                      value={companySize}
+                      onChange={handleCompanySizeChange}
+                    >
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_1_TO_10}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_1_TO_10}
+                      >
+                        BETWEEN 1 TO 10
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_11_TO_50}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_11_TO_50}
+                      >
+                        BETWEEN 11 TO 50
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_51_TO_200}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_51_TO_200}
+                      >
+                        BETWEEN 51 TO 200
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_201_TO_500}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_201_TO_500}
+                      >
+                        BETWEEN 201 TO 500
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_501_TO_1000}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_501_TO_1000}
+                      >
+                        BETWEEN 501 TO 1000
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.BETWEEN_1001_TO_5000}
+                        key={COMPANY_SIZE_ENUM.BETWEEN_1001_TO_5000}
+                      >
+                        BETWEEN 1001 TO 5000
+                      </Option>
+                      <Option
+                        value={COMPANY_SIZE_ENUM.PLUS_5000}
+                        key={COMPANY_SIZE_ENUM.PLUS_5000}
+                      >
+                        MORE THAN 5000
+                      </Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <Row gutter={8}>
+                <Col span={12}>
+                  <Form.Item
+                    style={styles}
+                    label={
+                      selectedMarkets && selectedMarkets.length > 0
+                        ? "Markets:"
+                        : ""
+                    }
+                  >
+                    <Select
+                      mode="multiple"
+                      allowClear
+                      autoClearSearchValue
+                      bordered
+                      defaultActiveFirstOption={false}
+                      filterOption={(input, option: any) =>
+                        option.children
+                          .toLowerCase()
+                          .indexOf(input.toLowerCase()) >= 0
+                      }
+                      style={{ width: "100%" }}
+                      placeholder="Markets"
+                      onChange={handleSelectedMarketsChange}
+                      value={selectedMarkets}
+                    >
+                      {markets}
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+
+              <div
+                style={{
+                  paddingBottom: "40px",
+                }}
+              >
+                <Button type="primary" htmlType="submit">
+                  Save Details
+                </Button>
+              </div>
+            </Form>
+          </div>
+        </Layout>
       </Layout>
     );
   }

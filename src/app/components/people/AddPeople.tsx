@@ -269,153 +269,157 @@ const AddPeople = (props: any) => {
     );
   }
   return (
-    <div style={{}}>
+    <div
+      style={{
+        width: "100%",
+        // overflow: "scroll",
+        display: "flex",
+      }}
+    >
       <Form
         name="normal_login"
         className="login-form"
         initialValues={{ remember: true }}
         onFinish={onFinish}
         style={{
-          width: "1000px",
           paddingBottom: "0px",
           display: "flex",
           flexDirection: "column",
+          // backgroundColor: "red",
         }}
       >
         <Row gutter={20}>
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <Col>
+            <Form.Item style={{ width: "250px" }}>
+              <Input
+                placeholder="Email"
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setCurrentErrorClear();
+                }}
+                disabled={disabled}
+              />
+            </Form.Item>
+          </Col>
+          <Col>
+            <Form.Item style={{ width: "250px" }}>
+              <Input
+                placeholder="Name"
+                value={name}
+                onChange={(e) => {
+                  setName(e.target.value);
+                  setCurrentErrorClear();
+                }}
+                disabled={disabled}
+              />
+            </Form.Item>
+          </Col>
+          <div style={{ display: "flex", flexDirection: "column" }}>
             <Col>
-              <Form.Item style={{ width: "250px" }}>
-                <Input
-                  placeholder="Email"
-                  value={email}
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                    setCurrentErrorClear();
-                  }}
-                  disabled={disabled}
-                />
-              </Form.Item>
+              <Select
+                style={{ width: "250px" }}
+                placeholder="Role Type"
+                value={roleType === "" ? "Role Type" : roleType}
+                onChange={handleRoleTypeChange}
+                disabled={disabled}
+              >
+                {oriRoles.map((role: any) => (
+                  <Option
+                    value={role.type}
+                    key={role.id}
+                    // disabled={role.type === 4}
+                  >
+                    {role.name}
+                  </Option>
+                ))}
+              </Select>
             </Col>
-            <Col>
-              <Form.Item style={{ width: "250px" }}>
-                <Input
-                  placeholder="Name"
-                  value={name}
-                  onChange={(e) => {
-                    setName(e.target.value);
-                    setCurrentErrorClear();
-                  }}
-                  disabled={disabled}
-                />
-              </Form.Item>
-            </Col>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <Col>
+            {isClient && (
+              <Col style={{ padding: "5px" }}>
                 <Select
                   style={{ width: "250px" }}
-                  placeholder="Role Type"
-                  value={roleType === "" ? "Role Type" : roleType}
-                  onChange={handleRoleTypeChange}
-                  disabled={disabled}
+                  placeholder="Client Name"
+                  value={
+                    inviteData.client_company
+                      ? inviteData.client_company.name
+                      : ""
+                  }
+                  disabled={true}
                 >
-                  {oriRoles.map((role: any) => (
-                    <Option
-                      value={role.type}
-                      key={role.id}
-                      // disabled={role.type === 4}
-                    >
-                      {role.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Col>
-              {isClient && (
-                <Col style={{ padding: "5px" }}>
-                  <Select
-                    style={{ width: "250px" }}
-                    placeholder="Client Name"
+                  <Option
                     value={
                       inviteData.client_company
                         ? inviteData.client_company.name
                         : ""
                     }
+                    key={1}
                     disabled={true}
                   >
+                    {inviteData.client_company
+                      ? inviteData.client_company.name
+                      : ""}
+                  </Option>
+                </Select>
+              </Col>
+            )}
+            {roleType === 4 && (
+              <Col style={{ padding: "5px" }}>
+                <Select
+                  labelInValue
+                  style={{ width: "250px" }}
+                  placeholder="Client Name"
+                  value={client}
+                  onChange={(e) => handleSetClientId(e)}
+                  disabled={disabled}
+                >
+                  {clientList.map((client: any) => (
                     <Option
-                      value={
-                        inviteData.client_company
-                          ? inviteData.client_company.name
-                          : ""
-                      }
-                      key={1}
-                      disabled={true}
+                      value={client.id}
+                      key={client.id}
+                      // disabled={client.type === 4}
                     >
-                      {inviteData.client_company
-                        ? inviteData.client_company.name
-                        : ""}
+                      {client.name}
                     </Option>
-                  </Select>
-                </Col>
-              )}
-              {roleType === 4 && (
-                <Col style={{ padding: "5px" }}>
-                  <Select
-                    labelInValue
-                    style={{ width: "250px" }}
-                    placeholder="Client Name"
-                    value={client}
-                    onChange={(e) => handleSetClientId(e)}
-                    disabled={disabled}
-                  >
-                    {clientList.map((client: any) => (
-                      <Option
-                        value={client.id}
-                        key={client.id}
-                        // disabled={client.type === 4}
-                      >
-                        {client.name}
-                      </Option>
-                    ))}
-                  </Select>
-                </Col>
-              )}
-            </div>
-            <Col>
-              {disabled && inviteStatus === "Expired" && (
-                <Form.Item style={{ paddingLeft: "50px" }}>
-                  <Button type="primary" onClick={handleResendInvite}>
-                    Resend Invite
-                  </Button>
-                </Form.Item>
-              )}
-
-              {disabled &&
-                inviteStatus !== "Accepted" &&
-                inviteStatus !== "Expired" && (
-                  <Form.Item style={{ paddingLeft: "50px" }}>
-                    <Button type="primary" onClick={handleCancelInvite}>
-                      Cancel Invite
-                    </Button>
-                  </Form.Item>
-                )}
-
-              {!disabled && (
-                <Form.Item style={{ paddingLeft: "50px" }}>
-                  <Button type="primary" htmlType="submit">
-                    Invite
-                  </Button>
-                  <Button
-                    danger
-                    style={{ marginLeft: "5px" }}
-                    onClick={handleCloseInviteForm}
-                  >
-                    <CloseOutlined />
-                  </Button>
-                </Form.Item>
-              )}
-            </Col>
+                  ))}
+                </Select>
+              </Col>
+            )}
           </div>
+          <Col>
+            {disabled && inviteStatus === "Expired" && (
+              <Form.Item style={{ paddingLeft: "50px" }}>
+                <Button type="primary" onClick={handleResendInvite}>
+                  Resend Invite
+                </Button>
+              </Form.Item>
+            )}
+
+            {disabled &&
+              inviteStatus !== "Accepted" &&
+              inviteStatus !== "Expired" && (
+                <Form.Item style={{ paddingLeft: "50px" }}>
+                  <Button type="primary" onClick={handleCancelInvite}>
+                    Cancel Invite
+                  </Button>
+                </Form.Item>
+              )}
+
+            {!disabled && (
+              <Form.Item style={{ paddingLeft: "50px" }}>
+                <Button type="primary" htmlType="submit">
+                  Invite
+                </Button>
+                <Button
+                  danger
+                  style={{ marginLeft: "5px" }}
+                  onClick={handleCloseInviteForm}
+                >
+                  <CloseOutlined />
+                </Button>
+              </Form.Item>
+            )}
+          </Col>
         </Row>
         <Row>
           {disabled && (

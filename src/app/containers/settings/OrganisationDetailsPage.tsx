@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { Form, Input, Layout } from "antd";
+import { Col, Form, Input, Layout, Row } from "antd";
 import Title from "antd/lib/typography/Title";
 
 import AntSpinner from "../../components/spinner/AntSpinner";
@@ -69,22 +69,39 @@ const OrganisationDetailsPage = () => {
     return <AntSpinner />;
   } else {
     return (
-      <Layout>
-        <Form name="basic" layout="vertical">
-          <Layout
-            style={{
-              padding: "30px 30px 30px 30px",
-              margin: "30px",
-              borderRadius: "10px",
-              backgroundColor: "#fff",
-            }}
-          >
+      <Layout
+        style={
+          {
+            // padding: "30px 30px 30px 30px",
+            // margin: "30px",
+            // backgroundColor: "#fff",
+            // borderRadius: "10px",
+            // justifyContent: "center",
+            // display: "flex",
+            // flexDirection: "row",
+            // maxWidth: "1000px",
+          }
+        }
+      >
+        <Layout
+          style={{
+            padding: "30px 30px 30px 30px",
+            margin: "30px",
+            backgroundColor: "#fff",
+            borderRadius: "10px",
+            // justifyContent: "center",
+            display: "flex",
+            flexDirection: "row",
+
+            width: "800px",
+          }}
+        >
+          <Form name="basic" layout="vertical">
             <div
               style={{
-                margin: "0 auto",
-                lineHeight: "40px",
-                width: "800px",
-                padding: "100px",
+                // margin: "0 auto",
+                // lineHeight: "40px",
+                padding: "50px",
                 paddingTop: "0px",
                 paddingBottom: "0px",
               }}
@@ -115,6 +132,7 @@ const OrganisationDetailsPage = () => {
                   disabled={isSubmitted}
                   placeholder="Organisation Name"
                   value={orgName}
+                  style={{ width: "300px" }}
                 />
               </Form.Item>
 
@@ -128,6 +146,7 @@ const OrganisationDetailsPage = () => {
                   disabled={isSubmitted}
                   placeholder="Website"
                   value={orgWebsite}
+                  style={{ width: "300px" }}
                 />
               </Form.Item>
 
@@ -141,11 +160,12 @@ const OrganisationDetailsPage = () => {
                   disabled={isSubmitted}
                   placeholder="Domain"
                   value={orgDomain}
+                  style={{ width: "300px" }}
                 />
               </Form.Item>
             </div>
-          </Layout>
-        </Form>
+          </Form>
+        </Layout>
       </Layout>
     );
   }

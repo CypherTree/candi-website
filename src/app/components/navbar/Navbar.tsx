@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 
-import { Avatar, Button, Dropdown, Menu, Layout, Tag, Typography } from "antd";
+import {
+  Avatar,
+  Button,
+  Dropdown,
+  Menu,
+  Layout,
+  Tag,
+  Typography,
+  Row,
+  Col,
+} from "antd";
 import Title from "antd/lib/typography/Title";
 import {
   SettingFilled,
@@ -307,114 +317,122 @@ function Navbar(props: any) {
 
   return (
     <>
-      <Header
-        style={{
-          paddingTop: "15px",
-          backgroundColor: "white",
-          boxShadow: "0 2px 8px #f0f1f2",
-        }}
-      >
-        <Layout
-          style={{
-            float: "right",
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            alignItems: "center",
-          }}
-        >
-          <Tag color="magenta">
-            {getTenantInfo() === "id" ? "Home" : getTenantInfo()}
-          </Tag>
-          <SearchOutlined
-            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-          />
-          <SettingFilled
-            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-          />
-          <BellOutlined
-            style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
-          />
-          <Dropdown overlay={menu}>
-            <Avatar
-              style={{ marginLeft: "20px" }}
-              icon={<UserOutlined style={{ fontSize: "20px" }} />}
-            />
-          </Dropdown>
-        </Layout>
-
-        <Layout
-          style={{
-            float: "left",
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "white",
-            alignItems: "center",
-            paddingLeft: "10px",
-            paddingTop: "5px",
-          }}
-        >
-          {/* {tenant === "id" && NavMenuForAll }
-          {tenant!=="id" && } */}
-          {whichNavMenuToReturn()}
-        </Layout>
-      </Header>
-
-      {userData !== null && !userData.is_verified && <EmailVerificationBar />}
-
-      {orgData && orgData.plan_has_expired && (
-        <div
-          style={{
-            float: "left",
-            display: "flex",
-            flexDirection: "row",
-            backgroundColor: "#ffcccb",
-            alignItems: "center",
-            justifyContent: "center",
-            // paddingLeft: "10px",
-            padding: "5px",
-            width: "100%",
-            color: "white",
-          }}
-        >
-          <Text style={{ fontWeight: "bold", paddingRight: "10px" }}>
-            Your trial plan has expired. Kindly upgrade your plan to continue.
-          </Text>
-          {"    "}
-          <Link to="#" type="primary">
-            Upgrade now !
-          </Link>
-        </div>
-      )}
-
-      {orgData &&
-        !orgData.plan_has_expired &&
-        days_between(new Date(), orgData.plan_expiry_date) < 7 && (
-          <div
+      <Row>
+        <Col xs={24} md={24} sm={24} xl={24} xxl={24}>
+          <Header
             style={{
-              float: "left",
-              display: "flex",
-              flexDirection: "row",
-              backgroundColor: "#ffcccb",
-              alignItems: "center",
-              justifyContent: "center",
-              // paddingLeft: "10px",
-              padding: "5px",
-              width: "100%",
-              color: "white",
+              paddingTop: "15px",
+              backgroundColor: "white",
+              boxShadow: "0 2px 8px #f0f1f2",
             }}
+            // xs={24}
           >
-            <Text style={{ fontWeight: "bold", paddingRight: "10px" }}>
-              Your trial plan is expiring in{" "}
-              {days_between(new Date(), orgData.plan_expiry_date)}. Kindly
-              upgrade your plan to continue.
-            </Text>
-            {"    "}
-            <Link to="#" type="primary">
-              Upgrade now !
-            </Link>
-          </div>
-        )}
+            <Layout
+              style={{
+                float: "right",
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "white",
+                alignItems: "center",
+              }}
+            >
+              <Tag color="magenta">
+                {getTenantInfo() === "id" ? "Home" : getTenantInfo()}
+              </Tag>
+              <SearchOutlined
+                style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
+              />
+              <SettingFilled
+                style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
+              />
+              <BellOutlined
+                style={{ marginLeft: "20px", color: "black", fontSize: "30px" }}
+              />
+              <Dropdown overlay={menu}>
+                <Avatar
+                  style={{ marginLeft: "20px" }}
+                  icon={<UserOutlined style={{ fontSize: "20px" }} />}
+                />
+              </Dropdown>
+            </Layout>
+
+            <Layout
+              style={{
+                float: "left",
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "white",
+                alignItems: "center",
+                paddingLeft: "10px",
+                paddingTop: "5px",
+              }}
+            >
+              {/* {tenant === "id" && NavMenuForAll }
+          {tenant!=="id" && } */}
+              {whichNavMenuToReturn()}
+            </Layout>
+          </Header>
+
+          {userData !== null && !userData.is_verified && (
+            <EmailVerificationBar />
+          )}
+
+          {orgData && orgData.plan_has_expired && (
+            <div
+              style={{
+                float: "left",
+                display: "flex",
+                flexDirection: "row",
+                backgroundColor: "#ffcccb",
+                alignItems: "center",
+                justifyContent: "center",
+                // paddingLeft: "10px",
+                padding: "5px",
+                width: "100%",
+                color: "white",
+              }}
+            >
+              <Text style={{ fontWeight: "bold", paddingRight: "10px" }}>
+                Your trial plan has expired. Kindly upgrade your plan to
+                continue.
+              </Text>
+              {"    "}
+              <Link to="#" type="primary">
+                Upgrade now !
+              </Link>
+            </div>
+          )}
+
+          {orgData &&
+            !orgData.plan_has_expired &&
+            days_between(new Date(), orgData.plan_expiry_date) < 7 && (
+              <div
+                style={{
+                  float: "left",
+                  display: "flex",
+                  flexDirection: "row",
+                  backgroundColor: "#ffcccb",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  // paddingLeft: "10px",
+                  padding: "5px",
+                  width: "100%",
+                  color: "white",
+                }}
+              >
+                <Text style={{ fontWeight: "bold", paddingRight: "10px" }}>
+                  Your trial plan is expiring in{" "}
+                  {days_between(new Date(), orgData.plan_expiry_date)}. Kindly
+                  upgrade your plan to continue.
+                </Text>
+                {"    "}
+                <Link to="#" type="primary">
+                  Upgrade now !
+                </Link>
+              </div>
+            )}
+        </Col>
+      </Row>
     </>
   );
 }

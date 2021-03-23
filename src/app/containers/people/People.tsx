@@ -209,22 +209,32 @@ const People = () => {
   }
 
   return (
-    <Layout>
+    <Layout
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        // justifyContent: "centre",
+        // alignItems: "center",
+        margin: "10px",
+        textAlign: "left",
+        paddingLeft: "100px",
+      }}
+    >
       <div
         style={{
           alignItems: "left",
           textAlign: "left",
-          paddingLeft: "150px",
-          paddingTop: "20px",
+          width: "90%",
+          padding: "50px 50px 50px 50px",
         }}
       >
-        {/* <br /> */}
         <div
           style={{
             display: "flex",
             flexDirection: "row",
-            width: "300px",
-            textAlign: "center",
+            width: "100%",
+            textAlign: "left",
+            // backgroundColor: "red",
           }}
         >
           <div>
@@ -285,10 +295,10 @@ const People = () => {
           backgroundColor: "white",
           padding: "50px 50px 50px 50px",
           height: "100%",
-          width: "1100px",
+          // width: "1100px",
           maxHeight: "75vh",
           overflowY: "scroll",
-          marginLeft: "150px",
+          // marginLeft: "150px",
           borderRadius: "10px",
           paddingRight: "20px",
         }}

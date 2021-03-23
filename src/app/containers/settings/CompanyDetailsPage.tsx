@@ -199,6 +199,8 @@ const CompanyDetailsPage = () => {
           borderRadius: "10px",
           textAlign: "left",
           paddingLeft: "200px",
+          width: "90vw",
+          overflowX: "scroll",
         }}
       >
         <div>

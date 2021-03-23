@@ -73,12 +73,20 @@ const PlanDetailsPage = () => {
     return <AntSpinner />;
   } else {
     return (
-      <Layout>
+      <Layout
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
         <Form name="basic">
           <Layout
             style={{
               padding: "30px 30px 30px 30px",
-              margin: "30px",
+              margin: "20px",
               borderRadius: "10px",
               backgroundColor: "#fff",
             }}
@@ -142,7 +150,7 @@ const PlanDetailsPage = () => {
                   <div
                     style={{
                       width: "300px",
-                      marginLeft: "30px",
+                      // marginLeft: "30px",
                       padding: "10px 5px 5px 10px",
                       textAlign: "center",
                     }}
